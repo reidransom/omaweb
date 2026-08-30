@@ -1,0 +1,78 @@
+core:
+  label: Omarchy Core
+  remit: Setting the direction
+  people:
+    - name: DHH
+      role: Core
+      location: USA/Denmark
+      profile: https://dhh.dk
+    - name: Ryan Hughes
+      role: Core
+      location: USA
+      profile: https://x.com/ryanrhughes
+    - name: Tobi Lütke
+      role: Core
+      location: Canada
+      profile: https://x.com/tobi
+    - name: Bjarne Øverli
+      role: Core
+      location: Norway
+      profile: https://x.com/iamdothash
+    - name: HANCORE
+      role: Core
+      location: Germany
+      profile: https://github.com/HANCORE-linux
+    - name: Spencer Bull
+      role: Core
+      location: USA
+      profile: https://x.com/SpencerGBull
+
+security:
+  label: Omarchy Security
+  remit: Keeping your system safe
+  people:
+    - name: Adrian Rangel
+      role: Security
+      location: Mexico
+      profile: https://x.com/acrogenesis
+    - name: Mehmet İnce
+      role: Security
+      location: UK
+      profile: https://x.com/mdisec
+    - name: Erik Melton
+      role: Security
+      location: Norway
+      profile: https://x.com/meltonaerik
+    - name: Sayem Chowdhury
+      role: Security
+      location: Bangladesh
+      profile: https://x.com/Sayem314
+    - name: Sebastian Stange
+      role: Security
+      location: Germany
+      profile: https://x.com/bastidotnet
+    - name: Ryan Hughes
+      role: Security
+      location: USA
+      profile: https://x.com/ryanrhughes
+    - name: DHH
+      role: Security
+      location: USA/Denmark
+      profile: https://dhh.dk
+
+rangers:
+  label: Omarchy Rangers
+  remit: Helping others find their way
+  people:
+    - name: Mihai
+      role: Ranger
+      location: Romania
+      profile: https://x.com/SandorhaziM
+    - name: Mateo Vaz
+      role: Ranger
+      location: Uruguay
+      profile: https://x.com/Mateo_VX
+    - name: Nira
+      role: Ranger
+      location: Nepal
+      profile: https://x.com/niraletter

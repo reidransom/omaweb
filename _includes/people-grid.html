@@ -1,0 +1,14 @@
+{% assign team = include.team %}
+{% if team and team.people %}
+<ul class="grid list-none gap-4 p-0 sm:grid-cols-2 lg:grid-cols-3" aria-label="{{ team.label | escape }} roster">
+  {% for person in team.people %}
+  <li class="rounded border border-[var(--omarchy-terminal-black)] bg-[var(--omarchy-storm)] p-4">
+    <h3 class="mt-0 text-[length:var(--omarchy-font-medium)]">
+      {% if person.profile %}<a href="{{ person.profile | escape }}" rel="noreferrer">{{ person.name | escape }}</a>{% else %}{{ person.name | escape }}{% endif %}
+    </h3>
+    <p class="mb-0">{{ person.role | escape }}</p>
+    {% if person.location %}<p class="mb-0 text-[color:var(--omarchy-terminal-white)]">{{ person.location | escape }}</p>{% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
