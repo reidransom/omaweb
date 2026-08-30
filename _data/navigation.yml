@@ -1,0 +1,152 @@
+groups:
+  items:
+    - label: Platforms
+      url: /platforms/
+      external: false
+      links:
+        items:
+          - label: Desktop
+            url: /desktop/
+            external: false
+          - label: Server
+            url: /server/
+            external: false
+          - label: Mobile
+            url: /mobile/
+            external: false
+    - label: Hardware
+      url: /hardware/
+      external: false
+      links:
+        items:
+          - label: Laptops
+            url: /laptops/
+            external: false
+          - label: Workstations
+            url: /workstations/
+            external: false
+    - label: Software
+      url: /software/
+      external: false
+      links:
+        items:
+          - label: Apps
+            url: /apps/
+            external: false
+          - label: Plugins
+            url: https://omarchyplugins.com/
+            external: true
+          - label: Cloud
+            url: /cloud/
+            external: false
+    - label: Project
+      url: /project/
+      external: false
+      links:
+        items:
+          - label: Labs
+            url: /labs/
+            external: false
+          - label: News
+            url: /news/
+            external: false
+          - label: Community
+            url: /community/
+            external: false
+          - label: Foundation
+            url: /foundation/
+            external: false
+utility:
+  items:
+    - label: Manual
+      url: https://omarchy.org/manual/
+      external: true
+    - label: ISO
+      url: https://iso.omarchy.org/omarchy-4.0.1.iso
+      external: true
+    - label: Code
+      url: https://github.com/omacom/omarchy
+      external: true
+    - label: Discord
+      url: https://discord.gg/tXFUdasqhY
+      external: true
+    - label: Merch
+      url: https://supply.37signals.com/collections/omarchy
+      external: true
+footer:
+  items:
+    - label: Community
+      links:
+        items:
+          - label: Community
+            url: /community/
+            external: false
+          - label: Workstations
+            url: /workstations/
+            external: false
+          - label: Meetups
+            url: /meetups/
+            external: false
+          - label: Teams
+            url: /teams/
+            external: false
+          - label: Core
+            url: /teams/core/
+            external: false
+          - label: Rangers
+            url: /teams/rangers/
+            external: false
+    - label: Omacom Foundation
+      links:
+        items:
+          - label: Foundation
+            url: /foundation/
+            external: false
+          - label: Patrons
+            url: /patrons/
+            external: false
+          - label: Sponsorships
+            url: /sponsorships/
+            external: false
+          - label: Artists in Residence
+            url: /air/
+            external: false
+          - label: Security
+            url: /security/
+            external: false
+    - label: News
+      links:
+        items:
+          - label: News
+            url: /news/
+            external: false
+          - label: Search
+            url: /news/search/
+            external: false
+          - label: Archive
+            url: /news/page/2/
+            external: false
+          - label: Feed
+            url: /news/feed.xml
+            external: false
+          - label: Releases
+            url: /news/categories/releases/
+            external: false
+          - label: Product
+            url: /news/categories/product/
+            external: false
+          - label: Community
+            url: /news/categories/community/
+            external: false
+          - label: Events
+            url: /news/categories/events/
+            external: false
+          - label: Foundation
+            url: /news/categories/foundation/
+            external: false
+          - label: Editorial
+            url: /news/categories/editorial/
+            external: false
+          - label: By DHH
+            url: /news/authors/dhh/
+            external: false

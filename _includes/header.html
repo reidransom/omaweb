@@ -1,0 +1,119 @@
+{% assign navigation = site.data.navigation %}
+{% assign build_epoch = site.time | date: '%s' %}
+{% assign active_announcement = nil %}
+{% assign announcements = site.data.announcements.items | sort: 'order' %}
+{% for announcement in announcements %}
+  {% if announcement.selected %}
+    {% assign announcement_started = true %}
+    {% if announcement.starts_at %}
+      {% assign announcement_start_epoch = announcement.starts_at | date: '%s' %}
+      {% if build_epoch < announcement_start_epoch %}
+        {% assign announcement_started = false %}
+      {% endif %}
+    {% endif %}
+    {% assign announcement_ended = false %}
+    {% if announcement.ends_at %}
+      {% assign announcement_end_epoch = announcement.ends_at | date: '%s' %}
+      {% if build_epoch > announcement_end_epoch %}
+        {% assign announcement_ended = true %}
+      {% endif %}
+    {% endif %}
+    {% if announcement_started and announcement_ended == false %}
+      {% assign active_announcement = announcement %}
+      {% break %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if active_announcement %}
+  <aside class="announcement" aria-label="Announcement">
+    <div class="announcement__inner">
+      <a href="{{ active_announcement.url | relative_url }}">{{ active_announcement.label | escape }}</a>
+    </div>
+  </aside>
+{% endif %}
+
+<header class="site-header" data-header-state="opaque">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="{{ '/' | relative_url }}">Omarchy</a>
+
+    <nav class="site-header__nav" aria-label="Primary navigation">
+      <ul class="site-header__groups" role="list">
+        {% for group in navigation.groups.items %}
+          <li class="site-header__group">
+            {% if group.external %}
+              <a href="{{ group.url }}" rel="noreferrer">{{ group.label | escape }}</a>
+            {% else %}
+              <a href="{{ group.url | relative_url }}">{{ group.label | escape }}</a>
+            {% endif %}
+            <ul role="list">
+              {% for link in group.links.items %}
+                <li>
+                  {% if link.external %}
+                    <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+                  {% else %}
+                    <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+      <ul class="site-header__utility" role="list">
+        {% for link in navigation.utility.items %}
+          <li>
+            {% if link.external %}
+              <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+            {% else %}
+              <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <button class="site-header__drawer-open" type="button" data-drawer-open hidden aria-haspopup="dialog" aria-controls="mobile-drawer">Menu</button>
+
+    <details class="site-header__fallback" data-drawer-fallback>
+      <summary>Menu</summary>
+      <nav aria-label="Mobile navigation">
+        {% for group in navigation.groups.items %}
+          <section class="site-header__fallback-group">
+            <h2>
+              {% if group.external %}
+                <a href="{{ group.url }}" rel="noreferrer">{{ group.label | escape }}</a>
+              {% else %}
+                <a href="{{ group.url | relative_url }}">{{ group.label | escape }}</a>
+              {% endif %}
+            </h2>
+            <ul>
+              {% for link in group.links.items %}
+                <li>
+                  {% if link.external %}
+                    <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+                  {% else %}
+                    <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endfor %}
+        <ul class="site-header__fallback-utility">
+          {% for link in navigation.utility.items %}
+            <li>
+              {% if link.external %}
+                <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+              {% else %}
+                <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>
+
+{% include mobile-drawer.html %}

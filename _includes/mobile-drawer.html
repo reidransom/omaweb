@@ -1,0 +1,45 @@
+{% assign navigation = site.data.navigation %}
+<dialog class="mobile-drawer" id="mobile-drawer" data-drawer aria-label="Mobile navigation">
+  <div class="mobile-drawer__inner">
+    <div class="mobile-drawer__heading">
+      <a class="mobile-drawer__brand" href="{{ '/' | relative_url }}">Omarchy</a>
+      <button type="button" data-drawer-close>Close</button>
+    </div>
+
+    <nav aria-label="Mobile navigation">
+      {% for group in navigation.groups.items %}
+        <section class="mobile-drawer__group">
+          <h2>
+            {% if group.external %}
+              <a href="{{ group.url }}" rel="noreferrer">{{ group.label | escape }}</a>
+            {% else %}
+              <a href="{{ group.url | relative_url }}">{{ group.label | escape }}</a>
+            {% endif %}
+          </h2>
+          <ul>
+            {% for link in group.links.items %}
+              <li>
+                {% if link.external %}
+                  <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+                {% else %}
+                  <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endfor %}
+      <ul class="mobile-drawer__utility">
+        {% for link in navigation.utility.items %}
+          <li>
+            {% if link.external %}
+              <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+            {% else %}
+              <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</dialog>
