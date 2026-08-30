@@ -1,0 +1,8 @@
+items:
+  - key: dhh
+    name: DHH
+    url: https://dhh.dk/
+    avatar: null
+    bio: Creator of Omarchy and author of The News.
+    project_areas:
+      items: [foundation, teams, plugins, community]

@@ -1,0 +1,22 @@
+featured_slug: the-first-plugin-competition-winners
+latest_count: 4
+page_size: 9
+pinned_items:
+  items:
+    - label: Omacom Foundation
+      url: /foundation/
+      description: The Omacom Foundation funds the infrastructure, projects, and developers Omarchy depends on.
+      project: foundation
+      order: 10
+      starts_at: null
+      ends_at: null
+spotlights:
+  items:
+    - project: foundation
+      title: Omacom Foundation
+      description: Funding, patrons, and sponsorships for the work behind Omarchy.
+      limit: 3
+    - project: community
+      title: Community
+      description: Teams, meetups, and the people making Omarchy more welcoming and capable.
+      limit: 3

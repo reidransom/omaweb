@@ -14,7 +14,9 @@ layout: default
         {% if page.date %}
           <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%-d %B %Y' }}</time>
         {% endif %}
-        {% if author %}
+        {% if author and author.url %}
+          <span>By <a href="{{ author.url | escape }}">{{ author.name | escape }}</a></span>
+        {% elsif author %}
           <span>By {{ author.name | escape }}</span>
         {% elsif page.author %}
           <span>By {{ page.author | escape }}</span>
@@ -22,6 +24,11 @@ layout: default
       </div>
     {% endif %}
   </header>
+  {% if page.image %}
+    <div class="article__media">
+      {% include media.html media=page.image %}
+    </div>
+  {% endif %}
 
   <div class="prose">
     {{ content }}
