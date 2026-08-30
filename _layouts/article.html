@@ -14,10 +14,8 @@ layout: default
         {% if page.date %}
           <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%-d %B %Y' }}</time>
         {% endif %}
-        {% if author and author.url %}
-          <span>By <a href="{{ author.url | escape }}">{{ author.name | escape }}</a></span>
-        {% elsif author %}
-          <span>By {{ author.name | escape }}</span>
+        {% if author %}
+          <span>By <a href="{{ '/news/authors/' | append: page.author | append: '/' | relative_url }}">{{ author.name | escape }}</a></span>
         {% elsif page.author %}
           <span>By {{ page.author | escape }}</span>
         {% endif %}

@@ -1,0 +1,7 @@
+---
+layout: news-taxonomy
+title: Releases
+description: Milestones from the Omarchy desktop and the people using it.
+term: releases
+---
+{% include news-taxonomy-cards.html field='categories' %}

@@ -1,0 +1,34 @@
+{% assign article = include.article %}
+{% assign author = site.data.authors.items | where: 'key', article.author | first %}
+{% capture categories %}{% for category in article.categories.items %}{{ category }}{% unless forloop.last %} {% endunless %}{% endfor %}{% endcapture %}
+<article class="news-card" data-news-card data-categories="{{ categories | strip | escape }}">
+  <a class="news-card__media" href="{{ article.url | relative_url }}" aria-label="Read {{ article.title | escape }}">
+    {% if article.image %}
+      {% include media.html media=article.image %}
+    {% else %}
+      <img src="{{ '/assets/images/news-fallback.svg' | relative_url }}" alt="" width="1200" height="675" loading="lazy">
+    {% endif %}
+  </a>
+  <div class="news-card__body">
+    <div class="news-card__meta">
+      <time datetime="{{ article.date | date_to_xmlschema }}">{{ article.date | date: '%-d %B %Y' }}</time>
+      {% if author %}<span>By <a href="{{ '/news/authors/' | append: article.author | append: '/' | relative_url }}">{{ author.name | escape }}</a></span>{% endif %}
+    </div>
+    <h3><a href="{{ article.url | relative_url }}">{{ article.title | escape }}</a></h3>
+    {% if article.description %}<p>{{ article.description | escape }}</p>{% endif %}
+    {% if article.categories.items.size > 0 %}
+      <ul class="news-card__tags" aria-label="Categories">
+        {% for category in article.categories.items %}
+          <li><a href="{{ '/news/categories/' | append: category | append: '/' | relative_url }}">{{ category | replace: '-', ' ' | capitalize }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if article.project_areas.items.size > 0 %}
+      <ul class="news-card__tags" aria-label="Projects">
+        {% for project in article.project_areas.items %}
+          <li><a href="{{ '/news/projects/' | append: project | append: '/' | relative_url }}">{{ project | replace: '-', ' ' | capitalize }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+</article>

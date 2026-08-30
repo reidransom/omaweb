@@ -1,0 +1,7 @@
+---
+layout: news-taxonomy
+title: Plugins
+description: News from the Omarchy plugin ecosystem.
+term: plugins
+---
+{% include news-taxonomy-cards.html field='project_areas' %}

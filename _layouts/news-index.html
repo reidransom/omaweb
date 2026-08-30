@@ -1,16 +1,96 @@
 ---
 layout: default
 ---
+{% assign articles = site.news | sort: 'date' | reverse %}
+{% assign featured = site.news | where: 'slug', site.data.news.featured_slug | first %}
+{% assign feed_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
 <section class="content-shell content-shell--news-index" data-archetype="editorial">
   <header class="page-hero">
     <p class="page-hero__eyebrow">News</p>
     <h1>{{ page.title | escape }}</h1>
-    {% if page.description %}
-      <p class="page-hero__lede">{{ page.description | escape }}</p>
-    {% endif %}
+    {% if page.description %}<p class="page-hero__lede">{{ page.description | escape }}</p>{% endif %}
   </header>
 
-  <div class="content-body">
+  <div class="content-body news-index">
+    {% if page.news_page == 2 %}
+      <section class="news-index__latest" aria-labelledby="latest-news">
+        <h2 id="latest-news">Earlier news</h2>
+        <div class="news-card-grid">
+          {% for article in feed_articles offset: 8 limit: 9 %}{% include news-card.html article=article %}{% endfor %}
+        </div>
+        <nav class="news-pagination" aria-label="News pages">
+          <a class="button button--secondary" href="{{ '/news/' | relative_url }}">Newer news</a>
+        </nav>
+      </section>
+    {% else %}
+      {% if featured %}
+        <section class="news-index__featured" aria-labelledby="featured-news">
+          <p class="section-label">Featured</p>
+          <h2 id="featured-news">{{ featured.title | escape }}</h2>
+          <div class="news-featured">
+            <a class="news-featured__media" href="{{ featured.url | relative_url }}" aria-label="Read {{ featured.title | escape }}">
+              {% if featured.image %}
+                {% include media.html media=featured.image %}
+              {% else %}
+                <img src="{{ '/assets/images/news-fallback.svg' | relative_url }}" alt="" width="1200" height="675">
+              {% endif %}
+            </a>
+            <div>
+              {% if featured.description %}<p>{{ featured.description | escape }}</p>{% endif %}
+              <a class="button" href="{{ featured.url | relative_url }}">Read the story</a>
+              <p class="news-featured__notice">Original lead media is pending clearance; this branded placeholder is not reporting imagery.</p>
+            </div>
+          </div>
+        </section>
+      {% endif %}
+
+      <section class="news-index__latest" aria-labelledby="latest-news">
+        <div class="news-section-heading">
+          <div><p class="section-label">Latest</p><h2 id="latest-news">What’s new</h2></div>
+          <a href="{{ '/news/feed.xml' | relative_url }}">Subscribe via Atom</a>
+        </div>
+        <div class="news-card-grid">
+          {% for article in feed_articles limit: site.data.news.latest_count %}{% include news-card.html article=article %}{% endfor %}
+        </div>
+      </section>
+
+      <aside class="news-pinned" aria-labelledby="pinned-news">
+        <h2 id="pinned-news">Keep close</h2>
+        <ul>
+          {% for item in site.data.news.pinned_items.items %}
+            <li><a href="{{ item.url | relative_url }}">{{ item.label | escape }}</a>{% if item.description %}<p>{{ item.description | escape }}</p>{% endif %}</li>
+          {% endfor %}
+        </ul>
+      </aside>
+
+      <section class="news-index__filters" aria-labelledby="filter-news">
+        <h2 id="filter-news">Filter the archive</h2>
+        {% include news-category-nav.html %}
+      </section>
+
+      <section id="archive" class="news-index__archive" aria-label="News archive">
+        {% include news-archive.html articles=articles %}
+        <nav class="news-pagination" aria-label="News pages">
+          <a class="button button--secondary" href="{{ '/news/page/2/' | relative_url }}">Older news</a>
+        </nav>
+      </section>
+
+      <section class="news-spotlights" aria-label="News spotlights">
+        {% for spotlight in site.data.news.spotlights.items %}
+          <section class="news-spotlight" aria-labelledby="spotlight-{{ spotlight.project }}">
+            <p class="section-label">Spotlight</p>
+            <h2 id="spotlight-{{ spotlight.project }}">{{ spotlight.title | escape }}</h2>
+            <p>{{ spotlight.description | escape }}</p>
+            <ul>
+              {% assign spotlight_articles = articles | where_exp: 'article', "article.project_areas.items contains spotlight.project" %}
+              {% for article in spotlight_articles limit: spotlight.limit %}
+                <li><a href="{{ article.url | relative_url }}">{{ article.title | escape }}</a></li>
+              {% endfor %}
+            </ul>
+          </section>
+        {% endfor %}
+      </section>
+    {% endif %}
     {{ content }}
   </div>
 </section>

@@ -1,0 +1,12 @@
+{% assign articles = include.articles | default: site.news | sort: 'date' | reverse %}
+<details class="news-archive">
+  <summary>Browse the full archive</summary>
+  <ol>
+    {% for article in articles %}
+      <li>
+        <time datetime="{{ article.date | date_to_xmlschema }}">{{ article.date | date: '%-d %b %Y' }}</time>
+        <a href="{{ article.url | relative_url }}">{{ article.title | escape }}</a>
+      </li>
+    {% endfor %}
+  </ol>
+</details>

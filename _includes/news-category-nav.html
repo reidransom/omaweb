@@ -1,0 +1,9 @@
+{% assign categories = 'product,events,foundation,community,releases,editorial' | split: ',' %}
+<nav class="news-category-nav" aria-label="News categories">
+  <ul>
+    <li><a href="{{ '/news/' | relative_url }}">All news</a></li>
+    {% for category in categories %}
+      <li><a href="{{ '/news/categories/' | append: category | append: '/' | relative_url }}">{{ category | capitalize }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>

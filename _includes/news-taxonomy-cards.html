@@ -1,0 +1,12 @@
+{% assign articles = site.news | sort: 'date' | reverse %}
+<div class="news-card-grid">
+  {% assign matching_articles = 0 %}
+  {% for article in articles %}
+    {% assign relation = article[include.field] %}
+    {% if relation.items contains page.term %}
+      {% assign matching_articles = matching_articles | plus: 1 %}
+      {% include news-card.html article=article %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% if matching_articles == 0 %}<p>No stories have been published here yet.</p>{% endif %}

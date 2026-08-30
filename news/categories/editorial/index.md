@@ -1,0 +1,7 @@
+---
+layout: news-taxonomy
+title: Editorial
+description: Notes from the work of building Omarchy.
+term: editorial
+---
+{% include news-taxonomy-cards.html field='categories' %}

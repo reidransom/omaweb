@@ -1,0 +1,12 @@
+---
+layout: news-taxonomy
+title: DHH
+description: Creator of Omarchy and author of The News.
+term: dhh
+---
+{% assign articles = site.news | sort: 'date' | reverse %}
+<div class="news-card-grid">
+  {% for article in articles %}
+    {% if article.author == page.term %}{% include news-card.html article=article %}{% endif %}
+  {% endfor %}
+</div>

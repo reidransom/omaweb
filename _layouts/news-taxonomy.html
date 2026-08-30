@@ -5,12 +5,11 @@ layout: default
   <header class="page-hero">
     <p class="page-hero__eyebrow">News</p>
     <h1>{{ page.title | escape }}</h1>
-    {% if page.description %}
-      <p class="page-hero__lede">{{ page.description | escape }}</p>
-    {% endif %}
+    {% if page.description %}<p class="page-hero__lede">{{ page.description | escape }}</p>{% endif %}
   </header>
-
-  <div class="content-body">
+  <div class="content-body news-taxonomy">
+    {% include news-category-nav.html %}
     {{ content }}
+    <p><a href="{{ '/news/' | relative_url }}#archive">Browse the full news archive</a></p>
   </div>
 </section>
