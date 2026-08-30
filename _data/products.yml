@@ -1,0 +1,64 @@
+items:
+  - slug: desktop
+    label: Desktop
+    group: platforms
+    url: /desktop/
+    status: current
+    external: false
+    summary: The current Omarchy desktop, built on Arch, Hyprland, and Quickshell.
+  - slug: server
+    label: Server
+    group: platforms
+    url: /server/
+    status: exploratory
+    external: false
+    summary: Questions about an opinionated base for self-hosting, workloads, and remote administration.
+  - slug: mobile
+    label: Mobile
+    group: platforms
+    url: /mobile/
+    status: exploratory
+    external: false
+    summary: Questions about a companion and a fuller mobile environment for the Omarchy desktop.
+  - slug: laptops
+    label: Laptops
+    group: hardware
+    url: /laptops/
+    status: exploratory
+    external: false
+    summary: Questions about certification, repairability, tested hardware, and availability.
+  - slug: workstations
+    label: Workstations
+    group: hardware
+    url: /workstations/
+    status: current
+    external: false
+    summary: Current community setups that show how many forms one desktop can take.
+  - slug: apps
+    label: Apps
+    group: software
+    url: /apps/
+    status: exploratory
+    external: false
+    summary: Questions about first-party applications with shared visual and keyboard conventions.
+  - slug: plugins
+    label: Plugins
+    group: software
+    url: https://omarchyplugins.com/
+    status: current
+    external: true
+    summary: Community additions collected in their own authoritative directory.
+  - slug: cloud
+    label: Cloud
+    group: software
+    url: /cloud/
+    status: exploratory
+    external: false
+    summary: Questions about hosted workstations, synchronization, compute, security, and ownership.
+  - slug: labs
+    label: Labs
+    group: project
+    url: /labs/
+    status: exploratory
+    external: false
+    summary: Public experiments and AIR-adjacent ideas that are not products.
