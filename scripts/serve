@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -eu
+
+scripts/build css
+scripts/build js
+
+exec jigyll serve -s . -w --unpublished "$@"

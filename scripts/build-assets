@@ -1,0 +1,162 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+usage() {
+  printf '%s\n' 'Usage: scripts/build-assets [--check]'
+}
+
+mode=write
+case "${1-}" in
+  '')
+    ;;
+  --check)
+    mode=check
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+command -v magick >/dev/null 2>&1 || fail 'Missing required command: magick (ImageMagick)'
+export MAGICK_THREAD_LIMIT=1
+
+
+manifest=_data/assets.yml
+source=__docs/images/1-quattro.jpg
+
+[ -f "$manifest" ] || fail "Missing asset manifest: $manifest"
+
+hero_status=$(awk '
+  /^  - id: hero-quattro$/ { in_hero=1; next }
+  in_hero && /^  - id:/ { exit }
+  in_hero && /^    publication_status:/ { print $2; exit }
+' "$manifest")
+
+[ -n "$hero_status" ] || fail 'The asset manifest must declare hero-quattro publication_status.'
+manifest_field() {
+  field=$1
+  awk -v field="$field" '
+    /^  - id: hero-quattro$/ { in_hero=1; next }
+    in_hero && /^  - id:/ { exit }
+    in_hero && index($0, "    " field ": ") == 1 {
+      value=$0
+      sub("^[[:space:]]*" field ":[[:space:]]*", "", value)
+      print value
+      exit
+    }
+  ' "$manifest"
+}
+
+require_manifest_value() {
+  field=$1
+  value=$(manifest_field "$field")
+  [ -n "$value" ] && [ "$value" != null ] || fail "hero-quattro cannot be rendered without $field in $manifest"
+}
+
+
+output_paths='
+assets/images/hero/quattro-480w.webp
+assets/images/hero/quattro-768w.webp
+assets/images/hero/quattro-1200w.webp
+assets/images/hero/quattro-1600w.webp
+assets/images/hero/quattro-portrait-480w.webp
+assets/images/hero/quattro-portrait-768w.webp
+assets/images/hero/quattro-portrait-1200w.webp
+'
+
+case "$hero_status" in
+  cleared)
+    require_manifest_value rights_owner
+    require_manifest_value license_or_permission
+    require_manifest_value clearance_basis
+    require_manifest_value third_party_marks_permission
+    ;;
+  blocked)
+    for output in $output_paths; do
+      [ ! -e "$output" ] || fail "Blocked asset hero-quattro must not have a rendered output: $output"
+    done
+    printf '%s\n' 'hero-quattro is blocked by _data/assets.yml; no derivatives were rendered.'
+    exit 0
+    ;;
+  *)
+    fail "Unsupported hero-quattro publication_status: $hero_status"
+    ;;
+esac
+
+[ -f "$source" ] || fail "Missing approved source: $source"
+
+render_wide() {
+  width=$1
+  height=$2
+  output=$3
+
+  magick "$source" \
+    -auto-orient \
+    -colorspace sRGB \
+    -strip \
+    -resize "${width}x${height}^" \
+    -gravity center \
+    -extent "${width}x${height}" \
+    -quality 82 \
+    -define webp:method=6 \
+    -define webp:thread-level=0 \
+    "$output"
+}
+
+render_portrait() {
+  width=$1
+  height=$2
+  output=$3
+
+  magick "$source" \
+    -auto-orient \
+    -colorspace sRGB \
+    -strip \
+    -crop 1620x2880+900+0 +repage \
+    -resize "${width}x${height}^" \
+    -gravity center \
+    -extent "${width}x${height}" \
+    -quality 82 \
+    -define webp:method=6 \
+    -define webp:thread-level=0 \
+    "$output"
+}
+
+render_all() {
+  destination=$1
+  mkdir -p "$destination"
+  render_wide 480 270 "$destination/quattro-480w.webp"
+  render_wide 768 432 "$destination/quattro-768w.webp"
+  render_wide 1200 675 "$destination/quattro-1200w.webp"
+  render_wide 1600 900 "$destination/quattro-1600w.webp"
+  render_portrait 480 854 "$destination/quattro-portrait-480w.webp"
+  render_portrait 768 1365 "$destination/quattro-portrait-768w.webp"
+  render_portrait 1200 2133 "$destination/quattro-portrait-1200w.webp"
+}
+
+if [ "$mode" = check ]; then
+  temporary_directory=$(mktemp -d)
+  cleanup() {
+    rm -rf "$temporary_directory"
+  }
+  trap cleanup EXIT HUP INT TERM
+
+  render_all "$temporary_directory"
+  for output in $output_paths; do
+    filename=${output##*/}
+    [ -f "$output" ] || fail "Missing committed derivative: $output"
+    cmp -s "$temporary_directory/$filename" "$output" || fail "Derivative differs from deterministic render: $output"
+  done
+  printf '%s\n' 'Asset derivatives are byte-identical.'
+  exit 0
+fi
+
+mkdir -p assets/images/hero
+render_all assets/images/hero
+printf '%s\n' 'Rendered deterministic hero derivatives.'

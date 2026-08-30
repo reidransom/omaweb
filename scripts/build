@@ -1,0 +1,94 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+set_provenance() {
+  if [ -z "${OMARCHY_REVISION-}" ]; then
+    OMARCHY_REVISION=$(git rev-parse --short HEAD 2>/dev/null || printf 'local')
+  fi
+  if [ -z "${OMARCHY_BUILD_DATE-}" ]; then
+    OMARCHY_BUILD_DATE=$(git log -1 --format=%cI 2>/dev/null || printf '1970-01-01T00:00:00Z')
+  fi
+  export OMARCHY_REVISION OMARCHY_BUILD_DATE
+}
+
+build_css() {
+  if [ ! -f src/css/site.css ]; then
+    printf '%s\n' 'CSS source is not present yet; skipping CSS build.'
+    return
+  fi
+
+  mkdir -p assets/css
+  npx --no-install @tailwindcss/cli \
+    --input src/css/site.css \
+    --output assets/css/site.css \
+    --minify
+}
+
+build_js() {
+  if [ ! -f src/js/site.js ]; then
+    printf '%s\n' 'JavaScript entry point is not present yet; skipping JavaScript build.'
+    return
+  fi
+
+  mkdir -p assets/js
+  npx --no-install esbuild src/js/site.js \
+    --bundle \
+    --minify \
+    --format=esm \
+    --outfile=assets/js/site.js
+}
+
+run_build() {
+  config=${1:-_config.yml}
+
+  set_provenance
+
+  if [ -x scripts/check-content ]; then
+    scripts/check-content
+  fi
+
+  scripts/build-assets --check
+  build_css
+  build_js
+
+  command -v jigyll >/dev/null 2>&1 || fail 'Missing required command: jigyll'
+  jigyll build --config "$config"
+  npx --no-install pagefind --site _site
+
+  if [ -x scripts/verify-production ]; then
+    scripts/verify-production
+  fi
+}
+
+case "${1-build}" in
+  css)
+    [ "$#" -eq 1 ] || fail 'Usage: scripts/build css'
+    build_css
+    ;;
+  js)
+    [ "$#" -eq 1 ] || fail 'Usage: scripts/build js'
+    build_js
+    ;;
+  build)
+    shift
+    if [ "$#" -eq 0 ]; then
+      run_build
+    elif [ "$#" -eq 2 ] && [ "$1" = --config ]; then
+      run_build "$2"
+    else
+      fail 'Usage: scripts/build [build [--config CONFIG]]'
+    fi
+    ;;
+  --config)
+    [ "$#" -eq 2 ] || fail 'Usage: scripts/build --config CONFIG'
+    run_build "$2"
+    ;;
+  *)
+    fail 'Usage: scripts/build [css|js|build [--config CONFIG]]'
+    ;;
+esac

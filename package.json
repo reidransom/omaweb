@@ -1,0 +1,18 @@
+{
+  "name": "omaweb",
+  "private": true,
+  "scripts": {
+    "assets": "scripts/build-assets",
+    "assets:check": "scripts/build-assets --check",
+    "css": "scripts/build css",
+    "js": "scripts/build js",
+    "build": "scripts/build"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.14",
+    "esbuild": "0.25.9",
+    "motion": "12.23.12",
+    "pagefind": "1.4.0",
+    "tailwindcss": "4.1.14"
+  }
+}

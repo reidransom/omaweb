@@ -1,1 +1,1 @@
-cmd = "jigyll serve -s . -H {host} -P {port} -w --unpublished"
+cmd = "scripts/serve -H {host} -P {port}"
