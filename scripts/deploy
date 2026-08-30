@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+require_env() {
+  eval "value=\${$1-}"
+  [ -n "$value" ] || fail "Missing required environment variable: $1"
+}
+
+branch=$(git branch --show-current)
+case "$branch" in
+  rev)
+    deployment_url='https://omaweb-rev.r2ware.dev'
+    ;;
+  main)
+    deployment_url='https://omaweb.r2ware.dev'
+    ;;
+  *)
+    fail 'Deployments are allowed only from a clean rev or main worktree.'
+    ;;
+esac
+
+[ -z "$(git status --porcelain)" ] || fail 'Deployments require a clean worktree.'
+
+require_env PAGES_PROJECT_NAME
+require_env CLOUDFLARE_API_TOKEN
+require_env CLOUDFLARE_ACCOUNT_ID
+
+command -v jigyll >/dev/null 2>&1 || fail 'Missing required command: jigyll'
+command -v npx >/dev/null 2>&1 || fail 'Missing required command: npx (used to run Wrangler)'
+
+build_config=$(mktemp)
+cleanup() {
+  rm -f "$build_config"
+}
+trap cleanup EXIT HUP INT TERM
+printf 'url: "%s"\n' "$deployment_url" > "$build_config"
+
+jigyll build --config "_config.yml,$build_config"
+
+if [ "$branch" = rev ]; then
+  npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME" --branch=rev
+else
+  npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME"
+fi

@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+[ "$(git branch --show-current)" = rev ] || fail 'Shipping is allowed only from the rev branch.'
+[ -z "$(git status --porcelain)" ] || fail 'Shipping requires a clean rev worktree.'
+[ -t 0 ] || fail 'Shipping requires an interactive terminal for manual review.'
+
+scripts/deploy
+
+printf '%s\n' 'Review https://omaweb-rev.r2ware.dev/. Type "deploy production" to fast-forward main and deploy production:'
+IFS= read -r approval || fail 'Production deployment was not approved.'
+[ "$approval" = 'deploy production' ] || fail 'Production deployment was not approved.'
+
+git switch main
+git merge --ff-only rev
+
+scripts/deploy
+printf '%s\n' 'Production deployed to https://omaweb.r2ware.dev/.'
