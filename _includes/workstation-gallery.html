@@ -1,0 +1,100 @@
+{% assign workstations = site.data.workstations.items %}
+{% assign discord = site.data.navigation.utility.items | where: "label", "Discord" | first %}
+
+<style>
+  .workstation-gallery {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--omarchy-space-large);
+    margin-block-start: var(--omarchy-space-x-large);
+  }
+
+  .workstation-gallery__item {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  .workstation-gallery__image {
+    display: block;
+    background: var(--omarchy-storm);
+  }
+
+  .workstation-gallery__image .media,
+  .workstation-gallery__image .media__image {
+    inline-size: 100%;
+  }
+
+  .workstation-gallery__caption {
+    display: grid;
+    gap: var(--omarchy-space-small);
+    margin-block-start: var(--omarchy-space-small);
+  }
+
+  .workstation-gallery__caption p {
+    color: var(--omarchy-terminal-white);
+  }
+
+  .workstation-gallery__empty {
+    grid-column: 1 / -1;
+    max-inline-size: var(--omarchy-prose-measure);
+    padding: var(--omarchy-space-large);
+    border: 1px solid var(--omarchy-terminal-black);
+    border-radius: var(--omarchy-radius);
+    background: var(--omarchy-storm);
+  }
+
+  .workstation-gallery__empty p + p,
+  .workstation-gallery__empty .button-group {
+    margin-block-start: var(--omarchy-space-medium);
+  }
+
+  @media (min-width: 40rem) {
+    figure.workstation-gallery__item:nth-of-type(5n + 1) {
+      grid-column: span 7;
+    }
+
+    figure.workstation-gallery__item:nth-of-type(5n + 2) {
+      grid-column: span 5;
+      align-self: end;
+    }
+
+    figure.workstation-gallery__item:nth-of-type(5n + 3) {
+      grid-column: span 5;
+    }
+
+    figure.workstation-gallery__item:nth-of-type(5n + 4) {
+      grid-column: span 7;
+    }
+
+    figure.workstation-gallery__item:nth-of-type(5n + 5) {
+      grid-column: 3 / span 8;
+    }
+  }
+</style>
+
+<section class="workstation-gallery" aria-labelledby="workstation-gallery-title">
+  <h2 id="workstation-gallery-title" class="u-visually-hidden">Community workstation gallery</h2>
+  {% if workstations and workstations.size > 0 %}
+    {% for workstation in workstations %}
+      {% if workstation.media and workstation.media.src and workstation.media.width and workstation.media.height and workstation.media.alt and workstation.media.sources %}
+  <figure class="workstation-gallery__item">
+    <div class="workstation-gallery__image">
+      {% include media.html media=workstation.media %}
+    </div>
+    <figcaption class="workstation-gallery__caption">
+      {% if workstation.name %}<strong>{{ workstation.name | escape }}</strong>{% endif %}
+      {% if workstation.caption %}<p>{{ workstation.caption | escape }}</p>{% endif %}
+    </figcaption>
+  </figure>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+  <div class="workstation-gallery__empty">
+    <h2>{{ site.data.workstations.empty_state.title | escape }}</h2>
+    <p>{{ site.data.workstations.empty_state.body | escape }}</p>
+    {% if discord %}
+      <p class="button-group"><a class="button" href="{{ discord.url }}" rel="noreferrer">{{ site.data.workstations.empty_state.action_label | escape }}</a></p>
+    {% endif %}
+  </div>
+  {% endif %}
+</section>

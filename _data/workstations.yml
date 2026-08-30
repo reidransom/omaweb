@@ -1,0 +1,11 @@
+# Add an item only after its local media has a cleared asset-manifest record,
+# responsive sources, intrinsic dimensions, and a useful alt description.
+items: []
+
+empty_state:
+  title: Community workstations are waiting on cleared photographs.
+  body: >-
+    We do not have a local, cleared community workstation photograph to publish
+    yet. Send the team a photo in Discord with the permission to feature it here;
+    this page will grow from real desks, not stock stand-ins.
+  action_label: Share a workstation in Discord
