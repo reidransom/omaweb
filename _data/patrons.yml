@@ -1,0 +1,57 @@
+tiers:
+  items:
+    - slug: founding
+      label: Founding Patrons
+      contribution: $1,000,000
+      description: Each Founding Patron contributed $1,000,000 to the Foundation's mission.
+      people:
+        items:
+          - name: Tobi Lütke
+            organization: Shopify
+            profile: https://x.com/tobi
+            organization_url: https://www.shopify.com/
+          - name: Patrick Collison
+            organization: Stripe
+            profile: https://x.com/patrickc
+            organization_url: https://stripe.com/
+          - name: Michael Dell
+            organization: Dell Technologies
+            profile: https://x.com/MichaelDell
+            organization_url: https://www.dell.com/
+          - name: Jack Dorsey
+            organization: Block
+            profile: https://x.com/jack
+            organization_url: https://block.xyz/
+          - name: Matthew Prince
+            organization: Cloudflare
+            profile: https://x.com/eastdakota
+            organization_url: https://www.cloudflare.com/
+          - name: Brendan Iribe
+            organization: Sesame
+            profile: https://x.com/brendaniribe
+            organization_url: https://www.sesame.com/
+          - name: Jason Fried
+            organization: 37signals
+            profile: https://x.com/jasonfried
+            organization_url: https://37signals.com/
+          - name: Drew Houston
+            organization: Dropbox
+            profile: https://x.com/drewhouston
+            organization_url: https://www.dropbox.com/
+          - name: Peter Steinberger
+            organization: OpenClaw
+            profile: https://x.com/steipete
+            organization_url: https://openclaw.ai/
+          - name: DHH
+            organization: 37signals
+            profile: https://dhh.dk/
+            organization_url: https://37signals.com/
+    - slug: distinguished
+      label: Distinguished Patrons
+      contribution: $100,000
+      description: Distinguished Patron support is $100,000 for the Foundation's mission.
+      contact_label: Get in touch with the Foundation
+      contact_url: mailto:david@omarchy.org
+      contact: david@omarchy.org
+      people:
+        items: []

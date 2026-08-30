@@ -1,0 +1,96 @@
+items:
+  - slug: desktop
+    label: Desktop
+    kind: product
+    url: /desktop/
+    status: current
+  - slug: server
+    label: Server
+    kind: product
+    url: /server/
+    status: exploratory
+  - slug: mobile
+    label: Mobile
+    kind: product
+    url: /mobile/
+    status: exploratory
+  - slug: laptops
+    label: Laptops
+    kind: product
+    url: /laptops/
+    status: exploratory
+  - slug: workstations
+    label: Workstations
+    kind: project
+    url: /workstations/
+    status: current
+  - slug: apps
+    label: Apps
+    kind: product
+    url: /apps/
+    status: exploratory
+  - slug: plugins
+    label: Plugins
+    kind: product
+    url: https://omarchyplugins.com/
+    status: current
+  - slug: cloud
+    label: Cloud
+    kind: product
+    url: /cloud/
+    status: exploratory
+  - slug: labs
+    label: Labs
+    kind: project
+    url: /labs/
+    status: exploratory
+  - slug: community
+    label: Community
+    kind: project
+    url: /community/
+    status: current
+  - slug: foundation
+    label: Omacom Foundation
+    kind: project
+    url: /foundation/
+    status: current
+  - slug: security
+    label: Security
+    kind: project
+    url: /security/
+    status: current
+  - slug: teams
+    label: Teams
+    kind: project
+    url: /teams/
+    status: current
+  - slug: core
+    label: Omarchy Core
+    kind: project
+    url: /teams/core/
+    status: current
+  - slug: rangers
+    label: Omarchy Rangers
+    kind: project
+    url: /teams/rangers/
+    status: current
+  - slug: air
+    label: Artists in Residence
+    kind: project
+    url: /air/
+    status: current
+  - slug: meetups
+    label: Meetups
+    kind: project
+    url: /meetups/
+    status: current
+  - slug: patrons
+    label: Patrons
+    kind: project
+    url: /patrons/
+    status: current
+  - slug: sponsorships
+    label: Sponsorships
+    kind: project
+    url: /sponsorships/
+    status: current

@@ -1,0 +1,28 @@
+items:
+  - slug: hyprland
+    label: Hyprland
+    level: Exclusive
+    url: https://hypr.land/
+    maintainer: Vaxry
+    maintainer_url: https://x.com/vaxryy
+    announcement_url: /news/2026/08/omacom-foundation-to-be-exclusive-hyprland-sponsor/
+    summary: The tiling Wayland compositor at the heart of Omarchy and one of its three core technologies.
+    term: Three years, with an option for another two.
+    starts_at: 2026-10-10
+  - slug: quickshell
+    label: Quickshell
+    level: Premier
+    url: https://quickshell.org/
+    maintainer: outfoxxed
+    maintainer_url: https://x.com/outfoxxedd
+    announcement_url: /news/2026/08/omacom-foundation-to-be-premier-quickshell-sponsor/
+    summary: The desktop construction kit used for the Omarchy shell, including the bar, menus, notifications, OSDs, and lock screen.
+    term: Three years.
+  - slug: mise
+    label: mise
+    level: Premier
+    url: https://mise.jdx.dev/
+    maintainer: jdx
+    maintainer_url: https://x.com/jdxcode
+    announcement_url: /news/2026/08/omacom-foundation-to-be-premier-mise-sponsor/
+    summary: The tool Omarchy uses to manage language runtimes and distribute coding-agent CLIs as lazy-loading stubs.
