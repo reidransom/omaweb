@@ -1,0 +1,118 @@
+hero:
+  descriptor: Beautiful, Fun & Opinionated Linux by DHH
+  promise: The malleable OS for the age of agents.
+  detail: Start with a complete, beautiful desktop. Then make it behave like your computer.
+  actions:
+    items:
+      - label: Get The ISO
+        navigation_label: ISO
+      - label: Read The Manual
+        navigation_label: Manual
+  scroll_label: See the desktop
+
+desktop:
+  eyebrow: The Desktop
+  title: A computer you can use before you tune it.
+  body: Omarchy is an omakase Linux distribution based on Arch, Hyprland, and Quickshell. It starts with a tiling desktop, terminal-first tools, and a coherent visual system instead of a pile of choices.
+  actions:
+    items:
+      - label: Get The ISO
+        navigation_label: ISO
+      - label: Read The Manual
+        navigation_label: Manual
+
+actions:
+  title: The parts that make it yours.
+  intro: Start from the source of truth. Install from the ISO, learn the system in the Manual, extend it with community Plugins, or inspect the Code.
+  items:
+    - label: The Manual
+      detail: Configuration, applications, and the everyday shortcuts in one place.
+      navigation_label: Manual
+    - label: The ISO
+      detail: The install image for the current desktop.
+      navigation_label: ISO
+    - label: The Plugins
+      detail: Community additions live at their own authoritative directory.
+      navigation_label: Plugins
+    - label: The Code
+      detail: Read the source, follow the changes, and make a contribution.
+      navigation_label: Code
+
+workflows:
+  eyebrow: Agents, with receipts
+  title: Change the computer. Keep the controls.
+  intro: An agent is useful when it works on a real seam in the system, not when it waves at a black box.
+  items:
+    - title: Pick an agent, not a lock-in
+      body: Omarchy wires major coding-agent CLIs as lazy-loaded launchers. Nothing is downloaded until you choose to use it.
+    - title: Set the default, then call it
+      body: Choose a default agent and launch it with Super + Shift + Ctrl + A. Or start a focused task with the omarchy agent prompt command.
+    - title: Use the experimental skill carefully
+      body: The experimental Omarchy Skill can tweak Hyprland configuration, adjust the bar, or create a theme. Inspect each applied change; the system stays yours.
+
+project_paths:
+  eyebrow: The Project
+  title: More people are making the system better.
+  items:
+    - title: News
+      body: Releases, events, and the people doing the work.
+      url: /news/
+    - title: Community
+      body: Find meetups, contributors, plugins, and the places Omarchs gather.
+      url: /community/
+    - title: Omacom Foundation
+      body: The foundation supports the project and its public work.
+      url: /foundation/
+
+expansion:
+  eyebrow: Explorations
+  title: The desktop is real. The next surfaces are questions.
+  body: Omarchy can grow into more kinds of computers and services. The ideas below are explorations, not a release calendar, compatibility promise, or product announcement.
+
+hardware:
+  items:
+    - title: Laptops
+      body: What would useful certification, repairability, tested hardware, and availability look like?
+      url: /laptops/
+      status: exploratory
+    - title: Workstations
+      body: See the current community setups that give the desktop its many forms.
+      url: /workstations/
+
+server_apps:
+  items:
+    - title: Server
+      body: Explore an opinionated base for self-hosting, workloads, remote administration, and agent-managed infrastructure.
+      url: /server/
+      status: exploratory
+    - title: Apps
+      body: Explore first-party applications with shared visual and keyboard conventions, distinct from community plugins.
+      url: /apps/
+      status: exploratory
+
+cloud_mobile:
+  items:
+    - title: Cloud
+      body: Explore hosted workstations, persistent agents, synchronization, compute, security, and data ownership.
+      url: /cloud/
+      status: exploratory
+    - title: Mobile
+      body: Explore a companion for notifications, shared clipboard and files, authentication, remote commands, and device sync.
+      url: /mobile/
+      status: exploratory
+
+labs:
+  title: Labs
+  body: "A public place for experiments: new interfaces, agent workflows, alternative devices, voice control, ambient computing, and work from Artists in Residence. Experiments are not products."
+  url: /labs/
+  status: exploratory
+
+final_cta:
+  title: Start with the desktop.
+  body: Install Omarchy. Read the Manual. Change what needs changing.
+  actions:
+    items:
+      - label: Get The ISO
+        navigation_label: ISO
+      - label: Read The Manual
+        navigation_label: Manual

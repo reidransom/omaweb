@@ -1,0 +1,36 @@
+---
+layout: landing
+archetype: home
+title: Omarchy — Beautiful, Fun & Opinionated Linux by DHH
+description: Beautiful, Fun & Opinionated Linux by DHH. The malleable OS for the age of agents.
+permalink: /
+---
+
+<picture class="home-scene" aria-hidden="true">
+  <source
+    media="(max-width: 39.999rem)"
+    srcset="{{ '/assets/images/hero/quattro-portrait-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/quattro-portrait-768w.webp' | relative_url }} 768w, {{ '/assets/images/hero/quattro-portrait-1200w.webp' | relative_url }} 1200w"
+    sizes="100vw">
+  <img
+    src="{{ '/assets/images/hero/quattro-1600w.webp' | relative_url }}"
+    srcset="{{ '/assets/images/hero/quattro-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/quattro-768w.webp' | relative_url }} 768w, {{ '/assets/images/hero/quattro-1200w.webp' | relative_url }} 1200w, {{ '/assets/images/hero/quattro-1600w.webp' | relative_url }} 1600w"
+    sizes="100vw"
+    width="1600"
+    height="900"
+    alt=""
+    loading="eager"
+    fetchpriority="high"
+    decoding="async">
+</picture>
+
+{% include sections/home-hero.html %}
+{% include sections/home-desktop.html %}
+{% include sections/home-actions.html %}
+{% include sections/home-workflows.html %}
+{% include sections/home-project.html %}
+{% include sections/home-expansion.html %}
+{% include sections/home-hardware.html %}
+{% include sections/home-server-apps.html %}
+{% include sections/home-cloud-mobile.html %}
+{% include sections/home-labs.html %}
+{% include sections/home-final-cta.html %}

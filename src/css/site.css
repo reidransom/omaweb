@@ -6,6 +6,7 @@
 @import "./base.css" layer(base);
 @import "./components.css" layer(components);
 @import "./utilities.css" layer(utilities);
+@import "./home.css" layer(components);
 @import "tailwindcss/utilities" layer(utilities);
 
 @source "../../index.md";

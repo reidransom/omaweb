@@ -1,0 +1,20 @@
+{% assign home = site.data.home %}
+<section class="home-section home-hero" aria-labelledby="home-title">
+  <div class="home-hero__panel">
+    {% include wordmark.html %}
+    <h1 id="home-title" class="home-hero__descriptor">{{ home.hero.descriptor | escape }}</h1>
+    <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
+    <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
+    <div class="button-group home-hero__actions" aria-label="Get started">
+      {% for action in home.hero.actions.items %}
+        {% for link in site.data.navigation.utility.items %}
+          {% if link.label == action.navigation_label %}
+            <a class="button{% unless action.navigation_label == 'ISO' %} button--secondary{% endunless %}" href="{{ link.url }}" rel="noreferrer">{{ action.label | escape }}</a>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+  <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
+  <span data-header-sentinel aria-hidden="true"></span>
+</section>

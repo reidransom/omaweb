@@ -1,0 +1,21 @@
+{% assign desktop = site.data.home.desktop %}
+<section id="home-desktop" class="home-section home-section--reading home-desktop" aria-labelledby="desktop-title">
+  <div class="home-section__inner home-section__inner--split">
+    <div>
+      <p class="home-eyebrow">{{ desktop.eyebrow | escape }}</p>
+      <h2 id="desktop-title">{{ desktop.title | escape }}</h2>
+    </div>
+    <div class="home-prose">
+      <p>{{ desktop.body | escape }}</p>
+      <div class="button-group" aria-label="Desktop actions">
+        {% for action in desktop.actions.items %}
+          {% for link in site.data.navigation.utility.items %}
+            {% if link.label == action.navigation_label %}
+              <a class="button{% unless action.navigation_label == 'ISO' %} button--secondary{% endunless %}" href="{{ link.url }}" rel="noreferrer">{{ action.label | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>

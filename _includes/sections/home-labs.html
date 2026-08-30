@@ -1,0 +1,10 @@
+{% assign labs = site.data.home.labs %}
+<section class="home-section home-section--reading home-section--storm" aria-labelledby="labs-title">
+  <div class="home-section__inner home-section__inner--narrow">
+    {% include status-label.html status=labs.status %}
+    <p class="home-eyebrow">Labs</p>
+    <h2 id="labs-title">{{ labs.title | escape }}</h2>
+    <p class="home-prose">{{ labs.body | escape }}</p>
+    <a class="home-text-link" href="{{ labs.url | relative_url }}">Explore Labs <span aria-hidden="true">→</span></a>
+  </div>
+</section>

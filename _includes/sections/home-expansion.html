@@ -1,0 +1,8 @@
+{% assign expansion = site.data.home.expansion %}
+<section class="home-section home-section--reveal home-expansion" aria-labelledby="expansion-title">
+  <div class="home-reveal-panel">
+    <p class="home-eyebrow">{{ expansion.eyebrow | escape }}</p>
+    <h2 id="expansion-title">{{ expansion.title | escape }}</h2>
+    <p>{{ expansion.body | escape }}</p>
+  </div>
+</section>

@@ -1,0 +1,19 @@
+{% assign hardware = site.data.home.hardware %}
+<section class="home-section home-section--reading" aria-labelledby="hardware-title">
+  <div class="home-section__inner">
+    <p class="home-eyebrow">Hardware</p>
+    <h2 id="hardware-title">A good desktop needs a place to live.</h2>
+    <ul class="home-card-grid" role="list">
+      {% for item in hardware.items %}
+        <li class="home-card">
+          <a class="home-card__link" href="{{ item.url | relative_url }}">
+            {% include status-label.html status=item.status %}
+            <h3>{{ item.title | escape }}</h3>
+            <p>{{ item.body | escape }}</p>
+            <span aria-hidden="true">{{ item.title | escape }} →</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

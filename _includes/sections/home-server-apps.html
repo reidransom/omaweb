@@ -1,0 +1,19 @@
+{% assign items = site.data.home.server_apps.items %}
+<section class="home-section home-section--reading home-section--storm" aria-labelledby="server-apps-title">
+  <div class="home-section__inner">
+    <p class="home-eyebrow">Explorations</p>
+    <h2 id="server-apps-title">More places for an opinionated base.</h2>
+    <ul class="home-card-grid" role="list">
+      {% for item in items %}
+        <li class="home-card">
+          <a class="home-card__link" href="{{ item.url | relative_url }}">
+            {% include status-label.html status=item.status %}
+            <h3>{{ item.title | escape }}</h3>
+            <p>{{ item.body | escape }}</p>
+            <span aria-hidden="true">Explore {{ item.title | escape }} →</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

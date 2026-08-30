@@ -1,0 +1,16 @@
+{% assign workflows = site.data.home.workflows %}
+<section class="home-section home-section--reading" aria-labelledby="workflows-title">
+  <div class="home-section__inner">
+    <p class="home-eyebrow">{{ workflows.eyebrow | escape }}</p>
+    <h2 id="workflows-title">{{ workflows.title | escape }}</h2>
+    <p class="home-prose home-section__intro">{{ workflows.intro | escape }}</p>
+    <ol class="home-workflow-list">
+      {% for workflow in workflows.items %}
+        <li>
+          <h3>{{ workflow.title | escape }}</h3>
+          <p>{{ workflow.body | escape }}</p>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>

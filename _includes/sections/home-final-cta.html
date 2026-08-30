@@ -1,0 +1,17 @@
+{% assign final_cta = site.data.home.final_cta %}
+<section class="home-section home-section--reveal home-final-cta" aria-labelledby="final-cta-title">
+  <div class="home-reveal-panel">
+    <p class="home-eyebrow">The Desktop</p>
+    <h2 id="final-cta-title">{{ final_cta.title | escape }}</h2>
+    <p>{{ final_cta.body | escape }}</p>
+    <div class="button-group" aria-label="Desktop actions">
+      {% for action in final_cta.actions.items %}
+        {% for link in site.data.navigation.utility.items %}
+          {% if link.label == action.navigation_label %}
+            <a class="button{% unless action.navigation_label == 'ISO' %} button--secondary{% endunless %}" href="{{ link.url }}" rel="noreferrer">{{ action.label | escape }}</a>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
