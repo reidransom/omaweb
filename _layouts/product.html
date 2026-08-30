@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<article class="content-shell content-shell--product" data-archetype="product">
+  <header class="page-hero">
+    {% include status-label.html status=page.status %}
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}
+      <p class="page-hero__lede">{{ page.description | escape }}</p>
+    {% endif %}
+  </header>
+
+  <div class="content-body">
+    {{ content }}
+  </div>
+</article>

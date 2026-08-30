@@ -1,0 +1,155 @@
+.content-shell {
+  inline-size: min(100%, var(--omarchy-media-max));
+  margin-inline: auto;
+  padding: var(--omarchy-space-xx-large) var(--omarchy-page-padding);
+}
+
+.content-shell--product,
+.content-shell--project,
+.content-shell--article,
+.content-shell--news-index,
+.content-shell--news-taxonomy {
+  background: var(--omarchy-night);
+}
+
+.page-hero {
+  display: grid;
+  gap: var(--omarchy-space-medium);
+  max-inline-size: var(--omarchy-prose-measure);
+  padding-block-end: var(--omarchy-space-x-large);
+  border-block-end: 1px solid var(--omarchy-terminal-black);
+}
+
+.page-hero__lede {
+  color: var(--omarchy-terminal-white);
+  font-size: var(--omarchy-font-medium);
+  font-style: italic;
+}
+
+.page-hero__eyebrow,
+.article-meta,
+.status-label {
+  color: var(--omarchy-terminal-white);
+  font-size: var(--omarchy-font-small);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-hero__eyebrow {
+  color: var(--omarchy-green);
+}
+
+.content-body {
+  display: flow-root;
+  margin-block-start: var(--omarchy-space-x-large);
+}
+
+.prose {
+  display: flow-root;
+  max-inline-size: var(--omarchy-prose-measure);
+  margin-block-start: var(--omarchy-space-x-large);
+}
+
+.prose > * + * {
+  margin-block-start: var(--omarchy-space-neutral);
+}
+
+.prose :where(h2, h3, h4) {
+  margin-block-start: var(--omarchy-space-x-large);
+}
+
+.prose :where(ul, ol) {
+  margin-block-start: var(--omarchy-space-medium);
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--omarchy-space-small) var(--omarchy-space-neutral);
+}
+
+.status-label {
+  display: inline-flex;
+  inline-size: fit-content;
+  min-block-size: 2.2em;
+  align-items: center;
+  padding-inline: 0.7em;
+  border: 1px solid currentcolor;
+  border-radius: var(--omarchy-radius);
+  color: var(--omarchy-turquoise);
+}
+
+.button,
+.button:link,
+.button:visited {
+  display: inline-flex;
+  min-block-size: var(--omarchy-control-height);
+  align-items: center;
+  justify-content: center;
+  gap: 1ch;
+  padding-inline: 1em;
+  border: 1px solid var(--omarchy-blue);
+  border-radius: var(--omarchy-radius);
+  background: var(--omarchy-blue);
+  box-shadow: var(--omarchy-shadow);
+  color: var(--omarchy-night);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color var(--omarchy-transition), color var(--omarchy-transition),
+    box-shadow var(--omarchy-transition), transform var(--omarchy-transition);
+}
+
+.button:hover {
+  background: var(--omarchy-turquoise);
+  color: var(--omarchy-night);
+  transform: translateY(-0.08em);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button--secondary,
+.button--secondary:link,
+.button--secondary:visited {
+  background: transparent;
+  color: var(--omarchy-cyan);
+}
+
+.button--secondary:hover {
+  background: var(--omarchy-storm);
+  color: var(--omarchy-white);
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--omarchy-space-medium);
+}
+
+.media {
+  display: block;
+  overflow: clip;
+  border-radius: var(--omarchy-radius);
+  background: var(--omarchy-storm);
+}
+
+.media__image {
+  inline-size: 100%;
+  background: var(--omarchy-storm);
+  transition: transform var(--omarchy-transition);
+}
+
+a:hover .media__image {
+  transform: scale(1.02);
+}
+
+@variant sm {
+  .content-shell {
+    padding-block: var(--omarchy-space-xxx-large);
+  }
+}

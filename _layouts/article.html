@@ -1,0 +1,29 @@
+---
+layout: default
+---
+{% assign author = site.data.authors.items | where: 'key', page.author | first %}
+<article class="content-shell content-shell--article" data-archetype="editorial">
+  <header class="page-hero">
+    <p class="page-hero__eyebrow">News</p>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}
+      <p class="page-hero__lede">{{ page.description | escape }}</p>
+    {% endif %}
+    {% if page.date or author %}
+      <div class="article-meta">
+        {% if page.date %}
+          <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: '%-d %B %Y' }}</time>
+        {% endif %}
+        {% if author %}
+          <span>By {{ author.name | escape }}</span>
+        {% elsif page.author %}
+          <span>By {{ page.author | escape }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </header>
+
+  <div class="prose">
+    {{ content }}
+  </div>
+</article>

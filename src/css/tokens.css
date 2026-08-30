@@ -1,0 +1,84 @@
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 90rem;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-light-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-bold.woff2") format("woff2");
+}
+
+:root {
+  --omarchy-night: #1a1b26;
+  --omarchy-storm: #24283b;
+  --omarchy-terminal-black: #414868;
+  --omarchy-blue: #7aa2f7;
+  --omarchy-cyan: #7dcfff;
+  --omarchy-green: #9ece6a;
+  --omarchy-turquoise: #b4f9f8;
+  --omarchy-terminal-white: #c0caf5;
+  --omarchy-white: #ffffff;
+  --omarchy-black: #000000;
+
+  --omarchy-font: "JetBrains Mono", monospace;
+  --omarchy-body-size: clamp(0.625rem, 1.25vw, 1rem);
+  --omarchy-font-small: 0.8em;
+  --omarchy-font-medium: 1.25em;
+  --omarchy-font-large: 2em;
+  --omarchy-line-height: 1.4;
+  --omarchy-line-height-tight: 1.15;
+  --omarchy-prose-measure: 46em;
+
+  --omarchy-space-small: 0.5em;
+  --omarchy-space-medium: 1em;
+  --omarchy-space-neutral: 1.5em;
+  --omarchy-space-large: 2em;
+  --omarchy-space-x-large: 3em;
+  --omarchy-space-xx-large: 4em;
+  --omarchy-space-xxx-large: 5em;
+  --omarchy-space-xxxx-large: 6em;
+  --omarchy-page-padding: 2em;
+  --omarchy-media-max: 90em;
+
+  --omarchy-radius: 0.4em;
+  --omarchy-transition: 0.15s cubic-bezier(0.33, 1, 0.68, 1);
+  --omarchy-control-height: 2.9em;
+  --omarchy-shadow: 0 0.35em 0.7em rgb(0 0 0 / 0.25),
+    0 0.1em 0.2em rgb(0 0 0 / 0.35);
+}
+
+@variant lg {
+  :root {
+    --omarchy-page-padding: 4em;
+  }
+}

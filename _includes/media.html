@@ -1,0 +1,29 @@
+{% assign media = include.media %}
+{% assign media_src = media.src %}
+{% assign media_prefix = media_src | slice: 0, 8 %}
+{% assign loading = media.loading | default: 'lazy' %}
+{% assign fetchpriority = media.fetchpriority | default: 'auto' %}
+{% assign decoding = media.decoding | default: 'async' %}
+{% assign sizes = media.sizes | default: '100vw' %}
+{% unless loading == 'eager' or loading == 'lazy' %}{% assign loading = 'lazy' %}{% endunless %}
+{% unless fetchpriority == 'high' or fetchpriority == 'low' or fetchpriority == 'auto' %}{% assign fetchpriority = 'auto' %}{% endunless %}
+{% unless decoding == 'async' or decoding == 'sync' or decoding == 'auto' %}{% assign decoding = 'async' %}{% endunless %}
+{% if media_src and media_prefix == '/assets/' and media.width and media.height %}
+  {% assign sources = media.sources.items | default: media.sources %}
+  {% if sources %}
+<picture class="media">
+    {% for source in sources %}
+      {% assign source_candidates = source.srcset.items %}
+      {% if source_candidates %}
+        {% capture source_srcset %}{% for candidate in source_candidates %}{% assign candidate_prefix = candidate.src | slice: 0, 8 %}{% if candidate_prefix == '/assets/' %}{{ candidate.src | relative_url }}{% if candidate.width %} {{ candidate.width }}w{% endif %}{% unless forloop.last %}, {% endunless %}{% endif %}{% endfor %}{% endcapture %}
+        {% if source_srcset != blank %}
+  <source srcset="{{ source_srcset | strip }}" sizes="{{ source.sizes | default: sizes | escape }}"{% if source.media %} media="{{ source.media | escape }}"{% endif %}{% if source.type %} type="{{ source.type | escape }}"{% endif %}>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  <img class="media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ media.alt | default: '' | escape }}">
+</picture>
+  {% else %}
+<img class="media media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ media.alt | default: '' | escape }}">
+  {% endif %}
+{% endif %}

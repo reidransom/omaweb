@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<section class="content-shell content-shell--news-index" data-archetype="editorial">
+  <header class="page-hero">
+    <p class="page-hero__eyebrow">News</p>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}
+      <p class="page-hero__lede">{{ page.description | escape }}</p>
+    {% endif %}
+  </header>
+
+  <div class="content-body">
+    {{ content }}
+  </div>
+</section>

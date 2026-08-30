@@ -1,0 +1,155 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--omarchy-night);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-inline-size: 20rem;
+  margin: 0;
+  background: var(--omarchy-night);
+  color: var(--omarchy-blue);
+  font-family: var(--omarchy-font);
+  font-size: var(--omarchy-body-size);
+  font-weight: 300;
+  line-height: var(--omarchy-line-height);
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  min-inline-size: 0;
+}
+
+:where(h1, h2, h3, h4, p, ul, ol, dl, figure, blockquote) {
+  margin-block: 0;
+}
+
+:where(h1, h2, h3, h4) {
+  color: var(--omarchy-terminal-white);
+  font-size: inherit;
+  font-weight: 300;
+  line-height: var(--omarchy-line-height-tight);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--omarchy-font-medium);
+}
+
+h2 {
+  font-size: 1.1em;
+}
+
+:where(p, li, dd) {
+  text-wrap: pretty;
+}
+
+:where(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+
+:where(li + li) {
+  margin-block-start: var(--omarchy-space-small);
+}
+
+a {
+  color: var(--omarchy-cyan);
+  font-weight: 700;
+  text-decoration-line: underline;
+  text-decoration-thickness: 0.12em;
+  text-decoration-offset: 0.16em;
+  transition: color var(--omarchy-transition), text-decoration-color var(--omarchy-transition);
+}
+
+a:hover {
+  color: var(--omarchy-white);
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  border-radius: var(--omarchy-radius);
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-inline-size: 100%;
+}
+
+img,
+video {
+  block-size: auto;
+}
+
+::selection {
+  background: var(--omarchy-turquoise);
+  color: var(--omarchy-night);
+}
+
+:focus-visible {
+  outline: 0.2em solid var(--omarchy-turquoise);
+  outline-offset: 0.2em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@supports (view-transition-name: none) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--omarchy-transition);
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: var(--omarchy-white);
+    color: var(--omarchy-night);
+    font-size: 10pt;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-weight: 300;
+  }
+
+  .button,
+  .status-label {
+    box-shadow: none;
+  }
+}

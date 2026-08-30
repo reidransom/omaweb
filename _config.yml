@@ -1,3 +1,37 @@
-title: "Omarchy"
+title: Omarchy
+description: >-
+  Omarchy is an omakase Linux distribution based on Arch, Hyprland, and
+  Quickshell, with strong defaults and the freedom to make the computer yours.
 url: "https://omaweb.r2ware.dev"
 baseurl: ""
+lang: en
+permalink: pretty
+
+collections:
+  news:
+    output: true
+    permalink: /news/:year/:month/:title/
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: news
+    values:
+      layout: article
+      archetype: editorial
+
+exclude:
+  - AGENTS.md
+  - Justfile
+  - README.md
+  - __docs
+  - _plans
+  - node_modules
+  - package.json
+  - package-lock.json
+  - scripts
+  - src
