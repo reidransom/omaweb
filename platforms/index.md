@@ -6,13 +6,13 @@ permalink: /platforms/
 nav_group: platforms
 archetype: landing
 ---
-<header class="home-section home-section--reading">
+<div class="home-section home-section--reading">
   <div class="home-section__inner home-section__inner--narrow">
     <p class="home-eyebrow">Platforms</p>
     <h1>Start from the desktop. Explore the edges.</h1>
     <p class="home-section__intro">Desktop is Omarchy today: an Arch, Hyprland, and Quickshell system with strong defaults and room to change them. Server and Mobile are questions we are exploring, not availability claims or a release calendar.</p>
   </div>
-</header>
+</div>
 
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="platforms-options-title">
   <div class="home-section__inner">

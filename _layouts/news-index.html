@@ -5,11 +5,11 @@ layout: default
 {% assign featured = site.news | where: 'slug', site.data.news.featured_slug | first %}
 {% assign feed_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
 <section class="content-shell content-shell--news-index" data-archetype="editorial">
-  <header class="page-hero">
+  <div class="page-hero">
     <p class="page-hero__eyebrow">News</p>
     <h1>{{ page.title | escape }}</h1>
     {% if page.description %}<p class="page-hero__lede">{{ page.description | escape }}</p>{% endif %}
-  </header>
+  </div>
 
   <div class="content-body news-index">
     {% if page.news_page == 2 %}

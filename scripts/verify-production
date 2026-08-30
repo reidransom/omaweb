@@ -1,0 +1,155 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+count_matches() {
+  grep -Eo "$2" "$1" 2>/dev/null | wc -l | tr -d ' '
+}
+
+require_output_path() {
+  path=$1
+  case "$path" in
+    /)
+      [ -f _site/index.html ]
+      ;;
+    */)
+      [ -f "_site${path}index.html" ]
+      ;;
+    *)
+      [ -f "_site$path" ] || [ -f "_site${path}/index.html" ]
+      ;;
+  esac || fail "Broken local URL in rendered output: $path"
+}
+
+[ -d _site ] || fail 'Missing _site; run Jigyll before production verification.'
+[ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
+[ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
+[ -d _site/pagefind ] || fail 'Missing Pagefind output in _site/pagefind.'
+[ -f _site/assets/images/social-card.webp ] || fail 'Missing local social card in _site.'
+[ -f _site/assets/images/favicon.svg ] || fail 'Missing local favicon in _site.'
+
+css_bytes=$(gzip -cn _site/assets/css/site.css | wc -c | tr -d ' ')
+[ "$css_bytes" -le 40960 ] || fail "Compressed CSS budget exceeded: ${css_bytes} bytes (limit 40960)."
+js_bytes=$(gzip -cn _site/assets/js/site.js | wc -c | tr -d ' ')
+[ "$js_bytes" -le 61440 ] || fail "Compressed initial JavaScript budget exceeded: ${js_bytes} bytes (limit 61440)."
+
+required_routes='
+/
+/platforms/
+/hardware/
+/software/
+/project/
+/desktop/
+/community/
+/workstations/
+/teams/
+/teams/core/
+/teams/rangers/
+/security/
+/foundation/
+/patrons/
+/sponsorships/
+/air/
+/meetups/
+/server/
+/mobile/
+/laptops/
+/apps/
+/cloud/
+/labs/
+/news/
+/news/page/2/
+/news/search/
+/news/authors/dhh/
+/news/feed.xml
+/news/2026/08/omacom-foundation-launches-with-8-million/
+/news/2026/09/the-omarchy-core-team/
+'
+printf '%s' "$required_routes" | while IFS= read -r route; do
+  [ -n "$route" ] && require_output_path "$route"
+done
+
+for source in _news/*.md; do
+  route=$(sed -n 's/^permalink: //p' "$source")
+  [ -n "$route" ] || fail "News article has no declared permalink: $source"
+  require_output_path "$route"
+done
+
+html_files=$(find _site -type f -name '*.html' ! -path '_site/pagefind/*' | sort)
+[ -n "$html_files" ] || fail 'No rendered HTML files found in _site.'
+titles_file=$(mktemp)
+descriptions_file=$(mktemp)
+canonicals_file=$(mktemp)
+cleanup() {
+  rm -f "$titles_file" "$descriptions_file" "$canonicals_file"
+}
+trap cleanup EXIT HUP INT TERM
+
+for html in $html_files; do
+  [ "$(count_matches "$html" '<title>')" -eq 1 ] || fail "Expected one title element: $html"
+  [ "$(count_matches "$html" '<meta name="description"')" -eq 1 ] || fail "Expected one description meta tag: $html"
+  [ "$(count_matches "$html" '<link rel="canonical"')" -eq 1 ] || fail "Expected one canonical URL: $html"
+  [ "$(count_matches "$html" '<meta property="og:title"')" -eq 1 ] || fail "Expected OpenGraph title metadata: $html"
+  [ "$(count_matches "$html" '<meta property="og:image"')" -eq 1 ] || fail "Expected local OpenGraph image metadata: $html"
+  [ "$(count_matches "$html" '<meta name="twitter:card"')" -eq 1 ] || fail "Expected Twitter card metadata: $html"
+  [ "$(count_matches "$html" '<link rel="icon"')" -eq 1 ] || fail "Expected local favicon metadata: $html"
+  [ "$(count_matches "$html" '<header([[:space:]>])')" -eq 1 ] || fail "Expected one header landmark: $html"
+  [ "$(count_matches "$html" '<main([[:space:]>])')" -eq 1 ] || fail "Expected one main landmark: $html"
+  [ "$(count_matches "$html" '<footer([[:space:]>])')" -eq 1 ] || fail "Expected one footer landmark: $html"
+  [ "$(count_matches "$html" '<h1([[:space:]>])')" -eq 1 ] || fail "Expected one page-level h1: $html"
+  grep -Fq "frame-src https://luma.com" "$html" || fail "Missing Luma frame CSP: $html"
+
+  sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p' "$html" >> "$titles_file"
+  sed -n 's/.*<meta name="description" content="\([^"]*\)".*/\1/p' "$html" >> "$descriptions_file"
+  sed -n 's/.*<link rel="canonical" href="\([^"]*\)".*/\1/p' "$html" >> "$canonicals_file"
+
+  assets=$(grep -Eo '/assets/[^"[:space:])]+' "$html" 2>/dev/null || true)
+  for asset in $assets; do
+    [ -f "_site$asset" ] || fail "Rendered page references a missing local asset: $asset ($html)"
+  done
+
+  links=$(grep -Eo 'href="/[^"?#]*' "$html" 2>/dev/null | sed 's/^href="//' || true)
+  for link in $links; do
+    require_output_path "$link"
+  done
+done
+
+[ "$(sort "$titles_file" | uniq -d | wc -l | tr -d ' ')" -eq 0 ] || fail 'Rendered output contains duplicate page titles.'
+[ "$(sort "$descriptions_file" | uniq -d | wc -l | tr -d ' ')" -eq 0 ] || fail 'Rendered output contains duplicate page descriptions.'
+[ "$(sort "$canonicals_file" | uniq -d | wc -l | tr -d ' ')" -eq 0 ] || fail 'Rendered output contains duplicate canonical URLs.'
+
+remote_sources=$(grep -Eirn '(src|srcset)=["'"']https?://' _site --include='*.html' 2>/dev/null || true)
+if [ -n "$remote_sources" ]; then
+  unexpected_sources=$(printf '%s\n' "$remote_sources" | grep -v 'https://luma.com/embed/calendar/' || true)
+  [ -z "$unexpected_sources" ] || fail 'Rendered output contains an unexpected remote media, script, or frame URL.'
+fi
+
+if grep -Eirn 'massively|html5[[:space:]]*up|html5up[.]net|is-preload|is-mobile|is-touch' _site --include='*.html' --include='*.xml' --include='*.css' --include='*.js' >/dev/null 2>&1; then
+  fail 'Clean-room scan found a prohibited reference-site identifier in rendered output.'
+fi
+luma_files=$(grep -rl 'luma.com' _site --include='*.html' 2>/dev/null || true)
+iframe_files=$(grep -rl '<iframe' _site --include='*.html' 2>/dev/null || true)
+[ "$iframe_files" = '_site/meetups/index.html' ] || fail 'Meetups must be the only rendered route with an iframe.'
+[ "$luma_files" = '_site/meetups/index.html' ] || fail 'Luma may appear only on the rendered Meetups route.'
+[ "$(grep -Eo 'https://luma.com/embed/calendar/' _site/meetups/index.html | wc -l | tr -d ' ')" -eq 1 ] ||
+  fail 'Meetups must contain exactly one Luma calendar embed.'
+
+article_count=$(find _site/news -mindepth 4 -maxdepth 4 -type f -name index.html | wc -l | tr -d ' ')
+[ "$article_count" -eq 12 ] || fail "Expected 12 rendered News articles, found $article_count."
+for route in /server/ /mobile/ /laptops/ /apps/ /cloud/ /labs/; do
+  grep -Fq 'Exploratory' "_site${route}index.html" || fail "Exploratory label is missing: $route"
+done
+
+if ! awk '
+  /^---$/ { separators++; next }
+  separators == 1 && /^image:/ { found = 1 }
+  END { exit found ? 0 : 1 }
+' _news/2026-08-28-the-first-plugin-competition-winners.md; then
+  fail 'Known release gate: the featured plugin competition winners article has no cleared real local lead image.'
+fi
+
+printf '%s\n' 'Production output, route, metadata, asset, network, budget, and landmark checks passed.'

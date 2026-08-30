@@ -1,0 +1,114 @@
+#!/usr/bin/env sh
+set -eu
+
+fail() {
+  printf '%s\n' "$*" >&2
+  exit 1
+}
+
+require_file() {
+  [ -f "$1" ] || fail "Missing required file: $1"
+}
+
+manifest_entry() {
+  asset=$1
+  awk -v asset="$asset" '
+    index($0, "path: " asset) { found = 1; next }
+    found && /path:/ { exit }
+    found { print }
+  ' _data/assets.yml
+}
+
+require_manifested_asset() {
+  asset=$1
+  entry=$(manifest_entry "$asset")
+  [ -n "$entry" ] || fail "Asset is absent from _data/assets.yml: $asset"
+
+  checksum=$(printf '%s\n' "$entry" | sed -n 's/^[[:space:]]*sha256: //p' | sed -n '1p')
+  [ -n "$checksum" ] || fail "Asset has no SHA-256 in _data/assets.yml: $asset"
+  actual=$(sha256sum "$asset" | cut -d ' ' -f 1)
+  [ "$actual" = "$checksum" ] || fail "Asset checksum does not match _data/assets.yml: $asset"
+
+  printf '%s\n' "$entry" | grep -Eq '^[[:space:]]*publication_status: cleared$' ||
+    fail "Asset is not cleared for publication: $asset"
+  printf '%s\n' "$entry" | grep -Eq '^[[:space:]]*dimensions:' ||
+    fail "Asset has no declared dimensions: $asset"
+
+  width=$(printf '%s\n' "$entry" | sed -n 's/.*width: \([0-9][0-9]*\).*/\1/p' | sed -n '1p')
+  height=$(printf '%s\n' "$entry" | sed -n 's/.*height: \([0-9][0-9]*\).*/\1/p' | sed -n '1p')
+  [ -n "$width" ] && [ -n "$height" ] || fail "Asset dimensions are incomplete: $asset"
+
+  case "$asset" in
+    *.svg)
+      grep -Fq "viewBox=\"0 0 $width $height\"" "$asset" ||
+        fail "SVG dimensions do not match _data/assets.yml: $asset"
+      ;;
+    *)
+      actual_dimensions=$(magick identify -format '%w %h' "$asset")
+      [ "$actual_dimensions" = "$width $height" ] ||
+        fail "Asset dimensions do not match _data/assets.yml: $asset"
+      ;;
+  esac
+}
+
+require_file _config.yml
+require_file _includes/head.html
+require_file _includes/seo.html
+require_file assets/images/social-card.webp
+require_file assets/images/favicon.svg
+
+grep -Fq 'social_image: /assets/images/social-card.webp' _config.yml ||
+  fail 'Site configuration must use the local social card.'
+grep -Fq 'frame-src https://luma.com' _includes/head.html ||
+  fail 'The CSP must restrict frames to https://luma.com.'
+grep -Fq 'favicon.svg' _includes/head.html ||
+  fail 'The document head must reference the local favicon.'
+
+for asset in $(find assets/images -type f | sort); do
+  require_manifested_asset "$asset"
+done
+
+content_sources="$(find air apps cloud community desktop foundation hardware labs laptops meetups mobile news patrons platforms project security server software sponsorships teams workstations _news -type f \( -name '*.md' -o -name 'index.html' \) | sort) index.html"
+for source in $content_sources; do
+  front_matter=$(awk '
+    NR == 1 {
+      if ($0 != "---") exit 1
+      started = 1
+      next
+    }
+    started && /^---$/ {
+      ended = 1
+      exit
+    }
+    { print }
+    END {
+      if (!ended) exit 1
+    }
+  ' "$source") || fail "Missing front matter: $source"
+  printf '%s\n' "$front_matter" | grep -Eq '^title:' ||
+    fail "Missing title front matter: $source"
+  printf '%s\n' "$front_matter" | grep -Eq '^description:' ||
+    fail "Missing description front matter: $source"
+done
+
+set -- \
+  _config.yml _data _includes _layouts _news _sass src assets air apps cloud community \
+  desktop foundation hardware labs laptops meetups mobile news patrons platforms project \
+  security server software sponsorships teams workstations index.html
+forbidden='massively|html5[[:space:]]*up|html5up[.]net|is-preload|is-mobile|is-touch'
+if grep -Eirn "$forbidden" --include='*.html' --include='*.md' --include='*.yml' --include='*.css' --include='*.js' -- "$@" >/dev/null 2>&1; then
+  fail 'Clean-room scan found a prohibited reference-site identifier in implementation source.'
+fi
+
+remote_sources=$(grep -Eirn '(src|srcset)=["'"'"']https?://' --include='*.html' --include='*.md' -- "$@" 2>/dev/null || true)
+if [ -n "$remote_sources" ]; then
+  unexpected_sources=$(printf '%s\n' "$remote_sources" | grep -v 'https://luma.com/embed/calendar/' || true)
+  [ -z "$unexpected_sources" ] || fail 'Implementation source contains an unexpected remote media, script, or frame URL.'
+fi
+
+luma_sources=$(grep -Eirn 'https://luma.com/embed/calendar/' --include='*.html' --include='*.md' -- "$@" 2>/dev/null || true)
+[ -n "$luma_sources" ] || fail 'Meetups must retain its disclosed Luma calendar fallback.'
+[ "$(printf '%s\n' "$luma_sources" | wc -l | tr -d ' ')" -eq 1 ] ||
+  fail 'Luma may appear only once in the implementation source.'
+
+printf '%s\n' 'Content, asset, clean-room, and local-network checks passed.'

@@ -258,3 +258,55 @@ items:
     glyph_coverage:
       scope: Complete unsubsetted upstream cmap; 1362 code points.
       wordmark_required: { U+0020: SPACE, U+2588: FULL BLOCK }
+
+  - id: social-card
+    asset_type: image
+    role: social-share-card
+    path: assets/images/social-card.webp
+    provenance: >-
+      Original Omarchy social card composed locally from the Night/Storm token
+      palette and Omarchy word treatment; it contains no third-party media.
+    sha256: 6ae44b3b3c89c28215eb86b9dcfea570a41852ce72d60ef1959db6d9138ba3e0
+    dimensions: { width: 1200, height: 630 }
+    rights_owner: Omacom
+    license_or_permission: >-
+      Original target-owned graphic created in this repository for site sharing.
+    clearance_basis: >-
+      Omacom owns the original composition and approves its publication.
+    publication_status: cleared
+    third_party_marks: { present: false, disclosure: No third-party marks appear in this graphic. }
+
+  - id: favicon
+    asset_type: image
+    role: favicon
+    path: assets/images/favicon.svg
+    provenance: >-
+      Original Omarchy favicon composed locally from the Night/Storm token
+      palette and an abstract terminal mark.
+    sha256: 1b61aca036a648c2a1057fa63914cecc898e71da8a8c6467d7c94c88b0de3837
+    dimensions: { width: 64, height: 64 }
+    rights_owner: Omacom
+    license_or_permission: >-
+      Original target-owned graphic created in this repository for site chrome.
+    clearance_basis: >-
+      Omacom owns the original composition and approves its publication.
+    publication_status: cleared
+    third_party_marks: { present: false, disclosure: No third-party marks appear in this graphic. }
+
+  - id: news-fallback
+    asset_type: image
+    role: editorial-fallback
+    path: assets/images/news-fallback.svg
+    provenance: >-
+      Original Omarchy News fallback composed locally from the Night/Storm
+      token palette; it intentionally represents no event, person, or photo.
+    sha256: 7b000ecd50240904dfc84e5c541667ac3083ac9c9215fe296f1cbd9a2f165e27
+    dimensions: { width: 1200, height: 675 }
+    rights_owner: Omacom
+    license_or_permission: >-
+      Original target-owned graphic created in this repository for image-less
+      News articles.
+    clearance_basis: >-
+      Omacom owns the original composition and approves its publication.
+    publication_status: cleared
+    third_party_marks: { present: false, disclosure: No third-party marks appear in this graphic. }

@@ -6,13 +6,13 @@ permalink: /project/
 nav_group: project
 archetype: landing
 ---
-<header class="home-section home-section--reading">
+<div class="home-section home-section--reading">
   <div class="home-section__inner home-section__inner--narrow">
     <p class="home-eyebrow">The Project</p>
     <h1>A desktop gets better when people make it better.</h1>
     <p class="home-section__intro">Follow the work in News, find people and places in Community, and see the public support behind it through the Omacom Foundation. Labs is different: a home for experiments, not a product announcement.</p>
   </div>
-</header>
+</div>
 
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="project-paths-title">
   <div class="home-section__inner">

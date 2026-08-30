@@ -6,6 +6,8 @@ url: "https://omaweb.r2ware.dev"
 baseurl: ""
 lang: en
 permalink: pretty
+social_image: /assets/images/social-card.webp
+social_image_alt: Omarchy on a Night and Storm terminal-inspired card.
 
 collections:
   news:

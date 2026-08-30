@@ -48,9 +48,8 @@ run_build() {
 
   set_provenance
 
-  if [ -x scripts/check-content ]; then
-    scripts/check-content
-  fi
+  [ -f scripts/check-content ] || fail 'Missing required content checker: scripts/check-content'
+  sh scripts/check-content
 
   scripts/build-assets --check
   build_css
@@ -60,12 +59,14 @@ run_build() {
   jigyll build --config "$config"
   npx --no-install pagefind --site _site
 
-  if [ -x scripts/verify-production ]; then
-    scripts/verify-production
-  fi
+  [ -f scripts/verify-production ] || fail 'Missing required production verifier: scripts/verify-production'
+  sh scripts/verify-production
 }
 
-case "${1-build}" in
+case "${1-}" in
+  '')
+    run_build
+    ;;
   css)
     [ "$#" -eq 1 ] || fail 'Usage: scripts/build css'
     build_css

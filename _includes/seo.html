@@ -2,6 +2,7 @@
 {% assign document_description = page.description | default: site.description | strip_html | normalize_whitespace %}
 {% assign document_url = page.url | default: '/' | absolute_url %}
 {% assign social_image = page.image.src | default: site.social_image %}
+{% assign social_image_alt = page.image.alt | default: site.social_image_alt %}
 {% assign social_image_prefix = social_image | slice: 0, 8 %}
 {% if social_image_prefix == '/assets/' %}
   {% assign social_image_url = social_image | absolute_url %}
@@ -27,9 +28,9 @@
 {% if social_image_url %}
 <meta property="og:image" content="{{ social_image_url }}">
 <meta name="twitter:image" content="{{ social_image_url }}">
-  {% if page.image.alt %}
-<meta property="og:image:alt" content="{{ page.image.alt | escape }}">
-<meta name="twitter:image:alt" content="{{ page.image.alt | escape }}">
+  {% if social_image_alt %}
+<meta property="og:image:alt" content="{{ social_image_alt | escape }}">
+<meta name="twitter:image:alt" content="{{ social_image_alt | escape }}">
   {% endif %}
 {% endif %}
 {% if open_graph_type == 'article' and page.date %}

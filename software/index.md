@@ -6,13 +6,13 @@ permalink: /software/
 nav_group: software
 archetype: landing
 ---
-<header class="home-section home-section--reading">
+<div class="home-section home-section--reading">
   <div class="home-section__inner home-section__inner--narrow">
     <p class="home-eyebrow">Software</p>
     <h1>Keep the system opinionated. Keep it yours.</h1>
     <p class="home-section__intro">Plugins are current community additions, with their own authoritative directory. Apps and Cloud name two areas of exploration: first-party application principles on one side, and questions about a hosted workstation on the other. Neither is a catalog, service offer, or roadmap.</p>
   </div>
-</header>
+</div>
 
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="software-options-title">
   <div class="home-section__inner">

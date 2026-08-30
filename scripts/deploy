@@ -31,6 +31,7 @@ require_env CLOUDFLARE_API_TOKEN
 require_env CLOUDFLARE_ACCOUNT_ID
 
 command -v jigyll >/dev/null 2>&1 || fail 'Missing required command: jigyll'
+command -v npm >/dev/null 2>&1 || fail 'Missing required command: npm (used for the locked build toolchain)'
 command -v npx >/dev/null 2>&1 || fail 'Missing required command: npx (used to run Wrangler)'
 
 build_config=$(mktemp)
@@ -40,7 +41,8 @@ cleanup() {
 trap cleanup EXIT HUP INT TERM
 printf 'url: "%s"\n' "$deployment_url" > "$build_config"
 
-jigyll build --config "_config.yml,$build_config"
+npm ci
+scripts/build --config "_config.yml,$build_config"
 
 if [ "$branch" = rev ]; then
   npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME" --branch=rev

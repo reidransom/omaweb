@@ -3,7 +3,7 @@ layout: default
 ---
 {% assign author = site.data.authors.items | where: 'key', page.author | first %}
 <article class="content-shell content-shell--article" data-archetype="editorial">
-  <header class="page-hero">
+  <div class="page-hero">
     <p class="page-hero__eyebrow">News</p>
     <h1>{{ page.title | escape }}</h1>
     {% if page.description %}
@@ -21,7 +21,7 @@ layout: default
         {% endif %}
       </div>
     {% endif %}
-  </header>
+  </div>
   {% if page.image %}
     <div class="article__media">
       {% include media.html media=page.image %}
