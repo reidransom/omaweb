@@ -17,7 +17,7 @@ archetype: project
   <h2 id="security-scope-title">What is a vulnerability?</h2>
   <p>A bug is a security vulnerability when it can be exploited to cross a meaningful security boundary: an untrusted or lower-privileged party gains access, permissions, or control it did not already have.</p>
   <p>Code that could be more robust but does not cross a security boundary is an improvement, not a security vulnerability. A proposed fix may still be merged and credited in release notes.</p>
-  <p>Eligibility for <a href="{{ '/security/credits/' | relative_url }}">security credits</a> depends on a report identifying a confirmed security vulnerability, not its severity.</p>
+  <p>Eligibility for <a href="https://omarchy.org/security/credits/">security credits</a> depends on a report identifying a confirmed security vulnerability, not its severity.</p>
 </section>
 
 <section class="prose" aria-labelledby="security-details-title">
@@ -45,7 +45,7 @@ archetype: project
 
 <section class="prose" aria-labelledby="security-credits-title">
   <h2 id="security-credits-title">Credits</h2>
-  <p>Researchers who privately report a confirmed security vulnerability and give the team the chance to ship a fix are thanked on the <a href="{{ '/security/credits/' | relative_url }}">security credits</a> page. Accepted improvements that do not cross a security boundary may still be credited in release notes.</p>
+  <p>Researchers who privately report a confirmed security vulnerability and give the team the chance to ship a fix are thanked on the <a href="https://omarchy.org/security/credits/">security credits</a> page. Accepted improvements that do not cross a security boundary may still be credited in release notes.</p>
   <p>For duplicate reports, only the first reporter is eligible for credit.</p>
 </section>
 

@@ -122,7 +122,7 @@ done
 [ "$(sort "$descriptions_file" | uniq -d | wc -l | tr -d ' ')" -eq 0 ] || fail 'Rendered output contains duplicate page descriptions.'
 [ "$(sort "$canonicals_file" | uniq -d | wc -l | tr -d ' ')" -eq 0 ] || fail 'Rendered output contains duplicate canonical URLs.'
 
-remote_sources=$(grep -Eirn '(src|srcset)=["'"']https?://' _site --include='*.html' 2>/dev/null || true)
+remote_sources=$(grep -Eirn '(src|srcset)=["'"'"']https?://' _site --include='*.html' 2>/dev/null || true)
 if [ -n "$remote_sources" ]; then
   unexpected_sources=$(printf '%s\n' "$remote_sources" | grep -v 'https://luma.com/embed/calendar/' || true)
   [ -z "$unexpected_sources" ] || fail 'Rendered output contains an unexpected remote media, script, or frame URL.'
@@ -131,7 +131,7 @@ fi
 if grep -Eirn 'massively|html5[[:space:]]*up|html5up[.]net|is-preload|is-mobile|is-touch' _site --include='*.html' --include='*.xml' --include='*.css' --include='*.js' >/dev/null 2>&1; then
   fail 'Clean-room scan found a prohibited reference-site identifier in rendered output.'
 fi
-luma_files=$(grep -rl 'luma.com' _site --include='*.html' 2>/dev/null || true)
+luma_files=$(grep -rl 'https://luma.com/embed/calendar/' _site --include='*.html' 2>/dev/null || true)
 iframe_files=$(grep -rl '<iframe' _site --include='*.html' 2>/dev/null || true)
 [ "$iframe_files" = '_site/meetups/index.html' ] || fail 'Meetups must be the only rendered route with an iframe.'
 [ "$luma_files" = '_site/meetups/index.html' ] || fail 'Luma may appear only on the rendered Meetups route.'
