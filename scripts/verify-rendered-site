@@ -22,9 +22,11 @@ VIEWPORTS = ((390, 844), (768, 1024), (1440, 900))
 ROUTES = (
     "/",
     "/desktop/",
+    "/new-releases/",
+    "/accessories/",
+    "/search/",
     "/news/",
     "/news/2026/08/the-first-plugin-competition-winners/",
-    "/news/search/",
     "/news/categories/product/",
     "/workstations/",
     "/teams/",
@@ -44,6 +46,79 @@ class VerificationError(RuntimeError):
 
 def fail(message: str) -> None:
     raise VerificationError(message)
+
+
+def wait_for(browser: DevToolsSocket, condition: str, description: str) -> None:
+    matched = evaluate(
+        browser,
+        f"""new Promise(resolve => {{
+          const deadline = performance.now() + 12000;
+          const poll = () => {{
+            if (Boolean({condition})) return resolve(true);
+            if (performance.now() >= deadline) return resolve(false);
+            requestAnimationFrame(poll);
+          }};
+          poll();
+        }})""",
+    )
+    if not matched:
+        fail(f"Timed out waiting for {description}.")
+
+
+def press_key(
+    browser: DevToolsSocket,
+    key: str,
+    code: str,
+    key_code: int,
+    modifiers: int = 0,
+) -> None:
+    event = {
+        "key": key,
+        "code": code,
+        "windowsVirtualKeyCode": key_code,
+        "nativeVirtualKeyCode": key_code,
+        "modifiers": modifiers,
+    }
+    browser.command("Input.dispatchKeyEvent", {"type": "keyDown", **event})
+    browser.command("Input.dispatchKeyEvent", {"type": "keyUp", **event})
+
+
+def click_element(browser: DevToolsSocket, selector: str) -> None:
+    clicked = evaluate(
+        browser,
+        f"""(() => {{
+          const element = document.querySelector({json.dumps(selector)});
+          if (!element) return false;
+          element.click();
+          return true;
+        }})()""",
+    )
+    if not clicked:
+        fail(f"Missing interactive element {selector}.")
+
+
+def click_at(browser: DevToolsSocket, x: float, y: float) -> None:
+    for event_type in ("mousePressed", "mouseReleased"):
+        browser.command(
+            "Input.dispatchMouseEvent",
+            {"type": event_type, "x": x, "y": y, "button": "left", "clickCount": 1},
+        )
+
+
+def set_search_query(browser: DevToolsSocket, selector: str, value: str) -> None:
+    updated = evaluate(
+        browser,
+        f"""(() => {{
+          const input = document.querySelector({json.dumps(selector)});
+          if (!input) return false;
+          input.focus();
+          input.value = {json.dumps(value)};
+          input.dispatchEvent(new Event("input", {{bubbles: true}}));
+          return true;
+        }})()""",
+    )
+    if not updated:
+        fail(f"Missing search field {selector}.")
 def canonical_destinations() -> dict[str, str]:
     destinations: dict[str, str] = {}
     slug: str | None = None
@@ -184,6 +259,360 @@ def check_header_transition(browser: DevToolsSocket) -> None:
         fail(f"Homepage header must transition transparent-to-opaque across the hero; got {states}.")
 
 
+
+def check_route_semantics(browser: DevToolsSocket, route: str) -> None:
+    expected = {
+        "/desktop/": ("Desktops", ("exploring", "desktop hardware", "recommendation")),
+        "/new-releases/": ("New Releases", ("nothing to announce", "may later highlight releases")),
+        "/accessories/": ("Accessories", ("no accessory recommendations", "third-party hardware")),
+        "/search/": ("Search Omarchy", ("site pages", "news", "destinations")),
+    }.get(route)
+    if not expected:
+        return
+
+    semantics = evaluate(
+        browser,
+        """(() => ({
+          title: document.title,
+          heading: document.querySelector("main h1")?.textContent.trim(),
+          text: document.querySelector("main")?.textContent.replace(/\s+/g, " ").trim().toLocaleLowerCase()
+        }))()""",
+    )
+    label, terms = expected
+    if semantics["heading"] != label or not semantics["title"].startswith(label):
+        fail(f"{route} must expose {label!r} in its page heading and metadata; got {semantics}.")
+    if any(term not in semantics["text"] for term in terms):
+        fail(f"{route} no longer communicates its required observable purpose: {semantics['text']!r}.")
+    if route == "/desktop/" and "current omarchy desktop environment" in semantics["text"]:
+        fail("/desktop/ must not describe itself as the current Omarchy desktop environment.")
+
+
+def check_navigation_inventory(browser: DevToolsSocket) -> None:
+    inventory = evaluate(
+        browser,
+        """(() => {
+          const label = link => {
+            const copy = link.cloneNode(true);
+            copy.querySelectorAll("sup, .u-visually-hidden, .site-header__shortcut").forEach(element => element.remove());
+            return copy.textContent.replace(/\s+/g, " ").trim();
+          };
+          const panel = document.querySelector("[data-quake-fallback]");
+          const groups = Object.fromEntries(Array.from(panel?.querySelectorAll("nav > section") || [], section => {
+            const sectionLink = section.querySelector("h2 > a");
+            return [label(sectionLink), {
+              url: new URL(sectionLink.href).pathname,
+              external: sectionLink.dataset.external === "true",
+              children: Array.from(section.querySelectorAll("li > a"), link => ({
+                label: label(link),
+                url: new URL(link.href).pathname,
+                external: link.dataset.external === "true",
+                exploratory: Boolean(link.querySelector("sup[aria-describedby]"))
+              }))
+            }];
+          }));
+          const header = document.querySelector("header");
+          const primary = Array.from(
+            header?.querySelectorAll('nav[aria-label="Primary navigation"] a[href]') || [],
+            link => ({label: label(link), url: new URL(link.href).pathname, visible: Boolean(link.getClientRects().length)})
+          );
+          const markers = Array.from(panel?.querySelectorAll("a") || [], link => {
+            const marker = link.querySelector("sup[aria-describedby]");
+            return marker && [label(link), document.getElementById(marker.getAttribute("aria-describedby"))?.textContent.replace(/\s+/g, " ").trim()];
+          }).filter(Boolean);
+          const search = header?.querySelector("[data-spotlight-open]");
+          const menu = header?.querySelector("[data-quake-toggle]");
+          return {
+            groups,
+            primary,
+            markers,
+            merchMarked: Boolean(Array.from(panel?.querySelectorAll("a") || []).find(link => label(link) === "Merch")?.querySelector("sup")),
+            search: search && {url: new URL(search.href).pathname, text: search.textContent.replace(/\s+/g, " ").trim(), visible: Boolean(search.getClientRects().length)},
+            menu: menu && {text: menu.textContent.replace(/\s+/g, " ").trim(), visible: Boolean(menu.getClientRects().length), controls: menu.getAttribute("aria-controls")},
+            prunedLinks: Array.from(document.querySelectorAll('header a[href], [data-quake-fallback] a[href]'), link => new URL(link.href).pathname)
+              .filter(path => ["/platforms/", "/hardware/", "/software/", "/project/", "/server/", "/apps/", "/cloud/", "/labs/"].includes(path))
+          };
+        })()""",
+    )
+    expected_groups = {
+        "Foundation": ["Patrons", "Sponsorships", "Artists in Residence", "Security"],
+        "Manual": ["Download ISO", "Getting Started", "Hotkeys", "Omarchy CLI", "Troubleshooting", "FAQ"],
+        "Shop": ["Laptops", "Desktops", "Mobile", "Merch", "Accessories"],
+        "News": ["Product", "Releases", "Events", "Editorial", "Atom feed"],
+        "Community": ["Discord", "Meetups", "Workstations", "Plugins", "Teams", "Code"],
+    }
+    if list(inventory["groups"]) != list(expected_groups):
+        fail(f"Quake navigation must expose the five authoritative sections; got {inventory['groups']}.")
+    for section, expected_children in expected_groups.items():
+        children = inventory["groups"][section]["children"]
+        if [child["label"] for child in children] != expected_children:
+            fail(f"{section} links must retain their authoritative visible order; got {children}.")
+    if inventory["groups"]["Foundation"]["url"] != "/foundation/" or inventory["groups"]["Shop"]["url"] != "/new-releases/" or inventory["groups"]["News"]["url"] != "/news/" or inventory["groups"]["Community"]["url"] != "/community/":
+        fail(f"Primary section routes are wrong: {inventory['groups']}.")
+    if not inventory["groups"]["Manual"]["external"] or not all(child["external"] for child in inventory["groups"]["Manual"]["children"]):
+        fail("Manual and its chapters must remain authoritative external destinations.")
+    shop_children = {child["label"]: child for child in inventory["groups"]["Shop"]["children"]}
+    if (
+        shop_children["Laptops"]["url"] != "/laptops/"
+        or shop_children["Desktops"]["url"] != "/desktop/"
+        or shop_children["Mobile"]["url"] != "/mobile/"
+        or shop_children["Accessories"]["url"] != "/accessories/"
+        or shop_children["Merch"]["external"] is not True
+    ):
+        fail(f"Shop routes or external Merch status are wrong: {shop_children}.")
+    if {label for label, _ in inventory["markers"]} != {"Shop", "Laptops", "Desktops", "Mobile", "Accessories"} or inventory["merchMarked"]:
+        fail(f"Exploratory markers must cover Shop and future hardware only; got {inventory['markers']}.")
+    descriptions = {description for _, description in inventory["markers"]}
+    if descriptions != {"Exploratory. These are areas Omarchy may cover, not products or release promises."}:
+        fail(f"Exploratory markers must share the explanatory relationship; got {descriptions}.")
+    if (
+        [item["label"] for item in inventory["primary"] if item["visible"]]
+        != ["Foundation", "Manual", "Shop", "News", "Community"]
+        or not inventory["search"]
+        or inventory["search"]["url"] != "/search/"
+        or "Ctrl K" not in inventory["search"]["text"]
+        or not inventory["menu"]
+        or inventory["menu"]["controls"] != "quake-navigation"
+        or "Ctrl+`" not in inventory["menu"]["text"]
+        or inventory["prunedLinks"]
+    ):
+        fail(f"Closed desktop header controls or curated links are wrong: {inventory}.")
+
+
+def check_direct_navigation(browser: DevToolsSocket, origin: str) -> None:
+    for label, route in (
+        ("Foundation", "/foundation/"),
+        ("Shop", "/new-releases/"),
+        ("News", "/news/"),
+        ("Community", "/community/"),
+    ):
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/")
+        clicked = evaluate(
+            browser,
+            f"""(() => {{
+              const link = Array.from(document.querySelectorAll('nav[aria-label="Primary navigation"] a[href]'))
+                .find(candidate => {
+                  const copy = candidate.cloneNode(true);
+                  copy.querySelectorAll("sup, .u-visually-hidden").forEach(element => element.remove());
+                  return copy.textContent.replace(/\s+/g, " ").trim() === {json.dumps(label)};
+                });
+              if (!link) return false;
+              link.click();
+              return true;
+            }})()""",
+        )
+        if not clicked:
+            fail(f"Desktop header is missing the direct {label} link.")
+        wait_for_complete(browser, route, f"direct {label} navigation")
+
+
+def check_closed_responsive_header(browser: DevToolsSocket, width: int) -> None:
+    state = evaluate(
+        browser,
+        """(() => {
+          const header = document.querySelector("header");
+          const visible = element => Boolean(element?.getClientRects().length) && !element.hidden;
+          const label = link => {
+            const copy = link.cloneNode(true);
+            copy.querySelectorAll("sup, .u-visually-hidden, .site-header__shortcut").forEach(element => element.remove());
+            return copy.textContent.replace(/\s+/g, " ").trim();
+          };
+          return {
+            brand: visible(header?.querySelector('a[href="/"]')),
+            primary: Array.from(header?.querySelectorAll('nav[aria-label="Primary navigation"] a') || [])
+              .filter(visible).map(label),
+            menu: visible(header?.querySelector("[data-quake-toggle]")),
+            search: visible(header?.querySelector("[data-spotlight-open]")),
+            drawer: document.querySelector("[data-drawer]")?.open === true
+          };
+        })()""",
+    )
+    expected_primary = ["Foundation", "Manual", "Shop", "News", "Community"] if width >= 1024 else []
+    if not state["brand"] or state["primary"] != expected_primary or not state["menu"] or not state["search"] or state["drawer"]:
+        fail(f"Closed header at {width}px has the wrong responsive navigation treatment: {state}.")
+
+
+def check_current_navigation(browser: DevToolsSocket, origin: str) -> None:
+    browser.command("Page.navigate", {"url": origin + "/new-releases/"})
+    wait_for_complete(browser, "/new-releases/")
+    current = evaluate(
+        browser,
+        """(() => Array.from(document.querySelectorAll('header a[aria-current="page"], [data-quake-fallback] a[aria-current="page"]'), link => ({
+          label: link.textContent.replace(/\*/g, "").replace(/\s+/g, " ").trim(),
+          path: new URL(link.href).pathname
+        })))()""",
+    )
+    if not current or any(item != {"label": "Shop", "path": "/new-releases/"} for item in current):
+        fail(f"New Releases must expose Shop as the semantic current destination in header and panel; got {current}.")
+
+
+def check_desktop_quake(browser: DevToolsSocket, origin: str) -> None:
+    browser.command("Page.navigate", {"url": origin + "/"})
+    wait_for_complete(browser, "/")
+    hover_point = evaluate(
+        browser,
+        """(() => {
+          const link = document.querySelector('nav[aria-label="Primary navigation"] a[href="/foundation/"]');
+          const rect = link?.getBoundingClientRect();
+          return rect && {x: rect.left + rect.width / 2, y: rect.top + rect.height / 2};
+        })()""",
+    )
+    if not hover_point:
+        fail("Desktop Foundation link is unavailable for the hover-disclosure check.")
+    browser.command("Input.dispatchMouseEvent", {"type": "mouseMoved", **hover_point})
+    no_hover = evaluate(
+        browser,
+        """new Promise(resolve => setTimeout(() => {
+          const panel = document.querySelector("[data-quake-fallback]");
+          resolve(!panel.open && panel.hidden);
+        }, 250))""",
+    )
+    if not no_hover:
+        fail("Moving across a desktop section link must not open Quake navigation.")
+
+    evaluate(browser, 'document.querySelector("[data-quake-toggle]")?.focus()')
+    press_key(browser, "Enter", "Enter", 13)
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Enter to open Quake navigation")
+    press_key(browser, " ", "Space", 32)
+    wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "Space to close Quake navigation")
+    if not evaluate(browser, 'document.activeElement === document.querySelector("[data-quake-toggle]")'):
+        fail("Menu toggle dismissal must restore focus to Menu.")
+
+    before_open = evaluate(
+        browser,
+        """(() => ({
+          mainTop: document.querySelector("main")?.getBoundingClientRect().top,
+          headerBottom: document.querySelector("header")?.getBoundingClientRect().bottom
+        }))()""",
+    )
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.dataset.quakeState === "open"', "the Quake panel to open")
+    opened = evaluate(
+        browser,
+        """(() => {
+          const panel = document.querySelector("[data-quake-fallback]");
+          const header = document.querySelector("header");
+          const first = panel?.querySelector("nav > section h2 > a");
+          const rect = panel?.getBoundingClientRect();
+          const style = panel && getComputedStyle(panel);
+          return {
+            open: panel?.open === true && panel.hidden === false,
+            expanded: document.querySelector("[data-quake-toggle]")?.getAttribute("aria-expanded"),
+            focus: document.activeElement === first,
+            attached: Math.abs((rect?.top ?? 0) - header.getBoundingClientRect().bottom) <= 1,
+            covers: Math.abs((document.querySelector("main")?.getBoundingClientRect().top ?? 0) - window.__quakeMainTop) <= 1,
+            capped: (rect?.height ?? Infinity) <= innerHeight * 0.6 + 1,
+            natural: (rect?.height ?? Infinity) < innerHeight * 0.6 - 1,
+            transition: style?.transitionDuration,
+            transform: style?.transform,
+            scrollable: style?.overflowY === "auto" || style?.overflowY === "scroll",
+            header: header.dataset.headerState
+          };
+        })()""".replace("window.__quakeMainTop", str(before_open["mainTop"])),
+    )
+    if (
+        not opened["open"]
+        or opened["expanded"] != "true"
+        or not opened["focus"]
+        or not opened["attached"]
+        or not opened["covers"]
+        or not opened["capped"]
+        or not opened["natural"]
+        or not opened["scrollable"]
+        or opened["header"] != "opaque"
+        or "0.15s" not in opened["transition"]
+    ):
+        fail(f"Quake must be a short, attached, covering non-modal panel with initial link focus; got {opened}.")
+    scroll_position = evaluate(
+        browser,
+        """(() => {
+          const before = window.scrollY;
+          window.scrollBy(0, 200);
+          return [before, window.scrollY];
+        })()""",
+    )
+    if scroll_position[1] <= scroll_position[0]:
+        fail("Opening Quake navigation must not lock document scrolling.")
+    press_key(browser, "Tab", "Tab", 9)
+    evaluate(browser, 'window.scrollTo(0, 0); window.dispatchEvent(new Event("scroll"))')
+    wait_for(browser, 'document.querySelector("header")?.dataset.headerState === "transparent"', "homepage header transparency after scrolling back to the top")
+    tabbed = evaluate(
+        browser,
+        """(() => {
+          const panel = document.querySelector("[data-quake-fallback]");
+          const active = document.activeElement;
+          return panel.open && active instanceof HTMLAnchorElement && new URL(active.href).pathname === "/patrons/";
+        })()""",
+    )
+    if not tabbed:
+        fail("Tab must progress from Quake's focused section link into its child links.")
+    evaluate(browser, 'Array.from(document.querySelectorAll("[data-quake-fallback] nav a[href]")).at(-1)?.focus()')
+    press_key(browser, "Tab", "Tab", 9)
+    if not evaluate(browser, 'Boolean(document.activeElement.closest("main"))'):
+        fail("Tab must continue past Quake navigation into the page rather than trapping focus.")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "Escape to dismiss Quake navigation")
+    escaped = evaluate(
+        browser,
+        """(() => ({
+          focus: document.activeElement === document.querySelector("[data-quake-toggle]"),
+          expanded: document.querySelector("[data-quake-toggle]")?.getAttribute("aria-expanded"),
+          header: document.querySelector("header")?.dataset.headerState
+        }))()""",
+    )
+    if escaped["focus"] is not True or escaped["expanded"] != "false" or escaped["header"] != "transparent":
+        fail(f"Escape must restore focus and the homepage header state after Quake; got {escaped}.")
+
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Quake to reopen")
+    outside = evaluate(
+        browser,
+        """(() => {
+          const panel = document.querySelector("[data-quake-fallback]").getBoundingClientRect();
+          return {x: Math.max(1, panel.left + 8), y: Math.min(innerHeight - 2, panel.bottom + 8)};
+        })()""",
+    )
+    click_at(browser, outside["x"], outside["y"])
+    wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "outside click to dismiss Quake")
+    if evaluate(browser, 'document.activeElement === document.querySelector("[data-quake-toggle]")'):
+        fail("Outside dismissal must not steal focus back to Menu.")
+
+
+def check_short_quake(browser: DevToolsSocket, origin: str) -> None:
+    browser.command("Page.navigate", {"url": origin + "/"})
+    wait_for_complete(browser, "/")
+    set_viewport(browser, 1440, 400)
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "short-viewport Quake panel")
+    metrics = evaluate(
+        browser,
+        """(() => {
+          const panel = document.querySelector("[data-quake-fallback]");
+          const style = getComputedStyle(panel);
+          return {
+            height: panel.getBoundingClientRect().height,
+            max: innerHeight * 0.6,
+            scrollable: panel.scrollHeight > panel.clientHeight && (style.overflowY === "auto" || style.overflowY === "scroll")
+          };
+        })()""",
+    )
+    if metrics["height"] > metrics["max"] + 1 or not metrics["scrollable"]:
+        fail(f"Quake must cap and internally scroll on a short display; got {metrics}.")
+
+
+def check_navigation_shortcuts(browser: DevToolsSocket, origin: str, width: int) -> None:
+    browser.command("Page.navigate", {"url": origin + "/"})
+    wait_for_complete(browser, "/")
+    set_viewport(browser, width, 844 if width == 390 else 1024)
+    press_key(browser, "`", "Backquote", 192, modifiers=2)
+    if width < 768:
+        wait_for(browser, 'document.querySelector("[data-drawer]")?.open', "Ctrl+` to open the mobile drawer")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-drawer]")?.open', "Ctrl+` to close the mobile drawer")
+    else:
+        wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Ctrl+` to open Quake navigation")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "Ctrl+` to close Quake navigation")
 def check_mobile_drawer(browser: DevToolsSocket) -> None:
     drawer = evaluate(
         browser,
@@ -221,20 +650,37 @@ def check_no_javascript(debug_url: str, origin: str) -> None:
         fallback = evaluate(
             browser,
             """(() => {
-              const details = document.querySelector('[data-drawer-fallback]');
-              const opener = document.querySelector('[data-drawer-open]');
-              const wordmark = document.querySelector('[data-wordmark]');
-              const fallback = document.querySelector('[data-wordmark-fallback]');
+              const details = document.querySelector("[data-quake-fallback]");
+              const opener = document.querySelector("[data-drawer-open]");
+              const wordmark = document.querySelector("[data-wordmark]");
+              const wordmarkFallback = document.querySelector("[data-wordmark-fallback]");
               return Boolean(
-                details && !details.hidden && getComputedStyle(details).display !== 'none' &&
-                details.querySelectorAll('a[href]').length > 0 && opener?.hidden &&
-                wordmark && !wordmark.dataset.wordmarkEnhanced && fallback &&
-                getComputedStyle(fallback).visibility !== 'hidden'
+                details && !details.hidden && !details.dataset.quakeEnhanced &&
+                getComputedStyle(details).display !== "none" && details.querySelectorAll("a[href]").length > 0 &&
+                opener?.hidden && wordmark && !wordmark.dataset.wordmarkEnhanced && wordmarkFallback &&
+                getComputedStyle(wordmarkFallback).visibility !== "hidden"
               );
             })()""",
         )
         if not fallback:
-            fail("Homepage must retain visible grouped mobile navigation when JavaScript is unavailable.")
+            fail("Without JavaScript, the visible native navigation disclosure must retain its real links and unenhanced controls.")
+        click_element(browser, "[data-quake-fallback] summary")
+        click_element(browser, '[data-quake-fallback] a[href="/foundation/"]')
+        wait_for_complete(browser, "/foundation/", "no-JavaScript Foundation navigation")
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", "homepage without JavaScript")
+        click_element(browser, '[data-spotlight-open][href="/search/"]')
+        wait_for_complete(browser, "/search/", "no-JavaScript full search route")
+        search_fallback = evaluate(
+            browser,
+            """(() => {
+              const fallback = document.querySelector("noscript .site-search__fallback");
+              return Boolean(fallback && fallback.querySelector('a[href="/foundation/"]') &&
+                fallback.querySelector('a[href="/new-releases/"]') && !document.querySelector("[data-spotlight]")?.open);
+            })()""",
+        )
+        if not search_fallback:
+            fail("The no-JavaScript search route must offer site-wide navigation fallback content.")
     finally:
         browser.close()
 
@@ -252,18 +698,240 @@ def check_reduced_motion(debug_url: str, origin: str) -> None:
         wordmark = evaluate(
             browser,
             """(() => {
-              const root = document.querySelector('[data-wordmark]');
-              const canvas = document.querySelector('[data-wordmark-canvas]');
-              const fallback = document.querySelector('[data-wordmark-fallback]');
+              const root = document.querySelector("[data-wordmark]");
+              const canvas = document.querySelector("[data-wordmark-canvas]");
+              const fallback = document.querySelector("[data-wordmark-fallback]");
               return Boolean(root && canvas && fallback && !root.dataset.wordmarkEnhanced &&
-                getComputedStyle(canvas).display === 'none' && getComputedStyle(fallback).visibility !== 'hidden');
+                getComputedStyle(canvas).display === "none" && getComputedStyle(fallback).visibility !== "hidden");
             })()""",
         )
         if not wordmark:
             fail("Reduced-motion homepage must keep the static Green wordmark and disable its canvas animation.")
+        set_viewport(browser, 1440, 900)
+        click_element(browser, "[data-quake-toggle]")
+        wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "reduced-motion Quake panel")
+        motion = evaluate(
+            browser,
+            """(() => {
+              const panel = document.querySelector("[data-quake-fallback]");
+              return {
+                state: panel.dataset.quakeState,
+                transform: getComputedStyle(panel).transform,
+                focused: document.activeElement === panel.querySelector("nav > section h2 > a")
+              };
+            })()""",
+        )
+        if motion["state"] != "open" or motion["transform"] != "none" or not motion["focused"]:
+            fail(f"Reduced motion must reveal the same Quake state without translated animation; got {motion}.")
+        press_key(browser, "Escape", "Escape", 27)
+        wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "reduced-motion Quake dismissal")
     finally:
         browser.close()
 
+
+def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: int) -> None:
+    browser.command("Page.navigate", {"url": origin + "/"})
+    wait_for_complete(browser, "/")
+    set_viewport(browser, width, height)
+    click_element(browser, "[data-spotlight-open]")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight to open")
+    blank = evaluate(
+        browser,
+        """(() => {
+          const dialog = document.querySelector("[data-spotlight]");
+          const input = dialog?.querySelector("input[name='q']");
+          const rect = dialog?.getBoundingClientRect();
+          return {
+            focused: document.activeElement === input,
+            blank: input?.value === "" && !dialog?.querySelector("[data-site-search-status]")?.textContent.trim() &&
+              dialog?.querySelectorAll("[data-search-result]").length === 0,
+            withinViewport: rect && rect.left >= 0 && rect.top >= 0 && rect.right <= innerWidth && rect.bottom <= innerHeight,
+            noOverflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1
+          };
+        })()""",
+    )
+    if not blank["focused"] or not blank["blank"] or not blank["withinViewport"] or not blank["noOverflow"]:
+        fail(f"Spotlight must open focused, blank, and within the viewport at {width}x{height}; got {blank}.")
+    for _ in range(4):
+        press_key(browser, "Tab", "Tab", 9)
+    if not evaluate(browser, 'document.querySelector("[data-spotlight]")?.contains(document.activeElement)'):
+        fail("Spotlight must retain keyboard focus within its native modal.")
+    click_element(browser, "[data-spotlight-close]")
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Spotlight close control")
+    if not evaluate(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")'):
+        fail("Closing Spotlight must restore focus to Search.")
+
+    click_element(browser, "[data-spotlight-open]")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight backdrop dismissal")
+    backdrop_point = evaluate(
+        browser,
+        """(() => {
+          const rect = document.querySelector("[data-spotlight]").getBoundingClientRect();
+          return {x: Math.max(1, rect.left - 2), y: Math.max(1, rect.top + 2)};
+        })()""",
+    )
+    click_at(browser, backdrop_point["x"], backdrop_point["y"])
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Spotlight backdrop dismissal")
+    if not evaluate(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")'):
+        fail("Clicking the Spotlight backdrop must restore focus to Search.")
+
+    press_key(browser, "k", "KeyK", 75, modifiers=2)
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Ctrl+K to open Spotlight")
+    if not evaluate(browser, 'document.activeElement === document.querySelector("[data-spotlight] input[name="q"]')'):
+        fail("Ctrl+K must move focus directly to Spotlight's query field.")
+    press_key(browser, "k", "KeyK", 75, modifiers=2)
+    if not evaluate(browser, 'document.querySelector("[data-spotlight]")?.open && document.activeElement === document.querySelector("[data-spotlight] input[name="q"]')'):
+        fail("Repeated Ctrl+K must focus the existing Spotlight rather than creating another state.")
+    press_key(browser, "`", "Backquote", 192, modifiers=2)
+    if evaluate(browser, 'document.querySelector("[data-quake-fallback]")?.open || document.querySelector("[data-drawer]")?.open'):
+        fail("Navigation shortcuts must be ignored while typing in Spotlight.")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Escape to dismiss Spotlight")
+    if not evaluate(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")'):
+        fail("Escape must restore Spotlight focus to Search.")
+
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Quake before Spotlight exclusivity check")
+    click_element(browser, "[data-spotlight-open]")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open && !document.querySelector("[data-quake-fallback]")?.open', "Spotlight to replace Quake")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Spotlight dismissal before reciprocal exclusivity check")
+    click_element(browser, "[data-spotlight-open]")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight before Quake exclusivity check")
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open && !document.querySelector("[data-spotlight]")?.open', "Quake to replace Spotlight")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "Quake dismissal before search")
+
+    click_element(browser, "[data-spotlight-open]")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight search")
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "f")
+    if not evaluate(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.trim() === "" && document.querySelector("[data-spotlight] [data-search-result]") === null'):
+        fail("Spotlight must remain quiet until a trimmed query reaches two characters.")
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "foundation")
+    wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.includes("result")', "real Pagefind Spotlight results")
+    groups = evaluate(
+        browser,
+        """(() => Array.from(document.querySelectorAll("[data-spotlight] .site-search__group"), group => ({
+          title: group.querySelector("h2")?.textContent.trim(),
+          count: group.querySelectorAll("[data-search-result]").length,
+          external: Array.from(group.querySelectorAll(".site-search__external"), item => item.textContent.trim())
+        })))()""",
+    )
+    if [group["title"] for group in groups] != ["Destinations", "Pages & News"] or groups[0]["count"] > 5 or groups[1]["count"] > 8:
+        fail(f"Spotlight must rank bounded destination results before bounded Pagefind results; got {groups}.")
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "manual")
+    wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.includes("result")', "Manual search results")
+    if not evaluate(browser, 'document.querySelector("[data-spotlight] .site-search__group [data-search-result]")?.parentElement.parentElement.querySelector(".site-search__external")?.textContent.trim() === "External"'):
+        fail("External curated destinations must identify that they leave the site.")
+
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "foundation")
+    wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent === "Searching…"', "an in-flight search")
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "zzqxv")
+    wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.includes("No results for “zzqxv”.")', "the newest no-results query")
+    latest = evaluate(
+        browser,
+        """(() => ({
+          value: document.querySelector("[data-spotlight] input[name='q']")?.value,
+          results: document.querySelectorAll("[data-spotlight] [data-search-result]").length
+        }))()""",
+    )
+    if latest != {"value": "zzqxv", "results": 0}:
+        fail(f"An older Spotlight search must never replace the current query's empty state; got {latest}.")
+
+    set_search_query(browser, '[data-spotlight] input[name="q"]', "foundation")
+    wait_for(browser, 'document.querySelector("[data-spotlight] [data-search-result]") !== null', "keyboard-search results")
+    press_key(browser, "ArrowDown", "ArrowDown", 40)
+    selected = evaluate(
+        browser,
+        """(() => {
+          const selected = document.querySelector("[data-spotlight] [data-search-result].is-active");
+          return selected && new URL(selected.href).pathname;
+        })()""",
+    )
+    if selected != "/foundation/":
+        fail(f"Arrow selection must begin with the first ranked destination; got {selected}.")
+    press_key(browser, "Enter", "Enter", 13)
+    wait_for_complete(browser, "/foundation/", "Enter on the selected Spotlight result")
+
+
+def check_full_search(debug_url: str, origin: str) -> None:
+    browser = open_page(debug_url, origin, "/search/?q=foundation")
+    try:
+        set_viewport(browser, 1440, 900)
+        browser.command("Page.navigate", {"url": origin + "/search/?q=foundation"})
+        wait_for_complete(browser, "/search/")
+        wait_for(browser, 'document.querySelector("[data-site-search] [data-site-search-status]")?.textContent.includes("result")', "full search Pagefind results")
+        full = evaluate(
+            browser,
+            """(() => ({
+              value: document.querySelector("[data-site-search] input[name='q']")?.value,
+              groups: Array.from(document.querySelectorAll("[data-site-search] .site-search__group"), group => ({
+                title: group.querySelector("h2")?.textContent.trim(),
+                count: group.querySelectorAll("[data-search-result]").length
+              }))
+            }))()""",
+        )
+        if full["value"] != "foundation" or [group["title"] for group in full["groups"]] != ["Destinations", "Pages & News"] or full["groups"][0]["count"] > 5 or full["groups"][1]["count"] > 8:
+            fail(f"The full search route must share Spotlight query and result rules; got {full}.")
+        set_search_query(browser, '[data-site-search] input[name="q"]', "zzqxv")
+        wait_for(browser, 'document.querySelector("[data-site-search] [data-site-search-status]")?.textContent.includes("No results for “zzqxv”.")', "full-search no-results state")
+    finally:
+        browser.close()
+
+
+def check_unavailable_search(debug_url: str, origin: str) -> None:
+    browser = open_page(debug_url, origin, "/search/")
+    try:
+        set_viewport(browser, 1440, 900)
+        browser.command("Network.enable")
+        browser.command("Network.setBlockedURLs", {"urls": ["*://127.0.0.1:*/pagefind/*"]})
+        browser.command("Page.navigate", {"url": origin + "/search/"})
+        wait_for_complete(browser, "/search/")
+        set_search_query(browser, '[data-site-search] input[name="q"]', "foundation")
+        wait_for(browser, 'document.querySelector("[data-site-search] [data-site-search-status]")?.textContent.trim() === "Search is unavailable."', "unavailable search state")
+        fallback = evaluate(
+            browser,
+            """(() => {
+              const fallback = document.querySelector("[data-site-search-fallback]");
+              return !fallback.hidden && Boolean(fallback.querySelector('a[href="/foundation/"]')) &&
+                Boolean(fallback.querySelector('a[href="/new-releases/"]')) && !fallback.textContent.toLocaleLowerCase().includes("news archive");
+            })()""",
+        )
+        if not fallback:
+            fail("Unavailable full search must expose site-wide fallback navigation rather than a News-only archive.")
+        click_element(browser, "[data-spotlight-open]")
+        wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "unavailable Spotlight")
+        set_search_query(browser, '[data-spotlight] input[name="q"]', "foundation")
+        wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.trim() === "Search is unavailable."', "unavailable Spotlight state")
+        if not evaluate(browser, 'document.querySelector("[data-spotlight] a[href="/search/"]") !== null'):
+            fail("Unavailable Spotlight must retain a path to the full site-wide search fallback.")
+    finally:
+        browser.close()
+
+
+def check_mobile_spotlight(browser: DevToolsSocket, origin: str) -> None:
+    browser.command("Page.navigate", {"url": origin + "/"})
+    wait_for_complete(browser, "/")
+    set_viewport(browser, 390, 844)
+    press_key(browser, "k", "KeyK", 75, modifiers=2)
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "mobile Ctrl+K Spotlight")
+    mobile = evaluate(
+        browser,
+        """(() => {
+          const dialog = document.querySelector("[data-spotlight]");
+          const rect = dialog.getBoundingClientRect();
+          return {
+            focused: document.activeElement === dialog.querySelector("input[name='q']"),
+            margins: rect.left >= 1 && rect.right <= innerWidth - 1,
+            noOverflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1
+          };
+        })()""",
+    )
+    if not mobile["focused"] or not mobile["margins"] or not mobile["noOverflow"]:
+        fail(f"Mobile Spotlight must fit within safe viewport margins without overflow; got {mobile}.")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "mobile Spotlight dismissal")
 
 def check_news(browser: DevToolsSocket) -> None:
     featured = evaluate(
@@ -341,26 +1009,63 @@ def run() -> None:
                     browser.command("Page.navigate", {"url": session.origin + route})
                     wait_for_complete(browser, route)
                     check_page_shell(browser, route, width, height, session.origin)
+                    check_route_semantics(browser, route)
                     if route == "/":
                         check_home_actions(browser)
                         check_home_scene(browser, width, height)
                         check_header_transition(browser)
+                        check_closed_responsive_header(browser, width)
                         if width == 390:
                             check_mobile_drawer(browser)
                     elif route == "/news/":
                         check_news(browser)
-                    elif route == "/desktop/":
-                        check_proof_media(browser, route, ".desktop-proof img", "the Desktop", session.origin)
                     elif route == "/workstations/":
                         check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", session.origin)
                 finally:
                     browser.close()
 
+        browser = session.open_page("/")
+        try:
+            set_viewport(browser, 1440, 900)
+            check_navigation_inventory(browser)
+            check_direct_navigation(browser, session.origin)
+            check_current_navigation(browser, session.origin)
+            check_desktop_quake(browser, session.origin)
+            check_spotlight(browser, session.origin, 1440, 900)
+        finally:
+            browser.close()
+
+        browser = session.open_page("/")
+        try:
+            set_viewport(browser, 1440, 900)
+            check_short_quake(browser, session.origin)
+            check_navigation_shortcuts(browser, session.origin, 1440)
+        finally:
+            browser.close()
+
+        browser = session.open_page("/")
+        try:
+            set_viewport(browser, 768, 1024)
+            check_closed_responsive_header(browser, 768)
+            check_navigation_shortcuts(browser, session.origin, 768)
+        finally:
+            browser.close()
+
+        browser = session.open_page("/")
+        try:
+            set_viewport(browser, 390, 844)
+            check_navigation_shortcuts(browser, session.origin, 390)
+            check_mobile_spotlight(browser, session.origin)
+        finally:
+            browser.close()
+
         check_news_partition(session.debug_url, session.origin)
         check_no_javascript(session.debug_url, session.origin)
         check_reduced_motion(session.debug_url, session.origin)
+        check_full_search(session.debug_url, session.origin)
+        check_unavailable_search(session.debug_url, session.origin)
 
-    print("Rendered Chromium route, media, navigation, pagination, motion, and viewport checks passed.")
+    print("Rendered Chromium route, media, navigation, search, pagination, motion, and viewport checks passed.")
 
 
 if __name__ == "__main__":
