@@ -1,6 +1,6 @@
 # Verify rendered laseretch behavior
 
-Status: ready-for-agent
+Status: resolved
 Type: task
 Blocked by: 01, 02, 03
 
@@ -15,3 +15,7 @@ Do not alter application code, styles, vendored assets, provenance, or the produ
 ## Acceptance
 
 The rendered-site verifier proves visitor-observable normal and fallback wordmark behavior while tolerating the random effect seed.
+
+## Answer
+
+Extended the rendered Chromium verifier with normal one-shot, lifecycle, no-JavaScript, reduced-motion, failed-load, and print wordmark scenarios.

@@ -753,11 +753,327 @@ def check_mobile_drawer(browser: DevToolsSocket) -> None:
         fail(f"Mobile drawer must move focus to Close and return it to Menu; got {drawer}.")
 
 
+def clear_wordmark_scenario(browser: DevToolsSocket) -> None:
+    browser.command("Network.enable")
+    browser.command("Network.setCacheDisabled", {"cacheDisabled": True})
+    browser.command("Network.clearBrowserCache")
+
+
+def install_wordmark_observers(browser: DevToolsSocket) -> None:
+    browser.command(
+        "Page.addScriptToEvaluateOnNewDocument",
+        {
+            "source": """(() => {
+              const evidence = {
+                errors: [],
+                initial: null,
+                terminalAt: null,
+                resources: []
+              };
+              window.__wordmarkBrowserEvidence = evidence;
+              addEventListener("error", event => {
+                evidence.errors.push(`error: ${event.message || event.error || "unknown"}`);
+              }, true);
+              addEventListener("unhandledrejection", event => {
+                evidence.errors.push(`unhandledrejection: ${event.reason || "unknown"}`);
+              });
+              new PerformanceObserver(entries => {
+                for (const entry of entries.getEntries()) evidence.resources.push(entry.name);
+              }).observe({type: "resource", buffered: true});
+              const capture = () => {
+                const root = document.querySelector("[data-wordmark]");
+                const fallback = root?.querySelector("[data-wordmark-fallback]");
+                if (!root || !fallback) return;
+                if (!evidence.initial) {
+                  const rect = fallback.getBoundingClientRect();
+                  evidence.initial = {
+                    state: root.getAttribute("data-wordmark-enhanced"),
+                    width: rect.width,
+                    height: rect.height
+                  };
+                }
+                if (root.hasAttribute("data-wordmark-enhanced") && evidence.terminalAt === null) {
+                  evidence.terminalAt = performance.now();
+                }
+              };
+              new MutationObserver(capture).observe(document, {
+                childList: true,
+                subtree: true,
+                attributes: true,
+                attributeFilter: ["data-wordmark-enhanced"]
+              });
+              addEventListener("DOMContentLoaded", capture, {once: true});
+              requestAnimationFrame(capture);
+            })()""",
+        },
+    )
+
+
+def wordmark_snapshot(browser: DevToolsSocket, include_pixels: bool = False) -> dict:
+    return evaluate(
+        browser,
+        f"""(() => {{
+          const root = document.querySelector("[data-wordmark]");
+          const canvas = root?.querySelector("[data-wordmark-canvas]");
+          const fallback = root?.querySelector("[data-wordmark-fallback]");
+          const rectangle = element => {{
+            const rect = element.getBoundingClientRect();
+            return {{left: rect.left, top: rect.top, width: rect.width, height: rect.height}};
+          }};
+          const style = element => {{
+            const computed = getComputedStyle(element);
+            return {{display: computed.display, visibility: computed.visibility, color: computed.color}};
+          }};
+          const probe = document.createElement("span");
+          probe.style.color = "var(--omarchy-green)";
+          root?.append(probe);
+          const green = root ? getComputedStyle(probe).color : null;
+          probe.remove();
+          const pixels = {str(include_pixels).lower()} && canvas?.width && canvas?.height
+            ? (() => {{
+                const context = canvas.getContext("2d");
+                const samples = [];
+                for (let y = 1; y < 12; y += 1) {{
+                  for (let x = 1; x < 12; x += 1) {{
+                    const point = context.getImageData(
+                      Math.min(canvas.width - 1, Math.floor(canvas.width * x / 12)),
+                      Math.min(canvas.height - 1, Math.floor(canvas.height * y / 12)),
+                      1,
+                      1
+                    ).data;
+                    samples.push(...point);
+                  }}
+                }}
+                return samples;
+              }})()
+            : [];
+          return {{
+            root: Boolean(root),
+            state: root?.getAttribute("data-wordmark-enhanced") ?? null,
+            fallback: fallback ? {{rect: rectangle(fallback), ...style(fallback)}} : null,
+            canvas: canvas ? {{
+              rect: rectangle(canvas),
+              ...style(canvas),
+              width: canvas.width,
+              height: canvas.height,
+              pixels
+            }} : null,
+            green,
+            scrollWidth: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
+            clientWidth: document.documentElement.clientWidth,
+            evidence: window.__wordmarkBrowserEvidence ?? null
+          }};
+        }})()""",
+    )
+
+
+def assert_static_wordmark(snapshot: dict, description: str, expected_state: str | None) -> None:
+    fallback = snapshot["fallback"]
+    canvas = snapshot["canvas"]
+    if (
+        not snapshot["root"]
+        or snapshot["state"] != expected_state
+        or fallback is None
+        or canvas is None
+        or fallback["rect"]["width"] <= 0
+        or fallback["rect"]["height"] <= 0
+        or fallback["display"] == "none"
+        or fallback["visibility"] == "hidden"
+        or fallback["color"] != snapshot["green"]
+        or canvas["display"] != "none"
+    ):
+        fail(f"{description} must show the Green static wordmark and no Canvas output; got {snapshot}.")
+
+
+def assert_matching_wordmark_bounds(snapshot: dict, description: str) -> None:
+    fallback = snapshot["fallback"]
+    canvas = snapshot["canvas"]
+    if (
+        not snapshot["root"]
+        or snapshot["state"] != "true"
+        or fallback is None
+        or canvas is None
+        or canvas["display"] == "none"
+        or fallback["rect"]["width"] <= 0
+        or fallback["rect"]["height"] <= 0
+        or canvas["rect"]["width"] <= 0
+        or canvas["rect"]["height"] <= 0
+        or any(
+            abs(fallback["rect"][side] - canvas["rect"][side]) > 1
+            for side in ("left", "top", "width", "height")
+        )
+        or snapshot["scrollWidth"] > snapshot["clientWidth"] + 1
+    ):
+        fail(f"{description} must retain matching fallback and enhanced Canvas bounds without overflow; got {snapshot}.")
+
+
+def assert_no_page_errors(snapshot: dict, description: str) -> None:
+    errors = snapshot["evidence"]["errors"] if snapshot["evidence"] else []
+    if errors:
+        fail(f"{description} must not report uncaught errors or unhandled rejections; got {errors}.")
+
+
+def sample_wordmark_playback(browser: DevToolsSocket) -> dict:
+    return evaluate(
+        browser,
+        """new Promise(resolve => {
+          const canvas = document.querySelector("[data-wordmark-canvas]");
+          const context = canvas?.getContext("2d");
+          if (!canvas || !context || !canvas.width || !canvas.height) {
+            return resolve({changed: false, stable: false, pixels: []});
+          }
+          const sample = () => {
+            const pixels = [];
+            for (let y = 1; y < 12; y += 1) {
+              for (let x = 1; x < 12; x += 1) {
+                pixels.push(...context.getImageData(
+                  Math.min(canvas.width - 1, Math.floor(canvas.width * x / 12)),
+                  Math.min(canvas.height - 1, Math.floor(canvas.height * y / 12)),
+                  1,
+                  1
+                ).data);
+              }
+            }
+            return pixels;
+          };
+          const differs = (before, after) => before.some((value, index) => value !== after[index]);
+          const deadline = performance.now() + 12000;
+          let previous = sample();
+          let changed = false;
+          let stableFrames = 0;
+          const observe = () => {
+            const current = sample();
+            if (differs(previous, current)) {
+              changed = true;
+              stableFrames = 0;
+            } else if (changed) {
+              stableFrames += 1;
+            }
+            previous = current;
+            if ((changed && stableFrames >= 12) || performance.now() >= deadline) {
+              return resolve({changed, stable: changed && stableFrames >= 12, pixels: current});
+            }
+            requestAnimationFrame(observe);
+          };
+          requestAnimationFrame(observe);
+        })""",
+    )
+
+
+def wait_for_animation_frames(browser: DevToolsSocket) -> None:
+    evaluate(
+        browser,
+        """new Promise(resolve => {
+          let remaining = 3;
+          const frame = () => --remaining ? requestAnimationFrame(frame) : resolve();
+          requestAnimationFrame(frame);
+        })""",
+    )
+
+
+def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, width, height)
+        install_wordmark_observers(browser)
+        clear_wordmark_scenario(browser)
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", f"homepage wordmark at {width}x{height}")
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "true"',
+            f"enhanced wordmark at {width}x{height}",
+        )
+        snapshot = wordmark_snapshot(browser)
+        initial = snapshot["evidence"]["initial"] if snapshot["evidence"] else None
+        if not initial or initial["state"] is not None or initial["width"] <= 0 or initial["height"] <= 0:
+            fail(f"Wordmark at {width}x{height} must establish its static fallback layout before enhancement; got {initial}.")
+        assert_matching_wordmark_bounds(snapshot, f"Wordmark at {width}x{height}")
+        playback = sample_wordmark_playback(browser)
+        if not playback["changed"] or not playback["stable"]:
+            fail(f"Wordmark at {width}x{height} must change pixels during playback then hold a final frame; got {playback}.")
+
+        evaluate(
+            browser,
+            """new Promise(resolve => {
+              window.scrollTo(0, document.documentElement.scrollHeight);
+              setTimeout(() => {
+                window.scrollTo(0, 0);
+                setTimeout(resolve, 150);
+              }, 150);
+            })""",
+        )
+        set_viewport(browser, width + 1, height)
+        wait_for_animation_frames(browser)
+        set_viewport(browser, width, height)
+        wait_for_animation_frames(browser)
+        try:
+            browser.command("Emulation.setPageVisibilityState", {"visibilityState": "hidden"})
+            browser.command("Emulation.setPageVisibilityState", {"visibilityState": "visible"})
+        except BrowserError:
+            pass
+        wait_for_animation_frames(browser)
+        after_lifecycle = wordmark_snapshot(browser, include_pixels=True)
+        if after_lifecycle["canvas"]["pixels"] != playback["pixels"]:
+            fail(f"Wordmark at {width}x{height} must not restart after scroll, resize, or visibility changes.")
+        assert_matching_wordmark_bounds(after_lifecycle, f"Wordmark at {width}x{height} after lifecycle changes")
+        assert_no_page_errors(after_lifecycle, f"Wordmark at {width}x{height}")
+    finally:
+        browser.close()
+
+
+def check_wordmark_load_failure(debug_url: str, origin: str, blocked_url: str, description: str) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, 390, 844)
+        install_wordmark_observers(browser)
+        clear_wordmark_scenario(browser)
+        browser.command("Network.setBlockedURLs", {"urls": [blocked_url]})
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", description)
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+            f"static wordmark after {description}",
+        )
+        snapshot = wordmark_snapshot(browser)
+        terminal_at = snapshot["evidence"]["terminalAt"] if snapshot["evidence"] else None
+        if terminal_at is None or terminal_at > 2000:
+            fail(f"{description} must recover to the static wordmark within two seconds; got {terminal_at}ms.")
+        assert_static_wordmark(snapshot, description, "false")
+        assert_no_page_errors(snapshot, description)
+    finally:
+        browser.close()
+
+
+def check_print_wordmark(debug_url: str, origin: str) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, 768, 1024)
+        install_wordmark_observers(browser)
+        clear_wordmark_scenario(browser)
+        browser.command("Emulation.setEmulatedMedia", {"media": "print"})
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", "printed homepage")
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+            "static printed wordmark",
+        )
+        snapshot = wordmark_snapshot(browser)
+        assert_static_wordmark(snapshot, "Printed homepage", "false")
+        if snapshot["canvas"]["width"] or snapshot["canvas"]["height"]:
+            fail(f"Printed homepage must have no Canvas output; got {snapshot['canvas']}.")
+        assert_no_page_errors(snapshot, "Printed homepage")
+    finally:
+        browser.close()
+
+
 def check_no_javascript(debug_url: str, origin: str) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 390, 844)
-        browser.command("Network.enable")
+        clear_wordmark_scenario(browser)
         browser.command("Network.setBlockedURLs", {"urls": ["*://127.0.0.1:*/*.js"]})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "homepage without JavaScript")
@@ -766,18 +1082,16 @@ def check_no_javascript(debug_url: str, origin: str) -> None:
             """(() => {
               const details = document.querySelector("[data-quake-fallback]");
               const opener = document.querySelector("[data-drawer-open]");
-              const wordmark = document.querySelector("[data-wordmark]");
-              const wordmarkFallback = document.querySelector("[data-wordmark-fallback]");
               return Boolean(
                 details && !details.hidden && !details.dataset.quakeEnhanced &&
                 getComputedStyle(details).display !== "none" && details.querySelectorAll("a[href]").length > 0 &&
-                opener?.hidden && wordmark && !wordmark.dataset.wordmarkEnhanced && wordmarkFallback &&
-                getComputedStyle(wordmarkFallback).visibility !== "hidden"
+                opener?.hidden
               );
             })()""",
         )
         if not fallback:
             fail("Without JavaScript, the visible native navigation disclosure must retain its real links and unenhanced controls.")
+        assert_static_wordmark(wordmark_snapshot(browser), "Homepage without JavaScript", None)
         click_element(browser, "[data-quake-fallback] summary")
         click_element(browser, '[data-quake-fallback] a[href="/foundation/"]')
         wait_for_complete(browser, "/foundation/", "no-JavaScript Foundation navigation")
@@ -803,24 +1117,24 @@ def check_reduced_motion(debug_url: str, origin: str) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 390, 844)
+        install_wordmark_observers(browser)
+        clear_wordmark_scenario(browser)
         browser.command(
             "Emulation.setEmulatedMedia",
             {"features": [{"name": "prefers-reduced-motion", "value": "reduce"}]},
         )
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "homepage with reduced motion")
-        wordmark = evaluate(
+        wait_for(
             browser,
-            """(() => {
-              const root = document.querySelector("[data-wordmark]");
-              const canvas = document.querySelector("[data-wordmark-canvas]");
-              const fallback = document.querySelector("[data-wordmark-fallback]");
-              return Boolean(root && canvas && fallback && !root.dataset.wordmarkEnhanced &&
-                getComputedStyle(canvas).display === "none" && getComputedStyle(fallback).visibility !== "hidden");
-            })()""",
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+            "static reduced-motion wordmark",
         )
-        if not wordmark:
-            fail("Reduced-motion homepage must keep the static Green wordmark and disable its canvas animation.")
+        wordmark = wordmark_snapshot(browser)
+        assert_static_wordmark(wordmark, "Reduced-motion homepage", "false")
+        if any("/assets/js/wte/" in resource for resource in wordmark["evidence"]["resources"]):
+            fail(f"Reduced-motion homepage must not request the WTE runtime; got {wordmark['evidence']['resources']}.")
+        assert_no_page_errors(wordmark, "Reduced-motion homepage")
         set_viewport(browser, 1440, 900)
         click_element(browser, "[data-quake-toggle]")
         wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "reduced-motion Quake panel")
@@ -1195,6 +1509,22 @@ def run() -> None:
             check_mobile_spotlight(browser, session.origin)
         finally:
             browser.close()
+
+        for width, height in VIEWPORTS:
+            check_normal_wordmark(session.debug_url, session.origin, width, height)
+        check_wordmark_load_failure(
+            session.debug_url,
+            session.origin,
+            "*/assets/js/wte/laseretch.wasm",
+            "blocked laseretch WebAssembly",
+        )
+        check_wordmark_load_failure(
+            session.debug_url,
+            session.origin,
+            "*/assets/js/wte/assets/playback-*.js",
+            "blocked WTE playback module",
+        )
+        check_print_wordmark(session.debug_url, session.origin)
 
         check_news_partition(session.debug_url, session.origin)
         check_no_javascript(session.debug_url, session.origin)
