@@ -12,11 +12,10 @@ products:
 project_areas:
   items: [plugins]
 image:
-  src: /assets/images/news-winners-illustration.svg
-  alt: Illustrative graphic with an abstract three-step podium for the plugin competition winners; not event photography or product screenshots.
-  width: 1200
-  height: 675
-  illustrative: true
+  src: /assets/images/news/radio-atlas-preview-1180w.webp
+  alt: Radio Atlas plugin showing a world radio map beside a station list.
+  width: 1180
+  height: 760
   loading: eager
   fetchpriority: high
 ---
