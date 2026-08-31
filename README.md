@@ -28,7 +28,7 @@ Every file below `assets/images/` must have a checksum, intrinsic dimensions, pr
 
 The local favicon and OpenGraph artwork are approved first-party assets published on omarchy.org and recorded in the asset manifest. The OpenGraph artwork is the site-wide OpenGraph and Twitter fallback; individual page images may replace it only with another cleared local asset.
 
-The current release gate intentionally remains blocked until the featured Plugin Competition Winners article has a cleared, real local lead image. Its branded fallback is not treated as factual lead media.
+The release gate requires the configured Plugin Competition Winners feature to retain its cleared, real local Radio Atlas lead image and truthful alternative text.
 
 ## Deployment
 

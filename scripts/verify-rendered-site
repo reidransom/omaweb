@@ -1,32 +1,22 @@
 #!/usr/bin/env python3
-"""Browser acceptance checks for the built site.
-
-This deliberately uses Chromium's DevTools protocol directly so the production
-verification seam has no additional test-runner dependency.
-"""
+"""Browser acceptance checks for the built site."""
 
 from __future__ import annotations
 
-import base64
-import functools
-import hashlib
-import http.server
 import json
-import os
-import secrets
-import shutil
-import socket
-import struct
-import subprocess
-import signal
 import sys
-import tempfile
-import threading
-import time
 import urllib.parse
-import urllib.request
 from pathlib import Path
 
+from support.browser import (
+    BrowserError,
+    ChromiumSession,
+    DevToolsSocket,
+    evaluate,
+    open_page,
+    set_viewport,
+    wait_for_complete,
+)
 SITE = Path("_site").resolve()
 VIEWPORTS = ((390, 844), (768, 1024), (1440, 900))
 ROUTES = (
@@ -40,11 +30,11 @@ ROUTES = (
     "/teams/",
     "/meetups/",
 )
-HOME_ACTIONS = {
-    "The Manual": "https://omarchy.org/manual/",
-    "The ISO": "https://iso.omarchy.org/omarchy-4.0.1.iso",
-    "The Plugins": "https://omarchyplugins.com/",
-    "The Code": "https://github.com/omacom/omarchy",
+HOME_ACTION_DESTINATIONS = {
+    "The Manual": "manual",
+    "The ISO": "iso",
+    "The Plugins": "plugins",
+    "The Code": "code",
 }
 
 
@@ -54,161 +44,28 @@ class VerificationError(RuntimeError):
 
 def fail(message: str) -> None:
     raise VerificationError(message)
+def canonical_destinations() -> dict[str, str]:
+    destinations: dict[str, str] = {}
+    slug: str | None = None
+    for line in Path("_data/destinations.yml").read_text().splitlines():
+        if line.startswith("  - slug: "):
+            slug = line.removeprefix("  - slug: ").strip()
+        elif slug and line.startswith("    url: "):
+            destinations[slug] = line.removeprefix("    url: ").strip()
+    return destinations
 
 
-class QuietFileServer(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, *_: object) -> None:
-        pass
+def home_actions() -> dict[str, str]:
+    destinations = canonical_destinations()
+    actions: dict[str, str] = {}
+    for label, slug in HOME_ACTION_DESTINATIONS.items():
+        url = destinations.get(slug)
+        if not url:
+            fail(f"Canonical destination is missing homepage action {slug}.")
+        actions[label] = url
+    return actions
 
 
-class DevToolsSocket:
-    def __init__(self, websocket_url: str) -> None:
-        parsed = urllib.parse.urlsplit(websocket_url)
-        self.socket = socket.create_connection((parsed.hostname, parsed.port), timeout=10)
-        self.socket.settimeout(15)
-        key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
-        path = parsed.path + (f"?{parsed.query}" if parsed.query else "")
-        request = (
-            f"GET {path} HTTP/1.1\r\n"
-            f"Host: {parsed.hostname}:{parsed.port}\r\n"
-            "Upgrade: websocket\r\n"
-            "Connection: Upgrade\r\n"
-            f"Sec-WebSocket-Key: {key}\r\n"
-            "Sec-WebSocket-Version: 13\r\n\r\n"
-        ).encode("ascii")
-        self.socket.sendall(request)
-        response = self._read_headers()
-        expected = base64.b64encode(
-            hashlib.sha1((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").encode("ascii")).digest()
-        ).decode("ascii")
-        if "101" not in response.split("\r\n", 1)[0] or f"sec-websocket-accept: {expected}".lower() not in response.lower():
-            fail("Chromium DevTools WebSocket handshake failed.")
-        self.next_id = 0
-
-    def _read_headers(self) -> str:
-        data = bytearray()
-        while b"\r\n\r\n" not in data:
-            chunk = self.socket.recv(1)
-            if not chunk:
-                fail("Chromium closed the DevTools connection during handshake.")
-            data.extend(chunk)
-        return data.decode("iso-8859-1")
-
-    def _read_exact(self, length: int) -> bytes:
-        chunks = bytearray()
-        while len(chunks) < length:
-            chunk = self.socket.recv(length - len(chunks))
-            if not chunk:
-                fail("Chromium closed the DevTools connection.")
-            chunks.extend(chunk)
-        return bytes(chunks)
-
-    def _send_frame(self, opcode: int, payload: bytes) -> None:
-        mask = secrets.token_bytes(4)
-        length = len(payload)
-        if length < 126:
-            header = bytes((0x80 | opcode, 0x80 | length))
-        elif length < 65536:
-            header = bytes((0x80 | opcode, 0x80 | 126)) + struct.pack("!H", length)
-        else:
-            header = bytes((0x80 | opcode, 0x80 | 127)) + struct.pack("!Q", length)
-        masked = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))
-        self.socket.sendall(header + mask + masked)
-
-    def _receive_frame(self) -> tuple[int, bytes]:
-        first, second = self._read_exact(2)
-        opcode = first & 0x0F
-        masked = bool(second & 0x80)
-        length = second & 0x7F
-        if length == 126:
-            length = struct.unpack("!H", self._read_exact(2))[0]
-        elif length == 127:
-            length = struct.unpack("!Q", self._read_exact(8))[0]
-        mask = self._read_exact(4) if masked else b""
-        payload = self._read_exact(length)
-        if masked:
-            payload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))
-        return opcode, payload
-
-    def command(self, method: str, params: dict | None = None) -> dict:
-        self.next_id += 1
-        message_id = self.next_id
-        payload = {"id": message_id, "method": method}
-        if params:
-            payload["params"] = params
-        self._send_frame(1, json.dumps(payload, separators=(",", ":")).encode("utf-8"))
-        fragments: list[bytes] = []
-        while True:
-            opcode, message = self._receive_frame()
-            if opcode == 8:
-                fail("Chromium closed the DevTools connection before responding.")
-            if opcode == 9:
-                self._send_frame(10, message)
-                continue
-            if opcode == 1:
-                fragments = [message]
-            elif opcode == 0:
-                fragments.append(message)
-            else:
-                continue
-            try:
-                response = json.loads(b"".join(fragments))
-            except json.JSONDecodeError:
-                continue
-            if response.get("id") != message_id:
-                continue
-            if "error" in response:
-                fail(f"Chromium command {method} failed: {response['error'].get('message', response['error'])}")
-            return response.get("result", {})
-
-    def close(self) -> None:
-        try:
-            self._send_frame(8, b"")
-        finally:
-            self.socket.close()
-
-
-def http_json(url: str, method: str = "GET") -> dict:
-    request = urllib.request.Request(url, method=method)
-    with urllib.request.urlopen(request, timeout=2) as response:
-        return json.load(response)
-
-
-def evaluate(browser: DevToolsSocket, expression: str) -> object:
-    result = browser.command(
-        "Runtime.evaluate",
-        {"expression": expression, "awaitPromise": True, "returnByValue": True},
-    )
-    if "exceptionDetails" in result:
-        fail(f"Browser evaluation failed: {result['exceptionDetails'].get('text', 'unknown exception')}")
-    return result.get("result", {}).get("value")
-
-
-def wait_for_complete(browser: DevToolsSocket, route: str, label: str | None = None) -> None:
-    deadline = time.monotonic() + 15
-    while time.monotonic() < deadline:
-        if evaluate(browser, "[document.readyState, location.pathname]") == ["complete", route]:
-            time.sleep(0.15)
-            return
-        time.sleep(0.05)
-    fail(f"Timed out rendering {label or route} in Chromium.")
-
-
-def open_page(debug_url: str, origin: str, route: str) -> DevToolsSocket:
-    target_url = origin + route
-    endpoint = debug_url + "/json/new?" + urllib.parse.quote(target_url, safe=":/?=&")
-    try:
-        target = http_json(endpoint, method="PUT")
-    except Exception as error:
-        fail(f"Could not open {route} in Chromium: {error}")
-    return DevToolsSocket(target["webSocketDebuggerUrl"])
-
-
-def set_viewport(browser: DevToolsSocket, width: int, height: int) -> None:
-    browser.command(
-        "Emulation.setDeviceMetricsOverride",
-        {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": False},
-    )
 
 
 def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: int, origin: str) -> None:
@@ -266,8 +123,9 @@ def check_home_actions(browser: DevToolsSocket) -> None:
           link => [link.querySelector('h3')?.textContent.trim(), link.href]
         )))()""",
     )
-    if actions != HOME_ACTIONS:
-        fail(f"Homepage authoritative actions are incomplete or wrong: expected {HOME_ACTIONS}, got {actions}.")
+    expected_actions = home_actions()
+    if actions != expected_actions:
+        fail(f"Homepage authoritative actions are incomplete or wrong: expected {expected_actions}, got {actions}.")
 
 
 def check_home_scene(browser: DevToolsSocket, width: int, height: int) -> None:
@@ -473,61 +331,16 @@ def check_proof_media(browser: DevToolsSocket, route: str, selector: str, descri
 def run() -> None:
     if not SITE.is_dir():
         fail("Missing _site; build the rendered site before browser acceptance verification.")
-    chromium = shutil.which("chromium") or shutil.which("chromium-browser") or shutil.which("google-chrome")
-    if not chromium:
-        fail("Missing Chromium; install chromium to run rendered-site acceptance checks.")
 
-    server = http.server.ThreadingHTTPServer(
-        ("127.0.0.1", 0),
-        functools.partial(QuietFileServer, directory=str(SITE)),
-    )
-    thread = threading.Thread(target=server.serve_forever, daemon=True)
-    thread.start()
-    origin = f"http://127.0.0.1:{server.server_port}"
-
-    with socket.socket() as port_socket:
-        port_socket.bind(("127.0.0.1", 0))
-        debug_port = port_socket.getsockname()[1]
-    profile = tempfile.TemporaryDirectory(prefix="omaweb-chromium-")
-    process = subprocess.Popen(
-        [
-            chromium,
-            "--headless=new",
-            f"--remote-debugging-port={debug_port}",
-            "--remote-debugging-address=127.0.0.1",
-            f"--user-data-dir={profile.name}",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--disable-background-networking",
-            "--disable-component-update",
-            "--disable-sync",
-            "--metrics-recording-only",
-            "about:blank",
-        ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        start_new_session=True,
-    )
-    debug_url = f"http://127.0.0.1:{debug_port}"
-    try:
-        deadline = time.monotonic() + 15
-        while True:
-            try:
-                http_json(debug_url + "/json/version")
-                break
-            except Exception:
-                if time.monotonic() >= deadline:
-                    fail("Chromium did not expose its DevTools endpoint within 15 seconds.")
-                time.sleep(0.05)
-
+    with ChromiumSession(SITE) as session:
         for width, height in VIEWPORTS:
             for route in ROUTES:
-                browser = open_page(debug_url, origin, route)
+                browser = session.open_page(route)
                 try:
                     set_viewport(browser, width, height)
-                    browser.command("Page.navigate", {"url": origin + route})
+                    browser.command("Page.navigate", {"url": session.origin + route})
                     wait_for_complete(browser, route)
-                    check_page_shell(browser, route, width, height, origin)
+                    check_page_shell(browser, route, width, height, session.origin)
                     if route == "/":
                         check_home_actions(browser)
                         check_home_scene(browser, width, height)
@@ -537,29 +350,15 @@ def run() -> None:
                     elif route == "/news/":
                         check_news(browser)
                     elif route == "/desktop/":
-                        check_proof_media(browser, route, ".desktop-proof img", "the Desktop", origin)
+                        check_proof_media(browser, route, ".desktop-proof img", "the Desktop", session.origin)
                     elif route == "/workstations/":
-                        check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", origin)
+                        check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", session.origin)
                 finally:
                     browser.close()
 
-        check_news_partition(debug_url, origin)
-        check_no_javascript(debug_url, origin)
-        check_reduced_motion(debug_url, origin)
-    finally:
-        try:
-            os.killpg(process.pid, signal.SIGTERM)
-        except ProcessLookupError:
-            pass
-        if process.poll() is None:
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                os.killpg(process.pid, signal.SIGKILL)
-                process.wait(timeout=5)
-        profile.cleanup()
-        server.shutdown()
-        server.server_close()
+        check_news_partition(session.debug_url, session.origin)
+        check_no_javascript(session.debug_url, session.origin)
+        check_reduced_motion(session.debug_url, session.origin)
 
     print("Rendered Chromium route, media, navigation, pagination, motion, and viewport checks passed.")
 
@@ -567,6 +366,6 @@ def run() -> None:
 if __name__ == "__main__":
     try:
         run()
-    except VerificationError as error:
+    except (VerificationError, BrowserError) as error:
         print(f"Rendered-site acceptance failed: {error}", file=sys.stderr)
         sys.exit(1)

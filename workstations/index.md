@@ -5,6 +5,7 @@ description: A community gallery for cleared Omarchy workstation photographs and
 permalink: /workstations/
 nav_group: hardware
 archetype: project
+product: workstations
 markdown: false
 ---
 <section class="prose" aria-labelledby="workstations-intro-title">

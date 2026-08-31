@@ -12,12 +12,24 @@ products:
 project_areas:
   items: [plugins]
 image:
-  src: /assets/images/news/radio-atlas-preview-1180w.webp
+  src: /assets/images/news/radio-atlas-preview-1152w.webp
   alt: Radio Atlas plugin showing a world radio map beside a station list.
-  width: 1180
-  height: 760
+  width: 1152
+  height: 648
   loading: eager
   fetchpriority: high
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/radio-atlas-preview-480w.webp
+              width: 480
+            - src: /assets/images/news/radio-atlas-preview-768w.webp
+              width: 768
+            - src: /assets/images/news/radio-atlas-preview-1152w.webp
+              width: 1152
 ---
 
 The votes are in! [Omarchy Core](/teams/) went through the submissions, voted, and we have a podium for [the first plugin competition](/news/2026/08/the-first-plugin-competition/).

@@ -56,6 +56,14 @@ require_file _includes/head.html
 require_file _includes/seo.html
 require_file assets/images/opengraph.png
 require_file assets/images/favicon.png
+require_file _data/project_areas.yml
+require_file _data/products.yml
+
+for product in $(awk '/^[[:space:]]+product: / { print $2 }' _data/project_areas.yml); do
+  matches=$(awk -v product="$product" '$1 == "-" && $2 == "slug:" && $3 == product { count++ } END { print count + 0 }' _data/products.yml)
+  [ "$matches" -eq 1 ] || fail "Project area product must resolve exactly once to a canonical product: $product"
+done
+
 
 grep -Fq 'social_image: /assets/images/opengraph.png' _config.yml ||
   fail 'Site configuration must use the approved local OpenGraph artwork.'

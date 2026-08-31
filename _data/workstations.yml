@@ -6,7 +6,7 @@ items:
     media:
       src: /assets/images/workstations/pleum-p1554011-1600w.webp
       width: 1600
-      height: 1067
+      height: 900
       alt: A black cat lies beside a mechanical keyboard in front of an Omarchy wordmark on a monitor; headphones and a desk lamp frame the workspace.
       loading: lazy
       decoding: async

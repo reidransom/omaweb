@@ -28,9 +28,11 @@ require_command() {
 }
 
 require_command magick
-require_command woff2_compress
+require_command node
 require_command cmp
 require_command mktemp
+require_command find
+require_command sort
 
 export MAGICK_THREAD_LIMIT=1
 
@@ -39,17 +41,23 @@ news_preview_source=__docs/images/news/radio-atlas-preview.webp
 desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
 pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
 sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
-font_subset_directory=__docs/fonts/jetbrains-mono-2.304/subsets
+font_source_directory=__docs/fonts/jetbrains-mono-2.304
+responsive_widths='480 768 1200 1600'
+news_responsive_widths='480 768 1152'
 
-[ -f "$hero_source" ] || fail "Missing approved source: $hero_source"
-[ -f "$news_preview_source" ] || fail "Missing approved source: $news_preview_source"
-[ -f "$desktop_preview_source" ] || fail "Missing approved source: $desktop_preview_source"
-[ -f "$pleum_workstation_source" ] || fail "Missing approved source: $pleum_workstation_source"
-[ -f "$sspaeti_workstation_source" ] || fail "Missing approved source: $sspaeti_workstation_source"
-[ -f "$font_subset_directory/JetBrainsMono-Light.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Light.ttf"
-[ -f "$font_subset_directory/JetBrainsMono-LightItalic.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-LightItalic.ttf"
-[ -f "$font_subset_directory/JetBrainsMono-Medium.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Medium.ttf"
-[ -f "$font_subset_directory/JetBrainsMono-Bold.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Bold.ttf"
+for source in \
+  "$hero_source" \
+  "$news_preview_source" \
+  "$desktop_preview_source" \
+  "$pleum_workstation_source" \
+  "$sspaeti_workstation_source" \
+  "$font_source_directory/JetBrainsMono-Light.ttf" \
+  "$font_source_directory/JetBrainsMono-LightItalic.ttf" \
+  "$font_source_directory/JetBrainsMono-Medium.ttf" \
+  "$font_source_directory/JetBrainsMono-Bold.ttf"
+do
+  [ -f "$source" ] || fail "Missing approved source: $source"
+done
 
 output_paths='
 assets/images/hero/winding-road-480w.webp
@@ -59,7 +67,9 @@ assets/images/hero/winding-road-1600w.webp
 assets/images/hero/winding-road-portrait-480w.webp
 assets/images/hero/winding-road-portrait-768w.webp
 assets/images/hero/winding-road-portrait-1200w.webp
-assets/images/news/radio-atlas-preview-1180w.webp
+assets/images/news/radio-atlas-preview-480w.webp
+assets/images/news/radio-atlas-preview-768w.webp
+assets/images/news/radio-atlas-preview-1152w.webp
 assets/images/desktop/tokyo-night-preview-480w.webp
 assets/images/desktop/tokyo-night-preview-768w.webp
 assets/images/desktop/tokyo-night-preview-1200w.webp
@@ -114,45 +124,42 @@ render_portrait() {
     -define webp:thread-level=0 \
     "$output"
 }
-render_news_preview() {
-  output=$1
-
-  magick "$news_preview_source" \
-    -auto-orient \
-    -colorspace sRGB \
-    -strip \
-    -resize 1180x \
-    -quality 82 \
-    -define webp:method=6 \
-    -define webp:thread-level=0 \
-    "$output"
-}
-
 
 render_responsive_image() {
   source=$1
   width=$2
   output=$3
+  height=$((width * 9 / 16))
 
   magick "$source" \
     -auto-orient \
     -colorspace sRGB \
     -strip \
-    -resize "${width}x" \
+    -resize "${width}x${height}^" \
+    -gravity center \
+    -extent "${width}x${height}" \
     -quality 82 \
     -define webp:method=6 \
     -define webp:thread-level=0 \
     "$output"
 }
 
-compress_font() {
+render_responsive_family() {
+  source=$1
+  directory=$2
+  basename=$3
+  widths=$4
+
+  for width in $widths; do
+    render_responsive_image "$source" "$width" "$directory/${basename}-${width}w.webp"
+  done
+}
+
+subset_font() {
   source=$1
   output=$2
-  temporary_ttf="${output%.woff2}.ttf"
 
-  cp "$source" "$temporary_ttf"
-  woff2_compress "$temporary_ttf"
-  rm "$temporary_ttf"
+  node scripts/subset-font.mjs "$source" "$output"
 }
 
 render_all() {
@@ -166,26 +173,20 @@ render_all() {
   render_portrait 480 854 "$destination/assets/images/hero/winding-road-portrait-480w.webp"
   render_portrait 768 1365 "$destination/assets/images/hero/winding-road-portrait-768w.webp"
   render_portrait 1200 2133 "$destination/assets/images/hero/winding-road-portrait-1200w.webp"
-  render_news_preview "$destination/assets/images/news/radio-atlas-preview-1180w.webp"
-  render_responsive_image "$desktop_preview_source" 480 "$destination/assets/images/desktop/tokyo-night-preview-480w.webp"
-  render_responsive_image "$desktop_preview_source" 768 "$destination/assets/images/desktop/tokyo-night-preview-768w.webp"
-  render_responsive_image "$desktop_preview_source" 1200 "$destination/assets/images/desktop/tokyo-night-preview-1200w.webp"
-  render_responsive_image "$desktop_preview_source" 1600 "$destination/assets/images/desktop/tokyo-night-preview-1600w.webp"
+  render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
+  render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
+  render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
+  render_responsive_family "$sspaeti_workstation_source" "$destination/assets/images/workstations" sspaeti-office-setup "$responsive_widths"
+  subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
+}
 
-  render_responsive_image "$pleum_workstation_source" 480 "$destination/assets/images/workstations/pleum-p1554011-480w.webp"
-  render_responsive_image "$pleum_workstation_source" 768 "$destination/assets/images/workstations/pleum-p1554011-768w.webp"
-  render_responsive_image "$pleum_workstation_source" 1200 "$destination/assets/images/workstations/pleum-p1554011-1200w.webp"
-  render_responsive_image "$pleum_workstation_source" 1600 "$destination/assets/images/workstations/pleum-p1554011-1600w.webp"
-
-  render_responsive_image "$sspaeti_workstation_source" 480 "$destination/assets/images/workstations/sspaeti-office-setup-480w.webp"
-  render_responsive_image "$sspaeti_workstation_source" 768 "$destination/assets/images/workstations/sspaeti-office-setup-768w.webp"
-  render_responsive_image "$sspaeti_workstation_source" 1200 "$destination/assets/images/workstations/sspaeti-office-setup-1200w.webp"
-  render_responsive_image "$sspaeti_workstation_source" 1600 "$destination/assets/images/workstations/sspaeti-office-setup-1600w.webp"
-
-  compress_font "$font_subset_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
-  compress_font "$font_subset_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
-  compress_font "$font_subset_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
-  compress_font "$font_subset_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
+check_inventory() {
+  actual=$(find assets/images/hero assets/images/news assets/images/desktop assets/images/workstations assets/fonts -type f | sort)
+  expected=$(printf '%s\n' "$output_paths" | sed '/^$/d' | sort)
+  [ "$actual" = "$expected" ] || fail 'Committed derivative inventory does not match scripts/build-assets.'
 }
 
 if [ "$mode" = check ]; then
@@ -195,6 +196,7 @@ if [ "$mode" = check ]; then
   }
   trap cleanup EXIT HUP INT TERM
 
+  check_inventory
   render_all "$temporary_directory"
   for output in $output_paths; do
     [ -f "$output" ] || fail "Missing committed derivative: $output"
@@ -205,4 +207,6 @@ if [ "$mode" = check ]; then
 fi
 
 render_all .
+rm -f assets/images/news/radio-atlas-preview-1180w.webp
+check_inventory
 printf '%s\n' 'Rendered deterministic image and font derivatives.'

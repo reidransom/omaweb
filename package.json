@@ -12,6 +12,7 @@
     "@tailwindcss/cli": "4.1.14",
     "esbuild": "0.25.9",
     "pagefind": "1.4.0",
+    "subset-font": "2.7.0",
     "tailwindcss": "4.1.14"
   }
 }
