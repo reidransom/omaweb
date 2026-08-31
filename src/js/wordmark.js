@@ -232,12 +232,13 @@ export function initWordmark() {
       window.addEventListener("error", onError);
       window.addEventListener("unhandledrejection", onUnhandledRejection);
       const restarting = playback.restart();
-      if (restarting == null || typeof restarting.catch !== "function") {
+      if (restarting == null || typeof restarting.then !== "function") {
         throw new Error("Canvas playback did not start");
       }
 
+      await restarting;
+      if (cleanedUp) return;
       root.dataset.wordmarkEnhanced = "true";
-      void restarting.catch(fail);
     } catch {
       fail();
     }

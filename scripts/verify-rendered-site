@@ -753,7 +753,7 @@ def check_mobile_drawer(browser: DevToolsSocket) -> None:
         fail(f"Mobile drawer must move focus to Close and return it to Menu; got {drawer}.")
 
 
-def clear_wordmark_scenario(browser: DevToolsSocket) -> None:
+def enable_network_disable_cache_and_clear_browser_cache(browser: DevToolsSocket) -> None:
     browser.command("Network.enable")
     browser.command("Network.setCacheDisabled", {"cacheDisabled": True})
     browser.command("Network.clearBrowserCache")
@@ -809,6 +809,23 @@ def install_wordmark_observers(browser: DevToolsSocket) -> None:
     )
 
 
+def wordmark_pixel_samples(context: str) -> str:
+    return f"""(() => {{
+      const pixels = [];
+      for (let y = 1; y < 12; y += 1) {{
+        for (let x = 1; x < 12; x += 1) {{
+          pixels.push(...{context}.getImageData(
+            Math.min(canvas.width - 1, Math.floor(canvas.width * x / 12)),
+            Math.min(canvas.height - 1, Math.floor(canvas.height * y / 12)),
+            1,
+            1
+          ).data);
+        }}
+      }}
+      return pixels;
+    }})()"""
+
+
 def wordmark_snapshot(browser: DevToolsSocket, include_pixels: bool = False) -> dict:
     return evaluate(
         browser,
@@ -830,22 +847,7 @@ def wordmark_snapshot(browser: DevToolsSocket, include_pixels: bool = False) -> 
           const green = root ? getComputedStyle(probe).color : null;
           probe.remove();
           const pixels = {str(include_pixels).lower()} && canvas?.width && canvas?.height
-            ? (() => {{
-                const context = canvas.getContext("2d");
-                const samples = [];
-                for (let y = 1; y < 12; y += 1) {{
-                  for (let x = 1; x < 12; x += 1) {{
-                    const point = context.getImageData(
-                      Math.min(canvas.width - 1, Math.floor(canvas.width * x / 12)),
-                      Math.min(canvas.height - 1, Math.floor(canvas.height * y / 12)),
-                      1,
-                      1
-                    ).data;
-                    samples.push(...point);
-                  }}
-                }}
-                return samples;
-              }})()
+            ? {wordmark_pixel_samples("context")}
             : [];
           return {{
             root: Boolean(root),
@@ -922,20 +924,7 @@ def sample_wordmark_playback(browser: DevToolsSocket) -> dict:
           if (!canvas || !context || !canvas.width || !canvas.height) {
             return resolve({changed: false, stable: false, pixels: []});
           }
-          const sample = () => {
-            const pixels = [];
-            for (let y = 1; y < 12; y += 1) {
-              for (let x = 1; x < 12; x += 1) {
-                pixels.push(...context.getImageData(
-                  Math.min(canvas.width - 1, Math.floor(canvas.width * x / 12)),
-                  Math.min(canvas.height - 1, Math.floor(canvas.height * y / 12)),
-                  1,
-                  1
-                ).data);
-              }
-            }
-            return pixels;
-          };
+          const sample = () => """ + wordmark_pixel_samples("context") + """;
           const differs = (before, after) => before.some((value, index) => value !== after[index]);
           const deadline = performance.now() + 12000;
           let previous = sample();
@@ -976,7 +965,7 @@ def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) 
     try:
         set_viewport(browser, width, height)
         install_wordmark_observers(browser)
-        clear_wordmark_scenario(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", f"homepage wordmark at {width}x{height}")
         wait_for(
@@ -1027,7 +1016,7 @@ def check_wordmark_load_failure(debug_url: str, origin: str, blocked_url: str, d
     try:
         set_viewport(browser, 390, 844)
         install_wordmark_observers(browser)
-        clear_wordmark_scenario(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command("Network.setBlockedURLs", {"urls": [blocked_url]})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", description)
@@ -1051,7 +1040,7 @@ def check_print_wordmark(debug_url: str, origin: str) -> None:
     try:
         set_viewport(browser, 768, 1024)
         install_wordmark_observers(browser)
-        clear_wordmark_scenario(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command("Emulation.setEmulatedMedia", {"media": "print"})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "printed homepage")
@@ -1073,7 +1062,7 @@ def check_no_javascript(debug_url: str, origin: str) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 390, 844)
-        clear_wordmark_scenario(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command("Network.setBlockedURLs", {"urls": ["*://127.0.0.1:*/*.js"]})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "homepage without JavaScript")
@@ -1118,7 +1107,7 @@ def check_reduced_motion(debug_url: str, origin: str) -> None:
     try:
         set_viewport(browser, 390, 844)
         install_wordmark_observers(browser)
-        clear_wordmark_scenario(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command(
             "Emulation.setEmulatedMedia",
             {"features": [{"name": "prefers-reduced-motion", "value": "reduce"}]},
