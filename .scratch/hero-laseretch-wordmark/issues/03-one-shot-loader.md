@@ -1,6 +1,6 @@
 # Implement one-shot laseretch loader
 
-Status: ready-for-agent
+Status: resolved
 Type: task
 Blocked by: 01, 02
 
@@ -15,3 +15,7 @@ Do not alter markup, styles, artifacts, or verification scripts.
 ## Acceptance
 
 The loader starts a single local `laseretch` playback after font readiness, holds the final frame, and reliably transitions to the static state on every specified failure path.
+
+## Answer
+
+Replaced the sweep with the local one-shot `laseretch` playback loader, including deterministic static recovery for setup, load, and runtime failures.
