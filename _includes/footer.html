@@ -31,7 +31,7 @@
       {% endfor %}
 
       <section>
-        <h2><a href="{{ '/desktop/' | relative_url }}">Desktop actions</a></h2>
+        <h2>Useful links</h2>
         <ul role="list">
           {% for link in navigation.utility.items %}
             <li>{% include authoritative-link.html destination=link.destination %}</li>

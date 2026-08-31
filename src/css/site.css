@@ -11,7 +11,7 @@
 @import "tailwindcss/utilities" layer(utilities);
 
 @source "../../index.md";
-@source "../../{platforms,hardware,software,project,desktop,server,mobile,laptops,apps,cloud,labs,workstations,community,teams,security,foundation,patrons,sponsorships,air,meetups,news}/**/*.{md,html,xml}";
+@source "../../{accessories,platforms,hardware,software,project,desktop,server,mobile,laptops,apps,cloud,labs,workstations,community,teams,security,foundation,patrons,sponsorships,air,meetups,new-releases,news}/**/*.{md,html,xml}";
 @source "../../_layouts/**/*.html";
 @source "../../_includes/**/*.html";
 @source "../../_news/**/*.md";

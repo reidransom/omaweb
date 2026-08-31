@@ -1,11 +1,11 @@
 items:
   - slug: desktop
-    label: Desktop
-    group: platforms
+    label: Desktops
+    group: hardware
     url: /desktop/
-    status: current
+    status: exploratory
     external: false
-    summary: The current Omarchy desktop, built on Arch, Hyprland, and Quickshell.
+    summary: Questions about desktop hardware and what an Omarchy recommendation should require.
   - slug: server
     label: Server
     group: platforms
@@ -19,7 +19,7 @@ items:
     url: /mobile/
     status: exploratory
     external: false
-    summary: Questions about a companion and a fuller mobile environment for the Omarchy desktop.
+    summary: Questions about a companion and a fuller mobile environment for Omarchy.
   - slug: laptops
     label: Laptops
     group: hardware
@@ -27,13 +27,20 @@ items:
     status: exploratory
     external: false
     summary: Questions about certification, repairability, tested hardware, and availability.
+  - slug: accessories
+    label: Accessories
+    group: hardware
+    url: /accessories/
+    status: exploratory
+    external: false
+    summary: Possible future third-party hardware recommendations, with none to recommend yet.
   - slug: workstations
     label: Workstations
     group: hardware
     url: /workstations/
     status: current
     external: false
-    summary: Current community setups that show how many forms one desktop can take.
+    summary: Current community setups that show how many forms a working setup can take.
   - slug: apps
     label: Apps
     group: software

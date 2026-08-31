@@ -25,5 +25,5 @@ product: server
 <section class="prose" aria-labelledby="server-defaults-title">
   <h2 id="server-defaults-title">Security and updates are design questions.</h2>
   <p>Defaults can reduce repetition. They can also conceal a choice that deserves inspection. Any exploration here has to ask what a responsible security posture looks like, which update decisions should be visible, and how an operator can understand a system before changing it.</p>
-  <p>The current place to start is still the <a href="{{ '/desktop/' | relative_url }}">Omarchy desktop</a>, where the system is meant to be read, changed, and owned by the person using it.</p>
+  <p>For the current system, begin with the {% include authoritative-link.html destination='iso' label='ISO' %} and the {% include authoritative-link.html destination='manual' label='Manual' %}.</p>
 </section>

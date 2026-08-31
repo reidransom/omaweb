@@ -25,5 +25,5 @@ product: cloud
 <section class="prose" aria-labelledby="cloud-ownership-title">
   <h2 id="cloud-ownership-title">Security and ownership cannot be footnotes.</h2>
   <p>Any serious exploration has to begin with access, data boundaries, and the ability to understand what is happening to your work. Convenience is useful. Control is the point.</p>
-  <p>The current, local place to shape an Omarchy environment is <a href="{{ '/desktop/' | relative_url }}">Desktop</a>.</p>
+  <p>For the current local system, begin with the {% include authoritative-link.html destination='iso' label='ISO' %} and the {% include authoritative-link.html destination='manual' label='Manual' %}.</p>
 </section>

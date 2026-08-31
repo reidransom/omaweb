@@ -342,10 +342,11 @@ items:
 
   - id: desktop-tokyo-night-preview
     asset_type: image
-    role: desktop-proof
+    role: archived-desktop-proof
     path: __docs/images/desktop/tokyo-night-preview.png
     provenance: >-
-      Tokyo Night theme preview pinned to Omarchy commit
+      Archived after /desktop/ was repurposed for exploratory hardware. The
+      original Tokyo Night preview is pinned to Omarchy commit
       b686ed892d9c3020c3336203f6d34cc75b544e2b.
     sha256: 1e2a87a2d948af1d195b0d2f03bd743d5ae72671ae8ad38825fd4c494e82d8fb
     dimensions: { width: 1800, height: 1012 }

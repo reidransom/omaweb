@@ -1,50 +1,29 @@
 ---
 layout: content
-title: Desktop
-description: Omarchy is a current Arch, Hyprland, and Quickshell desktop with terminal-first workflows and room to make the system your own.
+title: Desktops
+description: An exploratory set of questions about desktop hardware and what an Omarchy recommendation should require.
 permalink: /desktop/
-nav_group: platforms
+nav_group: hardware
 archetype: product
 product: desktop
-markdown: false
-media:
-  src: /assets/images/desktop/tokyo-night-preview-1600w.webp
-  width: 1600
-  height: 900
-  alt: Omarchy’s Tokyo Night desktop preview with tiled terminal, system monitor, and file manager windows.
-  loading: lazy
-  decoding: async
-  sizes: "(min-width: 75rem) 68rem, 100vw"
-  sources:
-    items:
-      - type: image/webp
-        srcset:
-          items:
-            - src: /assets/images/desktop/tokyo-night-preview-480w.webp
-              width: 480
-            - src: /assets/images/desktop/tokyo-night-preview-768w.webp
-              width: 768
-            - src: /assets/images/desktop/tokyo-night-preview-1200w.webp
-              width: 1200
-            - src: /assets/images/desktop/tokyo-night-preview-1600w.webp
-              width: 1600
 ---
-{% include desktop-proof.html media=page.media %}
-<section class="prose" aria-labelledby="desktop-now-title">
-  <p class="page-hero__eyebrow">Current product</p>
-  <h2 id="desktop-now-title">A finished starting point beats a blank canvas.</h2>
-  <p>Omarchy is an omakase Linux distribution based on Arch, Hyprland, and Quickshell. It starts with a tiling desktop, terminal-first tools, and one coherent visual system instead of a pile of choices.</p>
-  <p>The point is not to freeze the computer in place. Strong defaults get you working quickly; the terminal, configuration, and agents leave the system malleable all the way down.</p>
+<section class="prose" aria-labelledby="desktops-question-title">
+  <h2 id="desktops-question-title">A desktop recommendation should mean something.</h2>
+  <p>Omarchy is exploring what it would take to stand behind a desktop hardware recommendation. A useful standard would need to account for the machine people actually use, maintain, and rely on at their desks.</p>
+  <p>This work begins with questions, not a list of hardware.</p>
 </section>
 
-<section class="prose" aria-labelledby="desktop-workflows-title">
-  <h2 id="desktop-workflows-title">Agents work on real seams.</h2>
-  <p>Use an agent where it can make a concrete change you can inspect. The controls stay with you.</p>
-{% include workflow-list.html items=site.data.home.workflows.items class="home-workflow-list" %}
+<section class="prose" aria-labelledby="desktops-evidence-title">
+  <h2 id="desktops-evidence-title">What evidence should earn the name?</h2>
+  <ul>
+    <li>Which parts of a desktop setup need direct, repeatable testing before anyone can make a useful recommendation?</li>
+    <li>What should an honest evaluation say about the environments and tradeoffs it observed?</li>
+    <li>How can a recommendation remain useful when the person reading it has a different desk, budget, or set of needs?</li>
+  </ul>
 </section>
 
-<section class="prose" aria-labelledby="desktop-actions-title">
-  <h2 id="desktop-actions-title">Start with the real thing.</h2>
-  <p>Install the current desktop from the ISO, then keep the Manual close while you make it yours.</p>
-{% include action-group.html actions=site.data.home.desktop.actions.items label='Desktop actions' %}
+<section class="prose" aria-labelledby="desktops-standard-title">
+  <h2 id="desktops-standard-title">The standard matters more than the badge.</h2>
+  <p>Any future evaluation should be clear about what it observed and what it did not. That is how a recommendation stays useful without turning an exploratory area into a product promise.</p>
+  <p>For examples of how people use Omarchy on the hardware they already own, visit <a href="{{ '/workstations/' | relative_url }}">Workstations</a>.</p>
 </section>
