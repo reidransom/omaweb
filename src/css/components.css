@@ -208,6 +208,12 @@ a:hover .media__image {
   text-decoration: none;
 }
 
+.site-header__mark {
+  display: block;
+  inline-size: 2rem;
+  block-size: 2rem;
+}
+
 .site-header__nav {
   display: none;
 }
