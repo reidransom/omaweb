@@ -12,31 +12,50 @@
       </div>
 
       <aside class="home-hero__panel home-hero__panel--actions" aria-label="Get started" data-home-hero-actions>
-        <div class="home-hero__media-grid" aria-hidden="true">
-          <picture class="home-hero__product-art home-hero__product-art--iso">
-            <img
-              src="{{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }}"
-              srcset="{{ '/assets/images/hero/usb-key-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }} 768w"
-              sizes="(min-width: 64rem) 18vw, 42vw"
-              width="768"
-              height="768"
-              alt=""
-              loading="eager"
-              decoding="async">
-          </picture>
-          <picture class="home-hero__product-art home-hero__product-art--manual">
-            <img
-              src="{{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }}"
-              srcset="{{ '/assets/images/hero/user-manual-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }} 768w"
-              sizes="(min-width: 64rem) 18vw, 42vw"
-              width="768"
-              height="512"
-              alt=""
-              loading="eager"
-              decoding="async">
-          </picture>
+        <div class="home-hero__action-list">
+          {% for action in home.hero.actions.items %}
+            {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+            {% assign action_button_class = 'button' %}
+            {% if destination.button_treatment == 'secondary' %}
+              {% assign action_button_class = 'button button--secondary' %}
+            {% endif %}
+            {% capture product_art %}
+              {% case action.destination %}
+                {% when 'iso' %}
+                  <picture class="home-hero__product-art home-hero__product-art--iso">
+                    <img
+                      src="{{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }}"
+                      srcset="{{ '/assets/images/hero/usb-key-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }} 768w"
+                      sizes="(min-width: 64rem) 8rem, 32vw"
+                      width="768"
+                      height="768"
+                      alt=""
+                      loading="eager"
+                      decoding="async">
+                  </picture>
+                {% when 'manual' %}
+                  <picture class="home-hero__product-art home-hero__product-art--manual">
+                    <img
+                      src="{{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }}"
+                      srcset="{{ '/assets/images/hero/user-manual-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }} 768w"
+                      sizes="(min-width: 64rem) 8rem, 32vw"
+                      width="768"
+                      height="512"
+                      alt=""
+                      loading="eager"
+                      decoding="async">
+                  </picture>
+              {% endcase %}
+            {% endcapture %}
+            {% if product_art != empty %}
+              {% capture action_content %}
+                {{ product_art }}
+                <span class="{{ action_button_class }}">{{ action.label | escape }}</span>
+              {% endcapture %}
+              {% include authoritative-link.html destination=action.destination class='home-hero__action' content=action_content %}
+            {% endif %}
+          {% endfor %}
         </div>
-        {% include action-group.html actions=home.hero.actions.items class='home-hero__actions' label='Get started' %}
       </aside>
     </div>
     <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>

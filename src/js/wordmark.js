@@ -7,17 +7,22 @@ export function initWordmark() {
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
   const printMedia = window.matchMedia?.("print");
 
+  if (!root || !canvas || !fallback) return;
+
   if (
-    !root ||
-    !canvas ||
-    !fallback ||
     reducedMotion?.matches ||
     printMedia?.matches ||
     !("IntersectionObserver" in window)
-  ) return;
+  ) {
+    root.dataset.wordmarkEnhanced = "false";
+    return;
+  }
 
   const context = canvas.getContext("2d");
-  if (!context) return;
+  if (!context) {
+    root.dataset.wordmarkEnhanced = "false";
+    return;
+  }
 
   const rows = fallback.textContent.split("\n");
   let intersecting = false;
@@ -99,7 +104,7 @@ export function initWordmark() {
   const restoreStaticFallback = () => {
     stop();
     context.clearRect(0, 0, canvas.width, canvas.height);
-    delete root.dataset.wordmarkEnhanced;
+    root.dataset.wordmarkEnhanced = "false";
     hasDrawn = false;
   };
 
