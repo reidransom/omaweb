@@ -1,7 +1,7 @@
 ---
 layout: content
 title: Accessories
-description: A future-facing page for possible third-party hardware recommendations. There are no recommendations yet.
+description: Omarchy has no accessories to recommend yet. This page may later document evaluated third-party hardware.
 permalink: /accessories/
 nav_group: shop
 archetype: product
@@ -13,6 +13,6 @@ product: accessories
 </section>
 
 <section class="prose" aria-labelledby="accessories-evaluation-title">
-  <h2 id="accessories-evaluation-title">A useful recommendation needs its evidence.</h2>
+  <h2 id="accessories-evaluation-title">Third-party accessories need documented evaluation.</h2>
   <p>Any future recommendation should say what was evaluated, what was observed, and which tradeoffs remain. That is the work required before a third-party accessory earns a place here.</p>
 </section>

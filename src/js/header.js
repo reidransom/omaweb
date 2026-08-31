@@ -6,10 +6,10 @@ export function initHeader() {
 
   let forceOpaque = false;
   const updateHeaderState = () => {
-    header.dataset.headerState =
-      forceOpaque || sentinel?.getBoundingClientRect().top <= 0
-        ? "opaque"
-        : "transparent";
+    const shouldBeOpaque =
+      forceOpaque || !sentinel || sentinel.getBoundingClientRect().top <= 0;
+
+    header.dataset.headerState = shouldBeOpaque ? "opaque" : "transparent";
   };
 
   const setOpaqueOverride = (active) => {

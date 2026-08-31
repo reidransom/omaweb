@@ -1,14 +1,7 @@
+import { isEditableTarget } from "./editable-target.js";
+
 const desktopNavigation = window.matchMedia("(min-width: 48rem)");
 const panelTransitionDuration = 150;
-
-function isEditableTarget(target) {
-  if (!(target instanceof Element)) return false;
-
-  if (target.closest("input, textarea, select")) return true;
-
-  const editable = target.closest("[contenteditable]");
-  return editable !== null && editable.getAttribute("contenteditable") !== "false";
-}
 
 export function initQuake({ header } = {}) {
   const toggle = document.querySelector("[data-quake-toggle]");

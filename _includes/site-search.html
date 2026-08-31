@@ -13,7 +13,10 @@
     </form>
     <div class="site-search__status" data-site-search-status aria-live="polite"></div>
     <div class="site-search__results" data-site-search-results></div>
-    <p class="site-search__route-link"><a href="{{ '/search/' | relative_url }}">Open the full search page</a></p>
+    <nav class="site-search__fallback" data-site-search-fallback aria-labelledby="spotlight-fallback-title" hidden>
+      <h3 id="spotlight-fallback-title">Browse Omarchy</h3>
+      {% include search-navigation-fallback.html %}
+    </nav>
   </div>
 </dialog>
 <script type="application/json" data-search-navigation>{{ navigation | jsonify }}</script>

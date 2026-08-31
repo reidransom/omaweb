@@ -1,16 +1,9 @@
+import { isEditableTarget } from "./editable-target.js";
+
 const minimumQueryLength = 2;
 const debounceDuration = 150;
 const destinationLimit = 5;
 const pagefindLimit = 8;
-
-function isEditableTarget(target) {
-  if (!(target instanceof Element)) return false;
-
-  if (target.closest("input, textarea, select")) return true;
-
-  const editable = target.closest("[contenteditable]");
-  return editable !== null && editable.getAttribute("contenteditable") !== "false";
-}
 
 function conciseText(value) {
   const documentFragment = new DOMParser().parseFromString(value ?? "", "text/html");
@@ -155,6 +148,42 @@ export function initSiteSearch({ quake } = {}) {
   let debounceTimer;
   const surfaceResults = new Map();
   let searchTrigger = searchTriggers[0] ?? null;
+  let scrollLock = null;
+
+  const lockDocumentScroll = () => {
+    if (scrollLock || !document.body) return;
+
+    const root = document.documentElement;
+    const body = document.body;
+    scrollLock = {
+      rootOverflow: root.style.overflow,
+      bodyPosition: body.style.position,
+      bodyInset: body.style.inset,
+      bodyWidth: body.style.width,
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    };
+
+    root.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.inset = `-${scrollLock.scrollY}px 0 0`;
+    body.style.width = "100%";
+  };
+
+  const unlockDocumentScroll = () => {
+    if (!scrollLock || !document.body) return;
+
+    const { rootOverflow, bodyPosition, bodyInset, bodyWidth, scrollX, scrollY } =
+      scrollLock;
+    const root = document.documentElement;
+    const body = document.body;
+    root.style.overflow = rootOverflow;
+    body.style.position = bodyPosition;
+    body.style.inset = bodyInset;
+    body.style.width = bodyWidth;
+    scrollLock = null;
+    window.scrollTo(scrollX, scrollY);
+  };
 
   const setSelection = (surface, index) => {
     const resultState = surfaceResults.get(surface);
@@ -271,6 +300,7 @@ export function initSiteSearch({ quake } = {}) {
     }
 
     dialog.showModal();
+    lockDocumentScroll();
     dialog.querySelector("input[name='q']")?.focus();
   };
 
@@ -309,6 +339,7 @@ export function initSiteSearch({ quake } = {}) {
     if (event.target === dialog) closeSpotlight();
   });
   dialog.addEventListener("close", () => {
+    unlockDocumentScroll();
     window.requestAnimationFrame(() => searchTrigger?.focus());
   });
   document.addEventListener("omarchy:quake-open", closeSpotlight);
