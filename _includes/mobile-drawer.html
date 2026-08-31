@@ -7,25 +7,23 @@
     </div>
 
     <nav aria-label="Mobile navigation">
-      {% for group in navigation.groups.items %}
+      {% for section in navigation.sections %}
         <section class="mobile-drawer__group">
           <h2>
-            {% include authoritative-link.html link=group %}
+            {% include authoritative-link.html link=section exploratory_description_id='mobile-drawer-exploratory-status' %}
           </h2>
           <ul>
-          {% for link in group.links.items %}
-            <li>
-              {% include authoritative-link.html link=link %}
-            </li>
-          {% endfor %}
+            {% for link in section.links.items %}
+              <li>
+                {% include authoritative-link.html link=link exploratory_description_id='mobile-drawer-exploratory-status' %}
+              </li>
+            {% endfor %}
           </ul>
+          {% if section.exploratory %}
+            <p class="mobile-drawer__status" id="mobile-drawer-exploratory-status">{{ navigation.exploratory_description | escape }}</p>
+          {% endif %}
         </section>
       {% endfor %}
-      <ul class="mobile-drawer__utility">
-        {% for link in navigation.utility.items %}
-          <li>{% include authoritative-link.html destination=link.destination %}</li>
-        {% endfor %}
-      </ul>
     </nav>
   </div>
 </dialog>

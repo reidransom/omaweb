@@ -15,40 +15,21 @@
     </div>
 
     <nav class="site-footer__sitemap" aria-label="Footer sitemap">
-      {% for group in navigation.groups.items %}
+      {% for section in navigation.sections %}
         <section>
           <h2>
-            {% include authoritative-link.html link=group %}
+            {% include authoritative-link.html link=section exploratory_description_id='footer-exploratory-status' %}
           </h2>
-          <ul role="list">
-            {% for link in group.links.items %}
-              <li>
-                {% include authoritative-link.html link=link %}
-              </li>
-            {% endfor %}
-          </ul>
-        </section>
-      {% endfor %}
-
-      <section>
-        <h2>Useful links</h2>
-        <ul role="list">
-          {% for link in navigation.utility.items %}
-            <li>{% include authoritative-link.html destination=link.destination %}</li>
-          {% endfor %}
-        </ul>
-      </section>
-
-      {% for section in navigation.footer.items %}
-        <section>
-          <h2>{{ section.label | escape }}</h2>
           <ul role="list">
             {% for link in section.links.items %}
               <li>
-                {% include authoritative-link.html link=link %}
+                {% include authoritative-link.html link=link exploratory_description_id='footer-exploratory-status' %}
               </li>
             {% endfor %}
           </ul>
+          {% if section.exploratory %}
+            <p class="site-footer__status" id="footer-exploratory-status">{{ navigation.exploratory_description | escape }}</p>
+          {% endif %}
         </section>
       {% endfor %}
     </nav>
