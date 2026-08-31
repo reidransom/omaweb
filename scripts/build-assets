@@ -23,80 +23,65 @@ case "${1-}" in
     ;;
 esac
 
-command -v magick >/dev/null 2>&1 || fail 'Missing required command: magick (ImageMagick)'
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || fail "Missing required command: $1"
+}
+
+require_command magick
+require_command pyftsubset
+require_command woff2_compress
+require_command cmp
+require_command mktemp
+
 export MAGICK_THREAD_LIMIT=1
 
+hero_source=__docs/images/0-winding-road.jpg
+news_preview_source=__docs/images/news/radio-atlas-preview.webp
+desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
+pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
+sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
+font_source_directory=__docs/fonts/jetbrains-mono-2.304
+font_unicodes='U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588'
 
-manifest=_data/assets.yml
-source=__docs/images/1-quattro.jpg
-
-[ -f "$manifest" ] || fail "Missing asset manifest: $manifest"
-
-hero_status=$(awk '
-  /^  - id: hero-quattro$/ { in_hero=1; next }
-  in_hero && /^  - id:/ { exit }
-  in_hero && /^    publication_status:/ { print $2; exit }
-' "$manifest")
-
-[ -n "$hero_status" ] || fail 'The asset manifest must declare hero-quattro publication_status.'
-manifest_field() {
-  field=$1
-  awk -v field="$field" '
-    /^  - id: hero-quattro$/ { in_hero=1; next }
-    in_hero && /^  - id:/ { exit }
-    in_hero && index($0, "    " field ": ") == 1 {
-      value=$0
-      sub("^[[:space:]]*" field ":[[:space:]]*", "", value)
-      print value
-      exit
-    }
-  ' "$manifest"
-}
-
-require_manifest_value() {
-  field=$1
-  value=$(manifest_field "$field")
-  [ -n "$value" ] && [ "$value" != null ] || fail "hero-quattro cannot be rendered without $field in $manifest"
-}
-
+[ -f "$hero_source" ] || fail "Missing approved source: $hero_source"
+[ -f "$news_preview_source" ] || fail "Missing approved source: $news_preview_source"
+[ -f "$desktop_preview_source" ] || fail "Missing approved source: $desktop_preview_source"
+[ -f "$pleum_workstation_source" ] || fail "Missing approved source: $pleum_workstation_source"
+[ -f "$sspaeti_workstation_source" ] || fail "Missing approved source: $sspaeti_workstation_source"
 
 output_paths='
-assets/images/hero/quattro-480w.webp
-assets/images/hero/quattro-768w.webp
-assets/images/hero/quattro-1200w.webp
-assets/images/hero/quattro-1600w.webp
-assets/images/hero/quattro-portrait-480w.webp
-assets/images/hero/quattro-portrait-768w.webp
-assets/images/hero/quattro-portrait-1200w.webp
+assets/images/hero/winding-road-480w.webp
+assets/images/hero/winding-road-768w.webp
+assets/images/hero/winding-road-1200w.webp
+assets/images/hero/winding-road-1600w.webp
+assets/images/hero/winding-road-portrait-480w.webp
+assets/images/hero/winding-road-portrait-768w.webp
+assets/images/hero/winding-road-portrait-1200w.webp
+assets/images/news/radio-atlas-preview-1180w.webp
+assets/images/desktop/tokyo-night-preview-480w.webp
+assets/images/desktop/tokyo-night-preview-768w.webp
+assets/images/desktop/tokyo-night-preview-1200w.webp
+assets/images/desktop/tokyo-night-preview-1600w.webp
+assets/images/workstations/pleum-p1554011-480w.webp
+assets/images/workstations/pleum-p1554011-768w.webp
+assets/images/workstations/pleum-p1554011-1200w.webp
+assets/images/workstations/pleum-p1554011-1600w.webp
+assets/images/workstations/sspaeti-office-setup-480w.webp
+assets/images/workstations/sspaeti-office-setup-768w.webp
+assets/images/workstations/sspaeti-office-setup-1200w.webp
+assets/images/workstations/sspaeti-office-setup-1600w.webp
+assets/fonts/jetbrains-mono-light.woff2
+assets/fonts/jetbrains-mono-light-italic.woff2
+assets/fonts/jetbrains-mono-medium.woff2
+assets/fonts/jetbrains-mono-bold.woff2
 '
-
-case "$hero_status" in
-  cleared)
-    require_manifest_value rights_owner
-    require_manifest_value license_or_permission
-    require_manifest_value clearance_basis
-    require_manifest_value third_party_marks_permission
-    ;;
-  blocked)
-    for output in $output_paths; do
-      [ ! -e "$output" ] || fail "Blocked asset hero-quattro must not have a rendered output: $output"
-    done
-    printf '%s\n' 'hero-quattro is blocked by _data/assets.yml; no derivatives were rendered.'
-    exit 0
-    ;;
-  *)
-    fail "Unsupported hero-quattro publication_status: $hero_status"
-    ;;
-esac
-
-[ -f "$source" ] || fail "Missing approved source: $source"
 
 render_wide() {
   width=$1
   height=$2
   output=$3
 
-  magick "$source" \
+  magick "$hero_source" \
     -auto-orient \
     -colorspace sRGB \
     -strip \
@@ -114,11 +99,11 @@ render_portrait() {
   height=$2
   output=$3
 
-  magick "$source" \
+  magick "$hero_source" \
     -auto-orient \
     -colorspace sRGB \
     -strip \
-    -crop 1620x2880+900+0 +repage \
+    -crop 1904x3384+2750+0 +repage \
     -resize "${width}x${height}^" \
     -gravity center \
     -extent "${width}x${height}" \
@@ -127,17 +112,87 @@ render_portrait() {
     -define webp:thread-level=0 \
     "$output"
 }
+render_news_preview() {
+  output=$1
+
+  magick "$news_preview_source" \
+    -auto-orient \
+    -colorspace sRGB \
+    -strip \
+    -resize 1180x \
+    -quality 82 \
+    -define webp:method=6 \
+    -define webp:thread-level=0 \
+    "$output"
+}
+
+
+render_responsive_image() {
+  source=$1
+  width=$2
+  output=$3
+
+  magick "$source" \
+    -auto-orient \
+    -colorspace sRGB \
+    -strip \
+    -resize "${width}x" \
+    -quality 82 \
+    -define webp:method=6 \
+    -define webp:thread-level=0 \
+    "$output"
+}
+
+subset_font() {
+  source=$1
+  output=$2
+  temporary_ttf="${output%.woff2}.ttf"
+
+  pyftsubset "$source" \
+    --output-file="$temporary_ttf" \
+    --unicodes="$font_unicodes" \
+    --layout-features='*' \
+    --name-IDs='*' \
+    --name-legacy \
+    --notdef-glyph \
+    --notdef-outline \
+    --recommended-glyphs \
+    --no-hinting
+  woff2_compress "$temporary_ttf"
+  rm "$temporary_ttf"
+}
 
 render_all() {
   destination=$1
-  mkdir -p "$destination"
-  render_wide 480 270 "$destination/quattro-480w.webp"
-  render_wide 768 432 "$destination/quattro-768w.webp"
-  render_wide 1200 675 "$destination/quattro-1200w.webp"
-  render_wide 1600 900 "$destination/quattro-1600w.webp"
-  render_portrait 480 854 "$destination/quattro-portrait-480w.webp"
-  render_portrait 768 1365 "$destination/quattro-portrait-768w.webp"
-  render_portrait 1200 2133 "$destination/quattro-portrait-1200w.webp"
+
+  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/fonts"
+  render_wide 480 270 "$destination/assets/images/hero/winding-road-480w.webp"
+  render_wide 768 432 "$destination/assets/images/hero/winding-road-768w.webp"
+  render_wide 1200 675 "$destination/assets/images/hero/winding-road-1200w.webp"
+  render_wide 1600 900 "$destination/assets/images/hero/winding-road-1600w.webp"
+  render_portrait 480 854 "$destination/assets/images/hero/winding-road-portrait-480w.webp"
+  render_portrait 768 1365 "$destination/assets/images/hero/winding-road-portrait-768w.webp"
+  render_portrait 1200 2133 "$destination/assets/images/hero/winding-road-portrait-1200w.webp"
+  render_news_preview "$destination/assets/images/news/radio-atlas-preview-1180w.webp"
+  render_responsive_image "$desktop_preview_source" 480 "$destination/assets/images/desktop/tokyo-night-preview-480w.webp"
+  render_responsive_image "$desktop_preview_source" 768 "$destination/assets/images/desktop/tokyo-night-preview-768w.webp"
+  render_responsive_image "$desktop_preview_source" 1200 "$destination/assets/images/desktop/tokyo-night-preview-1200w.webp"
+  render_responsive_image "$desktop_preview_source" 1600 "$destination/assets/images/desktop/tokyo-night-preview-1600w.webp"
+
+  render_responsive_image "$pleum_workstation_source" 480 "$destination/assets/images/workstations/pleum-p1554011-480w.webp"
+  render_responsive_image "$pleum_workstation_source" 768 "$destination/assets/images/workstations/pleum-p1554011-768w.webp"
+  render_responsive_image "$pleum_workstation_source" 1200 "$destination/assets/images/workstations/pleum-p1554011-1200w.webp"
+  render_responsive_image "$pleum_workstation_source" 1600 "$destination/assets/images/workstations/pleum-p1554011-1600w.webp"
+
+  render_responsive_image "$sspaeti_workstation_source" 480 "$destination/assets/images/workstations/sspaeti-office-setup-480w.webp"
+  render_responsive_image "$sspaeti_workstation_source" 768 "$destination/assets/images/workstations/sspaeti-office-setup-768w.webp"
+  render_responsive_image "$sspaeti_workstation_source" 1200 "$destination/assets/images/workstations/sspaeti-office-setup-1200w.webp"
+  render_responsive_image "$sspaeti_workstation_source" 1600 "$destination/assets/images/workstations/sspaeti-office-setup-1600w.webp"
+
+  subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
+  subset_font "$font_source_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
 }
 
 if [ "$mode" = check ]; then
@@ -149,14 +204,12 @@ if [ "$mode" = check ]; then
 
   render_all "$temporary_directory"
   for output in $output_paths; do
-    filename=${output##*/}
     [ -f "$output" ] || fail "Missing committed derivative: $output"
-    cmp -s "$temporary_directory/$filename" "$output" || fail "Derivative differs from deterministic render: $output"
+    cmp -s "$temporary_directory/$output" "$output" || fail "Derivative differs from deterministic render: $output"
   done
   printf '%s\n' 'Asset derivatives are byte-identical.'
   exit 0
 fi
 
-mkdir -p assets/images/hero
-render_all assets/images/hero
-printf '%s\n' 'Rendered deterministic hero derivatives.'
+render_all .
+printf '%s\n' 'Rendered deterministic image and font derivatives.'
