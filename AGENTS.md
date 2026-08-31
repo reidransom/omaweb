@@ -28,12 +28,12 @@ Write with a point of view. Vary sentence rhythm, acknowledge real tradeoffs, an
 
 ### Issue tracker
 
-Issues and specs are tracked as local Markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
+Issues and specs are tracked as local Markdown under `.scratch/`. See `_docs/agents/issue-tracker.md`.
 
 ### Triage labels
 
-Triage uses the default five-label vocabulary. See `docs/agents/triage-labels.md`.
+Triage uses the default five-label vocabulary. See `_docs/agents/triage-labels.md`.
 
 ### Domain docs
 
-This repo uses a single-context domain-doc layout. See `docs/agents/domain.md`.
+This repo uses a single-context domain-doc layout. See `_docs/agents/domain.md`.
