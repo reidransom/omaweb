@@ -1,2 +1,4 @@
 _site/
 __*
+node_modules/
+_plans/
