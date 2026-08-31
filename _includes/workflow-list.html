@@ -1,0 +1,9 @@
+{% assign workflows = include.items %}
+<ol class="{{ include.class | escape }}" markdown="0">
+{% for workflow in workflows %}
+<li>
+<h3>{{ workflow.title | escape }}</h3>
+<p>{{ workflow.body | escape }}</p>
+</li>
+{% endfor %}
+</ol>
