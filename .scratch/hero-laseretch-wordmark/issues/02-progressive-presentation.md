@@ -1,6 +1,6 @@
 # Prepare progressive wordmark presentation
 
-Status: ready-for-agent
+Status: resolved
 Type: task
 Blocked by:
 
@@ -18,3 +18,7 @@ Do not vendor artifacts, modify production or browser verifiers, or replace `src
 ## Acceptance
 
 Markup and styles provide the exact progressive-enhancement state contract required by the spec.
+
+## Answer
+
+Changed `_includes/head.html`, `_includes/wordmark.html`, and `src/css/home.css`. Static fallback is default; `html.wte-home` hides it only during the two-second pending window; `data-wordmark-enhanced="true"` shows the decorative Canvas, while `"false"`, reduced motion, and print show the fallback.
