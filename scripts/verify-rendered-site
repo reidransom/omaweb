@@ -259,9 +259,10 @@ def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: in
 def check_home_actions(browser: DevToolsSocket) -> None:
     actions = evaluate(
         browser,
-        """(() => Object.fromEntries(Array.from(document.querySelectorAll('.home-card__link'), link => [
-          link.querySelector('h3')?.textContent.trim(), link.href
-        ])))()""",
+        """(() => Object.fromEntries(Array.from(
+          document.querySelectorAll('section[aria-labelledby="actions-title"] .home-card__link'),
+          link => [link.querySelector('h3')?.textContent.trim(), link.href]
+        )))()""",
     )
     if actions != HOME_ACTIONS:
         fail(f"Homepage authoritative actions are incomplete or wrong: expected {HOME_ACTIONS}, got {actions}.")
