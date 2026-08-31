@@ -41,6 +41,8 @@ news_preview_source=__docs/images/news/radio-atlas-preview.webp
 desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
 pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
 sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
+usb_key_source=__docs/images/usb-key-bitart.png
+user_manual_source=__docs/images/user-manual-bitart.png
 font_source_directory=__docs/fonts/jetbrains-mono-2.304
 responsive_widths='480 768 1200 1600'
 news_responsive_widths='480 768 1152'
@@ -51,6 +53,8 @@ for source in \
   "$desktop_preview_source" \
   "$pleum_workstation_source" \
   "$sspaeti_workstation_source" \
+  "$usb_key_source" \
+  "$user_manual_source" \
   "$font_source_directory/JetBrainsMono-Light.ttf" \
   "$font_source_directory/JetBrainsMono-LightItalic.ttf" \
   "$font_source_directory/JetBrainsMono-Medium.ttf" \
@@ -67,6 +71,10 @@ assets/images/hero/winding-road-1600w.webp
 assets/images/hero/winding-road-portrait-480w.webp
 assets/images/hero/winding-road-portrait-768w.webp
 assets/images/hero/winding-road-portrait-1200w.webp
+assets/images/hero/usb-key-bitart-480w.webp
+assets/images/hero/usb-key-bitart-768w.webp
+assets/images/hero/user-manual-bitart-480w.webp
+assets/images/hero/user-manual-bitart-768w.webp
 assets/images/news/radio-atlas-preview-480w.webp
 assets/images/news/radio-atlas-preview-768w.webp
 assets/images/news/radio-atlas-preview-1152w.webp
@@ -144,6 +152,22 @@ render_responsive_image() {
     "$output"
 }
 
+render_product_art() {
+  source=$1
+  width=$2
+  output=$3
+
+  magick "$source" \
+    -auto-orient \
+    -colorspace sRGB \
+    -strip \
+    -resize "${width}x" \
+    -quality 82 \
+    -define webp:method=6 \
+    -define webp:thread-level=0 \
+    "$output"
+}
+
 render_responsive_family() {
   source=$1
   directory=$2
@@ -173,6 +197,10 @@ render_all() {
   render_portrait 480 854 "$destination/assets/images/hero/winding-road-portrait-480w.webp"
   render_portrait 768 1365 "$destination/assets/images/hero/winding-road-portrait-768w.webp"
   render_portrait 1200 2133 "$destination/assets/images/hero/winding-road-portrait-1200w.webp"
+  render_product_art "$usb_key_source" 480 "$destination/assets/images/hero/usb-key-bitart-480w.webp"
+  render_product_art "$usb_key_source" 768 "$destination/assets/images/hero/usb-key-bitart-768w.webp"
+  render_product_art "$user_manual_source" 480 "$destination/assets/images/hero/user-manual-bitart-480w.webp"
+  render_product_art "$user_manual_source" 768 "$destination/assets/images/hero/user-manual-bitart-768w.webp"
   render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
   render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
   render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"

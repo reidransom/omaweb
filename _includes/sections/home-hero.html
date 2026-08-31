@@ -1,12 +1,45 @@
 {% assign home = site.data.home %}
-<section class="home-section home-hero" aria-labelledby="home-title">
-  <div class="home-hero__panel">
-    {% include wordmark.html %}
-    <h1 id="home-title" class="home-hero__descriptor">{{ home.hero.descriptor | escape }}</h1>
-    <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
-    <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
-    {% include action-group.html actions=home.hero.actions.items class='home-hero__actions' label='Get started' %}
+<section class="home-section home-hero" aria-labelledby="home-title" data-home-hero>
+  <div class="home-hero__stage">
+    <div class="home-hero__panes">
+      <div class="home-hero__panel home-hero__panel--primary" data-home-hero-primary>
+        <div class="home-hero__panel-content">
+          {% include wordmark.html %}
+          <h1 id="home-title" class="home-hero__descriptor">{{ home.hero.descriptor | escape }}</h1>
+          <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
+          <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
+        </div>
+      </div>
+
+      <aside class="home-hero__panel home-hero__panel--actions" aria-label="Get started" data-home-hero-actions>
+        <div class="home-hero__media-grid" aria-hidden="true">
+          <picture class="home-hero__product-art home-hero__product-art--iso">
+            <img
+              src="{{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }}"
+              srcset="{{ '/assets/images/hero/usb-key-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }} 768w"
+              sizes="(min-width: 64rem) 18vw, 42vw"
+              width="768"
+              height="768"
+              alt=""
+              loading="eager"
+              decoding="async">
+          </picture>
+          <picture class="home-hero__product-art home-hero__product-art--manual">
+            <img
+              src="{{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }}"
+              srcset="{{ '/assets/images/hero/user-manual-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }} 768w"
+              sizes="(min-width: 64rem) 18vw, 42vw"
+              width="768"
+              height="512"
+              alt=""
+              loading="eager"
+              decoding="async">
+          </picture>
+        </div>
+        {% include action-group.html actions=home.hero.actions.items class='home-hero__actions' label='Get started' %}
+      </aside>
+    </div>
+    <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
+    <span data-header-sentinel aria-hidden="true"></span>
   </div>
-  <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
-  <span data-header-sentinel aria-hidden="true"></span>
 </section>
