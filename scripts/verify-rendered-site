@@ -411,21 +411,20 @@ def check_news(browser: DevToolsSocket) -> None:
     featured = evaluate(
         browser,
         """(() => {
-          const image = document.querySelector('.news-featured__media img');
+          const route = '/news/2026/08/the-first-plugin-competition-winners/';
+          const card = Array.from(document.querySelectorAll('article.news-card')).find(article =>
+            article.querySelector('.news-card__media')?.getAttribute('href') === route
+          );
+          const image = card?.querySelector('.news-card__media img');
           return image && {
             src: image.currentSrc || image.src,
             alt: image.alt,
-            width: image.naturalWidth,
-            illustrative: Boolean(document.querySelector('.news-featured__notice'))
+            width: image.naturalWidth
           };
         })()""",
     )
-    if not featured:
-        fail("Featured News must render lead media.")
-    real_media = "radio-atlas" in featured["src"] and bool(featured["alt"].strip()) and featured["width"] > 0
-    illustrative_media = featured["illustrative"] and featured["width"] > 0
-    if not real_media and not illustrative_media:
-        fail("Featured News must render cleared real lead media or an explicitly declared illustrative fallback.")
+    if not featured or "radio-atlas" not in featured["src"] or not featured["alt"].strip() or featured["width"] <= 0:
+        fail("Configured featured News story must render its cleared real Radio Atlas lead image with useful alt text.")
 
 
 def check_news_partition(debug_url: str, origin: str) -> None:
