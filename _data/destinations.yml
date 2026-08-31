@@ -4,6 +4,26 @@ items:
     url: https://omarchy.org/manual/
     external: true
     button_treatment: secondary
+  - slug: manual-getting-started
+    label: Getting Started
+    url: https://omarchy.org/manual/getting-started/
+    external: true
+  - slug: manual-hotkeys
+    label: Hotkeys
+    url: https://omarchy.org/manual/hotkeys/
+    external: true
+  - slug: manual-cli
+    label: Omarchy CLI
+    url: https://omarchy.org/manual/omarchy-cli/
+    external: true
+  - slug: manual-troubleshooting
+    label: Troubleshooting
+    url: https://omarchy.org/manual/troubleshooting/
+    external: true
+  - slug: manual-faq
+    label: FAQ
+    url: https://omarchy.org/manual/faq/
+    external: true
   - slug: iso
     label: ISO
     url: https://iso.omarchy.org/omarchy-4.0.1.iso

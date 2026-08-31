@@ -1,122 +1,101 @@
-groups:
-  items:
-    - label: Platforms
-      url: /platforms/
-      external: false
-      links:
-        items:
-          - product: desktop
-          - product: server
-          - product: mobile
-    - label: Hardware
-      url: /hardware/
-      external: false
-      links:
-        items:
-          - product: laptops
-          - product: workstations
-    - label: Software
-      url: /software/
-      external: false
-      links:
-        items:
-          - product: apps
-          - product: plugins
-          - product: cloud
-    - label: Project
-      url: /project/
-      external: false
-      links:
-        items:
-          - product: labs
-          - label: News
-            url: /news/
-            external: false
-          - label: Community
-            url: /community/
-            external: false
-          - label: Foundation
-            url: /foundation/
-            external: false
-utility:
-  items:
-    - destination: manual
-    - destination: iso
-    - destination: code
-    - destination: discord
-    - destination: merch
-footer:
-  items:
-    - label: Community
-      links:
-        items:
-          - label: Community
-            url: /community/
-            external: false
-          - product: workstations
-          - label: Meetups
-            url: /meetups/
-            external: false
-          - label: Teams
-            url: /teams/
-            external: false
-          - label: Core
-            url: /teams/core/
-            external: false
-          - label: Rangers
-            url: /teams/rangers/
-            external: false
-    - label: Omacom Foundation
-      links:
-        items:
-          - label: Foundation
-            url: /foundation/
-            external: false
-          - label: Patrons
-            url: /patrons/
-            external: false
-          - label: Sponsorships
-            url: /sponsorships/
-            external: false
-          - label: Artists in Residence
-            url: /air/
-            external: false
-          - label: Security
-            url: /security/
-            external: false
-    - label: News
-      links:
-        items:
-          - label: News
-            url: /news/
-            external: false
-          - label: Search
-            url: /news/search/
-            external: false
-          - label: Archive
-            url: /news/page/2/
-            external: false
-          - label: Feed
-            url: /news/feed.xml
-            external: false
-          - label: Releases
-            url: /news/categories/releases/
-            external: false
-          - label: Product
-            url: /news/categories/product/
-            external: false
-          - label: Community
-            url: /news/categories/community/
-            external: false
-          - label: Events
-            url: /news/categories/events/
-            external: false
-          - label: Foundation
-            url: /news/categories/foundation/
-            external: false
-          - label: Editorial
-            url: /news/categories/editorial/
-            external: false
-          - label: By DHH
-            url: /news/authors/dhh/
-            external: false
+search:
+  label: Search
+  url: /search/
+  external: false
+
+exploratory_description: >-
+  Exploratory. These are areas Omarchy may cover, not products or release promises.
+
+sections:
+  - label: Foundation
+    url: /foundation/
+    external: false
+    links:
+      items:
+        - label: Patrons
+          url: /patrons/
+          external: false
+        - label: Sponsorships
+          url: /sponsorships/
+          external: false
+        - label: Artists in Residence
+          url: /air/
+          external: false
+        - label: Security
+          url: /security/
+          external: false
+
+  - label: Manual
+    destination: manual
+    links:
+      items:
+        - label: Download ISO
+          destination: iso
+        - destination: manual-getting-started
+        - destination: manual-hotkeys
+        - destination: manual-cli
+        - destination: manual-troubleshooting
+        - destination: manual-faq
+
+  - label: Shop
+    url: /new-releases/
+    external: false
+    exploratory: true
+    links:
+      items:
+        - label: Laptops
+          url: /laptops/
+          external: false
+          exploratory: true
+        - label: Desktops
+          url: /desktop/
+          external: false
+          exploratory: true
+        - label: Mobile
+          url: /mobile/
+          external: false
+          exploratory: true
+        - destination: merch
+        - label: Accessories
+          url: /accessories/
+          external: false
+          exploratory: true
+
+  - label: News
+    url: /news/
+    external: false
+    links:
+      items:
+        - label: Product
+          url: /news/categories/product/
+          external: false
+        - label: Releases
+          url: /news/categories/releases/
+          external: false
+        - label: Events
+          url: /news/categories/events/
+          external: false
+        - label: Editorial
+          url: /news/categories/editorial/
+          external: false
+        - label: Atom feed
+          url: /news/feed.xml
+          external: false
+
+  - label: Community
+    url: /community/
+    external: false
+    links:
+      items:
+        - destination: discord
+        - label: Meetups
+          url: /meetups/
+          external: false
+        - label: Workstations
+          url: /workstations/
+          external: false
+        - destination: plugins
+        - label: Teams
+          url: /teams/
+          external: false
+        - destination: code

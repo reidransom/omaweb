@@ -39,50 +39,38 @@
 
     <nav class="site-header__nav" aria-label="Primary navigation">
       <ul class="site-header__groups" role="list">
-        {% for group in navigation.groups.items %}
+        {% for section in navigation.sections %}
           <li class="site-header__group">
-            {% include authoritative-link.html link=group %}
-            <ul role="list">
-              {% for link in group.links.items %}
-              <li>
-                {% include authoritative-link.html link=link %}
-              </li>
-              {% endfor %}
-            </ul>
+            {% include authoritative-link.html link=section class='site-header__section-link' exploratory_description_id='header-exploratory-status' %}
           </li>
-        {% endfor %}
-      </ul>
-      <ul class="site-header__utility" role="list">
-        {% for link in navigation.utility.items %}
-          <li>{% include authoritative-link.html destination=link.destination %}</li>
         {% endfor %}
       </ul>
     </nav>
 
-    <button class="site-header__drawer-open" type="button" data-drawer-open hidden aria-haspopup="dialog" aria-controls="mobile-drawer">Menu</button>
+    {% include authoritative-link.html link=navigation.search class='site-header__search' %}
 
-    <details class="site-header__fallback" data-drawer-fallback>
-      <summary>Menu</summary>
-      <nav aria-label="Mobile navigation">
-        {% for group in navigation.groups.items %}
-          <section class="site-header__fallback-group">
+    <button class="site-header__drawer-open site-header__menu" type="button" data-drawer-open data-quake-toggle hidden aria-expanded="false" aria-controls="quake-navigation">Menu <span class="u-visually-hidden">(Ctrl+`)</span></button>
+
+    <details class="quake-navigation" id="quake-navigation" data-drawer-fallback data-quake-fallback>
+      <summary>Menu <span class="u-visually-hidden">(Ctrl+`)</span></summary>
+      <nav aria-label="All navigation">
+        {% for section in navigation.sections %}
+          <section class="quake-navigation__section">
             <h2>
-              {% include authoritative-link.html link=group %}
+              {% include authoritative-link.html link=section class='quake-navigation__section-link' exploratory_description_id='header-exploratory-status' %}
             </h2>
-            <ul>
-              {% for link in group.links.items %}
-              <li>
-                {% include authoritative-link.html link=link %}
-              </li>
+            <ul role="list">
+              {% for link in section.links.items %}
+                <li>
+                  {% include authoritative-link.html link=link class='quake-navigation__link' exploratory_description_id='header-exploratory-status' %}
+                </li>
               {% endfor %}
             </ul>
+            {% if section.exploratory %}
+              <p class="quake-navigation__status" id="header-exploratory-status">{{ navigation.exploratory_description | escape }}</p>
+            {% endif %}
           </section>
         {% endfor %}
-        <ul class="site-header__fallback-utility">
-          {% for link in navigation.utility.items %}
-            <li>{% include authoritative-link.html destination=link.destination %}</li>
-          {% endfor %}
-        </ul>
       </nav>
     </details>
   </div>

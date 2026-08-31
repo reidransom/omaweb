@@ -1,7 +1,7 @@
 # Authoritative five-section navigation markup
 
-Status: ready-for-agent
-Blocked by: 01
+Status: completed
+Blocked by: none
 
 ## Scope
 
