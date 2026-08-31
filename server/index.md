@@ -5,7 +5,7 @@ description: An exploratory set of questions about self-hosting, serious workloa
 permalink: /server/
 nav_group: platforms
 archetype: product
-status: exploratory
+product: server
 ---
 <section class="prose" aria-labelledby="server-question-title">
   <h2 id="server-question-title">A server should leave the operator in charge.</h2>

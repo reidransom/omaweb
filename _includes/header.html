@@ -48,13 +48,19 @@
             {% endif %}
             <ul role="list">
               {% for link in group.links.items %}
-                <li>
-                  {% if link.external %}
-                    <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
-                  {% else %}
-                    <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-                  {% endif %}
-                </li>
+              <li>
+                {% assign product = site.data.products.items | where: 'slug', link.product | first %}
+                {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
+                {% if destination %}
+                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
+                {% elsif product %}
+                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
+                {% elsif link.external %}
+                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
+                {% else %}
+                  <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+                {% endif %}
+              </li>
               {% endfor %}
             </ul>
           </li>
@@ -62,13 +68,10 @@
       </ul>
       <ul class="site-header__utility" role="list">
         {% for link in navigation.utility.items %}
-          <li>
-            {% if link.external %}
-              <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
-            {% else %}
-              <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-            {% endif %}
-          </li>
+          {% assign destination = site.data.destinations.items | where: 'slug', link.destination | first %}
+          {% if destination %}
+            <li><a href="{{ destination.url | escape }}" rel="noreferrer">{{ destination.label | escape }}</a></li>
+          {% endif %}
         {% endfor %}
       </ul>
     </nav>
@@ -89,26 +92,29 @@
             </h2>
             <ul>
               {% for link in group.links.items %}
-                <li>
-                  {% if link.external %}
-                    <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
-                  {% else %}
-                    <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-                  {% endif %}
-                </li>
+              <li>
+                {% assign product = site.data.products.items | where: 'slug', link.product | first %}
+                {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
+                {% if destination %}
+                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
+                {% elsif product %}
+                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
+                {% elsif link.external %}
+                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
+                {% else %}
+                  <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
+                {% endif %}
+              </li>
               {% endfor %}
             </ul>
           </section>
         {% endfor %}
         <ul class="site-header__fallback-utility">
           {% for link in navigation.utility.items %}
-            <li>
-              {% if link.external %}
-                <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
-              {% else %}
-                <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-              {% endif %}
-            </li>
+            {% assign destination = site.data.destinations.items | where: 'slug', link.destination | first %}
+            {% if destination %}
+              <li><a href="{{ destination.url | escape }}" rel="noreferrer">{{ destination.label | escape }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
       </nav>

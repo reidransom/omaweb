@@ -5,48 +5,30 @@ groups:
       external: false
       links:
         items:
-          - label: Desktop
-            url: /desktop/
-            external: false
-          - label: Server
-            url: /server/
-            external: false
-          - label: Mobile
-            url: /mobile/
-            external: false
+          - product: desktop
+          - product: server
+          - product: mobile
     - label: Hardware
       url: /hardware/
       external: false
       links:
         items:
-          - label: Laptops
-            url: /laptops/
-            external: false
-          - label: Workstations
-            url: /workstations/
-            external: false
+          - product: laptops
+          - product: workstations
     - label: Software
       url: /software/
       external: false
       links:
         items:
-          - label: Apps
-            url: /apps/
-            external: false
-          - label: Plugins
-            url: https://omarchyplugins.com/
-            external: true
-          - label: Cloud
-            url: /cloud/
-            external: false
+          - product: apps
+          - product: plugins
+          - product: cloud
     - label: Project
       url: /project/
       external: false
       links:
         items:
-          - label: Labs
-            url: /labs/
-            external: false
+          - product: labs
           - label: News
             url: /news/
             external: false
@@ -58,21 +40,11 @@ groups:
             external: false
 utility:
   items:
-    - label: Manual
-      url: https://omarchy.org/manual/
-      external: true
-    - label: ISO
-      url: https://iso.omarchy.org/omarchy-4.0.1.iso
-      external: true
-    - label: Code
-      url: https://github.com/omacom/omarchy
-      external: true
-    - label: Discord
-      url: https://discord.gg/tXFUdasqhY
-      external: true
-    - label: Merch
-      url: https://supply.37signals.com/collections/omarchy
-      external: true
+    - destination: manual
+    - destination: iso
+    - destination: code
+    - destination: discord
+    - destination: merch
 footer:
   items:
     - label: Community
@@ -81,9 +53,7 @@ footer:
           - label: Community
             url: /community/
             external: false
-          - label: Workstations
-            url: /workstations/
-            external: false
+          - product: workstations
           - label: Meetups
             url: /meetups/
             external: false

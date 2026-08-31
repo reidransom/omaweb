@@ -5,9 +5,9 @@ hero:
   actions:
     items:
       - label: Get The ISO
-        navigation_label: ISO
+        destination: iso
       - label: Read The Manual
-        navigation_label: Manual
+        destination: manual
   scroll_label: See the desktop
 
 desktop:
@@ -17,9 +17,9 @@ desktop:
   actions:
     items:
       - label: Get The ISO
-        navigation_label: ISO
+        destination: iso
       - label: Read The Manual
-        navigation_label: Manual
+        destination: manual
 
 actions:
   title: The parts that make it yours.
@@ -27,16 +27,16 @@ actions:
   items:
     - label: The Manual
       detail: Configuration, applications, and the everyday shortcuts in one place.
-      navigation_label: Manual
+      destination: manual
     - label: The ISO
       detail: The install image for the current desktop.
-      navigation_label: ISO
+      destination: iso
     - label: The Plugins
       detail: Community additions live at their own authoritative directory.
-      navigation_label: Plugins
+      destination: plugins
     - label: The Code
       detail: Read the source, follow the changes, and make a contribution.
-      navigation_label: Code
+      destination: code
 
 workflows:
   eyebrow: Agents, with receipts
@@ -71,41 +71,28 @@ expansion:
 
 hardware:
   items:
-    - title: Laptops
+    - product: laptops
       body: What would useful certification, repairability, tested hardware, and availability look like?
-      url: /laptops/
-      status: exploratory
-    - title: Workstations
+    - product: workstations
       body: See the current community setups that give the desktop its many forms.
-      url: /workstations/
 
 server_apps:
   items:
-    - title: Server
+    - product: server
       body: Explore an opinionated base for self-hosting, workloads, remote administration, and agent-managed infrastructure.
-      url: /server/
-      status: exploratory
-    - title: Apps
+    - product: apps
       body: Explore first-party applications with shared visual and keyboard conventions, distinct from community plugins.
-      url: /apps/
-      status: exploratory
 
 cloud_mobile:
   items:
-    - title: Cloud
+    - product: cloud
       body: Explore hosted workstations, persistent agents, synchronization, compute, security, and data ownership.
-      url: /cloud/
-      status: exploratory
-    - title: Mobile
+    - product: mobile
       body: Explore a companion for notifications, shared clipboard and files, authentication, remote commands, and device sync.
-      url: /mobile/
-      status: exploratory
 
 labs:
-  title: Labs
+  product: labs
   body: "Public experiments that are not products."
-  url: /labs/
-  status: exploratory
 
 final_cta:
   title: Start with the desktop.
@@ -113,6 +100,6 @@ final_cta:
   actions:
     items:
       - label: Get The ISO
-        navigation_label: ISO
+        destination: iso
       - label: Read The Manual
-        navigation_label: Manual
+        destination: manual

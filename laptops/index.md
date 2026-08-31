@@ -5,7 +5,7 @@ description: An exploratory set of questions about repairable machines, meaningf
 permalink: /laptops/
 nav_group: hardware
 archetype: product
-status: exploratory
+product: laptops
 ---
 <section class="prose" aria-labelledby="laptops-question-title">
   <h2 id="laptops-question-title">A recommendation should mean something.</h2>

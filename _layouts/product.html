@@ -2,9 +2,10 @@
 layout: default
 ---
 <article class="content-shell content-shell--product" data-archetype="product">
+  {% assign product = site.data.products.items | where: 'slug', page.product | first %}
   <div class="page-hero">
-    {% include status-label.html status=page.status %}
-    <h1>{{ page.title | escape }}</h1>
+    {% include status-label.html status=product.status %}
+    <h1>{{ product.label | default: page.title | escape }}</h1>
     {% if page.description %}
       <p class="page-hero__lede">{{ page.description | escape }}</p>
     {% endif %}

@@ -44,9 +44,8 @@ items:
   - slug: plugins
     label: Plugins
     group: software
-    url: https://omarchyplugins.com/
+    destination: plugins
     status: current
-    external: true
     summary: Community additions collected in their own authoritative directory.
   - slug: cloud
     label: Cloud

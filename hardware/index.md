@@ -5,6 +5,7 @@ description: See current community workstations and the exploratory questions gu
 permalink: /hardware/
 nav_group: hardware
 archetype: landing
+markdown: false
 ---
 <div class="home-section home-section--reading">
   <div class="home-section__inner home-section__inner--narrow">
@@ -20,20 +21,9 @@ archetype: landing
     <ul class="home-card-grid" role="list">
       {% assign products = site.data.products.items | where: "group", "hardware" %}
       {% for product in products %}
-        {% assign card_url = product.url %}
-        {% assign card_external = product.external %}
-        {% if product.external %}
-          {% for navigation_group in site.data.navigation.groups.items %}
-            {% for navigation_link in navigation_group.links.items %}
-              {% if navigation_link.label == product.label %}
-                {% assign card_url = navigation_link.url %}
-                {% assign card_external = navigation_link.external %}
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
-        {% endif %}
+        {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
         <li class="home-card">
-          <a class="home-card__link" href="{% if card_external %}{{ card_url }}{% else %}{{ card_url | relative_url }}{% endif %}"{% if card_external %} rel="noreferrer"{% endif %}>
+          <a class="home-card__link" href="{% if destination %}{{ destination.url | escape }}{% else %}{{ product.url | relative_url }}{% endif %}"{% if destination %} rel="noreferrer"{% endif %}>
             {% include status-label.html status=product.status %}
             <h3>{{ product.label | escape }}</h3>
             <p>{{ product.summary | escape }}</p>

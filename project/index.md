@@ -5,6 +5,7 @@ description: Follow Omarchy through current community, news, foundation work, an
 permalink: /project/
 nav_group: project
 archetype: landing
+markdown: false
 ---
 <div class="home-section home-section--reading">
   <div class="home-section__inner home-section__inner--narrow">

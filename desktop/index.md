@@ -5,6 +5,7 @@ description: Omarchy is a current Arch, Hyprland, and Quickshell desktop with te
 permalink: /desktop/
 nav_group: platforms
 archetype: product
+product: desktop
 ---
 <section class="prose" aria-labelledby="desktop-now-title">
   <p class="page-hero__eyebrow">Current product</p>

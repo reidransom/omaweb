@@ -7,11 +7,10 @@
     <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
     <div class="button-group home-hero__actions" aria-label="Get started">
       {% for action in home.hero.actions.items %}
-        {% for link in site.data.navigation.utility.items %}
-          {% if link.label == action.navigation_label %}
-            <a class="button{% unless action.navigation_label == 'ISO' %} button--secondary{% endunless %}" href="{{ link.url }}" rel="noreferrer">{{ action.label | escape }}</a>
-          {% endif %}
-        {% endfor %}
+        {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+        {% if destination %}
+          <a class="button{% unless action.destination == 'iso' %} button--secondary{% endunless %}" href="{{ destination.url | escape }}" rel="noreferrer">{{ action.label | escape }}</a>
+        {% endif %}
       {% endfor %}
     </div>
   </div>

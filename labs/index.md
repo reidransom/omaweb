@@ -5,7 +5,7 @@ description: A public place for experiments that are not products.
 permalink: /labs/
 nav_group: project
 archetype: product
-status: exploratory
+product: labs
 ---
 <section class="prose" aria-labelledby="labs-purpose-title">
   <h2 id="labs-purpose-title">Public experiments, not product announcements.</h2>

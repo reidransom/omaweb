@@ -5,7 +5,7 @@ description: An exploratory set of questions about a hosted Omarchy workstation,
 permalink: /cloud/
 nav_group: software
 archetype: product
-status: exploratory
+product: cloud
 ---
 <section class="prose" aria-labelledby="cloud-question-title">
   <h2 id="cloud-question-title">A workstation somewhere else still has to feel like yours.</h2>

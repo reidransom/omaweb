@@ -1,0 +1,25 @@
+items:
+  - slug: manual
+    label: Manual
+    url: https://omarchy.org/manual/
+    external: true
+  - slug: iso
+    label: ISO
+    url: https://iso.omarchy.org/omarchy-4.0.1.iso
+    external: true
+  - slug: plugins
+    label: Plugins
+    url: https://omarchyplugins.com/
+    external: true
+  - slug: code
+    label: Code
+    url: https://github.com/omacom/omarchy
+    external: true
+  - slug: discord
+    label: Discord
+    url: https://discord.gg/tXFUdasqhY
+    external: true
+  - slug: merch
+    label: Merch
+    url: https://supply.37signals.com/collections/omarchy
+    external: true

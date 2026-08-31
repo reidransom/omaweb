@@ -1,5 +1,5 @@
 {% assign navigation = site.data.navigation %}
-{% assign discord = navigation.utility.items | where: 'label', 'Discord' | first %}
+{% assign discord = site.data.destinations.items | where: 'slug', 'discord' | first %}
 {% assign revision = site.env.OMARCHY_REVISION | default: 'local' %}
 {% assign build_date = site.env.OMARCHY_BUILD_DATE | default: site.time | date: '%Y-%m-%dT%H:%M:%SZ' %}
 <footer class="site-footer">
@@ -10,7 +10,7 @@
       <p>Omacom Foundation supports Omarchy.</p>
       <p>Omarchy is a pending trademark.</p>
       {% if discord %}
-        <p>Contact via <a href="{{ discord.url }}" rel="noreferrer">Discord</a>.</p>
+        <p>Contact via <a href="{{ discord.url | escape }}" rel="noreferrer">Discord</a>.</p>
       {% endif %}
     </div>
 
@@ -26,9 +26,15 @@
           </h2>
           <ul role="list">
             {% for link in group.links.items %}
+              {% assign product = site.data.products.items | where: 'slug', link.product | first %}
+              {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
               <li>
-                {% if link.external %}
-                  <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+                {% if destination %}
+                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
+                {% elsif product %}
+                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
+                {% elsif link.external %}
+                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
                 {% else %}
                   <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
                 {% endif %}
@@ -42,13 +48,10 @@
         <h2><a href="{{ '/desktop/' | relative_url }}">Desktop actions</a></h2>
         <ul role="list">
           {% for link in navigation.utility.items %}
-            <li>
-              {% if link.external %}
-                <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
-              {% else %}
-                <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-              {% endif %}
-            </li>
+            {% assign destination = site.data.destinations.items | where: 'slug', link.destination | first %}
+            {% if destination %}
+              <li><a href="{{ destination.url | escape }}" rel="noreferrer">{{ destination.label | escape }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
       </section>
@@ -58,9 +61,15 @@
           <h2>{{ section.label | escape }}</h2>
           <ul role="list">
             {% for link in section.links.items %}
+              {% assign product = site.data.products.items | where: 'slug', link.product | first %}
+              {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
               <li>
-                {% if link.external %}
-                  <a href="{{ link.url }}" rel="noreferrer">{{ link.label | escape }}</a>
+                {% if destination %}
+                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
+                {% elsif product %}
+                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
+                {% elsif link.external %}
+                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
                 {% else %}
                   <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
                 {% endif %}

@@ -6,17 +6,16 @@
     <p class="home-prose home-section__intro">{{ actions.intro | escape }}</p>
     <ul class="home-card-grid" role="list">
       {% for action in actions.items %}
-        {% for link in site.data.navigation.utility.items %}
-          {% if link.label == action.navigation_label %}
-            <li class="home-card">
-              <a class="home-card__link" href="{{ link.url }}" rel="noreferrer">
-                <h3>{{ action.label | escape }}</h3>
-                <p>{{ action.detail | escape }}</p>
-                <span aria-hidden="true">Open →</span>
-              </a>
-            </li>
-          {% endif %}
-        {% endfor %}
+        {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+        {% if destination %}
+          <li class="home-card">
+            <a class="home-card__link" href="{{ destination.url | escape }}" rel="noreferrer">
+              <h3>{{ action.label | escape }}</h3>
+              <p>{{ action.detail | escape }}</p>
+              <span aria-hidden="true">Open →</span>
+            </a>
+          </li>
+        {% endif %}
       {% endfor %}
     </ul>
   </div>
