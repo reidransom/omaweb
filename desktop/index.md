@@ -6,6 +6,7 @@ permalink: /desktop/
 nav_group: platforms
 archetype: product
 product: desktop
+markdown: false
 media:
   src: /assets/images/desktop/tokyo-night-preview-1600w.webp
   width: 1600
