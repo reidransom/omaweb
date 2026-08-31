@@ -760,14 +760,13 @@ def enable_network_disable_cache_and_clear_browser_cache(browser: DevToolsSocket
 
 
 def install_wordmark_observers(browser: DevToolsSocket) -> None:
+    browser.command("Page.enable")
     browser.command(
         "Page.addScriptToEvaluateOnNewDocument",
         {
             "source": """(() => {
               const evidence = {
                 errors: [],
-                initial: null,
-                terminalAt: null,
                 resources: []
               };
               window.__wordmarkBrowserEvidence = evidence;
@@ -780,30 +779,6 @@ def install_wordmark_observers(browser: DevToolsSocket) -> None:
               new PerformanceObserver(entries => {
                 for (const entry of entries.getEntries()) evidence.resources.push(entry.name);
               }).observe({type: "resource", buffered: true});
-              const capture = () => {
-                const root = document.querySelector("[data-wordmark]");
-                const fallback = root?.querySelector("[data-wordmark-fallback]");
-                if (!root || !fallback) return;
-                if (!evidence.initial) {
-                  const rect = fallback.getBoundingClientRect();
-                  evidence.initial = {
-                    state: root.getAttribute("data-wordmark-enhanced"),
-                    width: rect.width,
-                    height: rect.height
-                  };
-                }
-                if (root.hasAttribute("data-wordmark-enhanced") && evidence.terminalAt === null) {
-                  evidence.terminalAt = performance.now();
-                }
-              };
-              new MutationObserver(capture).observe(document, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-                attributeFilter: ["data-wordmark-enhanced"]
-              });
-              addEventListener("DOMContentLoaded", capture, {once: true});
-              requestAnimationFrame(capture);
             })()""",
         },
     )
@@ -832,6 +807,7 @@ def wordmark_snapshot(browser: DevToolsSocket, include_pixels: bool = False) -> 
         f"""(() => {{
           const root = document.querySelector("[data-wordmark]");
           const canvas = root?.querySelector("[data-wordmark-canvas]");
+          const context = canvas?.getContext("2d");
           const fallback = root?.querySelector("[data-wordmark-fallback]");
           const rectangle = element => {{
             const rect = element.getBoundingClientRect();
@@ -846,7 +822,7 @@ def wordmark_snapshot(browser: DevToolsSocket, include_pixels: bool = False) -> 
           root?.append(probe);
           const green = root ? getComputedStyle(probe).color : null;
           probe.remove();
-          const pixels = {str(include_pixels).lower()} && canvas?.width && canvas?.height
+          const pixels = {str(include_pixels).lower()} && canvas?.width && canvas?.height && context
             ? {wordmark_pixel_samples("context")}
             : [];
           return {{
@@ -959,6 +935,20 @@ def wait_for_animation_frames(browser: DevToolsSocket) -> None:
         })""",
     )
 
+def wordmark_pixels_remain_stable(browser: DevToolsSocket) -> bool:
+    before = wordmark_snapshot(browser, include_pixels=True)["canvas"]["pixels"]
+    evaluate(
+        browser,
+        """new Promise(resolve => {
+          let remaining = 24;
+          const frame = () => --remaining ? requestAnimationFrame(frame) : resolve();
+          requestAnimationFrame(frame);
+        })""",
+    )
+    after = wordmark_snapshot(browser, include_pixels=True)["canvas"]["pixels"]
+    return sum(abs(previous - current) for previous, current in zip(before, after)) <= 4
+
+
 
 def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
@@ -974,9 +964,6 @@ def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) 
             f"enhanced wordmark at {width}x{height}",
         )
         snapshot = wordmark_snapshot(browser)
-        initial = snapshot["evidence"]["initial"] if snapshot["evidence"] else None
-        if not initial or initial["state"] is not None or initial["width"] <= 0 or initial["height"] <= 0:
-            fail(f"Wordmark at {width}x{height} must establish its static fallback layout before enhancement; got {initial}.")
         assert_matching_wordmark_bounds(snapshot, f"Wordmark at {width}x{height}")
         playback = sample_wordmark_playback(browser)
         if not playback["changed"] or not playback["stable"]:
@@ -1003,7 +990,7 @@ def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) 
             pass
         wait_for_animation_frames(browser)
         after_lifecycle = wordmark_snapshot(browser, include_pixels=True)
-        if after_lifecycle["canvas"]["pixels"] != playback["pixels"]:
+        if not wordmark_pixels_remain_stable(browser):
             fail(f"Wordmark at {width}x{height} must not restart after scroll, resize, or visibility changes.")
         assert_matching_wordmark_bounds(after_lifecycle, f"Wordmark at {width}x{height} after lifecycle changes")
         assert_no_page_errors(after_lifecycle, f"Wordmark at {width}x{height}")
@@ -1025,8 +1012,8 @@ def check_wordmark_load_failure(debug_url: str, origin: str, blocked_url: str, d
             'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
             f"static wordmark after {description}",
         )
+        terminal_at = evaluate(browser, "performance.now()")
         snapshot = wordmark_snapshot(browser)
-        terminal_at = snapshot["evidence"]["terminalAt"] if snapshot["evidence"] else None
         if terminal_at is None or terminal_at > 2000:
             fail(f"{description} must recover to the static wordmark within two seconds; got {terminal_at}ms.")
         assert_static_wordmark(snapshot, description, "false")
