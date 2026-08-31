@@ -155,6 +155,8 @@ a:hover .media__image {
 }
 
 .announcement {
+  position: relative;
+  z-index: 1;
   background: var(--omarchy-blue);
   color: var(--omarchy-night);
 }
