@@ -998,6 +998,29 @@ def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) 
         browser.close()
 
 
+def check_disabled_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, width, height)
+        install_wordmark_observers(browser)
+        enable_network_disable_cache_and_clear_browser_cache(browser)
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", f"homepage with laseretch disabled at {width}x{height}")
+        snapshot = wordmark_snapshot(browser)
+        enabled = evaluate(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhancement === "laseretch"',
+        )
+        if enabled:
+            fail(f"Laseretch must be disabled at {width}x{height}.")
+        assert_static_wordmark(snapshot, f"Laseretch-disabled homepage at {width}x{height}", None)
+        if any("/assets/js/wte/" in resource for resource in snapshot["evidence"]["resources"]):
+            fail(f"Laseretch-disabled homepage requested the WTE runtime: {snapshot['evidence']['resources']}.")
+        assert_no_page_errors(snapshot, f"Laseretch-disabled homepage at {width}x{height}")
+    finally:
+        browser.close()
+
+
 def check_wordmark_load_failure(debug_url: str, origin: str, blocked_url: str, description: str) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
@@ -1022,7 +1045,7 @@ def check_wordmark_load_failure(debug_url: str, origin: str, blocked_url: str, d
         browser.close()
 
 
-def check_print_wordmark(debug_url: str, origin: str) -> None:
+def check_print_wordmark(debug_url: str, origin: str, laseretch_enabled: bool) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 768, 1024)
@@ -1031,14 +1054,16 @@ def check_print_wordmark(debug_url: str, origin: str) -> None:
         browser.command("Emulation.setEmulatedMedia", {"media": "print"})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "printed homepage")
-        wait_for(
-            browser,
-            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
-            "static printed wordmark",
-        )
+        expected_state = "false" if laseretch_enabled else None
+        if expected_state is not None:
+            wait_for(
+                browser,
+                'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+                "static printed wordmark",
+            )
         snapshot = wordmark_snapshot(browser)
-        assert_static_wordmark(snapshot, "Printed homepage", "false")
-        if snapshot["canvas"]["width"] or snapshot["canvas"]["height"]:
+        assert_static_wordmark(snapshot, "Printed homepage", expected_state)
+        if laseretch_enabled and (snapshot["canvas"]["width"] or snapshot["canvas"]["height"]):
             fail(f"Printed homepage must have no Canvas output; got {snapshot['canvas']}.")
         assert_no_page_errors(snapshot, "Printed homepage")
     finally:
@@ -1089,7 +1114,7 @@ def check_no_javascript(debug_url: str, origin: str) -> None:
         browser.close()
 
 
-def check_reduced_motion(debug_url: str, origin: str) -> None:
+def check_reduced_motion(debug_url: str, origin: str, laseretch_enabled: bool) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 390, 844)
@@ -1101,13 +1126,15 @@ def check_reduced_motion(debug_url: str, origin: str) -> None:
         )
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "homepage with reduced motion")
-        wait_for(
-            browser,
-            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
-            "static reduced-motion wordmark",
-        )
+        expected_state = "false" if laseretch_enabled else None
+        if expected_state is not None:
+            wait_for(
+                browser,
+                'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+                "static reduced-motion wordmark",
+            )
         wordmark = wordmark_snapshot(browser)
-        assert_static_wordmark(wordmark, "Reduced-motion homepage", "false")
+        assert_static_wordmark(wordmark, "Reduced-motion homepage", expected_state)
         if any("/assets/js/wte/" in resource for resource in wordmark["evidence"]["resources"]):
             fail(f"Reduced-motion homepage must not request the WTE runtime; got {wordmark['evidence']['resources']}.")
         assert_no_page_errors(wordmark, "Reduced-motion homepage")
@@ -1486,25 +1513,30 @@ def run() -> None:
         finally:
             browser.close()
 
-        for width, height in VIEWPORTS:
-            check_normal_wordmark(session.debug_url, session.origin, width, height)
-        check_wordmark_load_failure(
-            session.debug_url,
-            session.origin,
-            "*/assets/js/wte/laseretch.wasm",
-            "blocked laseretch WebAssembly",
-        )
-        check_wordmark_load_failure(
-            session.debug_url,
-            session.origin,
-            "*/assets/js/wte/assets/playback-*.js",
-            "blocked WTE playback module",
-        )
-        check_print_wordmark(session.debug_url, session.origin)
+        laseretch_enabled = 'data-wordmark-enhancement="laseretch"' in (SITE / "index.html").read_text()
+        if laseretch_enabled:
+            for width, height in VIEWPORTS:
+                check_normal_wordmark(session.debug_url, session.origin, width, height)
+            check_wordmark_load_failure(
+                session.debug_url,
+                session.origin,
+                "*/assets/js/wte/laseretch.wasm",
+                "blocked laseretch WebAssembly",
+            )
+            check_wordmark_load_failure(
+                session.debug_url,
+                session.origin,
+                "*/assets/js/wte/assets/playback-*.js",
+                "blocked WTE playback module",
+            )
+        else:
+            for width, height in VIEWPORTS:
+                check_disabled_wordmark(session.debug_url, session.origin, width, height)
+        check_print_wordmark(session.debug_url, session.origin, laseretch_enabled)
 
         check_news_partition(session.debug_url, session.origin)
         check_no_javascript(session.debug_url, session.origin)
-        check_reduced_motion(session.debug_url, session.origin)
+        check_reduced_motion(session.debug_url, session.origin, laseretch_enabled)
         check_full_search(session.debug_url, session.origin)
         check_unavailable_search(session.debug_url, session.origin)
 

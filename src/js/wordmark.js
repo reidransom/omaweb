@@ -123,8 +123,7 @@ function isWasmError(error) {
 
 export function initWordmark() {
   const root = document.querySelector("[data-wordmark]");
-  if (!root) return;
-
+  if (!root || root.dataset.wordmarkEnhancement !== EFFECT) return;
   const canvas = root.querySelector("[data-wordmark-canvas]");
   const fallback = root.querySelector("[data-wordmark-fallback]");
   let stopWatching = null;

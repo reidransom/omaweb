@@ -6,6 +6,7 @@
 <link rel="icon" href="{{ '/assets/images/favicon.png' | relative_url }}" type="image/png">
 <link rel="preload" href="{{ '/assets/fonts/jetbrains-mono-light.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+{% if site.features.laseretch_wordmark %}
 <script>
   if (window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const root = document.documentElement;
@@ -18,4 +19,5 @@
     }, true);
   }
 </script>
+{% endif %}
 {% include seo.html %}

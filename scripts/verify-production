@@ -132,10 +132,15 @@ grep -Fq './assets/playback-C457l4sF.js' assets/js/wte/wte-canvas.js ||
 if grep -Erq 'https?://' assets/js/wte; then
   fail 'Vendored WTE runtime contains a remote runtime URL.'
 fi
-grep -Eq 'data-wte-canvas-url="/[^"]*assets/js/wte/wte-canvas\.js"' _site/index.html ||
-  fail 'Rendered wordmark loader URL is not a same-origin WTE path.'
-grep -Eq 'data-wte-wasm-url="/[^"]*assets/js/wte/laseretch\.wasm"' _site/index.html ||
-  fail 'Rendered wordmark WASM URL is not a same-origin WTE path.'
+if grep -Fq 'data-wordmark-enhancement="laseretch"' _site/index.html; then
+  grep -Eq 'data-wte-canvas-url="/[^"]*assets/js/wte/wte-canvas\.js"' _site/index.html ||
+    fail 'Rendered wordmark loader URL is not a same-origin WTE path.'
+  grep -Eq 'data-wte-wasm-url="/[^"]*assets/js/wte/laseretch\.wasm"' _site/index.html ||
+    fail 'Rendered wordmark WASM URL is not a same-origin WTE path.'
+else
+  ! grep -Fq 'data-wte-' _site/index.html ||
+    fail 'Laseretch-disabled output must not expose WTE runtime URLs.'
+fi
 
 required_routes='
 /
