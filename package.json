@@ -14,5 +14,8 @@
     "pagefind": "1.4.0",
     "subset-font": "2.7.0",
     "tailwindcss": "4.1.14"
+  },
+  "dependencies": {
+    "motion": "13.1.1"
   }
 }
