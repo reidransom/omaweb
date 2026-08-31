@@ -1,10 +1,11 @@
-{% assign desktop_action_labels = "ISO,Manual" | split: "," %}
+{% assign destinations = site.data.destinations.items %}
+{% assign iso = destinations | where: "slug", "iso" | first %}
+{% assign manual = destinations | where: "slug", "manual" | first %}
 <div class="button-group" aria-label="Desktop actions" markdown="0">
-{% for action_label in desktop_action_labels %}
-{% for navigation_link in site.data.navigation.utility.items %}
-{% if navigation_link.label == action_label %}
-<a class="button{% unless action_label == 'ISO' %} button--secondary{% endunless %}" href="{{ navigation_link.url }}" rel="noreferrer">{% if action_label == 'ISO' %}Get The ISO{% else %}Read The Manual{% endif %}</a>
+{% if iso %}
+<a class="button" href="{{ iso.url }}" rel="noreferrer">Get The ISO</a>
 {% endif %}
-{% endfor %}
-{% endfor %}
+{% if manual %}
+<a class="button button--secondary" href="{{ manual.url }}" rel="noreferrer">Read The Manual</a>
+{% endif %}
 </div>
