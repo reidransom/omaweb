@@ -83,6 +83,19 @@ def press_key(
     browser.command("Input.dispatchKeyEvent", {"type": "keyUp", **event})
 
 
+def dispatch_ctrl_shortcut(browser: DevToolsSocket, key: str, code: str) -> None:
+    evaluate(
+        browser,
+        f"""document.activeElement.dispatchEvent(new KeyboardEvent("keydown", {{
+          key: {json.dumps(key)},
+          code: {json.dumps(code)},
+          ctrlKey: true,
+          bubbles: true,
+          cancelable: true
+        }}))""",
+    )
+
+
 def click_element(browser: DevToolsSocket, selector: str) -> None:
     clicked = evaluate(
         browser,
@@ -415,10 +428,10 @@ def check_navigation_inventory(browser: DevToolsSocket) -> None:
         != ["Foundation", "Manual", "Shop", "News", "Community"]
         or not inventory["search"]
         or inventory["search"]["url"] != "/search/"
-        or "Ctrl K" not in inventory["search"]["text"]
+        or "Ctl+K" not in inventory["search"]["text"]
         or not inventory["menu"]
         or inventory["menu"]["controls"] != "quake-navigation"
-        or inventory["menu"]["shortcut"] != {"text": "Ctrl+`", "visible": True}
+        or inventory["menu"]["shortcut"] != {"text": "Ctl+`", "visible": True}
         or inventory["prunedLinks"]
     ):
         fail(f"Closed desktop header controls or curated links are wrong: {inventory}.")
@@ -688,6 +701,27 @@ def check_navigation_shortcuts(browser: DevToolsSocket, origin: str, width: int)
         wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Ctrl+` to open Quake navigation")
         press_key(browser, "`", "Backquote", 192, modifiers=2)
         wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "Ctrl+` to close Quake navigation")
+
+    dispatch_ctrl_shortcut(browser, "`", "IntlBackslash")
+    if width < 768:
+        wait_for(browser, 'document.querySelector("[data-drawer]")?.open', "logical Ctrl+` to open the mobile drawer")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-drawer]")?.open', "logical Ctrl+` mobile drawer cleanup")
+    else:
+        wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "logical Ctrl+` to open Quake navigation")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "logical Ctrl+` Quake cleanup")
+
+    dispatch_ctrl_shortcut(browser, "Dead", "Backquote")
+    if width < 768:
+        wait_for(browser, 'document.querySelector("[data-drawer]")?.open', "physical Ctrl+Backquote to open the mobile drawer")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-drawer]")?.open', "physical Ctrl+Backquote mobile drawer cleanup")
+    else:
+        wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "physical Ctrl+Backquote to open Quake navigation")
+        press_key(browser, "`", "Backquote", 192, modifiers=2)
+        wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "physical Ctrl+Backquote Quake cleanup")
+
 def check_mobile_drawer(browser: DevToolsSocket) -> None:
     drawer = evaluate(
         browser,
@@ -868,6 +902,14 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
     press_key(browser, "Escape", "Escape", 27)
     wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Escape to dismiss Spotlight")
     wait_for(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")', "Spotlight Escape focus restoration")
+
+    dispatch_ctrl_shortcut(browser, "k", "KeyT")
+    wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "logical Ctrl+K to open Spotlight")
+    if not evaluate(browser, 'document.activeElement === document.querySelector(\'[data-spotlight] input[name="q"]\')'):
+        fail("Logical Ctrl+K must move focus directly to Spotlight's query field.")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "logical Ctrl+K Spotlight cleanup")
+    wait_for(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")', "logical Ctrl+K focus restoration")
 
     click_element(browser, "[data-quake-toggle]")
     wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Quake before Spotlight exclusivity check")

@@ -147,7 +147,7 @@ export function initQuake({ header } = {}) {
       !event.altKey &&
       !event.shiftKey &&
       !event.metaKey &&
-      event.code === "Backquote"
+      (event.key === "`" || event.code === "Backquote")
     ) {
       event.preventDefault();
       togglePanel();

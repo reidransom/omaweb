@@ -369,7 +369,7 @@ export function initSiteSearch({ quake } = {}) {
       !event.altKey &&
       !event.shiftKey &&
       !event.metaKey &&
-      event.code === "KeyK"
+      event.key.toLowerCase() === "k"
     ) {
       event.preventDefault();
       openSpotlight(searchTriggers[0]);

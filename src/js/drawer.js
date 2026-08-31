@@ -59,7 +59,7 @@ export function initDrawer() {
       event.altKey ||
       event.shiftKey ||
       event.metaKey ||
-      event.code !== "Backquote"
+      (event.key !== "`" && event.code !== "Backquote")
     ) {
       return;
     }

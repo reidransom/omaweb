@@ -167,6 +167,10 @@
   font-weight: 700;
 }
 
+.spotlight [data-spotlight-close] .site-search__shortcut {
+  margin-inline-start: 0.75em;
+}
+
 .spotlight .site-search__form {
   margin-block-start: var(--omarchy-space-large);
 }

@@ -5,10 +5,9 @@
   <div class="spotlight__inner" data-site-search>
     <div class="spotlight__heading">
       <h2 id="spotlight-title">Search Omarchy</h2>
-      <button type="button" data-spotlight-close>Close</button>
+      <button type="button" data-spotlight-close>Close <span class="site-search__shortcut" aria-hidden="true">Esc</span></button>
     </div>
     <form class="site-search__form" data-site-search-form data-pagefind-url="{{ '/pagefind/pagefind.js' | relative_url }}" action="{{ '/search/' | relative_url }}" method="get">
-      <label for="spotlight-query">Search Omarchy <span class="site-search__shortcut" aria-hidden="true">Ctrl K</span></label>
       <input id="spotlight-query" name="q" type="search" autocomplete="off" enterkeyhint="search">
     </form>
     <div class="site-search__status" data-site-search-status aria-live="polite"></div>
