@@ -40,6 +40,55 @@ require_absent_output_path() {
   esac || fail "Removed route remains in rendered output: $path"
 }
 
+require_pinned_wte_artifact() {
+  wte_path=$1
+  wte_sha256=$2
+  wte_bytes=$3
+
+  for wte_file in "$wte_path" "_site/$wte_path"; do
+    [ -f "$wte_file" ] || fail "Missing pinned WTE artifact: $wte_file"
+    wte_actual_sha256=$(sha256sum "$wte_file" | sed 's/[[:space:]].*$//')
+    [ "$wte_actual_sha256" = "$wte_sha256" ] ||
+      fail "Unexpected SHA-256 for pinned WTE artifact: $wte_file"
+    wte_actual_bytes=$(wc -c < "$wte_file" | tr -d ' ')
+    [ "$wte_actual_bytes" -eq "$wte_bytes" ] ||
+      fail "Unexpected byte size for pinned WTE artifact: $wte_file"
+  done
+}
+
+require_cleared_wte_manifest_record() {
+  wte_id=$1
+  wte_path=$2
+  wte_source_url=$3
+  wte_sha256=$4
+  wte_bytes=$5
+  wte_record=$(sed -n "/^  - id: ${wte_id}\$/,/^  - id: /p" _data/assets.yml | sed '$d')
+
+  [ -n "$wte_record" ] || fail "Missing WTE manifest record: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq "    path: $wte_path" ||
+    fail "WTE manifest path is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq "    source_url: $wte_source_url" ||
+    fail "WTE manifest source URL is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq "    inspected_date: 2026-08-31" ||
+    fail "WTE manifest inspection date is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq "    sha256: $wte_sha256" ||
+    fail "WTE manifest SHA-256 is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq "    byte_size: $wte_bytes" ||
+    fail "WTE manifest byte size is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq '    rights_owner: Omacom' ||
+    fail "WTE manifest rights owner is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq '    license_or_permission: >-' ||
+    fail "WTE manifest permission basis is missing: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fq 'authorizes this first-party Omarchy production artifact for local publication.' ||
+    fail "WTE manifest permission basis is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq '    clearance_basis: >-' ||
+    fail "WTE manifest clearance basis is missing: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fq 'exact pinned first-party production artifact.' ||
+    fail "WTE manifest clearance basis is invalid: $wte_id"
+  printf '%s\n' "$wte_record" | grep -Fxq '    publication_status: cleared' ||
+    fail "WTE manifest publication status is invalid: $wte_id"
+}
+
 [ -d _site ] || fail 'Missing _site; run Jigyll before production verification.'
 [ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
 [ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
@@ -51,6 +100,42 @@ css_bytes=$(gzip -cn _site/assets/css/site.css | wc -c | tr -d ' ')
 [ "$css_bytes" -le 40960 ] || fail "Compressed CSS budget exceeded: ${css_bytes} bytes (limit 40960)."
 js_bytes=$(gzip -cn _site/assets/js/site.js | wc -c | tr -d ' ')
 [ "$js_bytes" -le 61440 ] || fail "Compressed initial JavaScript budget exceeded: ${js_bytes} bytes (limit 61440)."
+
+require_pinned_wte_artifact assets/js/wte/wte-canvas.js \
+  24cdecdc6a6f0ea53e5096700b75ffcf54182197e0353952fe883b568da00e26 1390
+require_pinned_wte_artifact assets/js/wte/assets/playback-C457l4sF.js \
+  1f15b70870233ef238924e0318ae8b584596c58b1cba3099f41a912f5e0b9b9c 13860
+require_pinned_wte_artifact assets/js/wte/ttfx.js \
+  4444d2f442af28a02e1d84c3dd2daf4db5067d175f48f53f2d3c0a3078195d3e 11679
+require_pinned_wte_artifact assets/js/wte/laseretch.wasm \
+  0c2a7d5e614dc2158ec097b1f4bc175b21cfd6a42b13d4b10b246090a5633107 177680
+
+require_cleared_wte_manifest_record wte-canvas-loader \
+  assets/js/wte/wte-canvas.js \
+  https://omarchy.org/assets/js/wte/wte-canvas.js \
+  24cdecdc6a6f0ea53e5096700b75ffcf54182197e0353952fe883b568da00e26 1390
+require_cleared_wte_manifest_record wte-canvas-playback \
+  assets/js/wte/assets/playback-C457l4sF.js \
+  https://omarchy.org/assets/js/wte/assets/playback-C457l4sF.js \
+  1f15b70870233ef238924e0318ae8b584596c58b1cba3099f41a912f5e0b9b9c 13860
+require_cleared_wte_manifest_record wte-ttfx-bindings \
+  assets/js/wte/ttfx.js \
+  https://omarchy.org/assets/js/wte/ttfx.js \
+  4444d2f442af28a02e1d84c3dd2daf4db5067d175f48f53f2d3c0a3078195d3e 11679
+require_cleared_wte_manifest_record wte-laseretch-effect \
+  assets/js/wte/laseretch.wasm \
+  https://omarchy.org/assets/js/wte/laseretch.wasm \
+  0c2a7d5e614dc2158ec097b1f4bc175b21cfd6a42b13d4b10b246090a5633107 177680
+
+grep -Fq './assets/playback-C457l4sF.js' assets/js/wte/wte-canvas.js ||
+  fail 'WTE loader no longer imports its pinned local playback runtime.'
+if grep -Erq 'https?://' assets/js/wte; then
+  fail 'Vendored WTE runtime contains a remote runtime URL.'
+fi
+grep -Eq 'data-wte-canvas-url="/[^/][^"]*assets/js/wte/wte-canvas\.js"' _site/index.html ||
+  fail 'Rendered wordmark loader URL is not a same-origin WTE path.'
+grep -Eq 'data-wte-wasm-url="/[^/][^"]*assets/js/wte/laseretch\.wasm"' _site/index.html ||
+  fail 'Rendered wordmark WASM URL is not a same-origin WTE path.'
 
 required_routes='
 /

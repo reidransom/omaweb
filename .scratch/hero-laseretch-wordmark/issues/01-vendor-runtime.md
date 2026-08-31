@@ -1,6 +1,6 @@
 # Vendor pinned laseretch runtime
 
-Status: ready-for-agent
+Status: resolved
 Type: task
 Blocked by:
 
@@ -17,3 +17,9 @@ Do not edit markup, CSS, the wordmark application loader, or rendered-site brows
 ## Acceptance
 
 The exact four assets are local and their pinned checks pass in the production verifier.
+
+## Answer
+
+- Vendored the pinned loader, playback runtime, WebAssembly bindings, and `laseretch.wasm` under `assets/js/wte/`.
+- Recorded source URLs, inspection date, hashes, byte sizes, and first-party clearance records in `_data/assets.yml`.
+- Added deterministic production checks for source/output presence, fingerprints, clearance records, local loader import, same-origin runtime URLs, and the unchanged initial-JavaScript gzip budget.

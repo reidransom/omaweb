@@ -16,6 +16,78 @@ policy:
     and the wordmark block glyphs.
 
 items:
+  - id: wte-canvas-loader
+    asset_type: browser-runtime
+    role: wordmark-effect-loader
+    path: assets/js/wte/wte-canvas.js
+    source_url: https://omarchy.org/assets/js/wte/wte-canvas.js
+    inspected_date: 2026-08-31
+    provenance: Exact pinned copy of the Omarchy production Web Text Effects loader.
+    sha256: 24cdecdc6a6f0ea53e5096700b75ffcf54182197e0353952fe883b568da00e26
+    byte_size: 1390
+    rights_owner: Omacom
+    license_or_permission: >-
+      No public license is asserted; the hero laseretch wordmark specification
+      authorizes this first-party Omarchy production artifact for local publication.
+    clearance_basis: >-
+      The hero laseretch wordmark specification explicitly directs vendoring this
+      exact pinned first-party production artifact.
+    publication_status: cleared
+
+  - id: wte-canvas-playback
+    asset_type: browser-runtime
+    role: wordmark-effect-playback
+    path: assets/js/wte/assets/playback-C457l4sF.js
+    source_url: https://omarchy.org/assets/js/wte/assets/playback-C457l4sF.js
+    inspected_date: 2026-08-31
+    provenance: Exact pinned copy of the Omarchy production Web Text Effects playback runtime.
+    sha256: 1f15b70870233ef238924e0318ae8b584596c58b1cba3099f41a912f5e0b9b9c
+    byte_size: 13860
+    rights_owner: Omacom
+    license_or_permission: >-
+      No public license is asserted; the hero laseretch wordmark specification
+      authorizes this first-party Omarchy production artifact for local publication.
+    clearance_basis: >-
+      The hero laseretch wordmark specification explicitly directs vendoring this
+      exact pinned first-party production artifact.
+    publication_status: cleared
+
+  - id: wte-ttfx-bindings
+    asset_type: browser-runtime
+    role: wordmark-effect-bindings
+    path: assets/js/wte/ttfx.js
+    source_url: https://omarchy.org/assets/js/wte/ttfx.js
+    inspected_date: 2026-08-31
+    provenance: Exact pinned copy of the Omarchy production Web Text Effects WebAssembly bindings.
+    sha256: 4444d2f442af28a02e1d84c3dd2daf4db5067d175f48f53f2d3c0a3078195d3e
+    byte_size: 11679
+    rights_owner: Omacom
+    license_or_permission: >-
+      No public license is asserted; the hero laseretch wordmark specification
+      authorizes this first-party Omarchy production artifact for local publication.
+    clearance_basis: >-
+      The hero laseretch wordmark specification explicitly directs vendoring this
+      exact pinned first-party production artifact.
+    publication_status: cleared
+
+  - id: wte-laseretch-effect
+    asset_type: browser-runtime
+    role: wordmark-effect-webassembly
+    path: assets/js/wte/laseretch.wasm
+    source_url: https://omarchy.org/assets/js/wte/laseretch.wasm
+    inspected_date: 2026-08-31
+    provenance: Exact pinned copy of the Omarchy production laseretch WebAssembly effect.
+    sha256: 0c2a7d5e614dc2158ec097b1f4bc175b21cfd6a42b13d4b10b246090a5633107
+    byte_size: 177680
+    rights_owner: Omacom
+    license_or_permission: >-
+      No public license is asserted; the hero laseretch wordmark specification
+      authorizes this first-party Omarchy production artifact for local publication.
+    clearance_basis: >-
+      The hero laseretch wordmark specification explicitly directs vendoring this
+      exact pinned first-party production artifact.
+    publication_status: cleared
+
   - id: hero-winding-road
     asset_type: image
     role: hero
