@@ -9,7 +9,7 @@ function isEditableTarget(target) {
   if (target.closest("input, textarea, select")) return true;
 
   const editable = target.closest("[contenteditable]");
-  return editable?.getAttribute("contenteditable") !== "false";
+  return editable !== null && editable.getAttribute("contenteditable") !== "false";
 }
 
 function conciseText(value) {
@@ -152,6 +152,7 @@ export function initSiteSearch({ quake } = {}) {
   const pagefindUrl = surfaces.find(({ form }) => form)?.form.dataset.pagefindUrl;
   let pagefindPromise;
   let requestIdentity = 0;
+  let debounceTimer;
   const surfaceResults = new Map();
   let searchTrigger = searchTriggers[0] ?? null;
 
@@ -252,7 +253,7 @@ export function initSiteSearch({ quake } = {}) {
 
     window.clearTimeout(debounceTimer);
     const identity = ++requestIdentity;
-    render({ state: "idle" });
+    render({ state: "loading", term, destinationResults: matchingDestinations(destinations, term) });
     debounceTimer = window.setTimeout(() => runSearch(term, identity), debounceDuration);
   };
 
@@ -307,7 +308,9 @@ export function initSiteSearch({ quake } = {}) {
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) closeSpotlight();
   });
-  dialog.addEventListener("close", () => searchTrigger?.focus());
+  dialog.addEventListener("close", () => {
+    window.requestAnimationFrame(() => searchTrigger?.focus());
+  });
   document.addEventListener("omarchy:quake-open", closeSpotlight);
   document.addEventListener("keydown", (event) => {
     if (isEditableTarget(event.target)) return;
@@ -323,6 +326,8 @@ export function initSiteSearch({ quake } = {}) {
       openSpotlight(searchTriggers[0]);
     }
   });
+
+  render({ state: "idle" });
 
   const initialQuery = new URLSearchParams(window.location.search).get("q");
   if (initialQuery) scheduleSearch(initialQuery);

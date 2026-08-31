@@ -6,7 +6,7 @@
   {% assign destination_slug = product.destination %}
 {% endif %}
 {% assign destination = site.data.destinations.items | where: 'slug', destination_slug | first %}
-{% assign label = include.label | default: product.label | default: destination.label | default: link.label %}
+{% assign label = include.label | default: link.label | default: product.label | default: destination.label %}
 {% assign href = nil %}
 {% assign external = false %}
 {% if destination %}

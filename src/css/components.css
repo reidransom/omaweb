@@ -446,7 +446,8 @@ a:hover .media__image {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .quake-navigation[data-quake-enhanced] {
+  .quake-navigation[data-quake-enhanced],
+  .quake-navigation[data-quake-enhanced][data-quake-state="open"] {
     transform: none;
   }
 }

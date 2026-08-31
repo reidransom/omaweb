@@ -7,7 +7,7 @@ function isEditableTarget(target) {
   if (target.closest("input, textarea, select")) return true;
 
   const editable = target.closest("[contenteditable]");
-  return editable?.getAttribute("contenteditable") !== "false";
+  return editable !== null && editable.getAttribute("contenteditable") !== "false";
 }
 
 export function initQuake({ header } = {}) {
@@ -115,6 +115,16 @@ export function initQuake({ header } = {}) {
 
   toggle.addEventListener("click", () => {
     if (desktopNavigation.matches) togglePanel();
+  });
+
+  toggle.addEventListener("keydown", (event) => {
+    if (
+      desktopNavigation.matches &&
+      (event.key === "Enter" || event.key === " ")
+    ) {
+      event.preventDefault();
+      togglePanel();
+    }
   });
 
   panel.addEventListener("click", (event) => {

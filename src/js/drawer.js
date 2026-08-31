@@ -4,7 +4,7 @@ function isEditableTarget(target) {
   if (target.closest("input, textarea, select")) return true;
 
   const editable = target.closest("[contenteditable]");
-  return editable?.getAttribute("contenteditable") !== "false";
+  return editable !== null && editable.getAttribute("contenteditable") !== "false";
 }
 
 export function initDrawer() {
