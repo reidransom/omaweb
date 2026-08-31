@@ -12,11 +12,13 @@ import functools
 import hashlib
 import http.server
 import json
+import os
 import secrets
 import shutil
 import socket
 import struct
 import subprocess
+import signal
 import sys
 import tempfile
 import threading
@@ -297,12 +299,15 @@ def check_header_transition(browser: DevToolsSocket) -> None:
         browser,
         """new Promise(resolve => {
           const header = document.querySelector('.site-header');
+          const update = () => window.dispatchEvent(new Event('scroll'));
           window.scrollTo(0, 0);
-          requestAnimationFrame(() => {
+          update();
+          requestAnimationFrame(() => requestAnimationFrame(() => {
             const initial = header?.dataset.headerState;
             window.scrollTo(0, innerHeight + 32);
+            update();
             requestAnimationFrame(() => requestAnimationFrame(() => resolve([initial, header?.dataset.headerState])));
-          });
+          }));
         })""",
     )
     if states != ["transparent", "opaque"]:
@@ -491,6 +496,7 @@ def run() -> None:
         ],
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
+        start_new_session=True,
     )
     debug_url = f"http://127.0.0.1:{debug_port}"
     try:
@@ -531,11 +537,16 @@ def run() -> None:
         check_no_javascript(debug_url, origin)
         check_reduced_motion(debug_url, origin)
     finally:
-        process.terminate()
         try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            process.kill()
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            pass
+        if process.poll() is None:
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                os.killpg(process.pid, signal.SIGKILL)
+                process.wait(timeout=5)
         profile.cleanup()
         server.shutdown()
         server.server_close()
