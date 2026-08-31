@@ -23,9 +23,10 @@ layout: default
     {% endif %}
   </div>
   {% if page.image %}
-    <div class="article__media">
+    <figure class="article__media">
       {% include media.html media=page.image %}
-    </div>
+      {% if page.image.illustrative %}<figcaption>Illustration only; it is not event photography or product evidence.</figcaption>{% endif %}
+    </figure>
   {% endif %}
 
   <div class="prose">

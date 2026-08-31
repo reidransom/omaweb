@@ -11,6 +11,14 @@ products:
   items: [plugins]
 project_areas:
   items: [plugins]
+image:
+  src: /assets/images/news-winners-illustration.svg
+  alt: Illustrative graphic with an abstract three-step podium for the plugin competition winners; not event photography or product screenshots.
+  width: 1200
+  height: 675
+  illustrative: true
+  loading: eager
+  fetchpriority: high
 ---
 
 The votes are in! [Omarchy Core](/teams/) went through the submissions, voted, and we have a podium for [the first plugin competition](/news/2026/08/the-first-plugin-competition/).

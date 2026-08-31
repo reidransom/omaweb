@@ -2,8 +2,8 @@
 layout: default
 ---
 {% assign articles = site.news | sort: 'date' | reverse %}
-{% assign featured = site.news | where: 'slug', site.data.news.featured_slug | first %}
-{% assign feed_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
+{% assign featured = articles | where: 'slug', site.data.news.featured_slug | first %}
+{% assign latest_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
 <section class="content-shell content-shell--news-index" data-archetype="editorial">
   <div class="page-hero">
     <p class="page-hero__eyebrow">News</p>
@@ -16,7 +16,7 @@ layout: default
       <section class="news-index__latest" aria-labelledby="latest-news">
         <h2 id="latest-news">Earlier news</h2>
         <div class="news-card-grid">
-          {% for article in feed_articles offset: 8 limit: 9 %}{% include news-card.html article=article %}{% endfor %}
+          {% for article in articles offset: site.data.news.page_size limit: site.data.news.page_size %}{% include news-card.html article=article %}{% endfor %}
         </div>
         <nav class="news-pagination" aria-label="News pages">
           <a class="button button--secondary" href="{{ '/news/' | relative_url }}">Newer news</a>
@@ -38,7 +38,7 @@ layout: default
             <div>
               {% if featured.description %}<p>{{ featured.description | escape }}</p>{% endif %}
               <a class="button" href="{{ featured.url | relative_url }}">Read the story</a>
-              <p class="news-featured__notice">Original lead media is pending clearance; this branded placeholder is not reporting imagery.</p>
+              {% if featured.image.illustrative %}<p class="news-featured__notice">Illustration only; it is not event photography or product evidence.</p>{% endif %}
             </div>
           </div>
         </section>
@@ -50,7 +50,7 @@ layout: default
           <a href="{{ '/news/feed.xml' | relative_url }}">Subscribe via Atom</a>
         </div>
         <div class="news-card-grid">
-          {% for article in feed_articles limit: site.data.news.latest_count %}{% include news-card.html article=article %}{% endfor %}
+          {% for article in latest_articles limit: site.data.news.latest_count %}{% include news-card.html article=article %}{% endfor %}
         </div>
       </section>
 
@@ -69,7 +69,7 @@ layout: default
       </section>
 
       <section id="archive" class="news-index__archive" aria-label="News archive">
-        {% include news-archive.html articles=articles %}
+        {% include news-archive.html articles=articles limit=site.data.news.page_size %}
         <nav class="news-pagination" aria-label="News pages">
           <a class="button button--secondary" href="{{ '/news/page/2/' | relative_url }}">Older news</a>
         </nav>
