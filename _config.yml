@@ -7,7 +7,7 @@ baseurl: ""
 lang: en
 permalink: pretty
 social_image: /assets/images/opengraph.png
-social_image_alt: Omarchy — Beautiful, Modern & Opinionated Linux by DHH.
+social_image_alt: Omarchy — Beautiful, Fun & Opinionated Linux by DHH
 
 collections:
   news:

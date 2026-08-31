@@ -204,7 +204,6 @@ a:hover .media__image {
   color: var(--omarchy-green);
   font-weight: 700;
   text-decoration: none;
-  text-transform: uppercase;
 }
 
 .site-header__nav {
@@ -321,10 +320,10 @@ a:hover .media__image {
 }
 
 .site-footer__mark {
-  display: inline-block;
+  display: block;
+  inline-size: 3rem;
+  block-size: 3rem;
   margin-block-end: var(--omarchy-space-medium);
-  color: var(--omarchy-green);
-  font-weight: 700;
 }
 
 .site-footer__sitemap {
