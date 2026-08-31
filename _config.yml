@@ -6,8 +6,8 @@ url: "https://omaweb.r2ware.dev"
 baseurl: ""
 lang: en
 permalink: pretty
-social_image: /assets/images/social-card.webp
-social_image_alt: Omarchy on a Night and Storm terminal-inspired card.
+social_image: /assets/images/opengraph.png
+social_image_alt: Omarchy — Beautiful, Modern & Opinionated Linux by DHH.
 
 collections:
   news:

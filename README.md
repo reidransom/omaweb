@@ -26,7 +26,7 @@ just serve            # local rebuild, watch, and serve
 
 Every file below `assets/images/` must have a checksum, intrinsic dimensions, provenance, and `publication_status: cleared` in `_data/assets.yml`. Do not add a remote media, font, script, or frame dependency. The sole frame exception is the disclosed Luma calendar on `/meetups/`, constrained by the document CSP to `https://luma.com`.
 
-The local favicon and 1200×630 social card are original Omarchy Night/Storm graphics and are recorded in that manifest. The social card is the site-wide OpenGraph and Twitter fallback; individual page images may replace it only with another cleared local asset.
+The local favicon and OpenGraph artwork are approved first-party assets published on omarchy.org and recorded in the asset manifest. The OpenGraph artwork is the site-wide OpenGraph and Twitter fallback; individual page images may replace it only with another cleared local asset.
 
 The current release gate intentionally remains blocked until the featured Plugin Competition Winners article has a cleared, real local lead image. Its branded fallback is not treated as factual lead media.
 

@@ -259,37 +259,37 @@ items:
       scope: Complete unsubsetted upstream cmap; 1362 code points.
       wordmark_required: { U+0020: SPACE, U+2588: FULL BLOCK }
 
-  - id: social-card
+  - id: opengraph-artwork
     asset_type: image
     role: social-share-card
-    path: assets/images/social-card.webp
+    path: assets/images/opengraph.png
     provenance: >-
-      Original Omarchy social card composed locally from the Night/Storm token
-      palette and Omarchy word treatment; it contains no third-party media.
-    sha256: 6ae44b3b3c89c28215eb86b9dcfea570a41852ce72d60ef1959db6d9138ba3e0
-    dimensions: { width: 1200, height: 630 }
+      Approved Omarchy OpenGraph artwork downloaded from the official
+      https://omarchy.org/assets/images/opengraph.png asset.
+    sha256: 38c0c35a32bb78201e6a9af4bf8230ae76a234bd71e530d77cc44aa9d0a16f09
+    dimensions: { width: 2400, height: 1260 }
     rights_owner: Omacom
     license_or_permission: >-
-      Original target-owned graphic created in this repository for site sharing.
+      Official first-party brand artwork published by Omacom on omarchy.org.
     clearance_basis: >-
-      Omacom owns the original composition and approves its publication.
+      The official Omarchy website uses this artwork for OpenGraph and Twitter metadata.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No third-party marks appear in this graphic. }
 
   - id: favicon
     asset_type: image
     role: favicon
-    path: assets/images/favicon.svg
+    path: assets/images/favicon.png
     provenance: >-
-      Original Omarchy favicon composed locally from the Night/Storm token
-      palette and an abstract terminal mark.
-    sha256: 1b61aca036a648c2a1057fa63914cecc898e71da8a8c6467d7c94c88b0de3837
-    dimensions: { width: 64, height: 64 }
+      Approved Omarchy compact mark downloaded from the official omarchy.org
+      favicon at https://omarchy.org/assets/images/favicon.png.
+    sha256: edd69e61d711d8b423555f27a5afc64935c299f6e7f779112d2ce970ec0236e4
+    dimensions: { width: 300, height: 300 }
     rights_owner: Omacom
     license_or_permission: >-
-      Original target-owned graphic created in this repository for site chrome.
+      Official first-party brand artwork published by Omacom on omarchy.org.
     clearance_basis: >-
-      Omacom owns the original composition and approves its publication.
+      The official Omarchy website uses this compact mark as its favicon.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No third-party marks appear in this graphic. }
 

@@ -23,3 +23,17 @@ Lead with a specific fact, action, or outcome. Name the actor and avoid claims t
 Use plain, active language and short sentences. Prefer concrete details, examples, numbers, and mechanisms over jargon, hype, or filler.
 
 Write with a point of view. Vary sentence rhythm, acknowledge real tradeoffs, and make direct claims instead of sounding neutral or promotional.
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs are tracked as local Markdown under `.scratch/`. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Triage uses the default five-label vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+This repo uses a single-context domain-doc layout. See `docs/agents/domain.md`.

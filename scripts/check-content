@@ -54,15 +54,15 @@ require_manifested_asset() {
 require_file _config.yml
 require_file _includes/head.html
 require_file _includes/seo.html
-require_file assets/images/social-card.webp
-require_file assets/images/favicon.svg
+require_file assets/images/opengraph.png
+require_file assets/images/favicon.png
 
-grep -Fq 'social_image: /assets/images/social-card.webp' _config.yml ||
-  fail 'Site configuration must use the local social card.'
+grep -Fq 'social_image: /assets/images/opengraph.png' _config.yml ||
+  fail 'Site configuration must use the approved local OpenGraph artwork.'
 grep -Fq 'frame-src https://luma.com' _includes/head.html ||
   fail 'The CSP must restrict frames to https://luma.com.'
-grep -Fq 'favicon.svg' _includes/head.html ||
-  fail 'The document head must reference the local favicon.'
+grep -Fq 'favicon.png' _includes/head.html ||
+  fail 'The document head must reference the approved local favicon.'
 
 for asset in $(find assets/images -type f | sort); do
   require_manifested_asset "$asset"

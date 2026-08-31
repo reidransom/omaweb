@@ -29,8 +29,8 @@ require_output_path() {
 [ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
 [ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
 [ -d _site/pagefind ] || fail 'Missing Pagefind output in _site/pagefind.'
-[ -f _site/assets/images/social-card.webp ] || fail 'Missing local social card in _site.'
-[ -f _site/assets/images/favicon.svg ] || fail 'Missing local favicon in _site.'
+[ -f _site/assets/images/opengraph.png ] || fail 'Missing approved local OpenGraph artwork in _site.'
+[ -f _site/assets/images/favicon.png ] || fail 'Missing approved local favicon in _site.'
 
 css_bytes=$(gzip -cn _site/assets/css/site.css | wc -c | tr -d ' ')
 [ "$css_bytes" -le 40960 ] || fail "Compressed CSS budget exceeded: ${css_bytes} bytes (limit 40960)."
