@@ -436,18 +436,25 @@ a:hover .media__image {
   .site-header__nav {
     display: block;
     min-inline-size: 0;
+    margin-inline-start: var(--omarchy-space-medium);
   }
 
   .site-header__groups {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--omarchy-space-small) var(--omarchy-space-medium);
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--omarchy-space-small) var(--omarchy-space-large);
+  }
+
+  .site-header__group + .site-header__group {
+    margin-block-start: 0;
   }
 
   .site-header__group > a {
     color: var(--omarchy-terminal-white);
     font-weight: 700;
+    text-decoration: none;
   }
 }
 
