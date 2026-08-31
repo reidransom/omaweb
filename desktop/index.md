@@ -29,43 +29,7 @@ media:
             - src: /assets/images/desktop/tokyo-night-preview-1600w.webp
               width: 1600
 ---
-<style>
-  .desktop-proof {
-    max-inline-size: 68rem;
-    margin-block-start: var(--omarchy-space-xx-large);
-  }
-
-  .desktop-proof__intro {
-    max-inline-size: var(--omarchy-prose-measure);
-  }
-
-  .desktop-proof__media {
-    margin: var(--omarchy-space-large) 0 0;
-  }
-
-  .desktop-proof__media .media,
-  .desktop-proof__media .media__image {
-    display: block;
-    inline-size: 100%;
-  }
-
-  .desktop-proof__caption {
-    margin-block-start: var(--omarchy-space-small);
-    color: var(--omarchy-terminal-white);
-  }
-</style>
-
-<section class="desktop-proof" aria-labelledby="desktop-proof-title">
-  <div class="desktop-proof__intro">
-    <p class="page-hero__eyebrow">Current proof</p>
-    <h2 id="desktop-proof-title">The desktop, in use.</h2>
-    <p>This Tokyo Night preview is an actual Omarchy desktop from the project’s official repository.</p>
-  </div>
-  <figure class="desktop-proof__media">
-    {% include media.html media=page.media %}
-    <figcaption class="desktop-proof__caption">Tokyo Night theme preview from the official Omarchy repository.</figcaption>
-  </figure>
-</section>
+{% include desktop-proof.html media=page.media %}
 <section class="prose" aria-labelledby="desktop-now-title">
   <p class="page-hero__eyebrow">Current product</p>
   <h2 id="desktop-now-title">A finished starting point beats a blank canvas.</h2>
