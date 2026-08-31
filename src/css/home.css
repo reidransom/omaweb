@@ -74,6 +74,7 @@
 }
 
 .home-hero {
+  position: static;
   display: grid;
   min-block-size: 100svh;
   align-content: center;
@@ -90,6 +91,11 @@
 }
 
 .home-hero__panel {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 50svh;
+  inset-inline: 0;
+  transform: translateY(-50%);
   padding-block: clamp(var(--omarchy-space-large), 6vw, var(--omarchy-space-xxxx-large));
   text-align: center;
 }
