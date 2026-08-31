@@ -74,27 +74,27 @@
 
 <section class="workstation-gallery" aria-labelledby="workstation-gallery-title">
   <h2 id="workstation-gallery-title" class="u-visually-hidden">Community workstation gallery</h2>
-  {% if workstations and workstations.size > 0 %}
-    {% for workstation in workstations %}
-      {% if workstation.media and workstation.media.src and workstation.media.width and workstation.media.height and workstation.media.alt and workstation.media.sources %}
-  <figure class="workstation-gallery__item">
-    <div class="workstation-gallery__image">
-      {% include media.html media=workstation.media %}
-    </div>
-    <figcaption class="workstation-gallery__caption">
-      {% if workstation.name %}<strong>{{ workstation.name | escape }}</strong>{% endif %}
-      {% if workstation.caption %}<p>{{ workstation.caption | escape }}</p>{% endif %}
-    </figcaption>
-  </figure>
-      {% endif %}
-    {% endfor %}
-  {% else %}
-  <div class="workstation-gallery__empty">
-    <h2>{{ site.data.workstations.empty_state.title | escape }}</h2>
-    <p>{{ site.data.workstations.empty_state.body | escape }}</p>
-    {% if discord %}
-      <p class="button-group">{% include authoritative-link.html destination='discord' label=site.data.workstations.empty_state.action_label class='button' %}</p>
-    {% endif %}
-  </div>
-  {% endif %}
+{% if workstations and workstations.size > 0 %}
+{% for workstation in workstations %}
+{% if workstation.media and workstation.media.src and workstation.media.width and workstation.media.height and workstation.media.alt and workstation.media.sources %}
+<figure class="workstation-gallery__item">
+<div class="workstation-gallery__image">
+{% include media.html media=workstation.media %}
+</div>
+<figcaption class="workstation-gallery__caption">
+{% if workstation.name %}<strong>{{ workstation.name | escape }}</strong>{% endif %}
+{% if workstation.caption %}<p>{{ workstation.caption | escape }}</p>{% endif %}
+</figcaption>
+</figure>
+{% endif %}
+{% endfor %}
+{% else %}
+<div class="workstation-gallery__empty">
+<h2>{{ site.data.workstations.empty_state.title | escape }}</h2>
+<p>{{ site.data.workstations.empty_state.body | escape }}</p>
+{% if discord %}
+<p class="button-group">{% include authoritative-link.html destination='discord' label=site.data.workstations.empty_state.action_label class='button' %}</p>
+{% endif %}
+</div>
+{% endif %}
 </section>
