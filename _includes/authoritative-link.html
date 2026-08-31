@@ -1,0 +1,16 @@
+{% assign link = include.link %}
+{% assign destination_slug = include.destination | default: link.destination %}
+{% assign product_slug = include.product | default: link.product %}
+{% assign product = site.data.products.items | where: 'slug', product_slug | first %}
+{% if destination_slug == nil and product %}
+  {% assign destination_slug = product.destination %}
+{% endif %}
+{% assign destination = site.data.destinations.items | where: 'slug', destination_slug | first %}
+{% assign label = include.label | default: product.label | default: destination.label | default: link.label %}
+{% if destination %}
+<a{% if include.class %} class="{{ include.class | escape }}"{% endif %} href="{{ destination.url | escape }}"{% if destination.external %} rel="noreferrer"{% endif %}>{% if include.content %}{{ include.content }}{% else %}{{ label | escape }}{% endif %}</a>
+{% elsif product %}
+<a{% if include.class %} class="{{ include.class | escape }}"{% endif %} href="{% if product.external %}{{ product.url | escape }}{% else %}{{ product.url | relative_url }}{% endif %}"{% if product.external %} rel="noreferrer"{% endif %}>{% if include.content %}{{ include.content }}{% else %}{{ label | escape }}{% endif %}</a>
+{% elsif link %}
+<a{% if include.class %} class="{{ include.class | escape }}"{% endif %} href="{% if link.external %}{{ link.url | escape }}{% else %}{{ link.url | relative_url }}{% endif %}"{% if link.external %} rel="noreferrer"{% endif %}>{% if include.content %}{{ include.content }}{% else %}{{ label | escape }}{% endif %}</a>
+{% endif %}

@@ -1,0 +1,25 @@
+{% assign cards = include.items | default: include.products %}
+{% for item in cards %}
+  {% assign product_slug = item.product | default: item.slug %}
+  {% assign product = site.data.products.items | where: 'slug', product_slug | first %}
+  {% if product %}
+    {% if include.description == 'summary' %}
+      {% assign description = product.summary %}
+    {% else %}
+      {% assign description = item.body %}
+    {% endif %}
+    {% assign cta_prefix = include.cta_prefix %}
+    {% if product.destination and include.destination_cta_prefix %}
+      {% assign cta_prefix = include.destination_cta_prefix %}
+    {% endif %}
+    {% capture card_content %}
+      {% include status-label.html status=product.status %}
+      <h3>{{ product.label | escape }}</h3>
+      <p>{{ description | escape }}</p>
+      <span aria-hidden="true">{% if cta_prefix %}{{ cta_prefix | escape }} {% endif %}{{ product.label | escape }} →</span>
+    {% endcapture %}
+    <li class="home-card">
+      {% include authoritative-link.html product=product.slug class='home-card__link' content=card_content %}
+    </li>
+  {% endif %}
+{% endfor %}

@@ -41,25 +41,11 @@
       <ul class="site-header__groups" role="list">
         {% for group in navigation.groups.items %}
           <li class="site-header__group">
-            {% if group.external %}
-              <a href="{{ group.url }}" rel="noreferrer">{{ group.label | escape }}</a>
-            {% else %}
-              <a href="{{ group.url | relative_url }}">{{ group.label | escape }}</a>
-            {% endif %}
+            {% include authoritative-link.html link=group %}
             <ul role="list">
               {% for link in group.links.items %}
               <li>
-                {% assign product = site.data.products.items | where: 'slug', link.product | first %}
-                {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
-                {% if destination %}
-                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
-                {% elsif product %}
-                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
-                {% elsif link.external %}
-                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
-                {% else %}
-                  <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-                {% endif %}
+                {% include authoritative-link.html link=link %}
               </li>
               {% endfor %}
             </ul>
@@ -68,10 +54,7 @@
       </ul>
       <ul class="site-header__utility" role="list">
         {% for link in navigation.utility.items %}
-          {% assign destination = site.data.destinations.items | where: 'slug', link.destination | first %}
-          {% if destination %}
-            <li><a href="{{ destination.url | escape }}" rel="noreferrer">{{ destination.label | escape }}</a></li>
-          {% endif %}
+          <li>{% include authoritative-link.html destination=link.destination %}</li>
         {% endfor %}
       </ul>
     </nav>
@@ -84,26 +67,12 @@
         {% for group in navigation.groups.items %}
           <section class="site-header__fallback-group">
             <h2>
-              {% if group.external %}
-                <a href="{{ group.url }}" rel="noreferrer">{{ group.label | escape }}</a>
-              {% else %}
-                <a href="{{ group.url | relative_url }}">{{ group.label | escape }}</a>
-              {% endif %}
+              {% include authoritative-link.html link=group %}
             </h2>
             <ul>
               {% for link in group.links.items %}
               <li>
-                {% assign product = site.data.products.items | where: 'slug', link.product | first %}
-                {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
-                {% if destination %}
-                  <a href="{{ destination.url | escape }}" rel="noreferrer">{{ product.label | escape }}</a>
-                {% elsif product %}
-                  <a href="{{ product.url | relative_url }}">{{ product.label | escape }}</a>
-                {% elsif link.external %}
-                  <a href="{{ link.url | escape }}" rel="noreferrer">{{ link.label | escape }}</a>
-                {% else %}
-                  <a href="{{ link.url | relative_url }}">{{ link.label | escape }}</a>
-                {% endif %}
+                {% include authoritative-link.html link=link %}
               </li>
               {% endfor %}
             </ul>
@@ -111,10 +80,7 @@
         {% endfor %}
         <ul class="site-header__fallback-utility">
           {% for link in navigation.utility.items %}
-            {% assign destination = site.data.destinations.items | where: 'slug', link.destination | first %}
-            {% if destination %}
-              <li><a href="{{ destination.url | escape }}" rel="noreferrer">{{ destination.label | escape }}</a></li>
-            {% endif %}
+            <li>{% include authoritative-link.html destination=link.destination %}</li>
           {% endfor %}
         </ul>
       </nav>

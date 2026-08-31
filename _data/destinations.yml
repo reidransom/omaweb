@@ -3,10 +3,12 @@ items:
     label: Manual
     url: https://omarchy.org/manual/
     external: true
+    button_treatment: secondary
   - slug: iso
     label: ISO
     url: https://iso.omarchy.org/omarchy-4.0.1.iso
     external: true
+    button_treatment: primary
   - slug: plugins
     label: Plugins
     url: https://omarchyplugins.com/

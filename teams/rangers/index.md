@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Omarchy Rangers
 description: The people helping others find their way in Omarchy.
 permalink: /teams/rangers/

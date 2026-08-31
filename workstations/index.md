@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Workstations
 description: A community gallery for cleared Omarchy workstation photographs and the people who share them.
 permalink: /workstations/

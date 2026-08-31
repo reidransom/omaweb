@@ -8,12 +8,13 @@
       {% for action in actions.items %}
         {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
         {% if destination %}
+          {% capture action_content %}
+            <h3>{{ action.label | escape }}</h3>
+            <p>{{ action.detail | escape }}</p>
+            <span aria-hidden="true">Open →</span>
+          {% endcapture %}
           <li class="home-card">
-            <a class="home-card__link" href="{{ destination.url | escape }}" rel="noreferrer">
-              <h3>{{ action.label | escape }}</h3>
-              <p>{{ action.detail | escape }}</p>
-              <span aria-hidden="true">Open →</span>
-            </a>
+            {% include authoritative-link.html destination=action.destination class='home-card__link' content=action_content %}
           </li>
         {% endif %}
       {% endfor %}

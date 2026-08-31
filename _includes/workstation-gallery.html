@@ -93,7 +93,7 @@
     <h2>{{ site.data.workstations.empty_state.title | escape }}</h2>
     <p>{{ site.data.workstations.empty_state.body | escape }}</p>
     {% if discord %}
-      <p class="button-group"><a class="button" href="{{ discord.url | escape }}" rel="noreferrer">{{ site.data.workstations.empty_state.action_label | escape }}</a></p>
+      <p class="button-group">{% include authoritative-link.html destination='discord' label=site.data.workstations.empty_state.action_label class='button' %}</p>
     {% endif %}
   </div>
   {% endif %}

@@ -20,17 +20,7 @@ markdown: false
     <h2 id="platforms-options-title">Choose a surface</h2>
     <ul class="home-card-grid home-card-grid--three" role="list">
       {% assign products = site.data.products.items | where: "group", "platforms" %}
-      {% for product in products %}
-        {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
-        <li class="home-card">
-          <a class="home-card__link" href="{% if destination %}{{ destination.url | escape }}{% else %}{{ product.url | relative_url }}{% endif %}"{% if destination %} rel="noreferrer"{% endif %}>
-            {% include status-label.html status=product.status %}
-            <h3>{{ product.label | escape }}</h3>
-            <p>{{ product.summary | escape }}</p>
-            <span aria-hidden="true">Explore {{ product.label | escape }} →</span>
-          </a>
-        </li>
-      {% endfor %}
+      {% include product-cards.html products=products description='summary' cta_prefix='Explore' %}
     </ul>
   </div>
 </section>

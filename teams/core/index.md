@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Omarchy Core
 description: The people setting the direction for Omarchy.
 permalink: /teams/core/

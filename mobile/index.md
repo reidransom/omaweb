@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Mobile
 description: An exploratory look at how a companion and a fuller mobile environment might relate to an Omarchy desktop.
 permalink: /mobile/
@@ -25,6 +25,5 @@ product: mobile
 <section class="prose" aria-labelledby="mobile-trust-title">
   <h2 id="mobile-trust-title">Continuity depends on trust.</h2>
   <p>Authentication and device synchronization are not background details. They decide who can act, what crosses between devices, and what remains local. Those are the questions worth answering before deciding the shape of any mobile work.</p>
-  {% assign manual = site.data.destinations.items | where: 'slug', 'manual' | first %}
-  <p>For the current system, begin with <a href="{{ '/desktop/' | relative_url }}">Desktop</a> and the <a href="{{ manual.url | escape }}" rel="noreferrer">Manual</a>.</p>
+  <p>For the current system, begin with <a href="{{ '/desktop/' | relative_url }}">Desktop</a> and the {% include authoritative-link.html destination='manual' label='Manual' %}.</p>
 </section>

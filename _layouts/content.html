@@ -1,0 +1,22 @@
+---
+layout: default
+---
+{% assign product = site.data.products.items | where: 'slug', page.product | first %}
+<article class="content-shell content-shell--{{ page.archetype | escape }}" data-archetype="{{ page.archetype | escape }}">
+  <div class="page-hero">
+    {% if page.archetype == 'product' %}
+      {% include status-label.html status=product.status %}
+      <h1>{{ product.label | default: page.title | escape }}</h1>
+    {% else %}
+      {% include status-label.html status=page.status %}
+      <h1>{{ page.title | escape }}</h1>
+    {% endif %}
+    {% if page.description %}
+      <p class="page-hero__lede">{{ page.description | escape }}</p>
+    {% endif %}
+  </div>
+
+  <div class="content-body">
+    {{ content }}
+  </div>
+</article>

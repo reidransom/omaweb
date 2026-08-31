@@ -5,14 +5,7 @@
     <h1 id="home-title" class="home-hero__descriptor">{{ home.hero.descriptor | escape }}</h1>
     <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
     <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
-    <div class="button-group home-hero__actions" aria-label="Get started">
-      {% for action in home.hero.actions.items %}
-        {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
-        {% if destination %}
-          <a class="button{% unless action.destination == 'iso' %} button--secondary{% endunless %}" href="{{ destination.url | escape }}" rel="noreferrer">{{ action.label | escape }}</a>
-        {% endif %}
-      {% endfor %}
-    </div>
+    {% include action-group.html actions=home.hero.actions.items class='home-hero__actions' label='Get started' %}
   </div>
   <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
   <span data-header-sentinel aria-hidden="true"></span>

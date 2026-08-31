@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: The Teams
 description: The teams guiding Omarchy.
 permalink: /teams/

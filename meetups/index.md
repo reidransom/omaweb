@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Meetups
 description: Omarchy meetups around the world, with the community rules for running one.
 permalink: /meetups/

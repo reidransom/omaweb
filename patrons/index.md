@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Patrons
 description: The current patrons supporting the Omacom Foundation's mission.
 permalink: /patrons/

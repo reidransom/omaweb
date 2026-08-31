@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Laptops
 description: An exploratory set of questions about repairable machines, meaningful hardware testing, and what an Omarchy recommendation should require.
 permalink: /laptops/

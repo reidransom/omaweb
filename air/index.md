@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Artists in Residence
 description: A six-month Omacom Foundation residency for artists working on themes, plugins, and the visual life of Omarchy.
 permalink: /air/

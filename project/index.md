@@ -40,15 +40,8 @@ markdown: false
           <span aria-hidden="true">Meet the Foundation →</span>
         </a>
       </li>
-      {% assign labs = site.data.products.items | where: "slug", "labs" | first %}
-      <li class="home-card">
-        <a class="home-card__link" href="{{ labs.url | relative_url }}">
-          {% include status-label.html status=labs.status %}
-          <h3>{{ labs.label | escape }}</h3>
-          <p>{{ labs.summary | escape }}</p>
-          <span aria-hidden="true">Explore Labs →</span>
-        </a>
-      </li>
+      {% assign labs = site.data.products.items | where: "slug", "labs" %}
+      {% include product-cards.html products=labs description='summary' cta_prefix='Explore' %}
     </ul>
   </div>
 </section>

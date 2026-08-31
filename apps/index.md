@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Apps
 description: An exploratory look at the principles first-party Omarchy applications would need to share, distinct from community Plugins.
 permalink: /apps/
@@ -26,6 +26,5 @@ product: apps
 <section class="prose" aria-labelledby="apps-community-title">
   <h2 id="apps-community-title">Plugins are a different kind of contribution.</h2>
   <p>Community Plugins already give people a place to share additions and experiments. They do not need to imitate a first-party application idea to be valuable. The current directory is the right destination when you want to see what the community is making.</p>
-  {% assign plugins = site.data.destinations.items | where: 'slug', 'plugins' | first %}
-  <p><a href="{{ plugins.url | escape }}" rel="noreferrer">Visit the Plugins directory</a>.</p>
+  <p>{% include authoritative-link.html destination='plugins' label='Visit the Plugins directory' %}.</p>
 </section>

@@ -1,0 +1,13 @@
+<div class="button-group{% if include.class %} {{ include.class | escape }}{% endif %}" aria-label="{{ include.label | escape }}" markdown="0">
+  {% for action in include.actions %}
+    {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+    {% if destination %}
+      {% assign button_class = 'button' %}
+      {% if destination.button_treatment == 'secondary' %}
+        {% assign button_class = 'button button--secondary' %}
+      {% endif %}
+      {% capture action_content %}{{ action.label | escape }}{% endcapture %}
+      {% include authoritative-link.html destination=action.destination class=button_class content=action_content %}
+    {% endif %}
+  {% endfor %}
+</div>

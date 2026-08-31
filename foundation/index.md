@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Omacom Foundation
 description: The nonprofit that holds Omarchy trademarks, funds infrastructure, and supports the people and projects the distribution relies on.
 permalink: /foundation/

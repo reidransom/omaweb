@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Server
 description: An exploratory set of questions about self-hosting, serious workloads, and administration that stays close to the operator.
 permalink: /server/

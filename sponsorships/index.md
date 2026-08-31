@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Sponsorships
 description: Current Omacom Foundation support for Hyprland, Quickshell, and mise.
 permalink: /sponsorships/

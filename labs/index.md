@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Labs
 description: A public place for experiments that are not products.
 permalink: /labs/

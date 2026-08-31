@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Cloud
 description: An exploratory set of questions about a hosted Omarchy workstation, persistence, synchronization, compute, security, and ownership.
 permalink: /cloud/

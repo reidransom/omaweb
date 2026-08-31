@@ -1,5 +1,5 @@
 ---
-layout: project
+layout: content
 title: Security at Omarchy
 description: How to responsibly report a security vulnerability in Omarchy.
 permalink: /security/

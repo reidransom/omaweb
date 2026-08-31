@@ -1,5 +1,5 @@
 ---
-layout: product
+layout: content
 title: Desktop
 description: Omarchy is a current Arch, Hyprland, and Quickshell desktop with terminal-first workflows and room to make the system your own.
 permalink: /desktop/
@@ -81,5 +81,5 @@ media:
 <section class="prose" aria-labelledby="desktop-actions-title">
   <h2 id="desktop-actions-title">Start with the real thing.</h2>
   <p>Install the current desktop from the ISO, then keep the Manual close while you make it yours.</p>
-{% include desktop-actions.html %}
+{% include action-group.html actions=site.data.home.desktop.actions.items label='Desktop actions' %}
 </section>
