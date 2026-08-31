@@ -61,4 +61,4 @@ items:
     url: /labs/
     status: exploratory
     external: false
-    summary: Public experiments and AIR-adjacent ideas that are not products.
+    summary: Public experiments that are not products.

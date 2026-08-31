@@ -103,7 +103,7 @@ cloud_mobile:
 
 labs:
   title: Labs
-  body: "A public place for experiments: new interfaces, agent workflows, alternative devices, voice control, ambient computing, and work from Artists in Residence. Experiments are not products."
+  body: "Public experiments that are not products."
   url: /labs/
   status: exploratory
 
