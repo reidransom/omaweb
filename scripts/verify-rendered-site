@@ -297,19 +297,28 @@ def check_home_scene(browser: DevToolsSocket, width: int, height: int) -> None:
 def check_header_transition(browser: DevToolsSocket) -> None:
     states = evaluate(
         browser,
-        """new Promise(async resolve => {
+        """new Promise(resolve => {
           const header = document.querySelector('.site-header');
-          const settle = () => new Promise(done => requestAnimationFrame(
-            () => requestAnimationFrame(done)
-          ));
+          const waitFor = (expected, complete) => {
+            const deadline = performance.now() + 2000;
+            const poll = () => {
+              if (header?.dataset.headerState === expected) return complete(true);
+              if (performance.now() >= deadline) return complete(false);
+              requestAnimationFrame(poll);
+            };
+            poll();
+          };
           window.scrollTo(0, 0);
           window.dispatchEvent(new Event('scroll'));
-          await settle();
-          const initial = header?.dataset.headerState;
-          window.scrollTo(0, innerHeight + 32);
-          window.dispatchEvent(new Event('scroll'));
-          await settle();
-          resolve([initial, header?.dataset.headerState]);
+          waitFor('transparent', atTop => {
+            if (!atTop) return resolve([header?.dataset.headerState, 'not-transparent-at-top']);
+            window.scrollTo(0, innerHeight + 32);
+            window.dispatchEvent(new Event('scroll'));
+            waitFor('opaque', pastHero => resolve([
+              'transparent',
+              pastHero ? 'opaque' : header?.dataset.headerState
+            ]));
+          });
         })""",
     )
     if states != ["transparent", "opaque"]:
