@@ -327,7 +327,18 @@ def check_navigation_inventory(browser: DevToolsSocket) -> None:
             markers,
             merchMarked: Boolean(Array.from(panel?.querySelectorAll("a") || []).find(link => label(link) === "Merch")?.querySelector("sup")),
             search: search && {url: new URL(search.href).pathname, text: search.textContent.replace(/\s+/g, " ").trim(), visible: Boolean(search.getClientRects().length)},
-            menu: menu && {text: menu.textContent.replace(/\s+/g, " ").trim(), visible: Boolean(menu.getClientRects().length), controls: menu.getAttribute("aria-controls")},
+            menu: menu && {
+              text: menu.textContent.replace(/\s+/g, " ").trim(),
+              visible: Boolean(menu.getClientRects().length),
+              controls: menu.getAttribute("aria-controls"),
+              shortcut: (() => {
+                const hint = menu.querySelector(".site-header__shortcut");
+                return hint && {
+                  text: hint.textContent.replace(/\s+/g, " ").trim(),
+                  visible: Boolean(hint.getClientRects().length)
+                };
+              })()
+            },
             prunedLinks: Array.from(document.querySelectorAll('header a[href], [data-quake-fallback] a[href]'), link => new URL(link.href).pathname)
               .filter(path => ["/platforms/", "/hardware/", "/software/", "/project/", "/server/", "/apps/", "/cloud/", "/labs/"].includes(path))
           };
@@ -372,7 +383,7 @@ def check_navigation_inventory(browser: DevToolsSocket) -> None:
         or "Ctrl K" not in inventory["search"]["text"]
         or not inventory["menu"]
         or inventory["menu"]["controls"] != "quake-navigation"
-        or "Ctrl+`" not in inventory["menu"]["text"]
+        or inventory["menu"]["shortcut"] != {"text": "Ctrl+`", "visible": True}
         or inventory["prunedLinks"]
     ):
         fail(f"Closed desktop header controls or curated links are wrong: {inventory}.")
@@ -439,11 +450,30 @@ def check_current_navigation(browser: DevToolsSocket, origin: str) -> None:
         browser,
         r"""(() => Array.from(document.querySelectorAll('header a[aria-current="page"], [data-quake-fallback] a[aria-current="page"]'), link => ({
           label: link.textContent.replace(/\*/g, "").replace(/\s+/g, " ").trim(),
-          path: new URL(link.href).pathname
+          path: new URL(link.href).pathname,
+          currentTreatment: getComputedStyle(link).textDecorationLine === "underline"
         })))()""",
     )
-    if not current or any(item != {"label": "Shop", "path": "/new-releases/"} for item in current):
-        fail(f"New Releases must expose Shop as the semantic current destination in header and panel; got {current}.")
+    if (
+        not current
+        or any(
+            item != {
+                "label": "Shop",
+                "path": "/new-releases/",
+                "currentTreatment": True,
+            }
+            for item in current
+        )
+    ):
+        fail(f"New Releases must expose Shop as the semantic and visible current destination in header and panel; got {current}.")
+    if evaluate(browser, 'document.querySelector("header")?.dataset.headerState') != "opaque":
+        fail("Non-home routes must keep the header opaque.")
+    click_element(browser, "[data-quake-toggle]")
+    wait_for(browser, 'document.querySelector("[data-quake-fallback]")?.open', "Quake navigation on a non-home route")
+    press_key(browser, "Escape", "Escape", 27)
+    wait_for(browser, '!document.querySelector("[data-quake-fallback]")?.open', "non-home Quake dismissal")
+    if evaluate(browser, 'document.querySelector("header")?.dataset.headerState') != "opaque":
+        fail("Closing Quake must restore the opaque header on non-home routes.")
 
 
 def check_desktop_quake(browser: DevToolsSocket, origin: str) -> None:
@@ -743,6 +773,7 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
     browser.command("Page.navigate", {"url": origin + "/"})
     wait_for_complete(browser, "/")
     set_viewport(browser, width, height)
+    evaluate(browser, "window.scrollTo(0, 240)")
     click_element(browser, "[data-spotlight-open]")
     wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight to open")
     blank = evaluate(
@@ -755,13 +786,17 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
             focused: document.activeElement === input,
             blank: input?.value === "" && !dialog?.querySelector("[data-site-search-status]")?.textContent.trim() &&
               dialog?.querySelectorAll("[data-search-result]").length === 0,
+            quiet: dialog?.querySelector("[data-site-search-fallback]")?.hidden === true,
+            geometry: rect && rect.width <= 42 * 16 + 1 && rect.height <= innerHeight * 0.7 + 1,
+            scrollLocked: document.documentElement.style.overflow === "hidden" &&
+              getComputedStyle(document.body).position === "fixed",
             withinViewport: rect && rect.left >= 0 && rect.top >= 0 && rect.right <= innerWidth && rect.bottom <= innerHeight,
             noOverflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1
           };
         })()""",
     )
-    if not blank["focused"] or not blank["blank"] or not blank["withinViewport"] or not blank["noOverflow"]:
-        fail(f"Spotlight must open focused, blank, and within the viewport at {width}x{height}; got {blank}.")
+    if not blank["focused"] or not blank["blank"] or not blank["quiet"] or not blank["geometry"] or not blank["scrollLocked"] or not blank["withinViewport"] or not blank["noOverflow"]:
+        fail(f"Spotlight must open focused, quiet, scroll-locked, and within its viewport geometry at {width}x{height}; got {blank}.")
     for _ in range(4):
         press_key(browser, "Tab", "Tab", 9)
     if not evaluate(browser, 'document.querySelector("[data-spotlight]")?.contains(document.activeElement)'):
@@ -769,6 +804,8 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
     click_element(browser, "[data-spotlight-close]")
     wait_for(browser, '!document.querySelector("[data-spotlight]")?.open', "Spotlight close control")
     wait_for(browser, 'document.activeElement === document.querySelector("[data-spotlight-open]")', "Spotlight focus restoration")
+    if not evaluate(browser, 'document.documentElement.style.overflow === "" && getComputedStyle(document.body).position !== "fixed"'):
+        fail("Closing Spotlight must restore document scrolling.")
 
     click_element(browser, "[data-spotlight-open]")
     wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "Spotlight backdrop dismissal")
@@ -911,8 +948,16 @@ def check_unavailable_search(debug_url: str, origin: str) -> None:
         wait_for(browser, 'document.querySelector("[data-spotlight]")?.open', "unavailable Spotlight")
         set_search_query(browser, '[data-spotlight] input[name="q"]', "foundation")
         wait_for(browser, 'document.querySelector("[data-spotlight] [data-site-search-status]")?.textContent.trim() === "Search is unavailable."', "unavailable Spotlight state")
-        if not evaluate(browser, 'document.querySelector(\'[data-spotlight] a[href="/search/"]\') !== null'):
-            fail("Unavailable Spotlight must retain a path to the full site-wide search fallback.")
+        fallback = evaluate(
+            browser,
+            """(() => {
+              const fallback = document.querySelector("[data-spotlight] [data-site-search-fallback]");
+              return !fallback.hidden && Boolean(fallback.querySelector('a[href="/foundation/"]')) &&
+                Boolean(fallback.querySelector('a[href="/new-releases/"]')) && !fallback.textContent.toLocaleLowerCase().includes("news archive");
+            })()""",
+        )
+        if not fallback:
+            fail("Unavailable Spotlight must expose the same site-wide fallback navigation as full search.")
     finally:
         browser.close()
 

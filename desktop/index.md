@@ -1,20 +1,20 @@
 ---
 layout: content
 title: Desktops
-description: An exploratory set of questions about desktop hardware and what an Omarchy recommendation should require.
+description: Omarchy is exploring what documented evaluation would need before it could recommend desktop hardware.
 permalink: /desktop/
 nav_group: hardware
 archetype: product
 product: desktop
 ---
 <section class="prose" aria-labelledby="desktops-question-title">
-  <h2 id="desktops-question-title">A desktop recommendation should mean something.</h2>
+  <h2 id="desktops-question-title">What Omarchy would test before recommending desktop hardware</h2>
   <p>Omarchy is exploring what it would take to stand behind a desktop hardware recommendation. A useful standard would need to account for the machine people actually use, maintain, and rely on at their desks.</p>
   <p>This work begins with questions, not a list of hardware.</p>
 </section>
 
 <section class="prose" aria-labelledby="desktops-evidence-title">
-  <h2 id="desktops-evidence-title">What evidence should earn the name?</h2>
+  <h2 id="desktops-evidence-title">Desktop hardware needs repeatable testing.</h2>
   <ul>
     <li>Which parts of a desktop setup need direct, repeatable testing before anyone can make a useful recommendation?</li>
     <li>What should an honest evaluation say about the environments and tradeoffs it observed?</li>
@@ -23,7 +23,7 @@ product: desktop
 </section>
 
 <section class="prose" aria-labelledby="desktops-standard-title">
-  <h2 id="desktops-standard-title">The standard matters more than the badge.</h2>
+  <h2 id="desktops-standard-title">No desktop product is being announced.</h2>
   <p>Any future evaluation should be clear about what it observed and what it did not. That is how a recommendation stays useful without turning an exploratory area into a product promise.</p>
   <p>For examples of how people use Omarchy on the hardware they already own, visit <a href="{{ '/workstations/' | relative_url }}">Workstations</a>.</p>
 </section>
