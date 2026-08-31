@@ -299,6 +299,7 @@ def check_header_transition(browser: DevToolsSocket) -> None:
         browser,
         """new Promise(resolve => {
           const header = document.querySelector('.site-header');
+          const sentinel = document.querySelector('[data-header-sentinel]');
           const waitFor = (expected, complete) => {
             const deadline = performance.now() + 2000;
             const poll = () => {
@@ -312,7 +313,7 @@ def check_header_transition(browser: DevToolsSocket) -> None:
           window.dispatchEvent(new Event('scroll'));
           waitFor('transparent', atTop => {
             if (!atTop) return resolve([header?.dataset.headerState, 'not-transparent-at-top']);
-            window.scrollTo(0, innerHeight + 32);
+            window.scrollTo(0, sentinel.getBoundingClientRect().top + window.scrollY + 1);
             window.dispatchEvent(new Event('scroll'));
             waitFor('opaque', pastHero => resolve([
               'transparent',
