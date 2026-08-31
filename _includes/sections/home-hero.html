@@ -8,54 +8,60 @@
           <h1 id="home-title" class="home-hero__descriptor">{{ home.hero.descriptor | escape }}</h1>
           <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
           <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
+          <div class="home-hero__action-list home-hero__action-list--primary">
+            {% for action in home.hero.actions.items %}
+              {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+              {% assign action_button_class = 'button' %}
+              {% if destination.button_treatment == 'secondary' %}
+                {% assign action_button_class = 'button button--secondary' %}
+              {% endif %}
+              {% capture product_art %}
+                {% case action.destination %}
+                  {% when 'iso' %}
+                    <picture class="home-hero__product-art home-hero__product-art--iso">
+                      <img
+                        src="{{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }}"
+                        srcset="{{ '/assets/images/hero/usb-key-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }} 768w"
+                        sizes="(min-width: 64rem) 15rem, 40vw"
+                        width="768"
+                        height="768"
+                        alt=""
+                        loading="eager"
+                        decoding="async">
+                    </picture>
+                  {% when 'manual' %}
+                    <picture class="home-hero__product-art home-hero__product-art--manual">
+                      <img
+                        src="{{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }}"
+                        srcset="{{ '/assets/images/hero/user-manual-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }} 768w"
+                        sizes="(min-width: 64rem) 15rem, 40vw"
+                        width="768"
+                        height="512"
+                        alt=""
+                        loading="eager"
+                        decoding="async">
+                    </picture>
+                {% endcase %}
+              {% endcapture %}
+              {% if product_art != empty %}
+                {% capture action_content %}
+                  {{ product_art }}
+                  <span class="{{ action_button_class }}">{{ action.label | escape }}</span>
+                {% endcapture %}
+                {% include authoritative-link.html destination=action.destination class='home-hero__action' content=action_content %}
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
 
-      <aside class="home-hero__panel home-hero__panel--actions" aria-label="Get started" data-home-hero-actions>
-        <div class="home-hero__action-list">
-          {% for action in home.hero.actions.items %}
-            {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
-            {% assign action_button_class = 'button' %}
-            {% if destination.button_treatment == 'secondary' %}
-              {% assign action_button_class = 'button button--secondary' %}
-            {% endif %}
-            {% capture product_art %}
-              {% case action.destination %}
-                {% when 'iso' %}
-                  <picture class="home-hero__product-art home-hero__product-art--iso">
-                    <img
-                      src="{{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }}"
-                      srcset="{{ '/assets/images/hero/usb-key-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/usb-key-bitart-768w.webp' | relative_url }} 768w"
-                      sizes="(min-width: 64rem) 8rem, 32vw"
-                      width="768"
-                      height="768"
-                      alt=""
-                      loading="eager"
-                      decoding="async">
-                  </picture>
-                {% when 'manual' %}
-                  <picture class="home-hero__product-art home-hero__product-art--manual">
-                    <img
-                      src="{{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }}"
-                      srcset="{{ '/assets/images/hero/user-manual-bitart-480w.webp' | relative_url }} 480w, {{ '/assets/images/hero/user-manual-bitart-768w.webp' | relative_url }} 768w"
-                      sizes="(min-width: 64rem) 8rem, 32vw"
-                      width="768"
-                      height="512"
-                      alt=""
-                      loading="eager"
-                      decoding="async">
-                  </picture>
-              {% endcase %}
-            {% endcapture %}
-            {% if product_art != empty %}
-              {% capture action_content %}
-                {{ product_art }}
-                <span class="{{ action_button_class }}">{{ action.label | escape }}</span>
-              {% endcapture %}
-              {% include authoritative-link.html destination=action.destination class='home-hero__action' content=action_content %}
-            {% endif %}
-          {% endfor %}
-        </div>
+      <aside class="home-hero__panel home-hero__panel--video" aria-label="Omarchy introduction video" data-home-hero-actions>
+        <a class="video__facade home-hero__video" href="https://www.youtube.com/watch?v=F7fe9pa8OeE" data-video="F7fe9pa8OeE" data-title="Omarchy introduction video" aria-label="Play: Omarchy introduction video">
+          <img src="{{ '/assets/images/video/omarchy-quattro.webp' | relative_url }}" width="1280" height="720" alt="Omarchy Quattro by David Heinemeier Hansson" loading="lazy" decoding="async">
+          <span class="video__play" aria-hidden="true">
+            <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89.7 89.7 0 0 0 0 24a89.7 89.7 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89.7 89.7 0 0 0 68 24a89.7 89.7 0 0 0-1.5-16.3z" fill="#f00"></path><path d="M27 34.3 44.8 24 27 13.7z" fill="#fff"></path></svg>
+          </span>
+        </a>
       </aside>
     </div>
     <a class="home-scroll-cue" href="#home-desktop">

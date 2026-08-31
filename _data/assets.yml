@@ -194,6 +194,32 @@ items:
           publication_status: cleared
           third_party_marks: { present: false, disclosure: No third-party marks are visible in the artwork. }
 
+
+  - id: hero-introduction-video
+    asset_type: image
+    role: hero-video
+    path: __docs/images/video/omarchy-quattro.webp
+    provenance: Exact poster image localized from Omarchy's public introduction video facade.
+    sha256: 3a37336e282f154875dfa8ecb91ac15bbc9791bc7dfac6ee72c9bbfc4af1d6e3
+    dimensions: { width: 1280, height: 720 }
+    rights_owner: Omacom
+    license_or_permission: First-party Omarchy video artwork supplied by the live Omarchy site.
+    clearance_basis: The homepage specification explicitly directs use of this exact live Omarchy video facade image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Audi, Castrol, and Michelin marks are visible in the artwork. }
+    outputs:
+      items:
+        - id: hero-introduction-video-poster
+          path: assets/images/video/omarchy-quattro.webp
+          source: __docs/images/video/omarchy-quattro.webp
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: 3a37336e282f154875dfa8ecb91ac15bbc9791bc7dfac6ee72c9bbfc4af1d6e3
+          dimensions: { width: 1280, height: 720 }
+          rights_owner: Omacom
+          license_or_permission: First-party authorization inherited from hero-introduction-video.
+          clearance_basis: Exact copy of the cleared hero-introduction-video source.
+          publication_status: cleared
+          third_party_marks: { present: true, disclosure: Audi, Castrol, and Michelin marks are visible in the artwork. }
   - id: font-jetbrains-mono-light
     asset_type: font
     role: primary-light

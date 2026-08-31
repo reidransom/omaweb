@@ -43,6 +43,7 @@ pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
 sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
 usb_key_source=__docs/images/usb-key-bitart.png
 user_manual_source=__docs/images/user-manual-bitart.png
+video_source=__docs/images/video/omarchy-quattro.webp
 font_source_directory=__docs/fonts/jetbrains-mono-2.304
 responsive_widths='480 768 1200 1600'
 news_responsive_widths='480 768 1152'
@@ -55,6 +56,7 @@ for source in \
   "$sspaeti_workstation_source" \
   "$usb_key_source" \
   "$user_manual_source" \
+  "$video_source" \
   "$font_source_directory/JetBrainsMono-Light.ttf" \
   "$font_source_directory/JetBrainsMono-LightItalic.ttf" \
   "$font_source_directory/JetBrainsMono-Medium.ttf" \
@@ -75,6 +77,7 @@ assets/images/hero/usb-key-bitart-480w.webp
 assets/images/hero/usb-key-bitart-768w.webp
 assets/images/hero/user-manual-bitart-480w.webp
 assets/images/hero/user-manual-bitart-768w.webp
+assets/images/video/omarchy-quattro.webp
 assets/images/news/radio-atlas-preview-480w.webp
 assets/images/news/radio-atlas-preview-768w.webp
 assets/images/news/radio-atlas-preview-1152w.webp
@@ -189,7 +192,7 @@ subset_font() {
 render_all() {
   destination=$1
 
-  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/fonts"
+  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/video" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/fonts"
   render_wide 480 270 "$destination/assets/images/hero/winding-road-480w.webp"
   render_wide 768 432 "$destination/assets/images/hero/winding-road-768w.webp"
   render_wide 1200 675 "$destination/assets/images/hero/winding-road-1200w.webp"
@@ -201,6 +204,7 @@ render_all() {
   render_product_art "$usb_key_source" 768 "$destination/assets/images/hero/usb-key-bitart-768w.webp"
   render_product_art "$user_manual_source" 480 "$destination/assets/images/hero/user-manual-bitart-480w.webp"
   render_product_art "$user_manual_source" 768 "$destination/assets/images/hero/user-manual-bitart-768w.webp"
+  cp "$video_source" "$destination/assets/images/video/omarchy-quattro.webp"
   render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
   render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
   render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
@@ -212,7 +216,7 @@ render_all() {
 }
 
 check_inventory() {
-  actual=$(find assets/images/hero assets/images/news assets/images/desktop assets/images/workstations assets/fonts -type f | sort)
+  actual=$(find assets/images/hero assets/images/video assets/images/news assets/images/desktop assets/images/workstations assets/fonts -type f | sort)
   expected=$(printf '%s\n' "$output_paths" | sed '/^$/d' | sort)
   [ "$actual" = "$expected" ] || fail 'Committed derivative inventory does not match scripts/build-assets.'
 }

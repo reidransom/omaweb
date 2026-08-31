@@ -281,6 +281,8 @@ def check_header_transition(browser: DevToolsSocket) -> None:
         """new Promise(resolve => {
           const header = document.querySelector('.site-header');
           const sentinel = document.querySelector('[data-header-sentinel]');
+          const hero = document.querySelector('.home-hero');
+          const scrollRoot = document.scrollingElement;
           const waitFor = (expected, complete) => {
             const deadline = performance.now() + 2000;
             const poll = () => {
@@ -290,11 +292,14 @@ def check_header_transition(browser: DevToolsSocket) -> None:
             };
             poll();
           };
-          window.scrollTo(0, 0);
+          scrollRoot.scrollTo({ top: 0, behavior: 'instant' });
           window.dispatchEvent(new Event('scroll'));
           waitFor('transparent', atTop => {
             if (!atTop) return resolve([header?.dataset.headerState, 'not-transparent-at-top']);
-            window.scrollTo(0, sentinel.getBoundingClientRect().top + window.scrollY + 1);
+            scrollRoot.scrollTo({
+              top: scrollRoot.scrollTop + hero.getBoundingClientRect().bottom + 1,
+              behavior: 'instant'
+            });
             window.dispatchEvent(new Event('scroll'));
             waitFor('opaque', pastHero => resolve([
               'transparent',
