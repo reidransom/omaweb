@@ -1,0 +1,555 @@
+#!/usr/bin/env python3
+"""Browser acceptance checks for the built site.
+
+This deliberately uses Chromium's DevTools protocol directly so the production
+verification seam has no additional test-runner dependency.
+"""
+
+from __future__ import annotations
+
+import base64
+import functools
+import hashlib
+import http.server
+import json
+import secrets
+import shutil
+import socket
+import struct
+import subprocess
+import sys
+import tempfile
+import threading
+import time
+import urllib.parse
+import urllib.request
+from pathlib import Path
+
+SITE = Path("_site").resolve()
+VIEWPORTS = ((390, 844), (768, 1024), (1440, 900))
+ROUTES = (
+    "/",
+    "/desktop/",
+    "/news/",
+    "/news/2026/08/the-first-plugin-competition-winners/",
+    "/news/search/",
+    "/news/categories/product/",
+    "/workstations/",
+    "/teams/",
+    "/meetups/",
+)
+HOME_ACTIONS = {
+    "The Manual": "https://omarchy.org/manual/",
+    "The ISO": "https://iso.omarchy.org/omarchy-4.0.1.iso",
+    "The Plugins": "https://omarchyplugins.com/",
+    "The Code": "https://github.com/omacom/omarchy",
+}
+
+
+class VerificationError(RuntimeError):
+    pass
+
+
+def fail(message: str) -> None:
+    raise VerificationError(message)
+
+
+class QuietFileServer(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, *_: object) -> None:
+        pass
+
+
+class DevToolsSocket:
+    def __init__(self, websocket_url: str) -> None:
+        parsed = urllib.parse.urlsplit(websocket_url)
+        self.socket = socket.create_connection((parsed.hostname, parsed.port), timeout=10)
+        self.socket.settimeout(15)
+        key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
+        path = parsed.path + (f"?{parsed.query}" if parsed.query else "")
+        request = (
+            f"GET {path} HTTP/1.1\r\n"
+            f"Host: {parsed.hostname}:{parsed.port}\r\n"
+            "Upgrade: websocket\r\n"
+            "Connection: Upgrade\r\n"
+            f"Sec-WebSocket-Key: {key}\r\n"
+            "Sec-WebSocket-Version: 13\r\n\r\n"
+        ).encode("ascii")
+        self.socket.sendall(request)
+        response = self._read_headers()
+        expected = base64.b64encode(
+            hashlib.sha1((key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11").encode("ascii")).digest()
+        ).decode("ascii")
+        if "101" not in response.split("\r\n", 1)[0] or f"sec-websocket-accept: {expected}".lower() not in response.lower():
+            fail("Chromium DevTools WebSocket handshake failed.")
+        self.next_id = 0
+
+    def _read_headers(self) -> str:
+        data = bytearray()
+        while b"\r\n\r\n" not in data:
+            chunk = self.socket.recv(1)
+            if not chunk:
+                fail("Chromium closed the DevTools connection during handshake.")
+            data.extend(chunk)
+        return data.decode("iso-8859-1")
+
+    def _read_exact(self, length: int) -> bytes:
+        chunks = bytearray()
+        while len(chunks) < length:
+            chunk = self.socket.recv(length - len(chunks))
+            if not chunk:
+                fail("Chromium closed the DevTools connection.")
+            chunks.extend(chunk)
+        return bytes(chunks)
+
+    def _send_frame(self, opcode: int, payload: bytes) -> None:
+        mask = secrets.token_bytes(4)
+        length = len(payload)
+        if length < 126:
+            header = bytes((0x80 | opcode, 0x80 | length))
+        elif length < 65536:
+            header = bytes((0x80 | opcode, 0x80 | 126)) + struct.pack("!H", length)
+        else:
+            header = bytes((0x80 | opcode, 0x80 | 127)) + struct.pack("!Q", length)
+        masked = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))
+        self.socket.sendall(header + mask + masked)
+
+    def _receive_frame(self) -> tuple[int, bytes]:
+        first, second = self._read_exact(2)
+        opcode = first & 0x0F
+        masked = bool(second & 0x80)
+        length = second & 0x7F
+        if length == 126:
+            length = struct.unpack("!H", self._read_exact(2))[0]
+        elif length == 127:
+            length = struct.unpack("!Q", self._read_exact(8))[0]
+        mask = self._read_exact(4) if masked else b""
+        payload = self._read_exact(length)
+        if masked:
+            payload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))
+        return opcode, payload
+
+    def command(self, method: str, params: dict | None = None) -> dict:
+        self.next_id += 1
+        message_id = self.next_id
+        payload = {"id": message_id, "method": method}
+        if params:
+            payload["params"] = params
+        self._send_frame(1, json.dumps(payload, separators=(",", ":")).encode("utf-8"))
+        fragments: list[bytes] = []
+        while True:
+            opcode, message = self._receive_frame()
+            if opcode == 8:
+                fail("Chromium closed the DevTools connection before responding.")
+            if opcode == 9:
+                self._send_frame(10, message)
+                continue
+            if opcode == 1:
+                fragments = [message]
+            elif opcode == 0:
+                fragments.append(message)
+            else:
+                continue
+            try:
+                response = json.loads(b"".join(fragments))
+            except json.JSONDecodeError:
+                continue
+            if response.get("id") != message_id:
+                continue
+            if "error" in response:
+                fail(f"Chromium command {method} failed: {response['error'].get('message', response['error'])}")
+            return response.get("result", {})
+
+    def close(self) -> None:
+        try:
+            self._send_frame(8, b"")
+        finally:
+            self.socket.close()
+
+
+def http_json(url: str, method: str = "GET") -> dict:
+    request = urllib.request.Request(url, method=method)
+    with urllib.request.urlopen(request, timeout=2) as response:
+        return json.load(response)
+
+
+def evaluate(browser: DevToolsSocket, expression: str) -> object:
+    result = browser.command(
+        "Runtime.evaluate",
+        {"expression": expression, "awaitPromise": True, "returnByValue": True},
+    )
+    if "exceptionDetails" in result:
+        fail(f"Browser evaluation failed: {result['exceptionDetails'].get('text', 'unknown exception')}")
+    return result.get("result", {}).get("value")
+
+
+def wait_for_complete(browser: DevToolsSocket, route: str, label: str | None = None) -> None:
+    deadline = time.monotonic() + 15
+    while time.monotonic() < deadline:
+        if evaluate(browser, "[document.readyState, location.pathname]") == ["complete", route]:
+            time.sleep(0.15)
+            return
+        time.sleep(0.05)
+    fail(f"Timed out rendering {label or route} in Chromium.")
+
+
+def open_page(debug_url: str, origin: str, route: str) -> DevToolsSocket:
+    target_url = origin + route
+    endpoint = debug_url + "/json/new?" + urllib.parse.quote(target_url, safe=":/?=&")
+    try:
+        target = http_json(endpoint, method="PUT")
+    except Exception as error:
+        fail(f"Could not open {route} in Chromium: {error}")
+    return DevToolsSocket(target["webSocketDebuggerUrl"])
+
+
+def set_viewport(browser: DevToolsSocket, width: int, height: int) -> None:
+    browser.command(
+        "Emulation.setDeviceMetricsOverride",
+        {"width": width, "height": height, "deviceScaleFactor": 1, "mobile": False},
+    )
+
+
+def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: int, origin: str) -> None:
+    evaluate(
+        browser,
+        """new Promise(async resolve => {
+          for (const image of document.images) {
+            image.scrollIntoView({block: 'center'});
+            await new Promise(done => setTimeout(done, 20));
+          }
+          await new Promise(done => setTimeout(done, 300));
+          window.scrollTo(0, 0);
+          resolve();
+        })""",
+    )
+    metrics = evaluate(
+        browser,
+        """(() => ({
+          headers: document.querySelectorAll('header').length,
+          mains: document.querySelectorAll('main').length,
+          footers: document.querySelectorAll('footer').length,
+          h1s: document.querySelectorAll('h1').length,
+          scrollWidth: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
+          clientWidth: document.documentElement.clientWidth,
+          images: Array.from(document.images, image => ({
+            src: image.currentSrc || image.src,
+            complete: image.complete,
+            naturalWidth: image.naturalWidth
+          }))
+        }))()""",
+    )
+    if metrics["headers"] != 1 or metrics["mains"] != 1 or metrics["footers"] != 1 or metrics["h1s"] != 1:
+        fail(
+            f"{route} at {width}x{height} must render one header, main, footer, and page-level h1 "
+            f"(found {metrics['headers']}/{metrics['mains']}/{metrics['footers']}/{metrics['h1s']})."
+        )
+    if metrics["scrollWidth"] > metrics["clientWidth"] + 1:
+        fail(
+            f"{route} overflows horizontally at {width}x{height}: "
+            f"scrollWidth {metrics['scrollWidth']} exceeds clientWidth {metrics['clientWidth']}."
+        )
+    for image in metrics["images"]:
+        parsed = urllib.parse.urlsplit(image["src"])
+        if f"{parsed.scheme}://{parsed.netloc}" != origin or not parsed.path.startswith("/assets/"):
+            fail(f"{route} renders media outside the cleared local asset set: {image['src']}.")
+        if not image["complete"] or image["naturalWidth"] <= 0:
+            fail(f"{route} renders an unloaded or broken local image: {image['src']}.")
+
+
+def check_home_actions(browser: DevToolsSocket) -> None:
+    actions = evaluate(
+        browser,
+        """(() => Object.fromEntries(Array.from(document.querySelectorAll('.home-card__link'), link => [
+          link.querySelector('h3')?.textContent.trim(), link.href
+        ])))()""",
+    )
+    if actions != HOME_ACTIONS:
+        fail(f"Homepage authoritative actions are incomplete or wrong: expected {HOME_ACTIONS}, got {actions}.")
+
+
+def check_home_scene(browser: DevToolsSocket, width: int, height: int) -> None:
+    scene = evaluate(
+        browser,
+        """(() => {
+          const picture = document.querySelector('picture.home-scene');
+          const image = picture?.querySelector('img');
+          const beats = [document.querySelector('.home-hero'), ...document.querySelectorAll('.home-section--reveal')];
+          const beatCoverage = beats.map(beat => {
+            beat.scrollIntoView({block: 'center'});
+            const rect = picture?.getBoundingClientRect();
+            return rect && rect.top <= 0 && rect.right >= innerWidth && rect.bottom >= innerHeight;
+          });
+          return {
+            count: document.querySelectorAll('picture.home-scene').length,
+            position: picture && getComputedStyle(picture).position,
+            currentSrc: image?.currentSrc || image?.src,
+            portrait: (image?.currentSrc || image?.src || '').includes('winding-road-portrait'),
+            beats: beatCoverage,
+            transparentBeats: beats.map(beat => getComputedStyle(beat).backgroundColor === 'rgba(0, 0, 0, 0)'),
+            heroCount: document.querySelectorAll('.home-hero').length
+          };
+        })()""",
+    )
+    if scene["count"] != 1 or scene["heroCount"] != 1 or scene["position"] != "fixed":
+        fail("Homepage must render one fixed Winding Road scene behind one opening hero.")
+    if scene["portrait"] != (width < 640):
+        fail(f"Homepage selects the wrong Winding Road responsive image at {width}x{height}: {scene['currentSrc']}.")
+    if scene["beats"] != [True, True, True] or scene["transparentBeats"] != [True, True, True]:
+        fail("Homepage must expose its fixed scene only through the opening, expansion, and final-call-to-action reveal beats.")
+def check_header_transition(browser: DevToolsSocket) -> None:
+    states = evaluate(
+        browser,
+        """new Promise(resolve => {
+          const header = document.querySelector('.site-header');
+          window.scrollTo(0, 0);
+          requestAnimationFrame(() => {
+            const initial = header?.dataset.headerState;
+            window.scrollTo(0, innerHeight + 32);
+            requestAnimationFrame(() => requestAnimationFrame(() => resolve([initial, header?.dataset.headerState])));
+          });
+        })""",
+    )
+    if states != ["transparent", "opaque"]:
+        fail(f"Homepage header must transition transparent-to-opaque across the hero; got {states}.")
+
+
+def check_mobile_drawer(browser: DevToolsSocket) -> None:
+    drawer = evaluate(
+        browser,
+        """new Promise(resolve => {
+          const opener = document.querySelector('[data-drawer-open]');
+          const dialog = document.querySelector('[data-drawer]');
+          const close = dialog?.querySelector('[data-drawer-close]');
+          const fallback = document.querySelector('[data-drawer-fallback]');
+          opener?.click();
+          requestAnimationFrame(() => {
+            const opened = Boolean(
+              !opener?.hidden && fallback?.hidden && dialog?.open &&
+              document.activeElement === close && opener?.getAttribute('aria-expanded') === 'true'
+            );
+            close?.click();
+            requestAnimationFrame(() => resolve({
+              opened,
+              closed: !dialog?.open && document.activeElement === opener && opener?.getAttribute('aria-expanded') === 'false'
+            }));
+          });
+        })""",
+    )
+    if drawer != {"opened": True, "closed": True}:
+        fail(f"Mobile drawer must move focus to Close and return it to Menu; got {drawer}.")
+
+
+def check_no_javascript(debug_url: str, origin: str) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, 390, 844)
+        browser.command("Network.enable")
+        browser.command("Network.setBlockedURLs", {"urls": ["*://127.0.0.1:*/*.js"]})
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", "homepage without JavaScript")
+        fallback = evaluate(
+            browser,
+            """(() => {
+              const details = document.querySelector('[data-drawer-fallback]');
+              const opener = document.querySelector('[data-drawer-open]');
+              const wordmark = document.querySelector('[data-wordmark]');
+              const fallback = document.querySelector('[data-wordmark-fallback]');
+              return Boolean(
+                details && !details.hidden && getComputedStyle(details).display !== 'none' &&
+                details.querySelectorAll('a[href]').length > 0 && opener?.hidden &&
+                wordmark && !wordmark.dataset.wordmarkEnhanced && fallback &&
+                getComputedStyle(fallback).visibility !== 'hidden'
+              );
+            })()""",
+        )
+        if not fallback:
+            fail("Homepage must retain visible grouped mobile navigation when JavaScript is unavailable.")
+    finally:
+        browser.close()
+
+
+def check_reduced_motion(debug_url: str, origin: str) -> None:
+    browser = open_page(debug_url, origin, "/__browser-check-blank__")
+    try:
+        set_viewport(browser, 390, 844)
+        browser.command(
+            "Emulation.setEmulatedMedia",
+            {"features": [{"name": "prefers-reduced-motion", "value": "reduce"}]},
+        )
+        browser.command("Page.navigate", {"url": origin + "/"})
+        wait_for_complete(browser, "/", "homepage with reduced motion")
+        wordmark = evaluate(
+            browser,
+            """(() => {
+              const root = document.querySelector('[data-wordmark]');
+              const canvas = document.querySelector('[data-wordmark-canvas]');
+              const fallback = document.querySelector('[data-wordmark-fallback]');
+              return Boolean(root && canvas && fallback && !root.dataset.wordmarkEnhanced &&
+                getComputedStyle(canvas).display === 'none' && getComputedStyle(fallback).visibility !== 'hidden');
+            })()""",
+        )
+        if not wordmark:
+            fail("Reduced-motion homepage must keep the static Green wordmark and disable its canvas animation.")
+    finally:
+        browser.close()
+
+
+def check_news(browser: DevToolsSocket) -> None:
+    featured = evaluate(
+        browser,
+        """(() => {
+          const image = document.querySelector('.news-featured__media img');
+          return image && {
+            src: image.currentSrc || image.src,
+            alt: image.alt,
+            width: image.naturalWidth,
+            illustrative: Boolean(document.querySelector('.news-featured__notice'))
+          };
+        })()""",
+    )
+    if not featured:
+        fail("Featured News must render lead media.")
+    real_media = "radio-atlas" in featured["src"] and bool(featured["alt"].strip()) and featured["width"] > 0
+    illustrative_media = featured["illustrative"] and featured["width"] > 0
+    if not real_media and not illustrative_media:
+        fail("Featured News must render cleared real lead media or an explicitly declared illustrative fallback.")
+
+
+def check_news_partition(debug_url: str, origin: str) -> None:
+    def archive_links(route: str) -> list[str]:
+        browser = open_page(debug_url, origin, route)
+        try:
+            set_viewport(browser, 1440, 900)
+            browser.command("Page.navigate", {"url": origin + route})
+            wait_for_complete(browser, route)
+            return evaluate(
+                browser,
+                """(() => Array.from(document.querySelectorAll('#archive .news-card h3 a, .news-index__latest .news-card h3 a'), link => link.pathname))()""",
+            )
+        finally:
+            browser.close()
+
+    first = archive_links("/news/")
+    second = archive_links("/news/page/2/")
+    archive_first = first[-9:]
+    if len(archive_first) != 9 or len(second) != 3 or len(set(archive_first)) != 9 or len(set(second)) != 3:
+        fail(f"News archive must render nine unique page-one stories and three unique page-two stories; got {archive_first} / {second}.")
+    if set(archive_first) & set(second) or len(set(archive_first) | set(second)) != 12:
+        fail("News archive pages overlap or omit a story; page one and page two must partition all twelve articles.")
+
+
+def check_proof_media(browser: DevToolsSocket, route: str, selector: str, description: str, origin: str) -> None:
+    media = evaluate(
+        browser,
+        f"""(() => Array.from(document.querySelectorAll({json.dumps(selector)}), image => ({{
+          src: image.currentSrc || image.src, alt: image.alt, loading: image.loading, width: image.naturalWidth
+        }})))()""",
+    )
+    if not media:
+        fail(f"{route} must render cleared current-proof media for {description}.")
+    for image in media:
+        parsed = urllib.parse.urlsplit(image["src"])
+        if (
+            f"{parsed.scheme}://{parsed.netloc}" != origin
+            or not parsed.path.startswith("/assets/")
+            or not image["alt"].strip()
+            or image["loading"] != "lazy"
+            or image["width"] <= 0
+        ):
+            fail(f"{route} current-proof media for {description} must be loaded local media with alt text and lazy loading: {image}.")
+
+
+def run() -> None:
+    if not SITE.is_dir():
+        fail("Missing _site; build the rendered site before browser acceptance verification.")
+    chromium = shutil.which("chromium") or shutil.which("chromium-browser") or shutil.which("google-chrome")
+    if not chromium:
+        fail("Missing Chromium; install chromium to run rendered-site acceptance checks.")
+
+    server = http.server.ThreadingHTTPServer(
+        ("127.0.0.1", 0),
+        functools.partial(QuietFileServer, directory=str(SITE)),
+    )
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    origin = f"http://127.0.0.1:{server.server_port}"
+
+    with socket.socket() as port_socket:
+        port_socket.bind(("127.0.0.1", 0))
+        debug_port = port_socket.getsockname()[1]
+    profile = tempfile.TemporaryDirectory(prefix="omaweb-chromium-")
+    process = subprocess.Popen(
+        [
+            chromium,
+            "--headless=new",
+            f"--remote-debugging-port={debug_port}",
+            "--remote-debugging-address=127.0.0.1",
+            f"--user-data-dir={profile.name}",
+            "--no-first-run",
+            "--no-default-browser-check",
+            "--disable-background-networking",
+            "--disable-component-update",
+            "--disable-sync",
+            "--metrics-recording-only",
+            "about:blank",
+        ],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    debug_url = f"http://127.0.0.1:{debug_port}"
+    try:
+        deadline = time.monotonic() + 15
+        while True:
+            try:
+                http_json(debug_url + "/json/version")
+                break
+            except Exception:
+                if time.monotonic() >= deadline:
+                    fail("Chromium did not expose its DevTools endpoint within 15 seconds.")
+                time.sleep(0.05)
+
+        for width, height in VIEWPORTS:
+            for route in ROUTES:
+                browser = open_page(debug_url, origin, route)
+                try:
+                    set_viewport(browser, width, height)
+                    browser.command("Page.navigate", {"url": origin + route})
+                    wait_for_complete(browser, route)
+                    check_page_shell(browser, route, width, height, origin)
+                    if route == "/":
+                        check_home_actions(browser)
+                        check_home_scene(browser, width, height)
+                        check_header_transition(browser)
+                        if width == 390:
+                            check_mobile_drawer(browser)
+                    elif route == "/news/":
+                        check_news(browser)
+                    elif route == "/desktop/":
+                        check_proof_media(browser, route, ".desktop-proof img", "the Desktop", origin)
+                    elif route == "/workstations/":
+                        check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", origin)
+                finally:
+                    browser.close()
+
+        check_news_partition(debug_url, origin)
+        check_no_javascript(debug_url, origin)
+        check_reduced_motion(debug_url, origin)
+    finally:
+        process.terminate()
+        try:
+            process.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            process.kill()
+        profile.cleanup()
+        server.shutdown()
+        server.server_close()
+
+    print("Rendered Chromium route, media, navigation, pagination, motion, and viewport checks passed.")
+
+
+if __name__ == "__main__":
+    try:
+        run()
+    except VerificationError as error:
+        print(f"Rendered-site acceptance failed: {error}", file=sys.stderr)
+        sys.exit(1)
