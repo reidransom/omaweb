@@ -428,7 +428,7 @@ def check_news(browser: DevToolsSocket) -> None:
 
 
 def check_news_partition(debug_url: str, origin: str) -> None:
-    def archive_links(route: str) -> list[str]:
+    def article_links(route: str, selector: str) -> list[str]:
         browser = open_page(debug_url, origin, route)
         try:
             set_viewport(browser, 1440, 900)
@@ -436,17 +436,16 @@ def check_news_partition(debug_url: str, origin: str) -> None:
             wait_for_complete(browser, route)
             return evaluate(
                 browser,
-                """(() => Array.from(document.querySelectorAll('#archive .news-card h3 a, .news-index__latest .news-card h3 a'), link => link.pathname))()""",
+                f"""(() => Array.from(document.querySelectorAll({json.dumps(selector)}), link => link.pathname))()""",
             )
         finally:
             browser.close()
 
-    first = archive_links("/news/")
-    second = archive_links("/news/page/2/")
-    archive_first = first[-9:]
-    if len(archive_first) != 9 or len(second) != 3 or len(set(archive_first)) != 9 or len(set(second)) != 3:
-        fail(f"News archive must render nine unique page-one stories and three unique page-two stories; got {archive_first} / {second}.")
-    if set(archive_first) & set(second) or len(set(archive_first) | set(second)) != 12:
+    first = article_links("/news/", "#archive .news-archive li > a")
+    second = article_links("/news/page/2/", ".news-index__latest > .news-card-grid > article.news-card .news-card__media")
+    if len(first) != 9 or len(second) != 3 or len(set(first)) != 9 or len(set(second)) != 3:
+        fail(f"News archive must render nine unique page-one stories and three unique page-two stories; got {first} / {second}.")
+    if set(first) & set(second) or len(set(first) | set(second)) != 12:
         fail("News archive pages overlap or omit a story; page one and page two must partition all twelve articles.")
 
 
