@@ -8,7 +8,6 @@ hero:
         destination: iso
       - label: Read The Manual
         destination: manual
-  scroll_label: See the desktop
 
 desktop:
   eyebrow: The Desktop

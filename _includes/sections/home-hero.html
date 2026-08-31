@@ -6,7 +6,12 @@
     <p class="home-hero__promise">{{ home.hero.promise | escape }}</p>
     <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
     {% include action-group.html actions=home.hero.actions.items class='home-hero__actions' label='Get started' %}
+    <a class="home-scroll-cue" href="#home-desktop">
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="m6 8 6 6 6-6m-12 6 6 6 6-6" />
+      </svg>
+      <span>scroll</span>
+    </a>
   </div>
-  <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
   <span data-header-sentinel aria-hidden="true"></span>
 </section>

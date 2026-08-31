@@ -119,11 +119,24 @@
 }
 
 .home-scroll-cue {
-  position: absolute;
-  inset-block-end: var(--omarchy-space-large);
+  display: grid;
+  justify-items: center;
+  gap: var(--omarchy-space-small);
+  margin-block-start: var(--omarchy-space-xxxx-large);
   color: var(--omarchy-turquoise);
   font-size: var(--omarchy-font-small);
   font-weight: 700;
+  text-transform: lowercase;
+}
+
+.home-scroll-cue svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
 }
 
 [data-header-sentinel] {
@@ -297,11 +310,6 @@
   }
 }
 
-@media (max-width: 39.999rem) {
-  .home-scroll-cue {
-    display: none;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .wordmark__canvas {
