@@ -25,6 +25,21 @@ require_output_path() {
   esac || fail "Broken local URL in rendered output: $path"
 }
 
+require_absent_output_path() {
+  path=$1
+  case "$path" in
+    /)
+      [ ! -e _site/index.html ]
+      ;;
+    */)
+      [ ! -e "_site${path}index.html" ] && [ ! -d "_site${path}" ]
+      ;;
+    *)
+      [ ! -e "_site$path" ] && [ ! -e "_site${path}/index.html" ]
+      ;;
+  esac || fail "Removed route remains in rendered output: $path"
+}
+
 [ -d _site ] || fail 'Missing _site; run Jigyll before production verification.'
 [ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
 [ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
@@ -74,6 +89,10 @@ required_routes='
 printf '%s' "$required_routes" | while IFS= read -r route; do
   [ -n "$route" ] && require_output_path "$route"
 done
+
+require_absent_output_path /news/search/
+obsolete_news_search_callers=$(grep -Eirn 'href="/news/search/?([?#"]|$)' _site --include='*.html' 2>/dev/null || true)
+[ -z "$obsolete_news_search_callers" ] || fail 'Rendered navigation or page content still links to the removed News-only search route.'
 
 for source in _news/*.md; do
   route=$(sed -n 's/^permalink: //p' "$source")
