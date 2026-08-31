@@ -36,22 +36,28 @@ export function initQuake({ header } = {}) {
     panel.querySelector(".quake-navigation__section-link")?.focus();
   };
 
-  const close = ({ restoreFocus = false } = {}) => {
+  const close = ({ restoreFocus = false, immediate = false } = {}) => {
     if (!isOpen) return;
 
     isOpen = false;
     clearPendingTransition();
     toggle.setAttribute("aria-expanded", "false");
     header?.setOpaqueOverride(false);
-    panel.dataset.quakeState = "closing";
 
-    hideTimeout = window.setTimeout(() => {
-      hideTimeout = null;
-      if (isOpen) return;
+    if (immediate) {
       panel.open = false;
       panel.hidden = true;
       delete panel.dataset.quakeState;
-    }, panelTransitionDuration);
+    } else {
+      panel.dataset.quakeState = "closing";
+      hideTimeout = window.setTimeout(() => {
+        hideTimeout = null;
+        if (isOpen) return;
+        panel.open = false;
+        panel.hidden = true;
+        delete panel.dataset.quakeState;
+      }, panelTransitionDuration);
+    }
 
     if (restoreFocus) toggle.focus();
   };
@@ -64,6 +70,7 @@ export function initQuake({ header } = {}) {
       return;
     }
 
+    document.dispatchEvent(new CustomEvent("omarchy:quake-open"));
     isOpen = true;
     clearPendingTransition();
     panel.hidden = false;

@@ -1,7 +1,6 @@
 # One sitewide Spotlight search
 
-Status: ready-for-agent
-Blocked by: 03
+Status: completed
 
 ## Scope
 

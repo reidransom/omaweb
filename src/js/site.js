@@ -2,14 +2,14 @@ import { initDrawer } from "./drawer.js";
 import { initHeader } from "./header.js";
 import { initQuake } from "./quake.js";
 import { initWordmark } from "./wordmark.js";
-import { initNewsSearch } from "./news.js";
+import { initSiteSearch } from "./search.js";
 
 const init = () => {
   const header = initHeader();
   initDrawer();
-  initQuake({ header });
+  const quake = initQuake({ header });
   initWordmark();
-  initNewsSearch();
+  initSiteSearch({ quake });
 };
 
 if (document.readyState === "loading") {

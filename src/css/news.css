@@ -8,8 +8,7 @@
 .news-index__latest,
 .news-index__filters,
 .news-index__archive,
-.news-spotlights,
-.news-search {
+.news-spotlights {
   display: grid;
   gap: var(--omarchy-space-large);
 }
@@ -178,30 +177,6 @@
   border-radius: var(--omarchy-radius);
 }
 
-.news-search form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--omarchy-space-medium);
-  align-items: end;
-}
-
-.news-search label {
-  flex-basis: 100%;
-}
-
-.news-search input {
-  flex: 1 1 16rem;
-  min-block-size: var(--omarchy-control-height);
-  padding-inline: 0.75em;
-  border: 1px solid var(--omarchy-terminal-black);
-  border-radius: var(--omarchy-radius);
-  background: var(--omarchy-storm);
-  color: var(--omarchy-white);
-}
-
-.news-search [data-news-search-results] {
-  min-block-size: 0;
-}
 
 @variant md {
   .news-featured {
