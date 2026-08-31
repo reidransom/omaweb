@@ -58,7 +58,12 @@
         </div>
       </aside>
     </div>
-    <a class="home-scroll-cue" href="#home-desktop">{{ home.hero.scroll_label | escape }}</a>
+    <a class="home-scroll-cue" href="#home-desktop">
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="m6 8 6 6 6-6m-12 6 6 6 6-6" />
+      </svg>
+      <span>Scroll</span>
+    </a>
     <span data-header-sentinel aria-hidden="true"></span>
   </div>
 </section>

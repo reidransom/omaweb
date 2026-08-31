@@ -227,6 +227,41 @@ def check_home_scene(browser: DevToolsSocket, width: int, height: int) -> None:
         fail(f"Homepage selects the wrong Winding Road responsive image at {width}x{height}: {scene['currentSrc']}.")
     if not scene["expansion"] or not scene["finalCta"] or scene["revealCount"] != 2:
         fail("Homepage must render the fixed scene's two intentional reveal beats: expansion and final call to action.")
+
+
+def check_home_scroll_cue(browser: DevToolsSocket, width: int, height: int) -> None:
+    cue = evaluate(
+        browser,
+        """(() => {
+          const scrollRoot = document.scrollingElement;
+          const scrollBehavior = scrollRoot.style.scrollBehavior;
+          scrollRoot.style.scrollBehavior = 'auto';
+          scrollRoot.scrollTop = 0;
+          const link = document.querySelector('.home-scroll-cue');
+          const rect = link?.getBoundingClientRect();
+          const cue = {
+            announcement: Boolean(document.querySelector('.announcement')),
+            label: link?.textContent.trim().toLowerCase(),
+            href: link?.getAttribute('href'),
+            iconPaths: link?.querySelectorAll('svg path').length ?? 0,
+            top: rect?.top,
+            bottom: rect?.bottom,
+            viewportHeight: window.innerHeight
+          };
+          scrollRoot.style.scrollBehavior = scrollBehavior;
+          return cue;
+        })()""",
+    )
+    if cue["label"] != "scroll" or cue["href"] != "#home-desktop" or cue["iconPaths"] != 1:
+        fail(f"Homepage must render the labeled double-caret scroll cue; got {cue}.")
+    if (
+        width >= 640
+        and cue["announcement"]
+        and (cue["top"] < 0 or cue["bottom"] > cue["viewportHeight"])
+    ):
+        fail(f"Homepage scroll cue must remain in the initial viewport below an announcement at {width}x{height}; got {cue}.")
+
+
 def check_header_transition(browser: DevToolsSocket) -> None:
     states = evaluate(
         browser,
@@ -1065,6 +1100,7 @@ def run() -> None:
                     if route == "/":
                         check_home_actions(browser)
                         check_home_scene(browser, width, height)
+                        check_home_scroll_cue(browser, width, height)
                         check_header_transition(browser)
                         check_closed_responsive_header(browser, width)
                         if width == 390:

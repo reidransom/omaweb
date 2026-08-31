@@ -195,8 +195,10 @@
 }
 
 .home-scroll-cue {
-  display: block;
+  display: grid;
   inline-size: fit-content;
+  justify-items: center;
+  gap: var(--omarchy-space-small);
   margin: var(--omarchy-space-large) auto 0;
   color: var(--omarchy-turquoise);
   font-size: var(--omarchy-font-small);
@@ -381,13 +383,24 @@
   }
 
   .home-hero__stage {
+    --home-hero-initial-offset: calc(
+      max(var(--omarchy-control-height), 2rem) + (2 * var(--omarchy-space-small)) + 1px
+    );
+
     position: sticky;
     inset-block-start: 0;
     display: grid;
-    min-block-size: 100svh;
+    min-block-size: calc(100svh - var(--home-hero-initial-offset));
     align-content: center;
     overflow: clip;
     padding-block: clamp(var(--omarchy-space-xx-large), 10svh, var(--omarchy-space-xxxx-large));
+  }
+
+  .announcement ~ main .home-hero__stage {
+    --home-hero-initial-offset: calc(
+      max(var(--omarchy-control-height), 2rem) + (4 * var(--omarchy-space-small)) +
+        (var(--omarchy-line-height) * 1em) + 1px
+    );
   }
 
   .home-hero__panes {
