@@ -2,16 +2,24 @@ export function initHeader() {
   const header = document.querySelector(".site-header");
   const sentinel = document.querySelector("[data-header-sentinel]");
 
-  if (!header) return;
+  if (!header) return null;
 
+  let forceOpaque = false;
   const updateHeaderState = () => {
     header.dataset.headerState =
-      sentinel?.getBoundingClientRect().top > 0 ? "transparent" : "opaque";
+      forceOpaque || sentinel?.getBoundingClientRect().top <= 0
+        ? "opaque"
+        : "transparent";
+  };
+
+  const setOpaqueOverride = (active) => {
+    forceOpaque = active;
+    updateHeaderState();
   };
 
   if (!sentinel) {
     updateHeaderState();
-    return;
+    return { setOpaqueOverride };
   }
 
   let scheduledFrame = null;
@@ -31,4 +39,6 @@ export function initHeader() {
   if ("IntersectionObserver" in window) {
     new IntersectionObserver(scheduleHeaderStateUpdate).observe(sentinel);
   }
+
+  return { setOpaqueOverride };
 }
