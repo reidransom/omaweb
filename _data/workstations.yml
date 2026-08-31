@@ -1,6 +1,52 @@
-# Add an item only after its local media has a cleared asset-manifest record,
-# responsive sources, intrinsic dimensions, and a useful alt description.
-items: []
+# Each item is an authorized contributor photograph with a cleared local source,
+# deterministic responsive derivatives, and an asset-manifest record.
+items:
+  - name: pleum
+    caption: Photograph by pleum, shared for the official Workstations gallery.
+    media:
+      src: /assets/images/workstations/pleum-p1554011-1600w.webp
+      width: 1600
+      height: 1067
+      alt: A black cat lies beside a mechanical keyboard in front of an Omarchy wordmark on a monitor; headphones and a desk lamp frame the workspace.
+      loading: lazy
+      decoding: async
+      sizes: "(min-width: 40rem) 58vw, 100vw"
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/workstations/pleum-p1554011-480w.webp
+                  width: 480
+                - src: /assets/images/workstations/pleum-p1554011-768w.webp
+                  width: 768
+                - src: /assets/images/workstations/pleum-p1554011-1200w.webp
+                  width: 1200
+                - src: /assets/images/workstations/pleum-p1554011-1600w.webp
+                  width: 1600
+  - name: sspaeti
+    caption: Photograph by sspaeti, shared for the official Workstations gallery.
+    media:
+      src: /assets/images/workstations/sspaeti-office-setup-1600w.webp
+      width: 1600
+      height: 900
+      alt: A white desk with a microphone, mechanical keyboard, laptops, and a large monitor with multiple open windows.
+      loading: lazy
+      decoding: async
+      sizes: "(min-width: 40rem) 42vw, 100vw"
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/workstations/sspaeti-office-setup-480w.webp
+                  width: 480
+                - src: /assets/images/workstations/sspaeti-office-setup-768w.webp
+                  width: 768
+                - src: /assets/images/workstations/sspaeti-office-setup-1200w.webp
+                  width: 1200
+                - src: /assets/images/workstations/sspaeti-office-setup-1600w.webp
+                  width: 1600
 
 empty_state:
   title: Community workstations are waiting on cleared photographs.
