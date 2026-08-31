@@ -403,6 +403,10 @@
     );
   }
 
+  .page--home[data-home-hero-panels-animating] .home-hero__stage {
+    inset-block-start: var(--home-hero-initial-offset);
+  }
+
   .home-hero__panes {
     display: flex;
     min-block-size: min(62svh, 42rem);

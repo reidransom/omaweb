@@ -178,6 +178,22 @@ a:hover .media__image {
   color: inherit;
 }
 
+.page--home[data-home-hero-panels-animating] {
+  --home-hero-announcement-block-size: calc(
+    (2 * var(--omarchy-space-small)) + (var(--omarchy-line-height) * 1em)
+  );
+}
+
+.page--home[data-home-hero-panels-animating] .announcement {
+  position: sticky;
+  z-index: 11;
+  inset-block-start: 0;
+}
+
+.page--home[data-home-hero-panels-animating] .site-header {
+  inset-block-start: var(--home-hero-announcement-block-size);
+}
+
 .site-header {
   position: sticky;
   z-index: 10;
