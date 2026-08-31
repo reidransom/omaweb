@@ -65,7 +65,7 @@ required_routes='
 /labs/
 /news/
 /news/page/2/
-/news/search/
+/search/
 /news/authors/dhh/
 /news/feed.xml
 /news/2026/08/omacom-foundation-launches-with-8-million/
