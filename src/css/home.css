@@ -15,6 +15,11 @@
   object-position: center top;
 }
 
+.page--home .site-footer {
+  position: relative;
+  z-index: 1;
+}
+
 .home-section {
   position: relative;
   z-index: 1;
