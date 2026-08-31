@@ -3,9 +3,9 @@
 {% assign manual = destinations | where: "slug", "manual" | first %}
 <div class="button-group" aria-label="Desktop actions" markdown="0">
 {% if iso %}
-<a class="button" href="{{ iso.url }}" rel="noreferrer">Get The ISO</a>
+<a class="button" href="{{ iso.url | escape }}" rel="noreferrer">Get The ISO</a>
 {% endif %}
 {% if manual %}
-<a class="button button--secondary" href="{{ manual.url }}" rel="noreferrer">Read The Manual</a>
+<a class="button button--secondary" href="{{ manual.url | escape }}" rel="noreferrer">Read The Manual</a>
 {% endif %}
 </div>
