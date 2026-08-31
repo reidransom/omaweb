@@ -28,7 +28,6 @@ require_command() {
 }
 
 require_command magick
-require_command pyftsubset
 require_command woff2_compress
 require_command cmp
 require_command mktemp
@@ -40,14 +39,17 @@ news_preview_source=__docs/images/news/radio-atlas-preview.webp
 desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
 pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
 sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
-font_source_directory=__docs/fonts/jetbrains-mono-2.304
-font_unicodes='U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588'
+font_subset_directory=__docs/fonts/jetbrains-mono-2.304/subsets
 
 [ -f "$hero_source" ] || fail "Missing approved source: $hero_source"
 [ -f "$news_preview_source" ] || fail "Missing approved source: $news_preview_source"
 [ -f "$desktop_preview_source" ] || fail "Missing approved source: $desktop_preview_source"
 [ -f "$pleum_workstation_source" ] || fail "Missing approved source: $pleum_workstation_source"
 [ -f "$sspaeti_workstation_source" ] || fail "Missing approved source: $sspaeti_workstation_source"
+[ -f "$font_subset_directory/JetBrainsMono-Light.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Light.ttf"
+[ -f "$font_subset_directory/JetBrainsMono-LightItalic.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-LightItalic.ttf"
+[ -f "$font_subset_directory/JetBrainsMono-Medium.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Medium.ttf"
+[ -f "$font_subset_directory/JetBrainsMono-Bold.ttf" ] || fail "Missing generated font source: $font_subset_directory/JetBrainsMono-Bold.ttf"
 
 output_paths='
 assets/images/hero/winding-road-480w.webp
@@ -143,21 +145,12 @@ render_responsive_image() {
     "$output"
 }
 
-subset_font() {
+compress_font() {
   source=$1
   output=$2
   temporary_ttf="${output%.woff2}.ttf"
 
-  pyftsubset "$source" \
-    --output-file="$temporary_ttf" \
-    --unicodes="$font_unicodes" \
-    --layout-features='*' \
-    --name-IDs='*' \
-    --name-legacy \
-    --notdef-glyph \
-    --notdef-outline \
-    --recommended-glyphs \
-    --no-hinting
+  cp "$source" "$temporary_ttf"
   woff2_compress "$temporary_ttf"
   rm "$temporary_ttf"
 }
@@ -189,10 +182,10 @@ render_all() {
   render_responsive_image "$sspaeti_workstation_source" 1200 "$destination/assets/images/workstations/sspaeti-office-setup-1200w.webp"
   render_responsive_image "$sspaeti_workstation_source" 1600 "$destination/assets/images/workstations/sspaeti-office-setup-1600w.webp"
 
-  subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
+  compress_font "$font_subset_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
+  compress_font "$font_subset_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
+  compress_font "$font_subset_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
+  compress_font "$font_subset_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
 }
 
 if [ "$mode" = check ]; then

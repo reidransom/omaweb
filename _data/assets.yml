@@ -130,9 +130,12 @@ items:
       release_version: "2.304"
       local_path: __docs/fonts/jetbrains-mono-2.304/JetBrainsMono-Light.ttf
       sha256: 60c18d7dd58d81b3bbd12e8ce32744a8771bfe2b5280574082b0eaed46c60d24
+    generation_source:
+      local_path: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Light.ttf
+      sha256: cbf7d9062d348fbe111bad8ae0d08fa8a95c5917da4185f5d065619d744ed399
     provenance: >-
-      Deterministic subset of the official JetBrains Mono Light release, built
-      locally with FontTools pyftsubset 4.63.0 and woff2_compress 1.0.2.
+      Deterministic WOFF2 compression of the committed local JetBrains Mono
+      Light subset prepared from the official v2.304 source.
     sha256: 763345c93dd7dbf028c0fc6d2d55346e34c7f3338c76b99979ec0a727e070fbd
     dimensions: null
     rights_owner: The JetBrains Mono Project Authors
@@ -143,9 +146,10 @@ items:
     face: { family: JetBrains Mono, style: normal, weight: 300 }
     output_format: woff2
     generation:
-      tool: FontTools pyftsubset 4.63.0 plus woff2_compress 1.0.2
+      tool: woff2_compress 1.0.2
+      input: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Light.ttf
       subsetting: U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588
-      options: --layout-features=*,--name-IDs=*,--name-legacy,--notdef-glyph,--notdef-outline,--recommended-glyphs,--no-hinting
+      subset_preparation: FontTools pyftsubset 4.63.0 with layout features, names, required glyphs, and no hinting.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No marks in the font file. }
     glyph_coverage:
@@ -162,7 +166,10 @@ items:
       release_version: "2.304"
       local_path: __docs/fonts/jetbrains-mono-2.304/JetBrainsMono-LightItalic.ttf
       sha256: 18ffadb91fa711b45feae027ddfd561e7f97ace805ec4baf9905046cf450befb
-    provenance: Deterministic local subset of the official JetBrains Mono release.
+    generation_source:
+      local_path: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-LightItalic.ttf
+      sha256: 1b51b93bc5d79e1be6ee9f7aaddc53ac5be9acfe8fa1294972e19b1e3c0535e9
+    provenance: Deterministic WOFF2 compression of the committed local JetBrains Mono Light Italic subset.
     sha256: 09cc140fd3dc884f2d44cb6feb0c0d492075c47d13c8a936a5b7d034d1057353
     dimensions: null
     rights_owner: The JetBrains Mono Project Authors
@@ -173,9 +180,10 @@ items:
     face: { family: JetBrains Mono, style: italic, weight: 300 }
     output_format: woff2
     generation:
-      tool: FontTools pyftsubset 4.63.0 plus woff2_compress 1.0.2
+      tool: woff2_compress 1.0.2
+      input: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-LightItalic.ttf
       subsetting: U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588
-      options: --layout-features=*,--name-IDs=*,--name-legacy,--notdef-glyph,--notdef-outline,--recommended-glyphs,--no-hinting
+      subset_preparation: FontTools pyftsubset 4.63.0 with layout features, names, required glyphs, and no hinting.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No marks in the font file. }
     glyph_coverage:
@@ -192,7 +200,10 @@ items:
       release_version: "2.304"
       local_path: __docs/fonts/jetbrains-mono-2.304/JetBrainsMono-Medium.ttf
       sha256: 31c92d01a8a08528b718a43addf0ad3df0af2ca4b7b3290a452f70f358e14d3d
-    provenance: Deterministic local subset of the official JetBrains Mono release.
+    generation_source:
+      local_path: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Medium.ttf
+      sha256: 43db6590fb96990e84489d8e78b884622dd5881b693138b6c24c830ae3fadfb7
+    provenance: Deterministic WOFF2 compression of the committed local JetBrains Mono Medium subset.
     sha256: 05ee84e04376a6f8010efee59d775d0c8d6d70e3953718fb8b0f1e6990c6e281
     dimensions: null
     rights_owner: The JetBrains Mono Project Authors
@@ -203,9 +214,10 @@ items:
     face: { family: JetBrains Mono, style: normal, weight: 500 }
     output_format: woff2
     generation:
-      tool: FontTools pyftsubset 4.63.0 plus woff2_compress 1.0.2
+      tool: woff2_compress 1.0.2
+      input: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Medium.ttf
       subsetting: U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588
-      options: --layout-features=*,--name-IDs=*,--name-legacy,--notdef-glyph,--notdef-outline,--recommended-glyphs,--no-hinting
+      subset_preparation: FontTools pyftsubset 4.63.0 with layout features, names, required glyphs, and no hinting.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No marks in the font file. }
     glyph_coverage:
@@ -222,7 +234,10 @@ items:
       release_version: "2.304"
       local_path: __docs/fonts/jetbrains-mono-2.304/JetBrainsMono-Bold.ttf
       sha256: 5590990c82e097397517f275f430af4546e1c45cff408bde4255dad142479dcb
-    provenance: Deterministic local subset of the official JetBrains Mono release.
+    generation_source:
+      local_path: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Bold.ttf
+      sha256: ddedd57d14be3e564eed2207c17ba0b9aed78fb9555d783f816ce608e8a531dc
+    provenance: Deterministic WOFF2 compression of the committed local JetBrains Mono Bold subset.
     sha256: 0cce0d2b3db43f4d5f446c861ea92008e0a5bbd92b7994adbcf12c629cf2b499
     dimensions: null
     rights_owner: The JetBrains Mono Project Authors
@@ -233,9 +248,10 @@ items:
     face: { family: JetBrains Mono, style: normal, weight: 700 }
     output_format: woff2
     generation:
-      tool: FontTools pyftsubset 4.63.0 plus woff2_compress 1.0.2
+      tool: woff2_compress 1.0.2
+      input: __docs/fonts/jetbrains-mono-2.304/subsets/JetBrainsMono-Bold.ttf
       subsetting: U+0020-00FF,U+2013,U+2014,U+2018-201F,U+2026,U+2192,U+2194,U+2212,U+2580,U+2584,U+2588
-      options: --layout-features=*,--name-IDs=*,--name-legacy,--notdef-glyph,--notdef-outline,--recommended-glyphs,--no-hinting
+      subset_preparation: FontTools pyftsubset 4.63.0 with layout features, names, required glyphs, and no hinting.
     publication_status: cleared
     third_party_marks: { present: false, disclosure: No marks in the font file. }
     glyph_coverage:
