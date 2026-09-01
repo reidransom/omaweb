@@ -1,24 +1,48 @@
-#!/usr/bin/env sh
-set -eu
+#!/usr/bin/env bash
+set -euo pipefail
 
-pids=
+children=()
 
-cleanup() {
-  status=$?
-  trap - EXIT HUP INT TERM
-  for pid in $pids; do
-    kill "$pid" 2>/dev/null || true
+terminate_children() {
+  local pid
+  local killer_pid
+
+  for pid in "${children[@]}"; do
+    kill -TERM -- "-$pid" 2>/dev/null || true
   done
-  for pid in $pids; do
+
+  (
+    sleep 5
+    for pid in "${children[@]}"; do
+      kill -KILL -- "-$pid" 2>/dev/null || true
+    done
+  ) &
+  killer_pid=$!
+
+  for pid in "${children[@]}"; do
     wait "$pid" 2>/dev/null || true
   done
+
+  kill -TERM -- "-$killer_pid" 2>/dev/null || true
+  wait "$killer_pid" 2>/dev/null || true
+}
+
+cleanup() {
+  local status=$?
+
+  trap - EXIT HUP INT TERM
+  terminate_children
   exit "$status"
 }
 
 start() {
   "$@" &
-  pids="$pids $!"
+  children+=("$!")
 }
+
+# Give each background job its own process group so cleanup also reaches any
+# compiler or server subprocesses.
+set -m
 
 trap cleanup EXIT
 trap 'exit 129' HUP
@@ -28,13 +52,10 @@ trap 'exit 143' TERM
 start scripts/build css --watch
 start jigyll serve -s . -w --unpublished "$@"
 
-while :; do
-  for pid in $pids; do
-    if ! kill -0 "$pid" 2>/dev/null; then
-      status=0
-      wait "$pid" || status=$?
-      exit "$status"
-    fi
-  done
-  sleep 1
-done
+if wait -n "${children[@]}"; then
+  status=0
+else
+  status=$?
+fi
+
+exit "$status"
