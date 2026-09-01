@@ -1,3 +1,6 @@
+@use "breakpoints";
+
+@mixin styles {
 .content-shell {
   inline-size: min(100%, var(--omarchy-media-max));
   margin-inline: auto;
@@ -148,7 +151,7 @@ a:hover .media__image {
   transform: scale(1.02);
 }
 
-@variant sm {
+@media (min-width: breakpoints.$small) {
   .content-shell {
     padding-block: var(--omarchy-space-xxx-large);
   }
@@ -430,7 +433,7 @@ a:hover .media__image {
   font-size: var(--omarchy-font-small);
 }
 
-@media (min-width: 48rem) {
+@media (min-width: breakpoints.$medium) {
   .site-header__inner {
     grid-template-columns: minmax(0, 1fr) auto auto;
   }
@@ -444,7 +447,7 @@ a:hover .media__image {
   }
 }
 
-@media (min-width: 64rem) {
+@media (min-width: breakpoints.$large) {
   .site-header__inner {
     grid-template-columns: auto minmax(0, 1fr) auto auto;
   }
@@ -591,13 +594,13 @@ a:hover .media__image {
   font-weight: 300;
 }
 
-@media (max-width: 39.999rem) {
+@media (max-width: breakpoints.$small - 0.001rem) {
   .patron-card {
     flex-basis: calc(50% - 0.5em);
   }
 }
 
-@media (min-width: 90rem) {
+@media (min-width: breakpoints.$extra-large) {
   .patron-tiers {
     margin-block-start: 3.6em;
   }
@@ -608,9 +611,51 @@ a:hover .media__image {
   }
 }
 
+.people-roster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.person-card {
+  padding: 1rem;
+  border: 1px solid var(--omarchy-terminal-black);
+  border-radius: 0.25rem;
+  background: var(--omarchy-storm);
+}
+
+.person-card__name {
+  margin-block-start: 0;
+  font-size: var(--omarchy-font-medium);
+}
+
+.person-card__detail,
+.person-card__location {
+  margin-block-end: 0;
+}
+
+.person-card__location {
+  color: var(--omarchy-terminal-white);
+}
+
+@media (min-width: breakpoints.$small) {
+  .people-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: breakpoints.$large) {
+  .people-roster {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .quake-navigation[data-quake-enhanced],
   .quake-navigation[data-quake-enhanced][data-quake-state="open"] {
     transform: none;
   }
+}
 }

@@ -1,8 +1,14 @@
-* {
+@mixin styles {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  -webkit-tap-highlight-color: transparent;
   background: var(--omarchy-night);
   color-scheme: dark;
   scroll-behavior: smooth;
@@ -50,8 +56,9 @@ h2 {
   text-wrap: pretty;
 }
 
-:where(ul, ol) {
+:where(ul, ol, menu) {
   padding-inline-start: 1.5em;
+  list-style: none;
 }
 
 :where(ul:not([class]), ol:not([class])) > :where(li + li) {
@@ -71,24 +78,36 @@ a:hover {
   color: var(--omarchy-white);
 }
 
-:where(button, input, select, textarea) {
-  font: inherit;
-}
-
-button,
-input,
-select,
-textarea {
+:where(button, input, select, optgroup, textarea, ::file-selector-button) {
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
   border-radius: var(--omarchy-radius);
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  opacity: 1;
 }
 
 img,
 picture,
 svg,
 video,
-canvas {
+canvas,
+audio,
+iframe,
+embed,
+object {
   display: block;
   max-inline-size: 100%;
+  vertical-align: middle;
+}
+
+iframe {
+  border: 0;
 }
 
 img,
@@ -154,4 +173,9 @@ video {
   .status-label {
     box-shadow: none;
   }
+}
+
+[hidden]:not([hidden="until-found"]) {
+  display: none !important;
+}
 }

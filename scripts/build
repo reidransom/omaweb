@@ -26,20 +26,21 @@ set_provenance() {
 }
 
 build_css() {
-  if [ ! -f src/css/site.css ]; then
+  if [ ! -f src/css/site.scss ]; then
     printf '%s\n' 'CSS source is not present yet; skipping CSS build.'
     return
   fi
 
   if [ "${1-}" = --watch ]; then
-    set -- --watch=always
+    set -- --watch
   fi
 
   mkdir -p assets/css
-  npx --no-install @tailwindcss/cli \
-    --input src/css/site.css \
-    --output assets/css/site.css \
-    --minify \
+  npx --no-install sass \
+    src/css/site.scss \
+    assets/css/site.css \
+    --style=compressed \
+    --no-source-map \
     "$@"
 }
 
