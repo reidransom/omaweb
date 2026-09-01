@@ -28,7 +28,7 @@ scripts/build          # run the production-equivalent build and verification pa
 
 `scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds compressed CSS with mise-selected Dart Sass, builds JavaScript, renders the site with mise-selected Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
-`mise run serve` runs the two-child `scripts/serve` supervisor: one mise-managed Sass watcher writes the ignored `assets/css/site.css`, while one mise-managed Jigyll process watches and serves the site. Jigyll’s native Sass path is intentionally unused because Jigyll 1.8.3’s post-render minifier corrupts valid modern CSS.
+`mise run serve` runs the two-child `scripts/serve` supervisor: one mise-managed Sass watcher writes the ignored `assets/css/site.css`, while one mise-managed Jigyll process watches and serves the site. Jigyll’s native Sass path remains unused so focused builds, watch mode, full local builds, and production builds share the same compiler and stylesheet graph.
 
 [servd](https://github.com/reidransom/servd) uses the same supervisor through `.servd.toml`.
 

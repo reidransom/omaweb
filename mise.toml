@@ -1,5 +1,5 @@
 [tools]
-"github:reidransom/jigyll" = "1.8.3"
+"github:reidransom/jigyll" = "1.9.2"
 "github:sass/dart-sass" = "1.103.1"
 
 [tasks.serve]
