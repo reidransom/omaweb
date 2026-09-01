@@ -41,7 +41,7 @@ function navigationDestinations() {
         if (!url || !label || seenUrls.has(url)) return [];
         seenUrls.add(url);
 
-        return [{ label, url, external, section: section.label }];
+        return [{ title: label, url, external, section: section.label }];
       });
     });
   } catch {
@@ -53,9 +53,7 @@ function matchingDestinations(destinations, term) {
   const normalizedTerm = term.toLocaleLowerCase();
 
   return destinations
-    .filter(({ label, section }) =>
-      `${label} ${section}`.toLocaleLowerCase().includes(normalizedTerm),
-    )
+    .filter(({ title }) => title.toLocaleLowerCase().includes(normalizedTerm))
     .slice(0, destinationLimit);
 }
 
