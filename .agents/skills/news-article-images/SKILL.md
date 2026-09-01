@@ -1,7 +1,7 @@
 ---
 name: news-article-images
 description: Generate and integrate original Omarchy News editorial illustrations with nanobanana. Use whenever a user asks for a News story image, homepage news-card artwork, a replacement for the News fallback graphic, or matching artwork for several articles—even when they only say “do the same for the other stories.”
-compatibility: Requires nanobanana, ImageMagick, jigyll, and NANOBANANA_API_KEY in ~/.env.
+compatibility: Requires mise with the project-locked toolchain installed via `mise install`, nanobanana, ImageMagick, and NANOBANANA_API_KEY in ~/.env.
 ---
 
 # Omarchy News article images
@@ -145,7 +145,7 @@ Run:
 
 ```bash
 scripts/check-content
-jigyll build --config _config.yml
+mise exec -- jigyll build --config _config.yml
 ```
 
 Use the browser against the running `servd` site and verify:
