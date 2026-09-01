@@ -6,5 +6,18 @@
 <link rel="icon" href="{{ '/assets/images/favicon.png' | relative_url }}" type="image/png">
 <link rel="preload" href="{{ '/assets/fonts/jetbrains-mono-light.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
-<noscript><style>.wordmark__fallback { visibility: visible; }</style></noscript>
+{% if site.features.laseretch_wordmark %}
+<script>
+  if (window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const root = document.documentElement;
+    const siteBundle = new URL("{{ '/assets/js/site.js' | relative_url }}", document.baseURI).href;
+    root.classList.add("wte-home");
+    window.addEventListener("error", event => {
+      if (event.target instanceof HTMLScriptElement && event.target.src === siteBundle) {
+        root.classList.remove("wte-home");
+      }
+    }, true);
+  }
+</script>
+{% endif %}
 {% include seo.html %}

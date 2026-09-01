@@ -297,6 +297,25 @@
   transform-origin: 0 0;
 }
 
+html.wte-home .wordmark:not([data-wordmark-enhanced]) .wordmark__fallback {
+  animation: wordmark-fallback 0s 2s forwards;
+  visibility: hidden;
+}
+
+@keyframes wordmark-fallback {
+  to {
+    visibility: visible;
+  }
+}
+
+html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
+  animation: none;
+}
+
+html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
+  animation: none;
+}
+
 .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
   visibility: visible;
 }
@@ -306,7 +325,7 @@
 }
 
 .wordmark[data-wordmark-enhanced="true"] .wordmark__canvas {
-  opacity: 1;
+  display: block;
 }
 
 .home-card-grid {

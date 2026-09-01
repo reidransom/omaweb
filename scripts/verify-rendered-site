@@ -950,8 +950,20 @@ def wordmark_pixels_remain_stable(browser: DevToolsSocket) -> bool:
     return sum(abs(previous - current) for previous, current in zip(before, after)) <= 4
 
 
+def wordmark_canvas_changes(browser: DevToolsSocket) -> bool:
+    return evaluate(
+        browser,
+        """new Promise(resolve => {
+          const canvas = document.querySelector("[data-wordmark-canvas]");
+          if (!canvas || !canvas.width || !canvas.height) return resolve(false);
+          const before = canvas.toDataURL();
+          setTimeout(() => resolve(before !== canvas.toDataURL()), 400);
+        })""",
+    )
 
-def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
+
+
+def check_laseretch_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, width, height)
@@ -999,7 +1011,7 @@ def check_normal_wordmark(debug_url: str, origin: str, width: int, height: int) 
         browser.close()
 
 
-def check_disabled_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
+def check_alternate_wordmark(debug_url: str, origin: str, width: int, height: int) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, width, height)
@@ -1007,6 +1019,11 @@ def check_disabled_wordmark(debug_url: str, origin: str, width: int, height: int
         enable_network_disable_cache_and_clear_browser_cache(browser)
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", f"homepage with laseretch disabled at {width}x{height}")
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "true"',
+            f"alternate canvas wordmark at {width}x{height}",
+        )
         snapshot = wordmark_snapshot(browser)
         enabled = evaluate(
             browser,
@@ -1014,10 +1031,14 @@ def check_disabled_wordmark(debug_url: str, origin: str, width: int, height: int
         )
         if enabled:
             fail(f"Laseretch must be disabled at {width}x{height}.")
-        assert_static_wordmark(snapshot, f"Laseretch-disabled homepage at {width}x{height}", None)
+        assert_matching_wordmark_bounds(snapshot, f"Alternate wordmark at {width}x{height}")
+        if snapshot["fallback"]["visibility"] != "hidden":
+            fail(f"Alternate wordmark at {width}x{height} must replace the static fallback; got {snapshot}.")
+        if not wordmark_canvas_changes(browser):
+            fail(f"Alternate wordmark at {width}x{height} must keep animating its Canvas output.")
         if any("/assets/js/wte/" in resource for resource in snapshot["evidence"]["resources"]):
             fail(f"Laseretch-disabled homepage requested the WTE runtime: {snapshot['evidence']['resources']}.")
-        assert_no_page_errors(snapshot, f"Laseretch-disabled homepage at {width}x{height}")
+        assert_no_page_errors(snapshot, f"Alternate wordmark at {width}x{height}")
     finally:
         browser.close()
 
@@ -1055,13 +1076,12 @@ def check_print_wordmark(debug_url: str, origin: str, laseretch_enabled: bool) -
         browser.command("Emulation.setEmulatedMedia", {"media": "print"})
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "printed homepage")
-        expected_state = "false" if laseretch_enabled else None
-        if expected_state is not None:
-            wait_for(
-                browser,
-                'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
-                "static printed wordmark",
-            )
+        expected_state = "false"
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+            "static printed wordmark",
+        )
         snapshot = wordmark_snapshot(browser)
         assert_static_wordmark(snapshot, "Printed homepage", expected_state)
         if laseretch_enabled and (snapshot["canvas"]["width"] or snapshot["canvas"]["height"]):
@@ -1115,7 +1135,7 @@ def check_no_javascript(debug_url: str, origin: str) -> None:
         browser.close()
 
 
-def check_reduced_motion(debug_url: str, origin: str, laseretch_enabled: bool) -> None:
+def check_reduced_motion(debug_url: str, origin: str) -> None:
     browser = open_page(debug_url, origin, "/__browser-check-blank__")
     try:
         set_viewport(browser, 390, 844)
@@ -1127,13 +1147,12 @@ def check_reduced_motion(debug_url: str, origin: str, laseretch_enabled: bool) -
         )
         browser.command("Page.navigate", {"url": origin + "/"})
         wait_for_complete(browser, "/", "homepage with reduced motion")
-        expected_state = "false" if laseretch_enabled else None
-        if expected_state is not None:
-            wait_for(
-                browser,
-                'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
-                "static reduced-motion wordmark",
-            )
+        expected_state = "false"
+        wait_for(
+            browser,
+            'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhanced === "false"',
+            "static reduced-motion wordmark",
+        )
         wordmark = wordmark_snapshot(browser)
         assert_static_wordmark(wordmark, "Reduced-motion homepage", expected_state)
         if any("/assets/js/wte/" in resource for resource in wordmark["evidence"]["resources"]):
@@ -1534,7 +1553,7 @@ def run() -> None:
         laseretch_enabled = 'data-wordmark-enhancement="laseretch"' in (SITE / "index.html").read_text()
         if laseretch_enabled:
             for width, height in VIEWPORTS:
-                check_normal_wordmark(session.debug_url, session.origin, width, height)
+                check_laseretch_wordmark(session.debug_url, session.origin, width, height)
             check_wordmark_load_failure(
                 session.debug_url,
                 session.origin,
@@ -1549,12 +1568,12 @@ def run() -> None:
             )
         else:
             for width, height in VIEWPORTS:
-                check_disabled_wordmark(session.debug_url, session.origin, width, height)
+                check_alternate_wordmark(session.debug_url, session.origin, width, height)
         check_print_wordmark(session.debug_url, session.origin, laseretch_enabled)
 
         check_news_partition(session.debug_url, session.origin)
         check_no_javascript(session.debug_url, session.origin)
-        check_reduced_motion(session.debug_url, session.origin, laseretch_enabled)
+        check_reduced_motion(session.debug_url, session.origin)
         check_full_search(session.debug_url, session.origin)
         check_unavailable_search(session.debug_url, session.origin)
 
