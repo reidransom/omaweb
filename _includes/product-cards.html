@@ -13,8 +13,7 @@
       {% assign cta_prefix = include.destination_cta_prefix %}
     {% endif %}
     {% capture card_content %}
-      {% include status-label.html status=product.status %}
-      <h3>{{ product.label | escape }}</h3>
+      <h3>{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> (Exploratory)</span>{% endif %}</h3>
       <p>{{ description | escape }}</p>
       <span aria-hidden="true">{% if cta_prefix %}{{ cta_prefix | escape }} {% endif %}{{ product.label | escape }} →</span>
     {% endcapture %}

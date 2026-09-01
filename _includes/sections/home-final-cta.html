@@ -1,7 +1,6 @@
 {% assign final_cta = site.data.home.final_cta %}
 <section class="home-section home-section--reveal home-final-cta" aria-labelledby="final-cta-title">
   <div class="home-reveal-panel">
-    <p class="home-eyebrow">The Desktop</p>
     <h2 id="final-cta-title">{{ final_cta.title | escape }}</h2>
     <p>{{ final_cta.body | escape }}</p>
     {% include action-group.html actions=final_cta.actions.items label='Desktop actions' %}

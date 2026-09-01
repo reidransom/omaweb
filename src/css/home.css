@@ -457,6 +457,13 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   font-weight: 500;
 }
 
+.home-heading__marker {
+  margin-inline-start: 0.1em;
+  color: var(--omarchy-turquoise);
+  font-size: 0.65em;
+  line-height: 0;
+}
+
 .home-card__link p {
   margin-block-start: var(--omarchy-space-small);
 }
@@ -472,7 +479,7 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   transform: translateY(-50%);
 }
 
-.home-card__link span:last-child {
+.home-card__link > span:last-child {
   margin-block-start: auto;
   padding-block-start: var(--omarchy-space-large);
   color: var(--omarchy-cyan);

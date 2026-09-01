@@ -1,7 +1,6 @@
 {% assign project_paths = site.data.home.project_paths %}
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="project-paths-title">
   <div class="home-section__inner">
-    <p class="home-eyebrow">{{ project_paths.eyebrow | escape }}</p>
     <h2 id="project-paths-title">{{ project_paths.title | escape }}</h2>
     <ul class="home-card-grid home-card-grid--three" role="list">
       {% for path in project_paths.items %}

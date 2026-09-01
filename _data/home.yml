@@ -37,7 +37,6 @@ actions:
       destination: code
 
 workflows:
-  eyebrow: Agents, with receipts
   title: Change the computer. Keep the controls.
   intro: An agent is useful when it works on a real seam in the system, not when it waves at a black box.
   items:
@@ -49,7 +48,6 @@ workflows:
       body: The experimental Omarchy Skill can tweak Hyprland configuration, adjust the bar, or create a theme. Inspect each applied change; the system stays yours.
 
 project_paths:
-  eyebrow: The Project
   title: More people are making the system better.
   items:
     - title: News
@@ -63,7 +61,6 @@ project_paths:
       url: /foundation/
 
 expansion:
-  eyebrow: Explorations
   title: The desktop is real. The next surfaces are questions.
   body: Omarchy can grow into more kinds of computers and services. The ideas below are explorations, not a release calendar, compatibility promise, or product announcement.
 

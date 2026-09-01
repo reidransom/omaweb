@@ -2,9 +2,7 @@
 {% assign product = site.data.products.items | where: 'slug', labs.product | first %}
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="labs-title">
   <div class="home-section__inner home-section__inner--narrow">
-    {% include status-label.html status=product.status %}
-    <p class="home-eyebrow">{{ product.label | escape }}</p>
-    <h2 id="labs-title">{{ product.label | escape }}</h2>
+    <h2 id="labs-title">{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> (Exploratory)</span>{% endif %}</h2>
     <p class="home-prose">{{ labs.body | escape }}</p>
     <a class="home-text-link" href="{{ product.url | relative_url }}">Explore {{ product.label | escape }} <span aria-hidden="true">→</span></a>
   </div>
