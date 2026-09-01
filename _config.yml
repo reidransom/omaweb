@@ -30,13 +30,21 @@ defaults:
       archetype: editorial
 
 exclude:
+  - .agents
+  - .gitignore
+  - .scratch
+  - .servd.toml
   - AGENTS.md
   - BRAND.md
   - Justfile
   - README.md
+  - _docs
   - _plans
+  - _site
   - node_modules
   - package.json
   - package-lock.json
+  - pagefind
   - scripts
+  - skills-lock.json
   - src
