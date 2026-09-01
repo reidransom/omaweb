@@ -105,22 +105,79 @@
   margin-block-start: var(--omarchy-space-large);
 }
 
-.site-search__fallback-groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: var(--omarchy-space-large);
-  margin-block-start: var(--omarchy-space-medium);
-}
-
 .site-search__fallback h3 {
   font-size: inherit;
   font-weight: 700;
 }
 
-.site-search__fallback ul {
-  margin-block-start: var(--omarchy-space-small);
+.site-search__fallback-menu,
+.site-search__fallback-submenu {
+  margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.site-search__fallback-menu {
+  display: grid;
+  gap: var(--omarchy-space-small);
+  margin-block-start: var(--omarchy-space-medium);
+}
+
+.site-search__fallback-menu > li + li,
+.site-search__fallback-submenu li + li {
+  margin: 0;
+}
+
+.site-search__fallback-menu details {
+  border: 1px solid var(--omarchy-terminal-black);
+  border-radius: var(--omarchy-radius);
+  background: var(--omarchy-storm);
+}
+
+.site-search__fallback-menu summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--omarchy-space-medium);
+  padding: var(--omarchy-space-medium);
+  color: var(--omarchy-cyan);
+  cursor: pointer;
+  font-weight: 700;
+  list-style: none;
+}
+
+.site-search__fallback-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.site-search__fallback-menu summary::after {
+  content: "›";
+  color: var(--omarchy-terminal-white);
+  font-size: 1.25em;
+  line-height: 1;
+}
+
+.site-search__fallback-menu details[open] > summary {
+  border-block-end: 1px solid var(--omarchy-terminal-black);
+}
+
+.site-search__fallback-menu details[open] > summary::after {
+  transform: rotate(90deg);
+}
+
+.site-search__fallback-menu summary:hover,
+.site-search__fallback-menu summary:focus-visible {
+  color: var(--omarchy-turquoise);
+}
+
+.site-search__fallback-submenu {
+  display: grid;
+  gap: var(--omarchy-space-medium);
+  padding: var(--omarchy-space-medium);
+}
+
+.site-search__fallback-submenu a {
+  display: block;
 }
 
 .spotlight {

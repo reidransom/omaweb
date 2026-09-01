@@ -1,12 +1,14 @@
-<div class="site-search__fallback-groups">
+<ul class="site-search__fallback-menu" role="list">
   {% for section in navigation.sections %}
-    <section>
-      <h3>{% include authoritative-link.html link=section %}</h3>
-      <ul role="list">
-        {% for link in section.links.items %}
-          <li>{% include authoritative-link.html link=link %}</li>
-        {% endfor %}
-      </ul>
-    </section>
+    <li>
+      <details>
+        <summary>{{ section.label | escape }}</summary>
+        <ul class="site-search__fallback-submenu" role="list">
+          {% for link in section.links.items %}
+            <li>{% include authoritative-link.html link=link %}</li>
+          {% endfor %}
+        </ul>
+      </details>
+    </li>
   {% endfor %}
-</div>
+</ul>

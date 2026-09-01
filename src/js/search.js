@@ -189,6 +189,36 @@ export function initSiteSearch({ quake } = {}) {
     });
   };
 
+  const moveMenuFocus = (surface, event) => {
+    if (
+      (event.key !== "ArrowDown" && event.key !== "ArrowUp") ||
+      !surface.fallback ||
+      surface.fallback.hidden
+    ) {
+      return false;
+    }
+
+    const items = [...surface.fallback.querySelectorAll("summary, a[href]")].filter(
+      (item) => item.getClientRects().length > 0,
+    );
+    if (items.length === 0) return false;
+
+    const currentIndex = items.indexOf(document.activeElement);
+    if (currentIndex === -1 && event.target !== surface.input) return false;
+
+    event.preventDefault();
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    const nextIndex =
+      currentIndex === -1
+        ? direction === 1
+          ? 0
+          : items.length - 1
+        : (currentIndex + direction + items.length) % items.length;
+    items[nextIndex].focus();
+    return true;
+  };
+
+
   const render = ({ state, term = "", destinationResults = [], pageResults = [] }) => {
     surfaces.forEach((surface) => {
       const fragment = document.createDocumentFragment();
@@ -211,7 +241,7 @@ export function initSiteSearch({ quake } = {}) {
                 : "";
 
       if (surface.fallback) {
-        surface.fallback.hidden = state !== "error";
+        surface.fallback.hidden = state !== "idle" && state !== "error";
       }
       const links = [...surface.results.querySelectorAll("[data-search-result]")];
       const resultState = { links, selectedIndex: -1 };
@@ -303,10 +333,23 @@ export function initSiteSearch({ quake } = {}) {
       event.preventDefault();
       scheduleSearch(surface.input.value);
     });
+    surface.fallback?.querySelectorAll("details").forEach((details) => {
+      details.addEventListener("toggle", () => {
+        if (!details.open) return;
+
+        surface.fallback.querySelectorAll("details[open]").forEach((openDetails) => {
+          if (openDetails !== details) openDetails.open = false;
+        });
+      });
+    });
+    surface.fallback?.addEventListener("keydown", (event) => {
+      moveMenuFocus(surface, event);
+    });
     surface.form.addEventListener("keydown", (event) => {
+      if (moveMenuFocus(surface, event)) return;
+
       const resultState = surfaceResults.get(surface);
       if (!resultState) return;
-
       if (event.key === "ArrowDown" && resultState.links.length > 0) {
         event.preventDefault();
         setSelection(surface, resultState.selectedIndex + 1);
