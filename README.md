@@ -19,7 +19,8 @@ Use the focused commands when iterating:
 npm run assets:check  # reproduce committed generated image derivatives byte-for-byte
 npm run css:build
 npm run js:build
-just serve            # local rebuild, watch, and serve
+just build            # rebuild assets, rendered pages, and the local Pagefind index
+just serve            # watch sources and render pages on request
 ```
 
 [servd](https://github.com/reidransom/servd) can also serve the repository using `.servd.toml`.
