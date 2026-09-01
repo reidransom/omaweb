@@ -1,7 +1,7 @@
 # Supervise the development server
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: none
 
 ## Context
@@ -30,3 +30,7 @@ Do not edit package metadata, stylesheets, templates, or verification scripts.
 - JavaScript and Pagefind are absent from development startup and watch behavior; the focused JavaScript command remains documented.
 - Contributor docs distinguish `just serve`, focused asset builds, `just build`, and the production-equivalent `scripts/build` path.
 - Commit only repository changes. Skip project-wide builds, linters, and tests; integration verification belongs to ticket 04.
+
+## Answer
+
+Merged `e21cd8a` through `ce106c7`. `scripts/serve` now supervises only Sass and Jigyll with process-group cleanup and child-status propagation. `Justfile` and `README.md` distinguish development serving, focused asset builds, complete local builds, and the production-equivalent build.
