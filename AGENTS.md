@@ -30,6 +30,8 @@ Write with a point of view. Vary sentence rhythm, acknowledge real tradeoffs, an
 
 Issues and specs are tracked as local Markdown under `.scratch/`. See `_docs/agents/issue-tracker.md`.
 
+This repository does not use GitHub issues or pull requests. For spec and ticket work, do not create remotes, push branches, or invoke GitHub CLI. Treat the local delivery lifecycle in `_docs/agents/issue-tracker.md` as the project-specific override for skills that assume a hosted issue or pull-request workflow.
+
 ### Triage labels
 
 Triage uses the default five-label vocabulary. See `_docs/agents/triage-labels.md`.
