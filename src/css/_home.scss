@@ -388,7 +388,7 @@
   transform-origin: 0 0;
 }
 
-html.wte-home .wordmark:not([data-wordmark-enhanced]) .wordmark__fallback {
+html.wordmark-pending .wordmark:not([data-wordmark-enhanced]) .wordmark__fallback {
   animation: wordmark-fallback 0s 2s forwards;
   visibility: hidden;
 }
@@ -399,11 +399,11 @@ html.wte-home .wordmark:not([data-wordmark-enhanced]) .wordmark__fallback {
   }
 }
 
-html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
+html.wordmark-pending .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
   animation: none;
 }
 
-html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
+html.wordmark-pending .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   animation: none;
 }
 
