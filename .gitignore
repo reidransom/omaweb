@@ -2,6 +2,7 @@ _site/
 __*
 node_modules/
 _plans/
+assets/css/site.css
 assets/js/site.js
 
 /pagefind/
