@@ -28,6 +28,12 @@ main {
   margin-block: 0;
 }
 
+p {
+  font-family: var(--omarchy-font-sans);
+  font-weight: 400;
+  line-height: var(--omarchy-line-height-reading);
+}
+
 :where(h1, h2, h3, h4) {
   color: var(--omarchy-terminal-white);
   font-size: inherit;
