@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  printf 'Usage: %s <semantic-basename>\n' "$0" >&2
+  exit 2
+}
+
+[ "$#" -eq 1 ] || usage
+basename=$1
+case "$basename" in
+  ''|*[!a-z0-9-]*) usage ;;
+esac
+
+repo=$(git rev-parse --show-toplevel)
+cd "$repo"
+
+[ -x scripts/build-assets ] || {
+  printf 'Missing executable scripts/build-assets\n' >&2
+  exit 1
+}
+[ -d assets/images ] || {
+  printf 'Missing assets/images\n' >&2
+  exit 1
+}
+[ -d assets/fonts ] || {
+  printf 'Missing assets/fonts\n' >&2
+  exit 1
+}
+
+temporary_directory=$(mktemp -d)
+restored=false
+
+restore_existing_assets() {
+  rm -rf assets/images assets/fonts
+  cp -a "$temporary_directory/images" assets/images
+  cp -a "$temporary_directory/fonts" assets/fonts
+}
+
+cleanup() {
+  status=$?
+  if [ "$restored" = false ]; then
+    restore_existing_assets
+  fi
+  rm -rf "$temporary_directory"
+  exit "$status"
+}
+trap cleanup EXIT HUP INT TERM
+
+cp -a assets/images "$temporary_directory/images"
+cp -a assets/fonts "$temporary_directory/fonts"
+mkdir -p "$temporary_directory/generated"
+
+scripts/build-assets
+
+for width in 480 768 1152; do
+  output="assets/images/news/${basename}-${width}w.webp"
+  [ -f "$output" ] || {
+    printf 'Configured build did not emit %s\n' "$output" >&2
+    exit 1
+  }
+  cp "$output" "$temporary_directory/generated/"
+done
+
+restore_existing_assets
+restored=true
+mkdir -p assets/images/news
+cp "$temporary_directory/generated/"* assets/images/news/
+
+printf 'Rendered %s at 480w, 768w, and 1152w without changing unrelated derivatives.\n' "$basename"
