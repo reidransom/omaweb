@@ -1,7 +1,7 @@
 # Migrate the CSS compiler and stylesheet graph
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: none
 
 ## Context

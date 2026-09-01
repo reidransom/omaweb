@@ -1,7 +1,7 @@
 # Supervise the development server
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: none
 
 ## Context
