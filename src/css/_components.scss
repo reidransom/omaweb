@@ -88,6 +88,20 @@
   color: var(--omarchy-turquoise);
 }
 
+.link-indicator {
+  display: inline-block;
+  flex: 0 0 auto;
+  inline-size: 1em;
+  block-size: 1em;
+  margin-inline-start: 3px;
+  vertical-align: -0.14em;
+}
+
+.navigation-link__marker {
+  display: inline-block;
+  text-decoration: none;
+  margin-inline-start: 3px;
+}
 .button,
 .button:link,
 .button:visited {
@@ -95,7 +109,7 @@
   min-block-size: var(--omarchy-control-height);
   align-items: center;
   justify-content: center;
-  gap: 1ch;
+  gap: 0;
   padding-inline: 1em;
   border: 1px solid var(--omarchy-blue);
   border-radius: var(--omarchy-radius);

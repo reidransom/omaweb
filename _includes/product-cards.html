@@ -2,6 +2,7 @@
 {% for item in cards %}
   {% assign product_slug = item.product | default: item.slug %}
   {% assign product = site.data.products.items | where: 'slug', product_slug | first %}
+  {% assign destination = site.data.destinations.items | where: 'slug', product.destination | first %}
   {% if product %}
     {% if include.description == 'summary' %}
       {% assign description = product.summary %}
@@ -15,10 +16,10 @@
     {% capture card_content %}
       <h3>{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> (Exploratory)</span>{% endif %}</h3>
       <p>{{ description | escape }}</p>
-      <span aria-hidden="true">{% if cta_prefix %}{{ cta_prefix | escape }} {% endif %}{{ product.label | escape }} →</span>
+      <span aria-hidden="true">{% if cta_prefix %}{{ cta_prefix | escape }} {% endif %}{{ product.label | escape }}{% if destination.external or product.external %}{% include link-indicator.html destination=product.destination external=true %}{% else %} →{% endif %}</span>
     {% endcapture %}
     <li class="home-card">
-      {% include authoritative-link.html product=product.slug class='home-card__link' content=card_content %}
+      {% include authoritative-link.html product=product.slug class='home-card__link' content=card_content hide_indicator=true %}
     </li>
   {% endif %}
 {% endfor %}
