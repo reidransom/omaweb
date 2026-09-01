@@ -74,6 +74,12 @@
   max-inline-size: var(--omarchy-prose-measure);
 }
 
+.home-desktop__art {
+  display: block;
+  inline-size: 70%;
+  block-size: auto;
+}
+
 .home-section__intro {
   margin-block-start: var(--omarchy-space-neutral);
 }
@@ -476,6 +482,21 @@
 
   .home-section__inner--split {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+
+  .home-desktop .home-section__inner--split {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+
+  .home-desktop__media {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-desktop__content {
+    align-self: center;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .home-card-grid {

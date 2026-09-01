@@ -19,9 +19,9 @@ archetype: project
   <p><strong>{{ tier.contribution }}</strong> {{ tier.description }}</p>
   {% if tier.people.items.size > 0 %}
   <ul>
-    {% for patron in tier.people.items %}
-    <li><a href="{{ patron.profile }}" rel="noreferrer">{{ patron.name }}</a> — <a href="{{ patron.organization_url }}" rel="noreferrer">{{ patron.organization }}</a></li>
-    {% endfor %}
+  {% for patron in tier.people.items %}
+  <li><a href="{{ patron.profile }}" rel="noreferrer">{{ patron.name }}</a> — <a href="{{ patron.organization_url }}" rel="noreferrer">{{ patron.organization }}</a></li>
+  {% endfor %}
   </ul>
   {% endif %}
   {% if tier.contact_url %}
