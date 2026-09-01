@@ -1,7 +1,7 @@
 # Verify the integrated Sass pipeline
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 01, 02, 03
 
 ## Context
@@ -22,3 +22,7 @@ All repository files may be corrected when an acceptance failure exposes a spec 
 - The production-equivalent build and unchanged production/rendered-site verifiers pass, including route, asset, metadata, network, landmark, compressed-budget, overflow, navigation, search, focus, reduced-motion, image, roster, and page-error checks.
 - Generated CSS remains ignored and uncommitted; browser-facing stylesheet URL remains unchanged.
 - Commit any integration fixes. Do not add timing assertions or unrelated work.
+
+## Answer
+
+The focused clean CSS and JavaScript builds passed. A closed-stdin development smoke proved initial compilation, imported-Sass rebuilds, content reload without CSS/JavaScript/Pagefind work, restart uniqueness, peer termination, and failure status propagation. `just build` completed. The final production-equivalent `scripts/build` passed content, asset, render, Pagefind, budget, route, landmark, and Chromium acceptance. Integration fixes restored roster list margins and blank-Spotlight behavior; stale landmark, patron-card, navigation, and Canvas-animation checks were corrected against the rendered contracts.
