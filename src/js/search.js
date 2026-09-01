@@ -149,38 +149,33 @@ export function initSiteSearch({ quake } = {}) {
   let scrollLock = null;
 
   const lockDocumentScroll = () => {
-    if (scrollLock || !document.body) return;
+    if (scrollLock) return;
 
     const root = document.documentElement;
-    const body = document.body;
     scrollLock = {
       rootOverflow: root.style.overflow,
-      bodyPosition: body.style.position,
-      bodyInset: body.style.inset,
-      bodyWidth: body.style.width,
+      rootScrollbarGutter: root.style.scrollbarGutter,
+      rootOverflowAnchor: root.style.overflowAnchor,
       scrollX: window.scrollX,
       scrollY: window.scrollY,
     };
-
+    root.style.overflowAnchor = "none";
+    root.style.scrollbarGutter = "stable";
     root.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.inset = `-${scrollLock.scrollY}px 0 0`;
-    body.style.width = "100%";
   };
 
   const unlockDocumentScroll = () => {
-    if (!scrollLock || !document.body) return;
+    if (!scrollLock) return;
 
-    const { rootOverflow, bodyPosition, bodyInset, bodyWidth, scrollX, scrollY } =
-      scrollLock;
-    const root = document.documentElement;
-    const body = document.body;
-    root.style.overflow = rootOverflow;
-    body.style.position = bodyPosition;
-    body.style.inset = bodyInset;
-    body.style.width = bodyWidth;
+    document.documentElement.style.overflow = scrollLock.rootOverflow;
+    document.documentElement.style.scrollbarGutter = scrollLock.rootScrollbarGutter;
+    document.documentElement.style.overflowAnchor = scrollLock.rootOverflowAnchor;
+    window.scrollTo({
+      left: scrollLock.scrollX,
+      top: scrollLock.scrollY,
+      behavior: "instant",
+    });
     scrollLock = null;
-    window.scrollTo(scrollX, scrollY);
   };
 
   const setSelection = (surface, index) => {
