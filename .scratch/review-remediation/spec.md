@@ -71,6 +71,6 @@ The highest test seam is the production pipeline's rendered-site verification, s
 
 ## Further Notes
 
-- The remediation follows `_plans/initial-plan.md` as the binding implementation plan and `__docs/BRAND.md` as the identity authority.
+- The remediation follows `_plans/initial-plan.md` as the binding implementation plan and `../omaweb-docs/BRAND.md` as the identity authority.
 - Supplied-asset decision: retain the favicon and Open Graph artwork already added from the original first-party Omarchy site. The Winding Road theme image is the replacement hero source; source its later deterministic derivatives from the exact local theme original. For remaining media, research rights-clear candidates by web search first; only use a local OpenAI image-model placeholder when no suitable cleared candidate exists, clearly identify it as illustrative, and never present it as factual proof.
 - Existing browser evidence confirms the homepage, responsive hero art direction, drawer behavior, and no-JavaScript fallback work. It also confirms Desktop overflow, absent Workstations media, and featured-News fallback art.

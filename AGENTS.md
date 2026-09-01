@@ -1,8 +1,8 @@
 ## Project references
 
-For brand, visual-system, or messaging changes, read `__docs/BRAND.md` before editing.
+For brand, visual-system, or messaging changes, read `../omaweb-docs/BRAND.md` before editing.
 
-For substantial marketing copy, also read `__docs/dhh-writing-style-profile.md`.
+For substantial marketing copy, also read `../omaweb-docs/dhh-writing-style-profile.md`.
 
 ## Local development
 

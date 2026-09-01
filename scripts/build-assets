@@ -36,16 +36,16 @@ require_command sort
 
 export MAGICK_THREAD_LIMIT=1
 
-hero_source=__docs/images/0-winding-road.jpg
-news_preview_source=__docs/images/news/radio-atlas-preview.webp
-desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
-pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
-sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
-usb_key_source=__docs/images/usb-key-bitart.png
-user_manual_source=__docs/images/user-manual-bitart.png
-laptop_art_source=__docs/images/laptop-omarchy-cool-fade-blue.svg
-video_source=__docs/images/video/omarchy-quattro.webp
-font_source_directory=__docs/fonts/jetbrains-mono-2.304
+hero_source=../omaweb-docs/images/0-winding-road.jpg
+news_preview_source=../omaweb-docs/images/news/radio-atlas-preview.webp
+desktop_preview_source=../omaweb-docs/images/desktop/tokyo-night-preview.png
+pleum_workstation_source=../omaweb-docs/images/workstations/pleum-p1554011.jpg
+sspaeti_workstation_source=../omaweb-docs/images/workstations/sspaeti-office-setup.jpg
+usb_key_source=../omaweb-docs/images/usb-key-bitart.png
+user_manual_source=../omaweb-docs/images/user-manual-bitart.png
+laptop_art_source=../omaweb-docs/images/laptop-omarchy-cool-fade-blue.svg
+video_source=../omaweb-docs/images/video/omarchy-quattro.webp
+font_source_directory=../omaweb-docs/fonts/jetbrains-mono-2.304
 patron_profiles='
 tobi-lutke
 patrick-collison
@@ -81,7 +81,7 @@ do
   [ -f "$source" ] || fail "Missing approved source: $source"
 done
 for patron in $patron_profiles; do
-  [ -f "__docs/images/patrons/$patron.webp" ] || fail "Missing approved source: __docs/images/patrons/$patron.webp"
+  [ -f "../omaweb-docs/images/patrons/$patron.webp" ] || fail "Missing approved source: ../omaweb-docs/images/patrons/$patron.webp"
 done
 
 output_paths='
@@ -235,7 +235,7 @@ render_all() {
   render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
   render_responsive_family "$sspaeti_workstation_source" "$destination/assets/images/workstations" sspaeti-office-setup "$responsive_widths"
   for patron in $patron_profiles; do
-    cp "__docs/images/patrons/$patron.webp" "$destination/assets/images/patrons/$patron.webp"
+    cp "../omaweb-docs/images/patrons/$patron.webp" "$destination/assets/images/patrons/$patron.webp"
   done
   subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
   subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
