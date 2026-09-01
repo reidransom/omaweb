@@ -267,12 +267,11 @@
   container-type: inline-size;
   inline-size: min(100%, 81ch);
   margin-inline: auto;
-  overflow: hidden;
 }
 
 .wordmark__fallback {
   margin: 0;
-  visibility: visible;
+  visibility: hidden;
   color: var(--omarchy-green);
   font-size: clamp(0.29rem, 1.6vw, 1rem);
   font-size: min(1rem, 2.05cqi);
@@ -285,35 +284,22 @@
 .wordmark__canvas {
   position: absolute;
   inset: 0;
-  display: none;
-  mix-blend-mode: screen;
-  pointer-events: none;
-  transform-origin: 0 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  opacity: 0;
 }
 
-html.wte-home .wordmark:not([data-wordmark-enhanced]) .wordmark__fallback {
-  animation: wordmark-fallback 0s 2s forwards;
-  visibility: hidden;
-}
-
-@keyframes wordmark-fallback {
-  to {
-    visibility: visible;
-  }
-}
-
-html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
-  animation: none;
-  visibility: hidden;
-}
-
-html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
-  animation: none;
+.wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
   visibility: visible;
 }
 
+.wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
+  visibility: hidden;
+}
+
 .wordmark[data-wordmark-enhanced="true"] .wordmark__canvas {
-  display: block;
+  opacity: 1;
 }
 
 .home-card-grid {
@@ -512,13 +498,12 @@ html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.wte-home .wordmark .wordmark__canvas {
-    display: none !important;
+  .wordmark__canvas {
+    display: none;
   }
 
-  html.wte-home .wordmark .wordmark__fallback {
-    animation: none !important;
-    visibility: visible !important;
+  .wordmark__fallback {
+    visibility: visible;
   }
 }
 
@@ -528,10 +513,11 @@ html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
     display: none !important;
   }
 
-  html.wte-home .wordmark .wordmark__fallback,
+  .wordmark__fallback {
+    visibility: visible;
+  }
+
   .wordmark__fallback[hidden] {
-    animation: none !important;
     display: block !important;
-    visibility: visible !important;
   }
 }

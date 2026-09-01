@@ -9,9 +9,6 @@ permalink: pretty
 social_image: /assets/images/opengraph.png
 social_image_alt: Omarchy wordmark on a dark background
 
-features:
-  laseretch_wordmark: false
-
 collections:
   news:
     output: true
