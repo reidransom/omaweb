@@ -1,3 +1,4 @@
+@mixin styles {
 .u-flow > * + * {
   margin-block-start: var(--flow-space, var(--omarchy-space-neutral));
 }
@@ -21,4 +22,5 @@
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
+}
 }

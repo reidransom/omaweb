@@ -1,3 +1,6 @@
+@use "breakpoints";
+
+@mixin styles {
 .home-scene {
   position: fixed;
   z-index: 0;
@@ -558,7 +561,7 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   font-weight: 700;
 }
 
-@variant sm {
+@media (min-width: breakpoints.$small) {
   .home-hero {
     min-block-size: 155svh;
     padding-block: 0;
@@ -643,7 +646,7 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   }
 }
 
-@variant lg {
+@media (min-width: breakpoints.$large) {
   .home-card-grid--three {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -672,4 +675,5 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   .wordmark__fallback[hidden] {
     display: block !important;
   }
+}
 }

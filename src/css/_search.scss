@@ -1,3 +1,4 @@
+@mixin styles {
 .content-shell--search {
   background: var(--omarchy-night);
 }
@@ -339,4 +340,5 @@
 
 .spotlight .site-search__route-link {
   margin-block-start: var(--omarchy-space-large);
+}
 }

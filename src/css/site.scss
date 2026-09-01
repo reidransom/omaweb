@@ -1,0 +1,30 @@
+@use "base";
+@use "components";
+@use "featured-videos";
+@use "home";
+@use "news";
+@use "search";
+@use "tokens";
+@use "utilities";
+
+@layer theme, base, components, utilities;
+
+@layer theme {
+  @include tokens.styles;
+}
+
+@layer base {
+  @include base.styles;
+}
+
+@layer components {
+  @include components.styles;
+  @include featured-videos.styles;
+  @include home.styles;
+  @include news.styles;
+  @include search.styles;
+}
+
+@layer utilities {
+  @include utilities.styles;
+}
