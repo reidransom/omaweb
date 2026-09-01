@@ -8,7 +8,7 @@ For substantial marketing copy, also read `../omaweb-docs/dhh-writing-style-prof
 
 Check `servd status` for the site being live-reloaded and served on the fly.
 
-Use `servd which omaweb` for its path and command, or run `just serve` directly.
+Use `servd which omaweb` for its path and command, or run `mise run serve` directly.
 
 ## Deployments
 

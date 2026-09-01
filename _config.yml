@@ -36,7 +36,8 @@ exclude:
   - .servd.toml
   - AGENTS.md
   - BRAND.md
-  - Justfile
+  - mise.lock
+  - mise.toml
   - README.md
   - _docs
   - _plans

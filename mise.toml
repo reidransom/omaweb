@@ -1,3 +1,32 @@
 [tools]
 "github:reidransom/jigyll" = "1.8.3"
 "github:sass/dart-sass" = "1.103.1"
+
+[tasks.serve]
+description = "Watch Sass dependencies and serve pages with Jigyll"
+run = "scripts/serve"
+
+[tasks.build]
+description = "Build CSS, JavaScript, rendered pages, and Pagefind"
+run = [
+  "scripts/build css",
+  "scripts/build js",
+  "jigyll build -s . --unpublished",
+  "npx --no-install pagefind --site _site --output-path pagefind",
+]
+
+[tasks.assets]
+description = "Rebuild committed image derivatives"
+run = "scripts/build-assets"
+
+[tasks.assets-check]
+description = "Verify committed image derivatives"
+run = "scripts/build-assets --check"
+
+[tasks.deploy]
+description = "Deploy the current rev or main branch"
+run = "scripts/deploy"
+
+[tasks.ship]
+description = "Deploy rev, fast-forward main, and deploy production"
+run = "scripts/ship"

@@ -21,14 +21,14 @@ npm run assets:check   # reproduce those derivatives byte-for-byte
 scripts/build css      # compile the stylesheet once with mise-managed Sass
 scripts/build css --watch # watch and compile the stylesheet with mise-managed Sass
 scripts/build js       # compile the JavaScript bundle once
-just serve             # watch Sass and serve Jigyll pages; skips JavaScript and Pagefind
-just build             # compile CSS and JavaScript, render Jigyll, and refresh Pagefind
+mise run serve         # watch Sass and serve Jigyll pages; skips JavaScript and Pagefind
+mise run build         # compile CSS and JavaScript, render Jigyll, and refresh Pagefind
 scripts/build          # run the production-equivalent build and verification path
 ```
 
 `scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds compressed CSS with mise-selected Dart Sass, builds JavaScript, renders the site with mise-selected Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
-`just serve` runs the two-child `scripts/serve` supervisor: one mise-managed Sass watcher writes the ignored `assets/css/site.css`, while one mise-managed Jigyll process watches and serves the site. Jigyll’s native Sass path is intentionally unused because Jigyll 1.8.3’s post-render minifier corrupts valid modern CSS.
+`mise run serve` runs the two-child `scripts/serve` supervisor: one mise-managed Sass watcher writes the ignored `assets/css/site.css`, while one mise-managed Jigyll process watches and serves the site. Jigyll’s native Sass path is intentionally unused because Jigyll 1.8.3’s post-render minifier corrupts valid modern CSS.
 
 [servd](https://github.com/reidransom/servd) uses the same supervisor through `.servd.toml`.
 
@@ -49,7 +49,7 @@ Cloudflare Pages hosts two deployments from one Pages project:
 
 Configure those domains in Cloudflare before the first release. Export `PAGES_PROJECT_NAME`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` for Wrangler.
 
-`just deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, and executes the full `scripts/build` pipeline with a temporary deployment URL configuration before invoking Wrangler, so canonical and social URLs match the selected review or production domain.
+`mise run deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, and executes the full `scripts/build` pipeline with a temporary deployment URL configuration before invoking Wrangler, so canonical and social URLs match the selected review or production domain.
 
 The release flow expects `main` and `rev` branches. When bootstrapping a repository that still uses `master`, rename it and create the review branch:
 
@@ -59,8 +59,8 @@ git branch rev
 ```
 
 ```sh
-just deploy  # deploy the current clean rev or main branch
-just ship    # deploy rev, pause for review, then fast-forward and deploy main
+mise run deploy  # deploy the current clean rev or main branch
+mise run ship    # deploy rev, pause for review, then fast-forward and deploy main
 ```
 
-`just ship` must start on a clean `rev` branch in an interactive terminal. It switches the worktree to `main` after approval and fast-forwards `main` to `rev`; it does not push either branch.
+`mise run ship` must start on a clean `rev` branch in an interactive terminal. It switches the worktree to `main` after approval and fast-forwards `main` to `rev`; it does not push either branch.
