@@ -79,6 +79,22 @@
   gap: var(--omarchy-space-large);
 }
 
+.home-news .news-card__media {
+  align-self: start;
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.home-news .news-card__media .media,
+.home-news .news-card__media img {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.home-news .news-card__media img {
+  object-fit: cover;
+}
+
 .home-desktop__art {
   display: block;
   inline-size: 70%;
