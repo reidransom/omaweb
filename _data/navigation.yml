@@ -8,9 +8,6 @@ search:
   url: /search/
   external: false
 
-exploratory_description: >-
-  Exploratory. These are areas Omarchy may cover, not products or release promises.
-
 sections:
   - label: Foundation
     url: /foundation/

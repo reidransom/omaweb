@@ -694,7 +694,7 @@ def check_navigation_inventory(browser: DevToolsSocket) -> None:
     if {label for label, _ in inventory["markers"]} != {"Shop", "Laptops", "Desktops", "Mobile", "Accessories"} or inventory["merchMarked"]:
         fail(f"Exploratory markers must cover Shop and future hardware only; got {inventory['markers']}.")
     descriptions = {description for _, description in inventory["markers"]}
-    if descriptions != {"Exploratory. These are areas Omarchy may cover, not products or release promises."}:
+    if descriptions != {"Exploratory"}:
         fail(f"Exploratory markers must share the explanatory relationship; got {descriptions}.")
     if (
         [item["label"] for item in inventory["primary"] if item["visible"]]
