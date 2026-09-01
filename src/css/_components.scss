@@ -615,6 +615,7 @@ a:hover .media__image {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
