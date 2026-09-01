@@ -80,6 +80,14 @@
   block-size: auto;
 }
 
+.home-desktop__content p {
+  margin-block-start: var(--omarchy-space-neutral);
+}
+
+.home-desktop__content .button-group {
+  margin-block-start: var(--omarchy-space-large);
+}
+
 .home-section__intro {
   margin-block-start: var(--omarchy-space-neutral);
 }
@@ -104,7 +112,7 @@
   overflow: hidden;
   border: 1px solid rgb(65 72 104 / 0.82);
   border-radius: var(--omarchy-radius);
-  background: rgb(26 27 38 / 0.94);
+  background: rgb(26 27 38 / 0.78);
   box-shadow: var(--omarchy-shadow);
 }
 
