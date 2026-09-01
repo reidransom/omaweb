@@ -329,10 +329,12 @@
 }
 
 .home-card__link {
+  position: relative;
   display: flex;
   min-block-size: 100%;
   flex-direction: column;
   padding: var(--omarchy-space-large);
+  padding-inline-end: calc(var(--omarchy-space-large) + clamp(4rem, 8vw, 5.5rem));
   color: inherit;
   text-decoration: none;
 }
@@ -350,6 +352,17 @@
 
 .home-card__link p {
   margin-block-start: var(--omarchy-space-small);
+}
+
+.home-card__icon {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--omarchy-space-large);
+  inline-size: clamp(3.5rem, 7vw, 5rem);
+  color: var(--omarchy-green);
+  opacity: 0.55;
+  pointer-events: none;
+  transform: translateY(-50%);
 }
 
 .home-card__link span:last-child {
