@@ -1,3 +1,6 @@
+@use "breakpoints";
+
+@mixin styles {
 .news-index,
 .news-taxonomy {
   display: grid;
@@ -188,7 +191,7 @@
 }
 
 
-@variant md {
+@media (min-width: breakpoints.$medium) {
   .news-featured {
     grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.6fr);
   }
@@ -202,8 +205,9 @@
   }
 }
 
-@variant lg {
+@media (min-width: breakpoints.$large) {
   .news-card-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
 }

@@ -1,3 +1,6 @@
+@use "breakpoints";
+
+@mixin styles {
 .featured-videos {
   display: grid;
   gap: var(--omarchy-space-x-large);
@@ -59,7 +62,7 @@
   color: var(--omarchy-terminal-white);
 }
 
-@variant sm {
+@media (min-width: breakpoints.$small) {
   .featured-videos {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -67,4 +70,5 @@
   .featured-video:first-child {
     grid-column: 1 / -1;
   }
+}
 }
