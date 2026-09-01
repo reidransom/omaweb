@@ -622,9 +622,7 @@ a:hover .media__image {
 
 .person-card {
   padding: 1rem;
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--omarchy-terminal-black);
+  border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius-small);
   background: var(--omarchy-storm);
 }
