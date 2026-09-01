@@ -1637,15 +1637,26 @@ def check_patrons(browser: DevToolsSocket) -> None:
     patrons = evaluate(
         browser,
         """(() => {
-          const section = document.getElementById("patron-tier-founding")?.parentElement;
+          const section = document.getElementById("patron-tier-founding")?.closest(".patron-tier");
           return {
-            links: section?.querySelectorAll("ul li > a:first-child").length ?? 0,
+            lists: section?.querySelectorAll(":scope > ul.patron-list").length ?? 0,
+            listItems: section?.querySelectorAll(":scope > ul.patron-list > li").length ?? 0,
+            cards: section?.querySelectorAll(":scope > ul.patron-list > li.patron-card").length ?? 0,
+            allCards: section?.querySelectorAll(".patron-card").length ?? 0,
+            links: section?.querySelectorAll(":scope > ul.patron-list > li.patron-card > h3 > a[href]").length ?? 0,
             escapedMarkup: Boolean(section?.querySelector("pre code"))
           };
         })()""",
     )
-    if patrons["links"] != 10 or patrons["escapedMarkup"]:
-        fail(f"/patrons/ must render ten patron links as list items; got {patrons}.")
+    if (
+        patrons["lists"] < 1
+        or patrons["cards"] < 1
+        or patrons["listItems"] != patrons["cards"]
+        or patrons["allCards"] != patrons["cards"]
+        or patrons["links"] != patrons["cards"]
+        or patrons["escapedMarkup"]
+    ):
+        fail(f"/patrons/ must render patron cards as direct list items with heading links; got {patrons}.")
 
 
 def run() -> None:
