@@ -20,7 +20,7 @@ npm run assets:check  # reproduce committed generated image derivatives byte-for
 npm run css:build
 npm run js:build
 just build            # rebuild assets, rendered pages, and the local Pagefind index
-just serve            # watch sources and render pages on request
+just serve            # watch CSS and site sources; render pages on request
 ```
 
 [servd](https://github.com/reidransom/servd) can also serve the repository using `.servd.toml`.

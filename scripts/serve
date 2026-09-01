@@ -1,4 +1,40 @@
 #!/usr/bin/env sh
 set -eu
 
-exec jigyll serve -s . -w --unpublished "$@"
+pids=
+
+cleanup() {
+  status=$?
+  trap - EXIT HUP INT TERM
+  for pid in $pids; do
+    kill "$pid" 2>/dev/null || true
+  done
+  for pid in $pids; do
+    wait "$pid" 2>/dev/null || true
+  done
+  exit "$status"
+}
+
+start() {
+  "$@" &
+  pids="$pids $!"
+}
+
+trap cleanup EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+start scripts/build css --watch
+start jigyll serve -s . -w --unpublished "$@"
+
+while :; do
+  for pid in $pids; do
+    if ! kill -0 "$pid" 2>/dev/null; then
+      status=0
+      wait "$pid" || status=$?
+      exit "$status"
+    fi
+  done
+  sleep 1
+done
