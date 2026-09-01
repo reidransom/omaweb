@@ -291,7 +291,9 @@ export function initSiteSearch({ quake } = {}) {
 
     const activeElement = document.activeElement;
     const topLevelItems = [
-      ...surface.fallback.querySelectorAll("[data-search-menu-open]"),
+      ...surface.fallback.querySelectorAll(
+        "[data-search-menu-root] > li > a[href], [data-search-menu-root] > li > [data-search-menu-open]",
+      ),
     ];
     const panel = activeElement?.closest("[data-search-menu-panel]");
     const items =

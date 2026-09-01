@@ -1,4 +1,11 @@
 <div class="site-search__fallback-groups" data-search-menu-static>
+  <section>
+    {% if include.heading_level == 4 %}
+      <h4>{% include authoritative-link.html link=navigation.home %}</h4>
+    {% else %}
+      <h3>{% include authoritative-link.html link=navigation.home %}</h3>
+    {% endif %}
+  </section>
   {% for section in navigation.sections %}
     <section>
       {% if include.heading_level == 4 %}
@@ -16,6 +23,7 @@
 </div>
   <div class="site-search__menu" data-search-menu hidden>
     <ul class="site-search__fallback-menu" data-search-menu-root role="list">
+      <li>{% include authoritative-link.html link=navigation.home %}</li>
       {% for section in navigation.sections %}
         <li>
           <button type="button" data-search-menu-open data-search-menu-section="{{ forloop.index0 }}" aria-expanded="false">

@@ -153,13 +153,15 @@
 }
 
 .site-search__fallback-menu button,
+.site-search__fallback-menu > li > a,
 .site-search__fallback-submenu li {
   border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius);
   background: var(--omarchy-storm);
 }
 
-.site-search__fallback-menu button {
+.site-search__fallback-menu button,
+.site-search__fallback-menu > li > a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -175,12 +177,15 @@
 
 .site-search__fallback-menu button:hover,
 .site-search__fallback-menu button:focus-visible,
+.site-search__fallback-menu > li > a:hover,
+.site-search__fallback-menu > li > a:focus-visible,
 .site-search__menu-heading button:hover,
 .site-search__menu-heading button:focus-visible {
   color: var(--omarchy-turquoise);
 }
 
 .site-search__fallback-menu button:focus-visible,
+.site-search__fallback-menu > li > a:focus-visible,
 .site-search__fallback-submenu a:focus-visible,
 .site-search__menu-heading button:focus-visible {
   outline-offset: -0.3em;

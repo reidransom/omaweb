@@ -1,3 +1,8 @@
+home:
+  label: Home
+  url: /
+  external: false
+
 search:
   label: Search
   url: /search/
