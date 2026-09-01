@@ -124,6 +124,7 @@
 .site-search__fallback-menu,
 .site-search__menu-panel {
   grid-area: 1 / 1;
+  align-self: start;
 }
 
 .site-search__fallback-menu,
