@@ -46,6 +46,20 @@ user_manual_source=__docs/images/user-manual-bitart.png
 laptop_art_source=__docs/images/laptop-omarchy-cool-fade-blue.svg
 video_source=__docs/images/video/omarchy-quattro.webp
 font_source_directory=__docs/fonts/jetbrains-mono-2.304
+patron_profiles='
+tobi-lutke
+patrick-collison
+michael-dell
+jack-dorsey
+matthew-prince
+brendan-iribe
+jason-fried
+drew-houston
+peter-steinberger
+brian-armstrong
+yunjie-dai
+dhh
+'
 responsive_widths='480 768 1200 1600'
 news_responsive_widths='480 768 1152'
 
@@ -65,6 +79,9 @@ for source in \
   "$font_source_directory/JetBrainsMono-Bold.ttf"
 do
   [ -f "$source" ] || fail "Missing approved source: $source"
+done
+for patron in $patron_profiles; do
+  [ -f "__docs/images/patrons/$patron.webp" ] || fail "Missing approved source: __docs/images/patrons/$patron.webp"
 done
 
 output_paths='
@@ -101,6 +118,10 @@ assets/fonts/jetbrains-mono-light-italic.woff2
 assets/fonts/jetbrains-mono-medium.woff2
 assets/fonts/jetbrains-mono-bold.woff2
 '
+for patron in $patron_profiles; do
+  output_paths="$output_paths
+assets/images/patrons/$patron.webp"
+done
 
 render_wide() {
   width=$1
@@ -195,7 +216,7 @@ subset_font() {
 render_all() {
   destination=$1
 
-  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/video" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/fonts"
+  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/video" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/images/patrons" "$destination/assets/fonts"
   render_wide 480 270 "$destination/assets/images/hero/winding-road-480w.webp"
   render_wide 768 432 "$destination/assets/images/hero/winding-road-768w.webp"
   render_wide 1200 675 "$destination/assets/images/hero/winding-road-1200w.webp"
@@ -213,6 +234,9 @@ render_all() {
   render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
   render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
   render_responsive_family "$sspaeti_workstation_source" "$destination/assets/images/workstations" sspaeti-office-setup "$responsive_widths"
+  for patron in $patron_profiles; do
+    cp "__docs/images/patrons/$patron.webp" "$destination/assets/images/patrons/$patron.webp"
+  done
   subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
   subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
   subset_font "$font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
@@ -220,7 +244,7 @@ render_all() {
 }
 
 check_inventory() {
-  actual=$(find assets/images/hero assets/images/video assets/images/news assets/images/desktop assets/images/workstations assets/fonts -type f | sort)
+  actual=$(find assets/images/hero assets/images/video assets/images/news assets/images/desktop assets/images/workstations assets/images/patrons assets/fonts -type f | sort)
   expected=$(printf '%s\n' "$output_paths" | sed '/^$/d' | sort)
   [ "$actual" = "$expected" ] || fail 'Committed derivative inventory does not match scripts/build-assets.'
 }

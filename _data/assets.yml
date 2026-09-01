@@ -727,3 +727,194 @@ items:
           third_party_marks: { present: false, disclosure: No third-party marks are asserted by the contributor record. }
 
 
+  - id: patron-tobi-lutke
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/tobi-lutke.webp
+    source: __docs/images/patrons/tobi-lutke.webp
+    source_url: https://omarchy.org/assets/images/patrons/tobi-lutke.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 4195b9087eb47e3bd1ac5956fcf1d09ac01fd00886a509ba471a1c940c1098d0
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-patrick-collison
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/patrick-collison.webp
+    source: __docs/images/patrons/patrick-collison.webp
+    source_url: https://omarchy.org/assets/images/patrons/patrick-collison.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 57856bf8b5d0f540534a3b5e17ee1ea9d14a4148e7cf849162544e4210646909
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-michael-dell
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/michael-dell.webp
+    source: __docs/images/patrons/michael-dell.webp
+    source_url: https://omarchy.org/assets/images/patrons/michael-dell.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 25616af438da639e9fa1068945f3a6a8d4d450b5cd59da445236da206ee9dbf4
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-jack-dorsey
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/jack-dorsey.webp
+    source: __docs/images/patrons/jack-dorsey.webp
+    source_url: https://omarchy.org/assets/images/patrons/jack-dorsey.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 80664b4352736ec0e34a90656d716640d0e040bfb5102b702de10af90bc2ed48
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-matthew-prince
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/matthew-prince.webp
+    source: __docs/images/patrons/matthew-prince.webp
+    source_url: https://omarchy.org/assets/images/patrons/matthew-prince.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 438bfd00b794d3eb16936c244b7b8e83de1314e4ba1131eafe5d7de88c5f7acb
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-brendan-iribe
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/brendan-iribe.webp
+    source: __docs/images/patrons/brendan-iribe.webp
+    source_url: https://omarchy.org/assets/images/patrons/brendan-iribe.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 028afa9429e91e778c5d7f0f01e3eea32530c823f7bad4caa1fe03b29e4965f5
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-jason-fried
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/jason-fried.webp
+    source: __docs/images/patrons/jason-fried.webp
+    source_url: https://omarchy.org/assets/images/patrons/jason-fried.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 6a51d9fa7b5ef6be7c4eedfe2b4dd4bbedd5ef6ddda608e2c9a1cae4911aa5ef
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-drew-houston
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/drew-houston.webp
+    source: __docs/images/patrons/drew-houston.webp
+    source_url: https://omarchy.org/assets/images/patrons/drew-houston.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: f7ab534c4ac3aa445c4f36d7d11ab6121faeac00825b501a11512e933821de21
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-peter-steinberger
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/peter-steinberger.webp
+    source: __docs/images/patrons/peter-steinberger.webp
+    source_url: https://omarchy.org/assets/images/patrons/peter-steinberger.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 891b8fea34f4fcbfb3e0626f9b276caaaceb5872a5c9a27a0940921df43aafa4
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-brian-armstrong
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/brian-armstrong.webp
+    source: __docs/images/patrons/brian-armstrong.webp
+    source_url: https://omarchy.org/assets/images/patrons/brian-armstrong.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 032fe8653226dda3110a200bf12923fe969fcc14c81af50425f65a46cea1291f
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original artist or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: false, disclosure: No third-party marks are visible in the artwork. }
+
+  - id: patron-yunjie-dai
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/yunjie-dai.webp
+    source: __docs/images/patrons/yunjie-dai.webp
+    source_url: https://omarchy.org/assets/images/patrons/yunjie-dai.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: f24036bb4f1432048e047ee46e33490a8927d2444d83401414f0017ddee0d747
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: patron-dhh
+    asset_type: image
+    role: patron-profile
+    path: assets/images/patrons/dhh.webp
+    source: __docs/images/patrons/dhh.webp
+    source_url: https://omarchy.org/assets/images/patrons/dhh.webp
+    inspected_date: 2026-09-01
+    provenance: Exact source copy emitted by scripts/build-assets.
+    sha256: 69074f4fd8e745c42a47ba795a2dcf1c33d28f39f77ea1676f6e16bc6d7cc0db
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer or rights holder
+    license_or_permission: Published by Omacom on the official patrons page; no broader public license is asserted.
+    clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
