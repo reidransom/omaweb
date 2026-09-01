@@ -413,6 +413,15 @@ html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
   padding-block: var(--omarchy-space-xx-large);
 }
 
+.home-expansion .home-reveal-panel,
+.home-final-cta .home-reveal-panel {
+  padding: clamp(var(--omarchy-space-large), 5vw, var(--omarchy-space-xx-large));
+  border: 1px solid rgb(65 72 104 / 0.82);
+  border-radius: var(--omarchy-radius);
+  background: rgb(26 27 38 / 0.78);
+  box-shadow: var(--omarchy-shadow);
+}
+
 .home-reveal-panel p:not(.home-eyebrow) {
   max-inline-size: var(--omarchy-prose-measure);
   margin-block-start: var(--omarchy-space-neutral);
@@ -491,7 +500,6 @@ html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
   .home-section__inner--split {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
-
   .home-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -502,7 +510,6 @@ html.wte-home .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-
 
 @media (prefers-reduced-motion: reduce) {
   html.wte-home .wordmark .wordmark__canvas {
