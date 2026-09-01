@@ -623,7 +623,7 @@ a:hover .media__image {
 .person-card {
   padding: 1rem;
   border: 1px solid var(--omarchy-terminal-black);
-  border-radius: 0.25rem;
+  border-radius: var(--omarchy-radius-small);
   background: var(--omarchy-storm);
 }
 

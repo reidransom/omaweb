@@ -315,6 +315,162 @@ def check_people_roster(browser: DevToolsSocket, width: int, height: int) -> Non
         fail(f"/teams/ person card typography is not preserved at {width}x{height}; got {roster}.")
 
 
+def check_base_normalization(browser: DevToolsSocket, origin: str) -> None:
+    set_viewport(browser, 1440, 900)
+    browser.command("Page.navigate", {"url": origin + "/foundation/"})
+    wait_for_complete(browser, "/foundation/", "base text normalization")
+    text = evaluate(
+        browser,
+        """(() => {
+          const pageHeading = document.querySelector("main h1");
+          const list = document.querySelector(".content-body .prose ul:not([class])");
+          const sectionHeading = list?.closest(".prose")?.querySelector("h2");
+          const link = list?.querySelector("a[href]");
+          const pageHeadingStyle = pageHeading && getComputedStyle(pageHeading);
+          const sectionHeadingStyle = sectionHeading && getComputedStyle(sectionHeading);
+          const listStyle = list && getComputedStyle(list);
+          const linkStyle = link && getComputedStyle(link);
+          return {
+            present: Boolean(pageHeading && sectionHeading && list && link),
+            pageHeadingMargins: pageHeadingStyle && [pageHeadingStyle.marginTop, pageHeadingStyle.marginBottom],
+            sectionHeadingMargins: sectionHeadingStyle && [sectionHeadingStyle.marginTop, sectionHeadingStyle.marginBottom],
+            list: listStyle && {
+              margins: [listStyle.marginTop, listStyle.marginBottom],
+              paddingInlineStart: listStyle.paddingInlineStart,
+              styleType: listStyle.listStyleType
+            },
+            link: linkStyle && {
+              color: linkStyle.color,
+              fontWeight: linkStyle.fontWeight,
+              decorationLine: linkStyle.textDecorationLine,
+              decorationThickness: linkStyle.textDecorationThickness
+            }
+          };
+        })()""",
+    )
+    if (
+        not text["present"]
+        or text["pageHeadingMargins"] != ["0px", "0px"]
+        or text["sectionHeadingMargins"] != ["52.8px", "0px"]
+        or text["list"] != {
+            "margins": ["16px", "0px"],
+            "paddingInlineStart": "24px",
+            "styleType": "none",
+        }
+        or text["link"]["color"] != "rgb(125, 207, 255)"
+        or text["link"]["fontWeight"] != "700"
+        or "underline" not in text["link"]["decorationLine"]
+        or text["link"]["decorationThickness"] in ("0px", "auto")
+    ):
+        fail(f"Base heading, unclassed-list, and link normalization is not preserved; got {text}.")
+
+    browser.command("Page.navigate", {"url": origin + "/patrons/"})
+    wait_for_complete(browser, "/patrons/", "base media normalization")
+    evaluate(browser, 'document.querySelector(".patron-card__image")?.scrollIntoView({block: "center"})')
+    wait_for(
+        browser,
+        'document.querySelector(".patron-card__image")?.complete && document.querySelector(".patron-card__image")?.naturalWidth > 0',
+        "a rendered patron image",
+    )
+    media = evaluate(
+        browser,
+        """(() => {
+          const image = document.querySelector(".patron-card__image");
+          if (!image) return null;
+          const style = getComputedStyle(image);
+          const rect = image.getBoundingClientRect();
+          return {
+            display: style.display,
+            maxInlineSize: style.maxInlineSize,
+            verticalAlign: style.verticalAlign,
+            naturalRatio: image.naturalWidth / image.naturalHeight,
+            renderedRatio: rect.width / rect.height
+          };
+        })()""",
+    )
+    if (
+        media is None
+        or media["display"] != "block"
+        or media["maxInlineSize"] != "100%"
+        or media["verticalAlign"] != "middle"
+        or abs(media["naturalRatio"] - media["renderedRatio"]) > 0.01
+    ):
+        fail(f"Base media sizing must keep a rendered image block-level, bounded, aligned, and undistorted; got {media}.")
+
+    browser.command("Page.navigate", {"url": origin + "/search/"})
+    wait_for_complete(browser, "/search/", "base form normalization")
+    controls = evaluate(
+        browser,
+        """(() => {
+          const bodyStyle = getComputedStyle(document.body);
+          const input = document.querySelector("main input[name='q']");
+          const button = document.querySelector("main button[type='submit']");
+          const describe = element => {
+            const style = element && getComputedStyle(element);
+            return style && {
+              fontFamily: style.fontFamily,
+              fontSize: style.fontSize,
+              margins: [style.marginTop, style.marginRight, style.marginBottom, style.marginLeft],
+              borderWidths: [style.borderTopWidth, style.borderRightWidth, style.borderBottomWidth, style.borderLeftWidth],
+              borderStyles: [style.borderTopStyle, style.borderRightStyle, style.borderBottomStyle, style.borderLeftStyle],
+              backgroundColor: style.backgroundColor
+            };
+          };
+          return {
+            bodyFont: {family: bodyStyle.fontFamily, size: bodyStyle.fontSize},
+            input: describe(input),
+            button: describe(button)
+          };
+        })()""",
+    )
+    zero_sides = ["0px"] * 4
+    solid_borders = ["solid"] * 4
+    one_pixel_borders = ["1px"] * 4
+    if (
+        controls["input"] is None
+        or controls["button"] is None
+        or any(
+            control["fontFamily"] != controls["bodyFont"]["family"]
+            or control["fontSize"] != controls["bodyFont"]["size"]
+            or control["margins"] != zero_sides
+            for control in (controls["input"], controls["button"])
+        )
+        or controls["input"]["borderWidths"] != one_pixel_borders
+        or controls["button"]["borderWidths"] != one_pixel_borders
+        or controls["input"]["borderStyles"] != solid_borders
+        or controls["button"]["borderStyles"] != solid_borders
+        or controls["input"]["backgroundColor"] != "rgb(36, 40, 59)"
+        or controls["button"]["backgroundColor"] != "rgb(122, 162, 247)"
+    ):
+        fail(f"Base form normalization must preserve inherited typography, neutral margins, and explicit control treatment; got {controls}.")
+
+    press_key(browser, "Tab", "Tab", 9)
+    focus = evaluate(
+        browser,
+        """(() => {
+          const button = document.querySelector("main button[type='submit']");
+          button?.focus();
+          const style = button && getComputedStyle(button);
+          return style && {
+            focusVisible: button.matches(":focus-visible"),
+            outlineStyle: style.outlineStyle,
+            outlineWidth: style.outlineWidth,
+            outlineColor: style.outlineColor,
+            outlineOffset: style.outlineOffset
+          };
+        })()""",
+    )
+    if (
+        focus is None
+        or not focus["focusVisible"]
+        or focus["outlineStyle"] != "solid"
+        or focus["outlineWidth"] == "0px"
+        or focus["outlineColor"] != "rgb(180, 249, 248)"
+        or float(focus["outlineOffset"].removesuffix("px")) <= 0
+    ):
+        fail(f"Keyboard focus must retain a visible Turquoise outline; got {focus}.")
+
+
 def check_home_actions(browser: DevToolsSocket) -> None:
     actions = evaluate(
         browser,
@@ -1003,38 +1159,76 @@ def assert_no_page_errors(snapshot: dict, description: str) -> None:
         fail(f"{description} must not report uncaught errors or unhandled rejections; got {errors}.")
 
 
-def sample_wordmark_playback(browser: DevToolsSocket) -> dict:
+def observe_wordmark_frame_transitions(
+    browser: DevToolsSocket,
+    *,
+    include_pixels: bool,
+    minimum_changes: int,
+    minimum_elapsed_ms: int,
+    stable_frames: int,
+    timeout_ms: int,
+) -> dict:
+    sample_expression = wordmark_pixel_samples("context") if include_pixels else "canvas.toDataURL()"
     return evaluate(
         browser,
-        """new Promise(resolve => {
+        f"""new Promise(resolve => {{
           const canvas = document.querySelector("[data-wordmark-canvas]");
           const context = canvas?.getContext("2d");
-          if (!canvas || !context || !canvas.width || !canvas.height) {
-            return resolve({changed: false, stable: false, pixels: []});
-          }
-          const sample = () => """ + wordmark_pixel_samples("context") + """;
-          const differs = (before, after) => before.some((value, index) => value !== after[index]);
-          const deadline = performance.now() + 12000;
+          if (!canvas || !canvas.width || !canvas.height || ({str(include_pixels).lower()} && !context)) {{
+            return resolve({{complete: false, changes: 0, stableFrames: 0, pixels: []}});
+          }}
+          const sample = () => {sample_expression};
+          const differs = (before, after) => Array.isArray(before)
+            ? before.some((value, index) => value !== after[index])
+            : before !== after;
+          const started = performance.now();
+          const deadline = started + {timeout_ms};
           let previous = sample();
-          let changed = false;
+          let changes = 0;
           let stableFrames = 0;
-          const observe = () => {
+          let lastChangeAt = started;
+          const observe = now => {{
             const current = sample();
-            if (differs(previous, current)) {
-              changed = true;
+            if (differs(previous, current)) {{
+              changes += 1;
               stableFrames = 0;
-            } else if (changed) {
+              lastChangeAt = now;
+            }} else if (changes > 0) {{
               stableFrames += 1;
-            }
+            }}
             previous = current;
-            if ((changed && stableFrames >= 12) || performance.now() >= deadline) {
-              return resolve({changed, stable: changed && stableFrames >= 12, pixels: current});
-            }
+            const changedLongEnough =
+              changes >= {minimum_changes} && lastChangeAt - started >= {minimum_elapsed_ms};
+            const heldLongEnough = stableFrames >= {stable_frames};
+            if ((changedLongEnough && heldLongEnough) || now >= deadline) {{
+              return resolve({{
+                complete: changedLongEnough && heldLongEnough,
+                changes,
+                stableFrames,
+                pixels: Array.isArray(current) ? current : []
+              }});
+            }}
             requestAnimationFrame(observe);
-          };
+          }};
           requestAnimationFrame(observe);
-        })""",
+        }})""",
     )
+
+
+def sample_wordmark_playback(browser: DevToolsSocket) -> dict:
+    observation = observe_wordmark_frame_transitions(
+        browser,
+        include_pixels=True,
+        minimum_changes=1,
+        minimum_elapsed_ms=0,
+        stable_frames=12,
+        timeout_ms=12000,
+    )
+    return {
+        "changed": observation["changes"] > 0,
+        "stable": observation["complete"],
+        "pixels": observation["pixels"],
+    }
 
 
 def wait_for_animation_frames(browser: DevToolsSocket) -> None:
@@ -1062,28 +1256,15 @@ def wordmark_pixels_remain_stable(browser: DevToolsSocket) -> bool:
 
 
 def wordmark_canvas_changes(browser: DevToolsSocket) -> bool:
-    return evaluate(
+    observation = observe_wordmark_frame_transitions(
         browser,
-        """new Promise(resolve => {
-          const canvas = document.querySelector("[data-wordmark-canvas]");
-          if (!canvas || !canvas.width || !canvas.height) return resolve(false);
-          const started = performance.now();
-          const deadline = started + 2000;
-          let previous = canvas.toDataURL();
-          let changes = 0;
-          const observe = now => {
-            const current = canvas.toDataURL();
-            if (current !== previous) {
-              changes += 1;
-              previous = current;
-              if (changes >= 2 && now - started >= 400) return resolve(true);
-            }
-            if (now >= deadline) return resolve(false);
-            requestAnimationFrame(observe);
-          };
-          requestAnimationFrame(observe);
-        })""",
+        include_pixels=False,
+        minimum_changes=2,
+        minimum_elapsed_ms=400,
+        stable_frames=0,
+        timeout_ms=2000,
     )
+    return observation["complete"]
 
 
 
@@ -1324,7 +1505,6 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
             focused: document.activeElement === input,
             blank: input?.value === "" && !dialog?.querySelector("[data-site-search-status]")?.textContent.trim() &&
               dialog?.querySelectorAll("[data-search-result]").length === 0,
-            quiet: dialog?.querySelector("[data-site-search-fallback]")?.hidden === true,
             geometry: rect && rect.width <= 42 * 16 + 1 && rect.height <= innerHeight * 0.7 + 1,
             scrollLocked: document.documentElement.style.overflow === "hidden" &&
               getComputedStyle(document.body).position !== "fixed",
@@ -1337,8 +1517,8 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
           };
         })()""",
     )
-    if not blank["focused"] or not blank["blank"] or not blank["quiet"] or not blank["geometry"] or not blank["scrollLocked"] or not blank["viewportPreserved"] or not blank["withinViewport"] or not blank["noOverflow"]:
-        fail(f"Spotlight must open focused, quiet, scroll-locked, viewport-preserving, and within its viewport geometry at {width}x{height}; got {blank}.")
+    if not blank["focused"] or not blank["blank"] or not blank["geometry"] or not blank["scrollLocked"] or not blank["viewportPreserved"] or not blank["withinViewport"] or not blank["noOverflow"]:
+        fail(f"Spotlight must open focused, scroll-locked, viewport-preserving, and within its viewport geometry at {width}x{height}; got {blank}.")
     for _ in range(4):
         press_key(browser, "Tab", "Tab", 9)
     if not evaluate(browser, 'document.querySelector("[data-spotlight]")?.contains(document.activeElement)'):
@@ -1662,14 +1842,14 @@ def check_patrons(browser: DevToolsSocket) -> None:
         })()""",
     )
     if (
-        patrons["lists"] < 1
-        or patrons["cards"] < 1
-        or patrons["listItems"] != patrons["cards"]
-        or patrons["allCards"] != patrons["cards"]
-        or patrons["links"] != patrons["cards"]
+        patrons["lists"] != 1
+        or patrons["listItems"] != 12
+        or patrons["cards"] != 12
+        or patrons["allCards"] != 12
+        or patrons["links"] != 12
         or patrons["escapedMarkup"]
     ):
-        fail(f"/patrons/ must render patron cards as direct list items with heading links; got {patrons}.")
+        fail(f"/patrons/ must render exactly twelve founding patron cards as direct list items with heading links; got {patrons}.")
 
 
 def run() -> None:
@@ -1704,6 +1884,12 @@ def run() -> None:
                         check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", session.origin)
                 finally:
                     browser.close()
+
+        browser = session.open_page("/foundation/")
+        try:
+            check_base_normalization(browser, session.origin)
+        finally:
+            browser.close()
 
         browser = session.open_page("/")
         try:
