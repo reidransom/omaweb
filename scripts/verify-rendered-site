@@ -204,6 +204,117 @@ def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: in
             fail(f"{route} renders an unloaded or broken local image: {image['src']}.")
 
 
+def check_people_roster(browser: DevToolsSocket, width: int, height: int) -> None:
+    roster = evaluate(
+        browser,
+        """(() => {
+          const root = document.querySelector(".people-roster");
+          const cards = root ? Array.from(root.querySelectorAll(":scope > .person-card")) : [];
+          const card = cards[0];
+          const name = card?.querySelector(".person-card__name");
+          const details = card ? Array.from(card.querySelectorAll(".person-card__detail")) : [];
+          const location = card?.querySelector(".person-card__location");
+          const rootStyle = root && getComputedStyle(root);
+          const cardStyle = card && getComputedStyle(card);
+          const nameStyle = name && getComputedStyle(name);
+          const detailStyles = details.map(detail => getComputedStyle(detail));
+          const locationStyle = location && getComputedStyle(location);
+          const sides = style => style && [
+            style.paddingTop,
+            style.paddingRight,
+            style.paddingBottom,
+            style.paddingLeft
+          ];
+          const margins = style => style && [
+            style.marginTop,
+            style.marginBottom
+          ];
+          return {
+            cardCount: cards.length,
+            detailCount: details.length,
+            display: rootStyle?.display ?? null,
+            columns: rootStyle?.gridTemplateColumns.trim().split(/\\s+/).filter(Boolean).length ?? 0,
+            rowGap: rootStyle?.rowGap ?? null,
+            columnGap: rootStyle?.columnGap ?? null,
+            listStyleType: rootStyle?.listStyleType ?? null,
+            rosterPadding: sides(rootStyle),
+            rosterMargin: margins(rootStyle),
+            card: cardStyle ? {
+              backgroundColor: cardStyle.backgroundColor,
+              borderWidths: [
+                cardStyle.borderTopWidth,
+                cardStyle.borderRightWidth,
+                cardStyle.borderBottomWidth,
+                cardStyle.borderLeftWidth
+              ],
+              borderStyles: [
+                cardStyle.borderTopStyle,
+                cardStyle.borderRightStyle,
+                cardStyle.borderBottomStyle,
+                cardStyle.borderLeftStyle
+              ],
+              borderColors: [
+                cardStyle.borderTopColor,
+                cardStyle.borderRightColor,
+                cardStyle.borderBottomColor,
+                cardStyle.borderLeftColor
+              ],
+              borderRadii: [
+                cardStyle.borderTopLeftRadius,
+                cardStyle.borderTopRightRadius,
+                cardStyle.borderBottomRightRadius,
+                cardStyle.borderBottomLeftRadius
+              ],
+              padding: sides(cardStyle)
+            } : null,
+            name: nameStyle ? {
+              fontSize: nameStyle.fontSize,
+              margins: margins(nameStyle)
+            } : null,
+            detailMargins: detailStyles.map(margins),
+            locationColor: locationStyle?.color ?? null
+          };
+        })()""",
+    )
+    expected_columns = {390: 1, 768: 2, 1440: 3}[width]
+    zero_sides = ["0px"] * 4
+    zero_margins = ["0px"] * 2
+    if (
+        roster["cardCount"] < expected_columns
+        or roster["detailCount"] < 2
+        or roster["display"] != "grid"
+        or roster["columns"] != expected_columns
+        or roster["rowGap"] != "16px"
+        or roster["columnGap"] != "16px"
+        or roster["listStyleType"] != "none"
+        or roster["rosterPadding"] != zero_sides
+        or roster["rosterMargin"] != zero_margins
+    ):
+        fail(f"/teams/ roster layout is not preserved at {width}x{height}; got {roster}.")
+
+    card = roster["card"]
+    if (
+        card is None
+        or card["backgroundColor"] != "rgb(36, 40, 59)"
+        or card["borderWidths"] != ["1px"] * 4
+        or card["borderStyles"] != ["solid"] * 4
+        or card["borderColors"] != ["rgb(65, 72, 104)"] * 4
+        or card["borderRadii"] != ["4px"] * 4
+        or card["padding"] != ["16px"] * 4
+    ):
+        fail(f"/teams/ person card treatment is not preserved at {width}x{height}; got {card}.")
+
+    expected_name_size = {390: "12.5px", 768: "12.5px", 1440: "20px"}[width]
+    if (
+        roster["name"] is None
+        or roster["name"]["fontSize"] != expected_name_size
+        or roster["name"]["margins"] != zero_margins
+        or any(margins != zero_margins for margins in roster["detailMargins"])
+        or roster["locationColor"] != "rgb(192, 202, 245)"
+    ):
+        fail(f"/teams/ person card typography is not preserved at {width}x{height}; got {roster}.")
+
+
 def check_home_actions(browser: DevToolsSocket) -> None:
     actions = evaluate(
         browser,
@@ -1563,6 +1674,8 @@ def run() -> None:
                             check_mobile_drawer(browser)
                     elif route == "/news/":
                         check_news(browser)
+                    elif route == "/teams/":
+                        check_people_roster(browser, width, height)
                     elif route == "/workstations/":
                         check_proof_media(browser, route, ".workstation-gallery__item img", "Workstations", session.origin)
                 finally:
