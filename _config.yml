@@ -34,7 +34,6 @@ exclude:
   - BRAND.md
   - Justfile
   - README.md
-  - __docs
   - _plans
   - node_modules
   - package.json

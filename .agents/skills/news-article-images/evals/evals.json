@@ -8,7 +8,7 @@
       "expectations": [
         "Derives a distinct visual mechanism from the article and Omarchy brand rather than proposing generic technology art.",
         "Generates two nanobanana composition candidates while mapping NANOBANANA_API_KEY to GEMINI_API_KEY without exposing the secret.",
-        "Preserves a semantic source under __docs/images/news and measures its actual format, dimensions, and SHA-256.",
+        "Preserves a semantic source under ../omaweb-docs/images/news and measures its actual format, dimensions, and SHA-256.",
         "Registers scripts/build-assets and produces 480x270, 768x432, and 1152x648 WebP derivatives without retaining unrelated derivative rewrites.",
         "Adds complete _data/assets.yml provenance and article image frontmatter with useful alt text and illustrative: true.",
         "Verifies desktop card, mobile 480w selection, article disclosure, no overflow, content checks, build, and scratch cleanup."

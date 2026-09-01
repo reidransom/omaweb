@@ -12,7 +12,7 @@ Create story-specific editorial illustrations that remain legible in the homepag
 
 Read these before constructing a prompt:
 
-- `BRAND.md` for palette, visual character, and editorial claims.
+- `../omaweb-docs/BRAND.md` for palette, visual character, and editorial claims.
 - The target file under `_news/` for the concrete actor, event, mechanism, and outcome.
 - `_includes/media.html`, `_layouts/article.html`, and one illustrated `_news/` file for the current image schema.
 - `_data/assets.yml` and `scripts/build-assets` for provenance and derivative conventions.
@@ -76,7 +76,7 @@ Regenerate when neither candidate passes every check. Selection—not the first 
 Copy the selected candidate to:
 
 ```text
-__docs/images/news/<semantic-basename>.jpg
+../omaweb-docs/images/news/<semantic-basename>.jpg
 ```
 
 Use a semantic basename describing the mechanism, such as `omarchy-rangers-community-guides`; avoid dates and generic names such as `news-image`.
