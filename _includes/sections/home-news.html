@@ -1,0 +1,16 @@
+{% assign articles = site.news | sort: 'date' | reverse %}
+{% assign latest_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
+<section id="home-news" class="home-section home-section--reading home-section--storm home-news" aria-labelledby="home-news-title">
+  <div class="home-section__inner home-news__inner">
+    <div class="news-section-heading">
+      <div>
+        <p class="home-eyebrow">Latest</p>
+        <h2 id="home-news-title">What’s new</h2>
+      </div>
+      <a href="{{ '/news/' | relative_url }}">All news</a>
+    </div>
+    <div class="news-card-grid">
+      {% for article in latest_articles limit: site.data.news.latest_count %}{% include news-card.html article=article %}{% endfor %}
+    </div>
+  </div>
+</section>

@@ -11,6 +11,24 @@ products:
   items: []
 project_areas:
   items: [rangers, teams]
+image:
+  src: /assets/images/news/omarchy-rangers-community-guides-1152w.webp
+  alt: Three abstract community guides pass warm light across a globe toward newcomers following paths to a tiled desktop.
+  width: 1152
+  height: 648
+  illustrative: true
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/omarchy-rangers-community-guides-480w.webp
+              width: 480
+            - src: /assets/images/news/omarchy-rangers-community-guides-768w.webp
+              width: 768
+            - src: /assets/images/news/omarchy-rangers-community-guides-1152w.webp
+              width: 1152
 ---
 
 Omarchy has grown so fast that thousands of people are arriving at once, and most of them are arriving from macOS or Windows. That’s a lot of first installations, a lot of “where do I even start”, and a lot of questions that benefit from a real answer from someone who is used to helping others.

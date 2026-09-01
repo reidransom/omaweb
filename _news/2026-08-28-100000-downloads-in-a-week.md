@@ -11,6 +11,24 @@ products:
   items: [desktop]
 project_areas:
   items: [desktop]
+image:
+  src: /assets/images/news/omarchy-downloads-global-delivery-1152w.webp
+  alt: A dark globe covered in luminous blue and green data paths radiating from a central computer.
+  width: 1152
+  height: 648
+  illustrative: true
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/omarchy-downloads-global-delivery-480w.webp
+              width: 480
+            - src: /assets/images/news/omarchy-downloads-global-delivery-768w.webp
+              width: 768
+            - src: /assets/images/news/omarchy-downloads-global-delivery-1152w.webp
+              width: 1152
 ---
 
 One hundred thousand downloads of the Omarchy ISO in the past week! One hundred thousand people who decided that this was the week they’d finally try Linux (or come back to it). What a bunch of bosses!

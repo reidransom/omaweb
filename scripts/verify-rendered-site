@@ -266,7 +266,7 @@ def check_home_scroll_cue(browser: DevToolsSocket, width: int, height: int) -> N
           return cue;
         })()""",
     )
-    if cue["label"] != "scroll" or cue["href"] != "#home-desktop" or cue["iconPaths"] != 1:
+    if cue["label"] != "scroll" or cue["href"] != "#home-news" or cue["iconPaths"] != 1:
         fail(f"Homepage must render the labeled double-caret scroll cue; got {cue}.")
     if (
         width >= 640
@@ -1454,6 +1454,11 @@ def check_news_partition(debug_url: str, origin: str) -> None:
         fail(f"News archive must render nine unique page-one stories and three unique page-two stories; got {first} / {second}.")
     if set(first) & set(second) or len(set(first) | set(second)) != 12:
         fail("News archive pages overlap or omit a story; page one and page two must partition all twelve articles.")
+
+    latest = article_links("/news/", ".news-index__latest > .news-card-grid > article.news-card .news-card__media")
+    home = article_links("/", ".home-news .news-card-grid > article.news-card .news-card__media")
+    if len(home) != 4 or home != latest:
+        fail(f"Homepage News must match the four stories in /news/ Latest; got {home} / {latest}.")
 
 
 def check_proof_media(browser: DevToolsSocket, route: str, selector: str, description: str, origin: str) -> None:

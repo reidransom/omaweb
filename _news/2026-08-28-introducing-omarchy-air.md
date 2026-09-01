@@ -11,6 +11,24 @@ products:
   items: []
 project_areas:
   items: [air, foundation]
+image:
+  src: /assets/images/news/omarchy-air-artists-in-residence-1152w.webp
+  alt: Two abstract artists at digital workstations shaping luminous theme colors on a shared canvas.
+  width: 1152
+  height: 648
+  illustrative: true
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/omarchy-air-artists-in-residence-480w.webp
+              width: 480
+            - src: /assets/images/news/omarchy-air-artists-in-residence-768w.webp
+              width: 768
+            - src: /assets/images/news/omarchy-air-artists-in-residence-1152w.webp
+              width: 1152
 ---
 
 Omarchy insists that a computer should be as beautiful as it is productive. That premise has been carried by the theme makers and other Omarchy artists since day one. Building whole palettes, on their own time, for free, because they wanted their machine to look like something.

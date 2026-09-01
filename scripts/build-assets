@@ -38,6 +38,9 @@ export MAGICK_THREAD_LIMIT=1
 
 hero_source=__docs/images/0-winding-road.jpg
 news_preview_source=__docs/images/news/radio-atlas-preview.webp
+air_artwork_source=__docs/images/news/omarchy-air-artists-in-residence.jpg
+downloads_artwork_source=__docs/images/news/omarchy-downloads-global-delivery.jpg
+rangers_artwork_source=__docs/images/news/omarchy-rangers-community-guides.jpg
 desktop_preview_source=__docs/images/desktop/tokyo-night-preview.png
 pleum_workstation_source=__docs/images/workstations/pleum-p1554011.jpg
 sspaeti_workstation_source=__docs/images/workstations/sspaeti-office-setup.jpg
@@ -66,6 +69,9 @@ news_responsive_widths='480 768 1152'
 for source in \
   "$hero_source" \
   "$news_preview_source" \
+  "$air_artwork_source" \
+  "$downloads_artwork_source" \
+  "$rangers_artwork_source" \
   "$desktop_preview_source" \
   "$pleum_workstation_source" \
   "$sspaeti_workstation_source" \
@@ -101,6 +107,15 @@ assets/images/video/omarchy-quattro.webp
 assets/images/news/radio-atlas-preview-480w.webp
 assets/images/news/radio-atlas-preview-768w.webp
 assets/images/news/radio-atlas-preview-1152w.webp
+assets/images/news/omarchy-air-artists-in-residence-480w.webp
+assets/images/news/omarchy-air-artists-in-residence-768w.webp
+assets/images/news/omarchy-air-artists-in-residence-1152w.webp
+assets/images/news/omarchy-downloads-global-delivery-480w.webp
+assets/images/news/omarchy-downloads-global-delivery-768w.webp
+assets/images/news/omarchy-downloads-global-delivery-1152w.webp
+assets/images/news/omarchy-rangers-community-guides-480w.webp
+assets/images/news/omarchy-rangers-community-guides-768w.webp
+assets/images/news/omarchy-rangers-community-guides-1152w.webp
 assets/images/desktop/tokyo-night-preview-480w.webp
 assets/images/desktop/tokyo-night-preview-768w.webp
 assets/images/desktop/tokyo-night-preview-1200w.webp
@@ -231,6 +246,9 @@ render_all() {
   cp "$laptop_art_source" "$destination/assets/images/desktop/laptop-omarchy-cool-fade-blue.svg"
   cp "$video_source" "$destination/assets/images/video/omarchy-quattro.webp"
   render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
+  render_responsive_family "$air_artwork_source" "$destination/assets/images/news" omarchy-air-artists-in-residence "$news_responsive_widths"
+  render_responsive_family "$downloads_artwork_source" "$destination/assets/images/news" omarchy-downloads-global-delivery "$news_responsive_widths"
+  render_responsive_family "$rangers_artwork_source" "$destination/assets/images/news" omarchy-rangers-community-guides "$news_responsive_widths"
   render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
   render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
   render_responsive_family "$sspaeti_workstation_source" "$destination/assets/images/workstations" sspaeti-office-setup "$responsive_widths"

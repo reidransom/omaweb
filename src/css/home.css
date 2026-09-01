@@ -74,6 +74,11 @@
   max-inline-size: var(--omarchy-prose-measure);
 }
 
+.home-news__inner {
+  display: grid;
+  gap: var(--omarchy-space-large);
+}
+
 .home-desktop__art {
   display: block;
   inline-size: 70%;
