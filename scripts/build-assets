@@ -52,7 +52,9 @@ networkchuck_video_source=../omaweb-docs/images/video/networkchuck.webp
 typecraft_video_source=../omaweb-docs/images/video/typecraft.webp
 linuxbtw_video_source=../omaweb-docs/images/video/linuxbtw.webp
 alex_finn_video_source=../omaweb-docs/images/video/alex-finn.webp
-font_source_directory=../omaweb-docs/fonts/jetbrains-mono-2.304
+mono_font_source_directory=../omaweb-docs/fonts/jetbrains-mono-2.304
+serif_font_source_directory=../omaweb-docs/fonts/source-serif-4.005
+readable_font_source_directory=../omaweb-docs/fonts/atkinson-hyperlegible-next-2.001
 patron_profiles='
 tobi-lutke
 patrick-collison
@@ -87,10 +89,17 @@ for source in \
   "$typecraft_video_source" \
   "$linuxbtw_video_source" \
   "$alex_finn_video_source" \
-  "$font_source_directory/JetBrainsMono-Light.ttf" \
-  "$font_source_directory/JetBrainsMono-LightItalic.ttf" \
-  "$font_source_directory/JetBrainsMono-Medium.ttf" \
-  "$font_source_directory/JetBrainsMono-Bold.ttf"
+  "$mono_font_source_directory/JetBrainsMono-Light.ttf" \
+  "$mono_font_source_directory/JetBrainsMono-LightItalic.ttf" \
+  "$mono_font_source_directory/JetBrainsMono-Regular.ttf" \
+  "$mono_font_source_directory/JetBrainsMono-Medium.ttf" \
+  "$mono_font_source_directory/JetBrainsMono-Bold.ttf" \
+  "$serif_font_source_directory/SourceSerif4-Regular.ttf" \
+  "$serif_font_source_directory/SourceSerif4-It.ttf" \
+  "$serif_font_source_directory/SourceSerif4-Bold.ttf" \
+  "$readable_font_source_directory/AtkinsonHyperlegibleNext-Regular.ttf" \
+  "$readable_font_source_directory/AtkinsonHyperlegibleNext-Italic.ttf" \
+  "$readable_font_source_directory/AtkinsonHyperlegibleNext-Bold.ttf"
 do
   [ -f "$source" ] || fail "Missing approved source: $source"
 done
@@ -142,8 +151,15 @@ assets/images/workstations/sspaeti-office-setup-1200w.webp
 assets/images/workstations/sspaeti-office-setup-1600w.webp
 assets/fonts/jetbrains-mono-light.woff2
 assets/fonts/jetbrains-mono-light-italic.woff2
+assets/fonts/jetbrains-mono-regular.woff2
 assets/fonts/jetbrains-mono-medium.woff2
 assets/fonts/jetbrains-mono-bold.woff2
+assets/fonts/source-serif-4-regular.woff2
+assets/fonts/source-serif-4-italic.woff2
+assets/fonts/source-serif-4-bold.woff2
+assets/fonts/atkinson-hyperlegible-next-regular.woff2
+assets/fonts/atkinson-hyperlegible-next-italic.woff2
+assets/fonts/atkinson-hyperlegible-next-bold.woff2
 '
 for patron in $patron_profiles; do
   output_paths="$output_paths
@@ -271,10 +287,17 @@ render_all() {
   for patron in $patron_profiles; do
     cp "../omaweb-docs/images/patrons/$patron.webp" "$destination/assets/images/patrons/$patron.webp"
   done
-  subset_font "$font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
-  subset_font "$font_source_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
+  subset_font "$mono_font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
+  subset_font "$mono_font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
+  subset_font "$mono_font_source_directory/JetBrainsMono-Regular.ttf" "$destination/assets/fonts/jetbrains-mono-regular.woff2"
+  subset_font "$mono_font_source_directory/JetBrainsMono-Medium.ttf" "$destination/assets/fonts/jetbrains-mono-medium.woff2"
+  subset_font "$mono_font_source_directory/JetBrainsMono-Bold.ttf" "$destination/assets/fonts/jetbrains-mono-bold.woff2"
+  subset_font "$serif_font_source_directory/SourceSerif4-Regular.ttf" "$destination/assets/fonts/source-serif-4-regular.woff2"
+  subset_font "$serif_font_source_directory/SourceSerif4-It.ttf" "$destination/assets/fonts/source-serif-4-italic.woff2"
+  subset_font "$serif_font_source_directory/SourceSerif4-Bold.ttf" "$destination/assets/fonts/source-serif-4-bold.woff2"
+  subset_font "$readable_font_source_directory/AtkinsonHyperlegibleNext-Regular.ttf" "$destination/assets/fonts/atkinson-hyperlegible-next-regular.woff2"
+  subset_font "$readable_font_source_directory/AtkinsonHyperlegibleNext-Italic.ttf" "$destination/assets/fonts/atkinson-hyperlegible-next-italic.woff2"
+  subset_font "$readable_font_source_directory/AtkinsonHyperlegibleNext-Bold.ttf" "$destination/assets/fonts/atkinson-hyperlegible-next-bold.woff2"
 }
 
 check_inventory() {
