@@ -13,14 +13,14 @@ scripts/build
 
 `scripts/build` is the production-equivalent path. It checks source content and asset clearance, verifies deterministic image derivatives, builds minified CSS and JavaScript, runs Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
-Use the focused commands when iterating:
+Use the focused commands when iterating, and choose the smallest command that covers the work:
 
 ```sh
 npm run assets:check  # reproduce committed generated image derivatives byte-for-byte
-npm run css:build
-npm run js:build
-just build            # rebuild assets, rendered pages, and the local Pagefind index
-just serve            # watch CSS and site sources; render pages on request
+scripts/build css      # compile the stylesheet once
+scripts/build js       # compile the JavaScript bundle once
+just serve             # watch Sass and serve Jigyll pages on request; skips JavaScript and Pagefind
+just build             # compile CSS and JavaScript, fully render Jigyll, and refresh Pagefind
 ```
 
 [servd](https://github.com/reidransom/servd) can also serve the repository using `.servd.toml`.
