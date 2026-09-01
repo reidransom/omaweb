@@ -1,7 +1,7 @@
 # Migrate the CSS compiler and stylesheet graph
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: none
 
 ## Context
@@ -32,3 +32,7 @@ Do not edit templates, `scripts/serve`, `Justfile`, `README.md`, or rendered-sit
 - One-shot CSS compilation creates the minified stylesheet at the existing URL; watch mode performs an initial compile and survives closed stdin.
 - Repeated cold and resident-rebuild samples for Tailwind and Sass are captured on the same machine with medians.
 - Commit only repository changes. Skip project-wide builds, linters, and tests; integration verification belongs to ticket 04.
+
+## Answer
+
+Merged `ca3a242` through `aca7df2`. The repository now pins Sass Embedded, compiles one compressed stylesheet through Sass modules, uses shared compile-time breakpoints, preserves runtime CSS variables, and contains no Tailwind compiler or authoring. Seven-sample medians were 483.12 ms cold and 88.83 ms watched for Tailwind versus 391.33 ms cold and 37.49 ms watched for Sass.
