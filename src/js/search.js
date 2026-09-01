@@ -339,9 +339,7 @@ export function initSiteSearch({ quake } = {}) {
       if (state === "idle" || state === "loading") resetMenu(surface);
 
       if (surface.fallback) {
-        surface.fallback.hidden = surface.isSpotlight
-          ? state !== "error"
-          : state !== "idle" && state !== "error";
+        surface.fallback.hidden = state !== "idle" && state !== "error";
       }
       const links = [...surface.results.querySelectorAll("[data-search-result]")];
       const resultState = { links, selectedIndex: -1 };
