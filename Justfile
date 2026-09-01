@@ -1,14 +1,13 @@
 set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 
-# Watch Sass dependencies and serve pages on request with Jigyll.
+# Compile Sass natively, watch sources, and serve pages on request with Jigyll.
 serve:
-    scripts/serve
+    mise exec -- jigyll serve -s . -w --unpublished
 
-# Build CSS and JavaScript, fully render the site, and refresh Pagefind.
+# Build JavaScript, render the site including Sass, and refresh Pagefind.
 build:
-    scripts/build css
     scripts/build js
-    jigyll build -s . --unpublished
+    mise exec -- jigyll build -s . --unpublished
     npx --no-install pagefind --site _site --output-path pagefind
 
 assets:
