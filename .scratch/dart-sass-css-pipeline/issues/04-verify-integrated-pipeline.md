@@ -1,7 +1,7 @@
 # Verify the integrated Sass pipeline
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: 01, 02, 03
 
 ## Context
