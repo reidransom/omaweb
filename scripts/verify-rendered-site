@@ -1329,9 +1329,49 @@ def check_spotlight(browser: DevToolsSocket, origin: str, width: int, height: in
 
 
 def check_full_search(debug_url: str, origin: str) -> None:
-    browser = open_page(debug_url, origin, "/search/?q=foundation")
+    browser = open_page(debug_url, origin, "/search/")
     try:
         set_viewport(browser, 1440, 900)
+        browser.command("Page.navigate", {"url": origin + "/search/"})
+        wait_for_complete(browser, "/search/")
+        menu_geometry = evaluate(
+            browser,
+            """(() => {
+              const menu = document.querySelector("main [data-search-menu]");
+              const root = menu?.querySelector("[data-search-menu-root]");
+              const heights = () => Array.from(root.children, item => item.getBoundingClientRect().height);
+              const baseline = heights();
+              root.querySelector('[data-search-menu-open][data-search-menu-section="1"]').click();
+              return {baseline, animated: heights(), direction: menu.dataset.searchMenuDirection};
+            })()""",
+        )
+        if menu_geometry["direction"] != "forward" or any(
+            abs(before - animated) > 0.5
+            for before, animated in zip(menu_geometry["baseline"], menu_geometry["animated"], strict=True)
+        ):
+            fail(f"Opening a search menu section must not stretch the top-level rows; got {menu_geometry}.")
+        wait_for(
+            browser,
+            'document.querySelector("main [data-search-menu-root]")?.hidden',
+            "search menu section transition",
+        )
+        returned_geometry = evaluate(
+            browser,
+            """(() => {
+              const menu = document.querySelector("main [data-search-menu]");
+              const root = menu.querySelector("[data-search-menu-root]");
+              menu.querySelector('[data-search-menu-panel]:not([hidden]) [data-search-menu-back]').click();
+              return {
+                rows: Array.from(root.children, item => item.getBoundingClientRect().height),
+                direction: menu.dataset.searchMenuDirection
+              };
+            })()""",
+        )
+        if returned_geometry["direction"] != "back" or any(
+            abs(before - returned) > 0.5
+            for before, returned in zip(menu_geometry["baseline"], returned_geometry["rows"], strict=True)
+        ):
+            fail(f"Returning to all search sections must not stretch the top-level rows; got {returned_geometry}.")
         browser.command("Page.navigate", {"url": origin + "/search/?q=foundation"})
         wait_for_complete(browser, "/search/")
         wait_for(browser, 'document.querySelector("[data-site-search] [data-site-search-status]")?.textContent.includes("result")', "full search Pagefind results")
