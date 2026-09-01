@@ -494,9 +494,6 @@ a:hover .media__image {
 
 .patrons-page__header h1 {
   color: var(--omarchy-blue);
-  font-size: var(--omarchy-font-medium);
-  font-weight: 300;
-  line-height: var(--omarchy-line-height);
 }
 
 .patron-tiers {

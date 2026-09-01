@@ -55,6 +55,7 @@
   --omarchy-font-small: 0.8em;
   --omarchy-font-medium: 1.25em;
   --omarchy-font-large: 2em;
+  --omarchy-font-display: clamp(2rem, 4.5vw, 4rem);
   --omarchy-line-height: 1.4;
   --omarchy-line-height-tight: 1.15;
   --omarchy-prose-measure: 46em;

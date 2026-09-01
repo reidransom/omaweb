@@ -37,7 +37,9 @@ main {
 }
 
 h1 {
-  font-size: var(--omarchy-font-medium);
+  font-size: var(--omarchy-font-display);
+  font-weight: 500;
+  letter-spacing: -0.05em;
 }
 
 h2 {
