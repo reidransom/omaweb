@@ -1,7 +1,7 @@
 # Verify the integrated mise toolchain
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 03
 
 ## Context
@@ -28,3 +28,9 @@ All repository files may be corrected when an acceptance failure exposes a speci
 - Deployment preparation is exercised without publishing, branch mutation, or Cloudflare calls.
 - Generated CSS remains uncommitted. Documentation matches verified behavior and records why native Sass is out of scope.
 - Commit any integration fixes and append an evidence-based answer. Do not add timing assertions or unrelated work.
+
+## Answer
+
+Integration found that Jigyll 1.8.3’s native Sass minifier systemically removes semantically required whitespace from descendant selectors, shorthands, multi-value spacing, and transitions; the current unreleased Jigyll build exhibits the same selector corruption. The corrected architecture therefore keeps the unchanged `src/css/` graph and standalone compiler/watch seam while sourcing Dart Sass 1.103.1 and Jigyll 1.8.3 from their exact mise pins. `scripts/build css` preserved the affected whitespace, and npm remains free of Sass.
+
+`just serve` started the supervised mise-managed Sass watcher and Jigyll pair, rebuilt an imported Sass edit, reloaded after source restoration, and removed both children on shutdown. Servd exposed the same two-process tree through its reverse proxy and served the expected stylesheet with JetBrains Mono styling. The production-equivalent `scripts/build` then passed content, assets, deterministic derivatives, JavaScript, Sass, Jigyll, Pagefind, rendered Chromium, production output, routes, metadata, network, budgets, and landmarks. Generated outputs remained ignored and no smoke edits remained.
