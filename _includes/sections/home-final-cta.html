@@ -1,8 +1,5 @@
-{% assign final_cta = site.data.home.final_cta %}
-<section class="home-section home-section--reveal home-final-cta" aria-labelledby="final-cta-title">
+<section class="home-section home-section--reveal home-final-cta" aria-label="Omarchy partnerships and trademark">
   <div class="home-reveal-panel">
-    <h2 id="final-cta-title">{{ final_cta.title | escape }}</h2>
-    <p>{{ final_cta.body | escape }}</p>
-    {% include action-group.html actions=final_cta.actions.items label='Desktop actions' %}
+    {% include home-partner-credits.html %}
   </div>
 </section>

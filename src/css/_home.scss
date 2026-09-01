@@ -550,8 +550,38 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
   margin-block-start: var(--omarchy-space-neutral);
 }
 
-.home-final-cta .button-group {
-  margin-block-start: var(--omarchy-space-large);
+.home-partner-credits {
+  display: grid;
+  gap: var(--omarchy-space-neutral);
+}
+
+.home-reveal-panel .home-partner-credits p {
+  margin-block-start: 0;
+}
+
+.home-partner-credits__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--omarchy-space-small);
+}
+
+.home-partner-credits__logo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  text-decoration: none;
+}
+
+.home-partner-credits__logo-link svg {
+  flex: none;
+  inline-size: 1.35em;
+  block-size: 1.35em;
+}
+
+.home-partner-credits__logo-link--cloudflare svg {
+  inline-size: min(13.3125em, 100%);
+  block-size: auto;
 }
 
 .home-text-link {
