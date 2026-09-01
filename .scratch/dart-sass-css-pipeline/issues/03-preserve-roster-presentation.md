@@ -1,7 +1,7 @@
 # Preserve roster presentation and browser acceptance
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: none
 
 ## Context
@@ -25,3 +25,7 @@ Replace Tailwind utility classes with `.people-roster`, `.person-card`, `.person
 - Chromium acceptance covers one-column base, two-column small, and three-column large roster layout plus card spacing, border, background, padding, heading sizing/margins, detail margins, and secondary color at contracted viewports.
 - Add only coverage needed to detect the Tailwind-removal risk; preserve all existing interaction checks.
 - Commit only repository changes. Skip project-wide builds, linters, and tests; integration verification belongs to ticket 04.
+
+## Answer
+
+Merged `65f7cb5` through `72f7671`. The roster template now uses the agreed semantic selectors, and the Chromium verifier checks computed columns and card presentation at 390px, 768px, and 1440px.
