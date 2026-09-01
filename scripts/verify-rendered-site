@@ -514,7 +514,7 @@ def check_navigation_inventory(browser: DevToolsSocket) -> None:
         "Manual": ["Download ISO", "Getting Started", "Hotkeys", "Omarchy CLI", "Troubleshooting", "FAQ"],
         "Shop": ["Laptops", "Desktops", "Mobile", "Merch", "Accessories"],
         "News": ["Product", "Releases", "Events", "Editorial", "Atom feed"],
-        "Community": ["Discord", "Meetups", "Workstations", "Plugins", "Teams", "Code"],
+        "Community": ["Discord", "Meetups", "Workstations", "Featured videos", "Plugins", "Teams", "Code"],
     }
     if list(inventory["groups"]) != list(expected_groups):
         fail(f"Quake navigation must expose the five authoritative sections; got {inventory['groups']}.")
