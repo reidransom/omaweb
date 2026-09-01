@@ -94,6 +94,9 @@ sections:
         - label: Workstations
           url: /workstations/
           external: false
+        - label: Featured videos
+          url: /community/featured-videos/
+          external: false
         - destination: plugins
         - label: Teams
           url: /teams/

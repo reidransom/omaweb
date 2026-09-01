@@ -318,6 +318,114 @@ items:
           clearance_basis: Exact copy of the cleared hero-introduction-video source.
           publication_status: cleared
           third_party_marks: { present: true, disclosure: Audi, Castrol, and Michelin marks are visible in the artwork. }
+
+  - id: featured-video-networkchuck
+    asset_type: image
+    role: featured-video
+    path: ../omaweb-docs/images/video/networkchuck.webp
+    source_url: https://omarchy.org/assets/images/video/networkchuck.webp
+    provenance: Exact poster image localized from the Omarchy landing page.
+    sha256: b4ada92931628bfeb7b5cc6f3b9561e4e55ed6db02adbc8efe16f32813e86997
+    dimensions: { width: 1280, height: 720 }
+    rights_owner: NetworkChuck
+    license_or_permission: Editorial use of the creator's public video thumbnail as selected by Omarchy.
+    clearance_basis: The featured-videos page explicitly identifies the video linked by this poster.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+    outputs:
+      items:
+        - id: featured-video-networkchuck-poster
+          path: assets/images/video/networkchuck.webp
+          source: ../omaweb-docs/images/video/networkchuck.webp
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: b4ada92931628bfeb7b5cc6f3b9561e4e55ed6db02adbc8efe16f32813e86997
+          dimensions: { width: 1280, height: 720 }
+          rights_owner: NetworkChuck
+          license_or_permission: Editorial use inherited from featured-video-networkchuck.
+          clearance_basis: Exact copy of the cleared featured-video-networkchuck source.
+          publication_status: cleared
+          third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+
+  - id: featured-video-typecraft
+    asset_type: image
+    role: featured-video
+    path: ../omaweb-docs/images/video/typecraft.webp
+    source_url: https://omarchy.org/assets/images/video/typecraft.webp
+    provenance: Exact poster image localized from the Omarchy landing page.
+    sha256: 78f551e48e503f05e12ae31e2953541f064eb0d6a3e82b542f2190080a12ef1d
+    dimensions: { width: 1280, height: 720 }
+    rights_owner: typecraft
+    license_or_permission: Editorial use of the creator's public video thumbnail as selected by Omarchy.
+    clearance_basis: The featured-videos page explicitly identifies the video linked by this poster.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+    outputs:
+      items:
+        - id: featured-video-typecraft-poster
+          path: assets/images/video/typecraft.webp
+          source: ../omaweb-docs/images/video/typecraft.webp
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: 78f551e48e503f05e12ae31e2953541f064eb0d6a3e82b542f2190080a12ef1d
+          dimensions: { width: 1280, height: 720 }
+          rights_owner: typecraft
+          license_or_permission: Editorial use inherited from featured-video-typecraft.
+          clearance_basis: Exact copy of the cleared featured-video-typecraft source.
+          publication_status: cleared
+          third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+
+  - id: featured-video-linuxbtw
+    asset_type: image
+    role: featured-video
+    path: ../omaweb-docs/images/video/linuxbtw.webp
+    source_url: https://omarchy.org/assets/images/video/linuxbtw.webp
+    provenance: Exact poster image localized from the Omarchy landing page.
+    sha256: 67fd95355e45388f000441525a3ee33e5d9f5d4f22a84eaecc9846058e61f276
+    dimensions: { width: 1280, height: 720 }
+    rights_owner: LinuxBTW
+    license_or_permission: Editorial use of the creator's public video thumbnail as selected by Omarchy.
+    clearance_basis: The featured-videos page explicitly identifies the video linked by this poster.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+    outputs:
+      items:
+        - id: featured-video-linuxbtw-poster
+          path: assets/images/video/linuxbtw.webp
+          source: ../omaweb-docs/images/video/linuxbtw.webp
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: 67fd95355e45388f000441525a3ee33e5d9f5d4f22a84eaecc9846058e61f276
+          dimensions: { width: 1280, height: 720 }
+          rights_owner: LinuxBTW
+          license_or_permission: Editorial use inherited from featured-video-linuxbtw.
+          clearance_basis: Exact copy of the cleared featured-video-linuxbtw source.
+          publication_status: cleared
+          third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+
+  - id: featured-video-alex-finn
+    asset_type: image
+    role: featured-video
+    path: ../omaweb-docs/images/video/alex-finn.webp
+    source_url: https://omarchy.org/assets/images/video/alex-finn.webp
+    provenance: Exact poster image localized from the Omarchy landing page.
+    sha256: c5b004a3a03e5bfc2a293184516181548f6cf81ecfc3d6f015112e97ac572230
+    dimensions: { width: 1280, height: 720 }
+    rights_owner: Alex Finn
+    license_or_permission: Editorial use of the creator's public video thumbnail as selected by Omarchy.
+    clearance_basis: The featured-videos page explicitly identifies the video linked by this poster.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
+    outputs:
+      items:
+        - id: featured-video-alex-finn-poster
+          path: assets/images/video/alex-finn.webp
+          source: ../omaweb-docs/images/video/alex-finn.webp
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: c5b004a3a03e5bfc2a293184516181548f6cf81ecfc3d6f015112e97ac572230
+          dimensions: { width: 1280, height: 720 }
+          rights_owner: Alex Finn
+          license_or_permission: Editorial use inherited from featured-video-alex-finn.
+          clearance_basis: Exact copy of the cleared featured-video-alex-finn source.
+          publication_status: cleared
+          third_party_marks: { present: true, disclosure: The creator's artwork and incidental interface marks are visible. }
   - id: font-jetbrains-mono-light
     asset_type: font
     role: primary-light

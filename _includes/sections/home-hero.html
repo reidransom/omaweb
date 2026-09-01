@@ -55,13 +55,27 @@
         </div>
       </div>
 
-      <aside class="home-hero__panel home-hero__panel--video" aria-label="Omarchy introduction video" data-home-hero-actions>
-        <a class="video__facade home-hero__video" href="https://www.youtube.com/watch?v=F7fe9pa8OeE" data-video="F7fe9pa8OeE" data-title="Omarchy introduction video" aria-label="Play: Omarchy introduction video">
-          <img src="{{ '/assets/images/video/omarchy-quattro.webp' | relative_url }}" width="1280" height="720" alt="Omarchy Quattro by David Heinemeier Hansson" loading="lazy" decoding="async">
-          <span class="video__play" aria-hidden="true">
-            <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89.7 89.7 0 0 0 0 24a89.7 89.7 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89.7 89.7 0 0 0 68 24a89.7 89.7 0 0 0-1.5-16.3z" fill="#f00"></path><path d="M27 34.3 44.8 24 27 13.7z" fill="#fff"></path></svg>
-          </span>
-        </a>
+      <aside class="home-hero__panel home-hero__panel--video" aria-label="Featured Omarchy videos" data-home-hero-actions>
+        <h2 class="u-visually-hidden">Featured videos</h2>
+        <div class="home-hero__video-viewport">
+          <ol class="home-hero__video-list" role="list">
+            {% for video in site.data.featured_videos.items limit: 3 %}
+            <li class="home-hero__video-item">
+              <a class="home-hero__video" href="https://www.youtube.com/watch?v={{ video.youtube_id }}" aria-label="Watch {{ video.title | escape }} by {{ video.creator | escape }} on YouTube">
+                <img src="{{ video.thumbnail | relative_url }}" width="1280" height="720" alt="{{ video.title | escape }} by {{ video.creator | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+                <span class="video__play" aria-hidden="true">
+                  <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89.7 89.7 0 0 0 0 24a89.7 89.7 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89.7 89.7 0 0 0 68 24a89.7 89.7 0 0 0-1.5-16.3z" fill="#f00"></path><path d="M27 34.3 44.8 24 27 13.7z" fill="#fff"></path></svg>
+                </span>
+              </a>
+              <div class="home-hero__video-caption">
+                <h3><a href="https://www.youtube.com/watch?v={{ video.youtube_id }}">{{ video.title | escape }}</a></h3>
+                <p>{{ video.creator | escape }}</p>
+              </div>
+            </li>
+            {% endfor %}
+          </ol>
+        </div>
+        <a class="button button--secondary home-hero__video-all" href="{{ '/community/featured-videos/' | relative_url }}">View all</a>
       </aside>
     </div>
     <a class="home-scroll-cue" href="#home-news">

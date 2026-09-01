@@ -23,6 +23,7 @@ archetype: project
   <ul>
     <li><a href="{{ '/meetups/' | relative_url }}">Meetups</a> collect local gatherings and practical guidance for bringing people together.</li>
     <li><a href="{{ '/workstations/' | relative_url }}">Workstations</a> is where community desks and their stories belong. The gallery only publishes cleared submissions.</li>
+    <li><a href="{{ '/community/featured-videos/' | relative_url }}">Featured videos</a> gathers the official introduction and community reviews selected for the Omarchy landing page.</li>
     <li><a href="{{ '/teams/rangers/' | relative_url }}">Rangers</a> is the route to the people helping care for the community.</li>
     {% if plugins %}<li>{% include authoritative-link.html destination='plugins' label='Plugins' %} is the authoritative catalog for extensions made around Omarchy.</li>{% endif %}
     <li><a href="{{ '/news/' | relative_url }}">News</a> follows releases, events, and the project work worth knowing about.</li>

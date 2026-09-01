@@ -168,8 +168,13 @@
 }
 
 .home-hero__panel--video {
+  position: relative;
   display: grid;
-  align-content: center;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-block-size: 24rem;
+  block-size: min(70svh, 40rem);
+  align-content: stretch;
+  gap: var(--omarchy-space-medium);
   padding: var(--omarchy-space-large);
 }
 
@@ -234,6 +239,36 @@
   color: var(--omarchy-white);
 }
 
+.home-hero__video-viewport {
+  min-block-size: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - var(--omarchy-space-xx-large)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0,
+    #000 calc(100% - var(--omarchy-space-xx-large)),
+    transparent 100%
+  );
+}
+
+.home-hero__video-list {
+  display: grid;
+  gap: var(--omarchy-space-large);
+  margin: 0;
+  padding: 0 0 var(--omarchy-space-xx-large);
+  list-style: none;
+}
+
+.home-hero__video-item {
+  display: grid;
+  gap: var(--omarchy-space-small);
+}
+
 .home-hero__video {
   position: relative;
   display: block;
@@ -253,6 +288,30 @@
 
 .home-hero__video:hover img {
   transform: scale(1.025);
+}
+
+.home-hero__video-list .video__play {
+  inline-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.home-hero__video-caption {
+  display: grid;
+  gap: var(--omarchy-space-small);
+}
+
+.home-hero__video-caption h3 {
+  font-size: var(--omarchy-font-small);
+}
+
+.home-hero__video-caption p {
+  color: var(--omarchy-terminal-white);
+  font-size: var(--omarchy-font-small);
+}
+
+.home-hero__video-all {
+  position: relative;
+  z-index: 1;
+  inline-size: 100%;
 }
 
 .video__play {
@@ -536,6 +595,8 @@ html.wte-home .wordmark[data-wordmark-enhanced="true"] .wordmark__fallback {
 
   .home-hero__panel--video {
     flex: 0 0 calc(42% - var(--home-hero-gap));
+    min-block-size: 0;
+    block-size: min(62svh, 42rem);
     will-change: transform, opacity;
   }
 

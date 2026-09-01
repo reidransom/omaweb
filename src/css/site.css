@@ -9,6 +9,7 @@
 @import "./home.css" layer(components);
 @import "./news.css" layer(components);
 @import "./search.css" layer(components);
+@import "./featured-videos.css" layer(components);
 @import "tailwindcss/utilities" layer(utilities);
 
 @source "../../index.md";

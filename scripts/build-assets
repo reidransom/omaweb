@@ -48,6 +48,10 @@ usb_key_source=../omaweb-docs/images/usb-key-bitart.png
 user_manual_source=../omaweb-docs/images/user-manual-bitart.png
 laptop_art_source=../omaweb-docs/images/laptop-omarchy-cool-fade-blue.svg
 video_source=../omaweb-docs/images/video/omarchy-quattro.webp
+networkchuck_video_source=../omaweb-docs/images/video/networkchuck.webp
+typecraft_video_source=../omaweb-docs/images/video/typecraft.webp
+linuxbtw_video_source=../omaweb-docs/images/video/linuxbtw.webp
+alex_finn_video_source=../omaweb-docs/images/video/alex-finn.webp
 font_source_directory=../omaweb-docs/fonts/jetbrains-mono-2.304
 patron_profiles='
 tobi-lutke
@@ -79,6 +83,10 @@ for source in \
   "$user_manual_source" \
   "$laptop_art_source" \
   "$video_source" \
+  "$networkchuck_video_source" \
+  "$typecraft_video_source" \
+  "$linuxbtw_video_source" \
+  "$alex_finn_video_source" \
   "$font_source_directory/JetBrainsMono-Light.ttf" \
   "$font_source_directory/JetBrainsMono-LightItalic.ttf" \
   "$font_source_directory/JetBrainsMono-Medium.ttf" \
@@ -104,6 +112,10 @@ assets/images/hero/user-manual-bitart-480w.webp
 assets/images/hero/user-manual-bitart-768w.webp
 assets/images/desktop/laptop-omarchy-cool-fade-blue.svg
 assets/images/video/omarchy-quattro.webp
+assets/images/video/networkchuck.webp
+assets/images/video/typecraft.webp
+assets/images/video/linuxbtw.webp
+assets/images/video/alex-finn.webp
 assets/images/news/radio-atlas-preview-480w.webp
 assets/images/news/radio-atlas-preview-768w.webp
 assets/images/news/radio-atlas-preview-1152w.webp
@@ -245,6 +257,10 @@ render_all() {
   render_product_art "$user_manual_source" 768 "$destination/assets/images/hero/user-manual-bitart-768w.webp"
   cp "$laptop_art_source" "$destination/assets/images/desktop/laptop-omarchy-cool-fade-blue.svg"
   cp "$video_source" "$destination/assets/images/video/omarchy-quattro.webp"
+  cp "$networkchuck_video_source" "$destination/assets/images/video/networkchuck.webp"
+  cp "$typecraft_video_source" "$destination/assets/images/video/typecraft.webp"
+  cp "$linuxbtw_video_source" "$destination/assets/images/video/linuxbtw.webp"
+  cp "$alex_finn_video_source" "$destination/assets/images/video/alex-finn.webp"
   render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
   render_responsive_family "$air_artwork_source" "$destination/assets/images/news" omarchy-air-artists-in-residence "$news_responsive_widths"
   render_responsive_family "$downloads_artwork_source" "$destination/assets/images/news" omarchy-downloads-global-delivery "$news_responsive_widths"
