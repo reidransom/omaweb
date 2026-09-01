@@ -102,6 +102,16 @@
   list-style: none;
 }
 
+:where(
+  .news-card__tags,
+  .news-category-nav ul,
+  .news-pinned ul,
+  .news-spotlight ul,
+  .news-archive ol
+) > li + li {
+  margin-block-start: 0;
+}
+
 .news-card__tags a,
 .news-category-nav a {
   display: inline-flex;

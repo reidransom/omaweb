@@ -54,7 +54,7 @@ h2 {
   padding-inline-start: 1.5em;
 }
 
-:where(li + li) {
+:where(ul:not([class]), ol:not([class])) > :where(li + li) {
   margin-block-start: var(--omarchy-space-small);
 }
 

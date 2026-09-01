@@ -4,7 +4,10 @@ serve:
     scripts/serve
 
 build:
-    scripts/build
+    scripts/build css
+    scripts/build js
+    jigyll build -s . --unpublished
+    npx --no-install pagefind --site _site --output-path pagefind
 
 assets:
     scripts/build-assets
