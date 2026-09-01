@@ -208,7 +208,7 @@ for html in $html_files; do
   [ "$(count_matches "$html" '<meta property="og:image"')" -eq 1 ] || fail "Expected local OpenGraph image metadata: $html"
   [ "$(count_matches "$html" '<meta name="twitter:card"')" -eq 1 ] || fail "Expected Twitter card metadata: $html"
   [ "$(count_matches "$html" '<link rel="icon"')" -eq 1 ] || fail "Expected local favicon metadata: $html"
-  [ "$(count_matches "$html" '<header([[:space:]>])')" -eq 1 ] || fail "Expected one header landmark: $html"
+  [ "$(count_matches "$html" '<header class="site-header"([[:space:]>])')" -eq 1 ] || fail "Expected one header landmark: $html"
   [ "$(count_matches "$html" '<main([[:space:]>])')" -eq 1 ] || fail "Expected one main landmark: $html"
   [ "$(count_matches "$html" '<footer([[:space:]>])')" -eq 1 ] || fail "Expected one footer landmark: $html"
   [ "$(count_matches "$html" '<h1([[:space:]>])')" -eq 1 ] || fail "Expected one page-level h1: $html"

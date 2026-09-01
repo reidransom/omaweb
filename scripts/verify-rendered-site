@@ -173,7 +173,7 @@ def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: in
     metrics = evaluate(
         browser,
         """(() => ({
-          headers: document.querySelectorAll('header').length,
+          banners: document.querySelectorAll('header:not(article header, aside header, main header, nav header, section header)').length,
           mains: document.querySelectorAll('main').length,
           footers: document.querySelectorAll('footer').length,
           h1s: document.querySelectorAll('h1').length,
@@ -186,10 +186,10 @@ def check_page_shell(browser: DevToolsSocket, route: str, width: int, height: in
           }))
         }))()""",
     )
-    if metrics["headers"] != 1 or metrics["mains"] != 1 or metrics["footers"] != 1 or metrics["h1s"] != 1:
+    if metrics["banners"] != 1 or metrics["mains"] != 1 or metrics["footers"] != 1 or metrics["h1s"] != 1:
         fail(
-            f"{route} at {width}x{height} must render one header, main, footer, and page-level h1 "
-            f"(found {metrics['headers']}/{metrics['mains']}/{metrics['footers']}/{metrics['h1s']})."
+            f"{route} at {width}x{height} must render one banner, main, footer, and page-level h1 "
+            f"(found {metrics['banners']}/{metrics['mains']}/{metrics['footers']}/{metrics['h1s']})."
         )
     if metrics["scrollWidth"] > metrics["clientWidth"] + 1:
         fail(
