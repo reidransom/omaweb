@@ -125,6 +125,8 @@ export function initSiteSearch({ quake } = {}) {
     status: root.querySelector("[data-site-search-status]"),
     results: root.querySelector("[data-site-search-results]"),
     fallback: root.querySelector("[data-site-search-fallback]"),
+    menu: root.querySelector("[data-search-menu]"),
+    staticMenu: root.querySelector("[data-search-menu-static]"),
     isSpotlight: root.closest("dialog") !== null,
   }));
   const dialog = document.querySelector("[data-spotlight]");
@@ -138,6 +140,11 @@ export function initSiteSearch({ quake } = {}) {
   ) {
     return null;
   }
+
+  surfaces.forEach(({ menu, staticMenu }) => {
+    if (menu) menu.hidden = false;
+    if (staticMenu) staticMenu.hidden = true;
+  });
 
   const destinations = navigationDestinations();
   const pagefindUrl = surfaces.find(({ form }) => form)?.form.dataset.pagefindUrl;
@@ -189,6 +196,90 @@ export function initSiteSearch({ quake } = {}) {
     });
   };
 
+  const afterMenuAnimation = (element, callback) => {
+    const animations = element.getAnimations();
+
+    if (animations.length === 0) {
+      callback();
+      return;
+    }
+
+    Promise.allSettled(animations.map((animation) => animation.finished)).then(callback);
+  };
+
+  const resetMenu = (surface, { animate = false, restoreFocus = false } = {}) => {
+    if (!surface?.menu) return;
+
+    const menuRoot = surface.menu.querySelector("[data-search-menu-root]");
+    const activePanel = surface.menu.querySelector("[data-search-menu-panel]:not([hidden])");
+    const activeSectionId = activePanel?.dataset.searchMenuSection;
+    const activeOpener = [...surface.menu.querySelectorAll("[data-search-menu-open]")].find(
+      (opener) => opener.dataset.searchMenuSection === activeSectionId,
+    );
+
+    surface.menu.querySelectorAll("[data-search-menu-open]").forEach((opener) => {
+      opener.setAttribute("aria-expanded", "false");
+    });
+    menuRoot.hidden = false;
+    menuRoot.inert = false;
+
+    if (animate && activePanel) {
+      activePanel.inert = true;
+      surface.menu.dataset.searchMenuDirection = "back";
+      if (restoreFocus) activeOpener?.focus();
+
+      afterMenuAnimation(activePanel, () => {
+        if (surface.menu.dataset.searchMenuDirection !== "back") return;
+
+        activePanel.hidden = true;
+        delete surface.menu.dataset.searchMenuDirection;
+        delete surface.menu.dataset.searchMenuSection;
+      });
+      return;
+    }
+
+    delete surface.menu.dataset.searchMenuDirection;
+    delete surface.menu.dataset.searchMenuSection;
+    surface.menu.querySelectorAll("[data-search-menu-panel]").forEach((panel) => {
+      panel.hidden = true;
+      panel.inert = true;
+    });
+    if (restoreFocus) activeOpener?.focus();
+  };
+
+  const openMenuPanel = (surface, opener) => {
+    if (!surface.menu) return;
+
+    const menuRoot = surface.menu.querySelector("[data-search-menu-root]");
+    const sectionId = opener.dataset.searchMenuSection;
+    const panel = [...surface.menu.querySelectorAll("[data-search-menu-panel]")].find(
+      (candidate) => candidate.dataset.searchMenuSection === sectionId,
+    );
+    if (!panel) return;
+
+    menuRoot.hidden = false;
+    menuRoot.inert = true;
+    surface.menu.dataset.searchMenuSection = sectionId;
+    surface.menu.dataset.searchMenuDirection = "forward";
+    surface.menu.querySelectorAll("[data-search-menu-panel]").forEach((candidate) => {
+      candidate.hidden = candidate !== panel;
+      candidate.inert = candidate !== panel;
+    });
+    surface.menu.querySelectorAll("[data-search-menu-open]").forEach((candidate) => {
+      candidate.setAttribute("aria-expanded", candidate === opener ? "true" : "false");
+    });
+
+    afterMenuAnimation(panel, () => {
+      if (
+        surface.menu.dataset.searchMenuDirection === "forward" &&
+        surface.menu.dataset.searchMenuSection === sectionId
+      ) {
+        menuRoot.hidden = true;
+      }
+    });
+    panel.querySelector("a[href]")?.focus({ preventScroll: true });
+  };
+
   const moveMenuFocus = (surface, event) => {
     if (
       (event.key !== "ArrowDown" && event.key !== "ArrowUp") ||
@@ -198,13 +289,18 @@ export function initSiteSearch({ quake } = {}) {
       return false;
     }
 
-    const items = [...surface.fallback.querySelectorAll("summary, a[href]")].filter(
-      (item) => item.getClientRects().length > 0,
-    );
+    const activeElement = document.activeElement;
+    const topLevelItems = [
+      ...surface.fallback.querySelectorAll("[data-search-menu-open]"),
+    ];
+    const panel = activeElement?.closest("[data-search-menu-panel]");
+    const items =
+      activeElement === surface.input || topLevelItems.includes(activeElement)
+        ? topLevelItems
+        : [...(panel?.querySelectorAll("a[href]") ?? [])];
     if (items.length === 0) return false;
 
-    const currentIndex = items.indexOf(document.activeElement);
-    if (currentIndex === -1 && event.target !== surface.input) return false;
+    const currentIndex = items.indexOf(activeElement);
 
     event.preventDefault();
     const direction = event.key === "ArrowDown" ? 1 : -1;
@@ -239,6 +335,8 @@ export function initSiteSearch({ quake } = {}) {
               : state === "results"
                 ? `${destinationResults.length + pageResults.length} result${destinationResults.length + pageResults.length === 1 ? "" : "s"} for “${term}”.`
                 : "";
+
+      if (state === "idle" || state === "loading") resetMenu(surface);
 
       if (surface.fallback) {
         surface.fallback.hidden = state !== "idle" && state !== "error";
@@ -322,6 +420,9 @@ export function initSiteSearch({ quake } = {}) {
       return;
     }
 
+    const spotlightSurface = surfaces.find(({ isSpotlight }) => isSpotlight);
+    resetMenu(spotlightSurface);
+
     dialog.showModal();
     lockDocumentScroll();
     dialog.querySelector("input[name='q']")?.focus();
@@ -333,16 +434,24 @@ export function initSiteSearch({ quake } = {}) {
       event.preventDefault();
       scheduleSearch(surface.input.value);
     });
-    surface.fallback?.querySelectorAll("details").forEach((details) => {
-      details.addEventListener("toggle", () => {
-        if (!details.open) return;
-
-        surface.fallback.querySelectorAll("details[open]").forEach((openDetails) => {
-          if (openDetails !== details) openDetails.open = false;
-        });
+    surface.menu?.querySelectorAll("[data-search-menu-open]").forEach((opener) => {
+      opener.addEventListener("click", () => openMenuPanel(surface, opener));
+    });
+    surface.menu?.querySelectorAll("[data-search-menu-back]").forEach((back) => {
+      back.addEventListener("click", () => {
+        resetMenu(surface, { animate: true, restoreFocus: true });
       });
     });
     surface.fallback?.addEventListener("keydown", (event) => {
+      if (
+        event.key === "ArrowLeft" &&
+        document.activeElement?.closest("[data-search-menu-panel]")
+      ) {
+        event.preventDefault();
+        resetMenu(surface, { animate: true, restoreFocus: true });
+        return;
+      }
+
       moveMenuFocus(surface, event);
     });
     surface.form.addEventListener("keydown", (event) => {

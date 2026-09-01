@@ -14,7 +14,7 @@
     <div class="site-search__results" data-site-search-results></div>
     <nav class="site-search__fallback" data-site-search-fallback aria-labelledby="spotlight-fallback-title">
       <h3 id="spotlight-fallback-title">Browse Omarchy</h3>
-      {% include search-navigation-fallback.html %}
+      {% include search-navigation-fallback.html heading_level=4 %}
     </nav>
   </div>
 </dialog>
@@ -35,16 +35,13 @@
     </form>
     <div class="site-search__status" data-site-search-status aria-live="polite"></div>
     <div class="site-search__results" data-site-search-results></div>
-    <nav class="site-search__fallback" data-site-search-fallback aria-labelledby="search-fallback-title">
-      <h2 id="search-fallback-title">Browse Omarchy</h2>
-      {% include search-navigation-fallback.html %}
-    </nav>
     <noscript>
       <p>Search needs JavaScript. Browse the site through these destinations instead.</p>
-      <nav class="site-search__fallback" aria-label="Browse Omarchy">
-        {% include search-navigation-fallback.html %}
-      </nav>
     </noscript>
+    <nav class="site-search__fallback" data-site-search-fallback aria-labelledby="search-fallback-title">
+      <h2 id="search-fallback-title">Browse</h2>
+      {% include search-navigation-fallback.html %}
+    </nav>
   </div>
 </section>
 {% endif %}

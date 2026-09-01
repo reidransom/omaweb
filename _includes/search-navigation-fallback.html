@@ -1,14 +1,44 @@
-<ul class="site-search__fallback-menu" role="list">
+<div class="site-search__fallback-groups" data-search-menu-static>
   {% for section in navigation.sections %}
-    <li>
-      <details>
-        <summary>{{ section.label | escape }}</summary>
+    <section>
+      {% if include.heading_level == 4 %}
+        <h4>{% include authoritative-link.html link=section %}</h4>
+      {% else %}
+        <h3>{% include authoritative-link.html link=section %}</h3>
+      {% endif %}
+      <ul role="list">
+        {% for link in section.links.items %}
+          <li>{% include authoritative-link.html link=link %}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
+</div>
+  <div class="site-search__menu" data-search-menu hidden>
+    <ul class="site-search__fallback-menu" data-search-menu-root role="list">
+      {% for section in navigation.sections %}
+        <li>
+          <button type="button" data-search-menu-open data-search-menu-section="{{ forloop.index0 }}" aria-expanded="false">
+            <span>{{ section.label | escape }}</span>
+            <span class="site-search__menu-caret" aria-hidden="true">›</span>
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+    {% for section in navigation.sections %}
+      <div class="site-search__menu-panel" data-search-menu-panel data-search-menu-section="{{ forloop.index0 }}" aria-label="{{ section.label | escape }}" hidden>
+        <div class="site-search__menu-heading">
+          <button type="button" data-search-menu-back>
+            <span aria-hidden="true">‹</span>
+            All sections
+          </button>
+          <strong>{{ section.label | escape }}</strong>
+        </div>
         <ul class="site-search__fallback-submenu" role="list">
           {% for link in section.links.items %}
             <li>{% include authoritative-link.html link=link %}</li>
           {% endfor %}
         </ul>
-      </details>
-    </li>
-  {% endfor %}
-</ul>
+      </div>
+    {% endfor %}
+  </div>
