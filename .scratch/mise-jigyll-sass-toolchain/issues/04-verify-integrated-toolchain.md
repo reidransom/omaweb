@@ -1,7 +1,7 @@
 # Verify the integrated mise toolchain
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: 03
 
 ## Context
