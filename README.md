@@ -4,26 +4,33 @@ Jigyll site for [Omarchy](https://omaweb.r2ware.dev/).
 
 ## Build and review
 
-This site is built with [`jigyll`](https://github.com/reidransom/jigyll), the Go implementation of Jekyll. Install the locked local toolchain first:
+This site is built with [`jigyll`](https://github.com/reidransom/jigyll), the Go implementation of Jekyll. Bootstrap the locked local toolchain and npm dependencies first:
 
 ```sh
+mise install
 npm ci
-scripts/build
 ```
 
-`scripts/build` is the production-equivalent path. It checks source content and asset clearance, verifies deterministic image derivatives, builds minified CSS and JavaScript, runs Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+Mise owns the exact Jigyll and Dart Sass releases declared by this repository. npm continues to own the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
 
 Use the focused commands when iterating, and choose the smallest command that covers the work:
 
 ```sh
-npm run assets:check  # reproduce committed generated image derivatives byte-for-byte
-scripts/build css      # compile the stylesheet once
+npm run assets         # rebuild committed generated image derivatives
+npm run assets:check   # reproduce those derivatives byte-for-byte
 scripts/build js       # compile the JavaScript bundle once
-just serve             # watch Sass and serve Jigyll pages on request; skips JavaScript and Pagefind
-just build             # compile CSS and JavaScript, fully render Jigyll, and refresh Pagefind
+just serve             # watch Sass and site sources in one Jigyll process; skips JavaScript and Pagefind
+just build             # build JavaScript, render the site including Sass, and refresh Pagefind
+scripts/build          # run the production-equivalent build and verification path
 ```
 
+`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds JavaScript, renders the site and minified Sass with mise-selected Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+
+In a shell where mise activation is already enabled for this repository, `jigyll serve -s . -w --unpublished` is the direct equivalent of `just serve`. CSS-only iteration happens through Jigyll’s resident Sass compiler; there is no standalone Sass build or watcher.
+
 [servd](https://github.com/reidransom/servd) can also serve the repository using `.servd.toml`.
+
+To upgrade Jigyll or Sass, change its exact entry in `mise.toml`, refresh `mise.lock` with `mise lock`, run `mise install`, and exercise the production-equivalent acceptance path.
 
 Every file below `assets/images/` must have a checksum, intrinsic dimensions, provenance, and `publication_status: cleared` in `_data/assets.yml`. Do not add a remote media, font, script, or frame dependency. The sole frame exception is the disclosed Luma calendar on `/meetups/`, constrained by the document CSP to `https://luma.com`.
 
@@ -40,7 +47,7 @@ Cloudflare Pages hosts two deployments from one Pages project:
 
 Configure those domains in Cloudflare before the first release. Export `PAGES_PROJECT_NAME`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` for Wrangler.
 
-`just deploy` accepts only a clean `rev` or `main` worktree. It runs `npm ci` and the full `scripts/build` pipeline with a temporary deployment URL configuration before invoking Wrangler, so canonical and social URLs match the selected review or production domain.
+`just deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, and executes the full `scripts/build` pipeline with a temporary deployment URL configuration before invoking Wrangler, so canonical and social URLs match the selected review or production domain.
 
 The release flow expects `main` and `rev` branches. When bootstrapping a repository that still uses `master`, rename it and create the review branch:
 
