@@ -20,7 +20,7 @@ Do not edit package metadata, mise configuration, shell scripts, Just recipes, S
 ## Contract
 
 - Move all Sass partials into Jigyll’s `_sass/` load path without changing module boundaries or emitted CSS.
-- Move the entry module to `assets/css/site.scss` and add the empty front matter required by Jigyll conversion.
+- Move the entry module to `assets/css/site.scss` and add front matter with `layout: null` to suppress the inherited default layout while triggering Jigyll conversion.
 - Preserve `@use` relationships, cascade-layer ordering, runtime custom properties, compile-time breakpoints, minified output behavior, and the `/assets/css/site.css` route.
 - Remove the obsolete source-tree generated stylesheet and make future `assets/css/site.css` files visible to Git.
 
@@ -34,4 +34,4 @@ Do not edit package metadata, mise configuration, shell scripts, Just recipes, S
 
 ## Answer
 
-Moved all nine Sass partials unchanged from `src/css/` into Jigyll’s `_sass/` load path, preserving their filenames and module relationships. Moved the unchanged entry module to `assets/css/site.scss` and added only the required empty front matter, so Jigyll emits the existing `/assets/css/site.css` route while retaining the established `@use` graph and cascade-layer order. Removed the `assets/css/site.css` ignore rule; no generated CSS is committed and `src/css/` no longer contains the obsolete graph. Native render and visitor-facing integration verification remain assigned to ticket 04.
+Moved all nine Sass partials unchanged from `src/css/` into Jigyll’s `_sass/` load path, preserving their filenames and module relationships. Moved the unchanged entry module to `assets/css/site.scss` and added front matter with `layout: null` to suppress the inherited default layout while triggering Jigyll conversion, so Jigyll emits CSS at the existing `/assets/css/site.css` route while retaining the established `@use` graph and cascade-layer order. Removed the `assets/css/site.css` ignore rule; no generated CSS is committed and `src/css/` no longer contains the obsolete graph. Native render and visitor-facing integration verification remain assigned to ticket 04.

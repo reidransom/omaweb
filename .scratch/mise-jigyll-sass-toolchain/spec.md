@@ -47,7 +47,7 @@ Remove the standalone Sass build/watch path and its process supervisor. `just se
 - Keep `just serve` as the canonical development interface. It runs one `mise exec -- jigyll serve` command with the existing source, unpublished-content, host, and port behavior required by direct and Servd use.
 - Remove `scripts/serve`. One Jigyll process owns serving, watching, Sass compilation, and shutdown, so a process-group supervisor no longer has a second child to coordinate.
 - Move `src/css/_*.scss` to `_sass/`. Preserve module boundaries, `@use` relationships, shared breakpoint definitions, cascade layers, and runtime custom properties.
-- Move the entry module to `assets/css/site.scss` and add the empty front matter Jigyll requires for Sass conversion. The compiled route remains `/assets/css/site.css`.
+- Move the entry module to `assets/css/site.scss` and add front matter with `layout: null` to suppress the repository-wide default layout while triggering Jigyll’s Sass conversion. The compiled route remains `/assets/css/site.css`.
 - Remove the obsolete source-tree `assets/css/site.css` before exercising the new pipeline. Remove its `.gitignore` entry so a stale standalone compiler output is visible rather than silently accepted. `_site/` remains ignored and owns generated build output.
 - Remove `scripts/build css` and `scripts/build css --watch`. Do not retain an alias that performs a full site render while claiming to be a focused CSS build.
 - Remove the `css:build` npm script. Retain the focused JavaScript and asset commands because their tool ownership does not change.
