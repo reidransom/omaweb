@@ -283,6 +283,15 @@ a:hover .media__image {
   font-weight: 700;
 }
 
+.quake-navigation__link,
+.site-footer__sitemap li a {
+  color: rgb(192 202 245 / 0.6);
+  font-size: var(--omarchy-font-small);
+  font-style: normal;
+  font-weight: 300;
+  text-decoration-thickness: 1px;
+}
+
 .quake-navigation :where(ul, .mobile-drawer__utility) {
   margin-block-start: var(--omarchy-space-small);
   padding-inline-start: 0;
@@ -422,6 +431,10 @@ a:hover .media__image {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
   gap: var(--omarchy-space-large);
+}
+
+.site-footer__sitemap ul {
+  margin-block-start: var(--omarchy-space-small);
 }
 
 .site-footer li + li {
