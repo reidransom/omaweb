@@ -10,7 +10,6 @@ hero:
         destination: manual
 
 desktop:
-  eyebrow: The Desktop
   title: Use it before you tune it.
   body: Omarchy is an omakase Linux distribution based on Arch, Hyprland, and Quickshell. It starts with a tiling desktop, terminal-first tools, and a coherent visual system instead of a pile of choices.
   actions:

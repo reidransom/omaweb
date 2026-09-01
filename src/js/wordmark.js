@@ -7,7 +7,7 @@ export function initWordmark() {
   const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)");
   const printMedia = window.matchMedia?.("print");
 
-  if (!root || !canvas || !fallback) return;
+  if (!root || !canvas || !fallback || root.dataset.wordmarkEnhancement !== "laseretch") return;
 
   if (
     reducedMotion?.matches ||

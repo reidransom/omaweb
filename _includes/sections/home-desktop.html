@@ -1,11 +1,19 @@
 {% assign desktop = site.data.home.desktop %}
 <section id="home-desktop" class="home-section home-section--reading home-desktop" aria-labelledby="desktop-title">
   <div class="home-section__inner home-section__inner--split">
-    <div>
-      <p class="home-eyebrow">{{ desktop.eyebrow | escape }}</p>
-      <h2 id="desktop-title">{{ desktop.title | escape }}</h2>
+    <div class="home-desktop__media">
+      <img
+        class="home-desktop__art"
+        src="{{ '/assets/images/desktop/laptop-omarchy-cool-fade-blue.svg' | relative_url }}"
+        width="1110"
+        height="760"
+        alt="Omarchy displayed on a laptop"
+        loading="lazy"
+        decoding="async"
+      >
     </div>
-    <div class="home-prose">
+    <div class="home-prose home-desktop__content">
+      <h2 id="desktop-title">{{ desktop.title | escape }}</h2>
       <p>{{ desktop.body | escape }}</p>
       {% include action-group.html actions=desktop.actions.items label='Desktop actions' %}
     </div>

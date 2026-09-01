@@ -31,6 +31,7 @@ ROUTES = (
     "/workstations/",
     "/teams/",
     "/meetups/",
+    "/patrons/",
 )
 HOME_ACTION_DESTINATIONS = {
     "The Manual": "manual",
@@ -1447,6 +1448,21 @@ def check_proof_media(browser: DevToolsSocket, route: str, selector: str, descri
             fail(f"{route} current-proof media for {description} must be loaded local media with alt text and lazy loading: {image}.")
 
 
+def check_patrons(browser: DevToolsSocket) -> None:
+    patrons = evaluate(
+        browser,
+        """(() => {
+          const section = document.getElementById("patron-tier-founding")?.parentElement;
+          return {
+            links: section?.querySelectorAll("ul li > a:first-child").length ?? 0,
+            escapedMarkup: Boolean(section?.querySelector("pre code"))
+          };
+        })()""",
+    )
+    if patrons["links"] != 10 or patrons["escapedMarkup"]:
+        fail(f"/patrons/ must render ten patron links as list items; got {patrons}.")
+
+
 def run() -> None:
     if not SITE.is_dir():
         fail("Missing _site; build the rendered site before browser acceptance verification.")
@@ -1459,6 +1475,8 @@ def run() -> None:
                     set_viewport(browser, width, height)
                     browser.command("Page.navigate", {"url": session.origin + route})
                     wait_for_complete(browser, route)
+                    if route == "/patrons/":
+                        check_patrons(browser)
                     check_page_shell(browser, route, width, height, session.origin)
                     check_route_semantics(browser, route)
                     if route == "/":

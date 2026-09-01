@@ -267,6 +267,32 @@ items:
           third_party_marks: { present: false, disclosure: No third-party marks are visible in the artwork. }
 
 
+  - id: desktop-laptop-art
+    asset_type: image
+    role: desktop-introduction
+    path: __docs/images/laptop-omarchy-cool-fade-blue.svg
+    provenance: First-party laptop composition created from locally supplied Omarchy artwork.
+    sha256: e0cf739900610437e7fed19720bfeb47730376e8fdb2be07b20f63a491d9e2b8
+    dimensions: { width: 1110, height: 760 }
+    rights_owner: Omacom
+    license_or_permission: First-party Omarchy artwork supplied locally for homepage publication.
+    clearance_basis: The homepage specification explicitly directs use of this local laptop artwork.
+    publication_status: cleared
+    third_party_marks: { present: false, disclosure: No third-party marks are visible in the artwork. }
+    outputs:
+      items:
+        - id: desktop-laptop-art-svg
+          path: assets/images/desktop/laptop-omarchy-cool-fade-blue.svg
+          source: __docs/images/laptop-omarchy-cool-fade-blue.svg
+          provenance: Exact source copy emitted by scripts/build-assets.
+          sha256: e0cf739900610437e7fed19720bfeb47730376e8fdb2be07b20f63a491d9e2b8
+          dimensions: { width: 1110, height: 760 }
+          rights_owner: Omacom
+          license_or_permission: First-party authorization inherited from desktop-laptop-art.
+          clearance_basis: Exact copy of the cleared desktop-laptop-art source.
+          publication_status: cleared
+          third_party_marks: { present: false, disclosure: No third-party marks are visible in the artwork. }
+
   - id: hero-introduction-video
     asset_type: image
     role: hero-video

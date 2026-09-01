@@ -74,6 +74,12 @@
   max-inline-size: var(--omarchy-prose-measure);
 }
 
+.home-desktop__art {
+  display: block;
+  inline-size: 70%;
+  block-size: auto;
+}
+
 .home-section__intro {
   margin-block-start: var(--omarchy-space-neutral);
 }
@@ -267,11 +273,12 @@
   container-type: inline-size;
   inline-size: min(100%, 81ch);
   margin-inline: auto;
+  overflow: hidden;
 }
 
 .wordmark__fallback {
   margin: 0;
-  visibility: hidden;
+  visibility: visible;
   color: var(--omarchy-green);
   font-size: clamp(0.29rem, 1.6vw, 1rem);
   font-size: min(1rem, 2.05cqi);
@@ -284,10 +291,10 @@
 .wordmark__canvas {
   position: absolute;
   inset: 0;
-  display: block;
-  inline-size: 100%;
-  block-size: 100%;
-  opacity: 0;
+  display: none;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform-origin: 0 0;
 }
 
 .wordmark[data-wordmark-enhanced="false"] .wordmark__fallback {
@@ -486,6 +493,22 @@
   .home-section__inner--split {
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
+
+  .home-desktop .home-section__inner--split {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  }
+
+  .home-desktop__media {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home-desktop__content {
+    align-self: center;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
   .home-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
