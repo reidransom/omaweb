@@ -1,7 +1,7 @@
 # Migrate the stylesheet graph to native Jigyll Sass
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: none
 
 ## Context
@@ -31,3 +31,7 @@ Do not edit package metadata, mise configuration, shell scripts, Just recipes, S
 - The stylesheet’s visitor-facing output remains within the existing visual, responsive, accessibility, and compressed-budget contracts.
 - `src/css/` contains no obsolete duplicate stylesheet graph after cutover.
 - Commit only owned repository changes. Skip project-wide builds, linters, and browser tests; integration verification belongs to ticket 04.
+
+## Answer
+
+Moved all nine Sass partials unchanged from `src/css/` into Jigyll’s `_sass/` load path, preserving their filenames and module relationships. Moved the unchanged entry module to `assets/css/site.scss` and added only the required empty front matter, so Jigyll emits the existing `/assets/css/site.css` route while retaining the established `@use` graph and cascade-layer order. Removed the `assets/css/site.css` ignore rule; no generated CSS is committed and `src/css/` no longer contains the obsolete graph. Native render and visitor-facing integration verification remain assigned to ticket 04.
