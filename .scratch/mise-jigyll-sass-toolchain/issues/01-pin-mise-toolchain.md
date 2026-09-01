@@ -1,7 +1,7 @@
 # Pin Jigyll and Dart Sass with mise
 
 Type: task
-Status: ready-for-agent
+Status: resolved
 Blocked by: none
 
 ## Context
@@ -31,3 +31,18 @@ Do not edit Sass sources, build or serve commands, deployment scripts, Just reci
 - A clean `npm ci` succeeds without `sass-embedded` or its now-unreachable platform packages.
 - No fuzzy tool version or ambient executable fallback remains.
 - Commit only owned repository changes. Skip project-wide builds, linters, and browser tests; integration verification belongs to ticket 04.
+
+## Answer
+
+Added exact project pins for Jigyll 1.8.3 and Dart Sass 1.103.1. `mise lock
+--platform linux-x64` resolved each released GitHub artifact to a committed URL
+and SHA-256 checksum; the Dart Sass artifact also carries verified GitHub
+attestation provenance.
+
+Removed `css:build` and `sass-embedded` from `package.json`, then regenerated
+`package-lock.json` with package-lock-only mode. The resulting npm graph keeps
+Motion, esbuild, Pagefind, and subset-font while dropping Sass Embedded and its
+now-unreachable compiler and platform packages.
+
+Per this ticket's verification boundary, clean installation, tool-version, and
+integration checks remain assigned to ticket 04.
