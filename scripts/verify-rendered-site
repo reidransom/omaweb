@@ -1067,8 +1067,21 @@ def wordmark_canvas_changes(browser: DevToolsSocket) -> bool:
         """new Promise(resolve => {
           const canvas = document.querySelector("[data-wordmark-canvas]");
           if (!canvas || !canvas.width || !canvas.height) return resolve(false);
-          const before = canvas.toDataURL();
-          setTimeout(() => resolve(before !== canvas.toDataURL()), 400);
+          const started = performance.now();
+          const deadline = started + 2000;
+          let previous = canvas.toDataURL();
+          let changes = 0;
+          const observe = now => {
+            const current = canvas.toDataURL();
+            if (current !== previous) {
+              changes += 1;
+              previous = current;
+              if (changes >= 2 && now - started >= 400) return resolve(true);
+            }
+            if (now >= deadline) return resolve(false);
+            requestAnimationFrame(observe);
+          };
+          requestAnimationFrame(observe);
         })""",
     )
 
