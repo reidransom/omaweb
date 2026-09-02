@@ -6,15 +6,6 @@ fail() {
   exit 1
 }
 
-validate_watch_args() {
-  command=$1
-  shift
-  if [ "$#" -eq 0 ]; then
-    return
-  fi
-  [ "$#" -eq 1 ] && [ "$1" = --watch ] || fail "Usage: scripts/build $command [--watch]"
-}
-
 set_provenance() {
   if [ -z "${OMARCHY_REVISION-}" ]; then
     OMARCHY_REVISION=$(git rev-parse --short HEAD 2>/dev/null || printf 'local')
@@ -23,26 +14,6 @@ set_provenance() {
     OMARCHY_BUILD_DATE=$(git log -1 --format=%cI 2>/dev/null || printf '1970-01-01T00:00:00Z')
   fi
   export OMARCHY_REVISION OMARCHY_BUILD_DATE
-}
-
-build_css() {
-  if [ ! -f src/css/site.scss ]; then
-    printf '%s\n' 'CSS source is not present yet; skipping CSS build.'
-    return
-  fi
-
-  if [ "${1-}" = --watch ]; then
-    set -- --watch
-  fi
-
-  command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
-  mkdir -p assets/css
-  mise exec -- sass \
-    src/css/site.scss \
-    assets/css/site.css \
-    --style=compressed \
-    --no-source-map \
-    "$@"
 }
 
 build_js() {
@@ -68,7 +39,6 @@ run_build() {
   sh scripts/check-content
 
   scripts/build-assets --check
-  build_css
   build_js
 
   command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
@@ -82,11 +52,6 @@ run_build() {
 case "${1-}" in
   '')
     run_build
-    ;;
-  css)
-    shift
-    validate_watch_args css "$@"
-    build_css "$@"
     ;;
   js)
     [ "$#" -eq 1 ] || fail 'Usage: scripts/build js'
@@ -107,6 +72,6 @@ case "${1-}" in
     run_build "$2"
     ;;
   *)
-    fail 'Usage: scripts/build [css [--watch]|js|build [--config CONFIG]]'
+    fail 'Usage: scripts/build [js|build [--config CONFIG]]'
     ;;
 esac

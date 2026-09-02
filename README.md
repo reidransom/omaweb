@@ -18,19 +18,17 @@ Use the focused commands when iterating, and choose the smallest command that co
 ```sh
 npm run assets         # rebuild committed generated image derivatives
 npm run assets:check   # reproduce those derivatives byte-for-byte
-scripts/build css      # compile the stylesheet once with mise-managed Sass
-scripts/build css --watch # watch and compile the stylesheet with mise-managed Sass
 scripts/build js       # compile the JavaScript bundle once
 mise run serve         # watch Sass and serve Jigyll pages; skips JavaScript and Pagefind
-mise run build         # compile CSS and JavaScript, render Jigyll, and refresh Pagefind
+mise run build         # compile Sass and JavaScript, render Jigyll, and refresh Pagefind
 scripts/build          # run the production-equivalent build and verification path
 ```
 
-`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds compressed CSS with mise-selected Dart Sass, builds JavaScript, renders the site with mise-selected Jigyll, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
-`mise run serve` runs the two-child `scripts/serve` supervisor: one mise-managed Sass watcher writes the ignored `assets/css/site.css`, while one mise-managed Jigyll process watches and serves the site. Jigyll’s native Sass path remains unused so focused builds, watch mode, full local builds, and production builds share the same compiler and stylesheet graph.
+`mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the result at `/assets/css/site.css`.
 
-[servd](https://github.com/reidransom/servd) uses the same supervisor through `.servd.toml`.
+[servd](https://github.com/reidransom/servd) runs the same mise-selected Jigyll server through `.servd.toml`.
 
 To upgrade Jigyll or Sass, change its exact entry in `mise.toml`, refresh `mise.lock` with `mise lock`, run `mise install`, and exercise the production-equivalent acceptance path.
 

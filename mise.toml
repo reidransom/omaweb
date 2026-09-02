@@ -3,13 +3,12 @@
 "github:sass/dart-sass" = "1.103.1"
 
 [tasks.serve]
-description = "Watch Sass dependencies and serve pages with Jigyll"
-run = "scripts/serve"
+description = "Watch and serve the site with Jigyll"
+run = "jigyll serve -s . -w --unpublished"
 
 [tasks.build]
-description = "Build CSS, JavaScript, rendered pages, and Pagefind"
+description = "Build JavaScript, rendered pages, and Pagefind"
 run = [
-  "scripts/build css",
   "scripts/build js",
   "jigyll build -s . --unpublished",
   "npx --no-install pagefind --site _site --output-path pagefind",
