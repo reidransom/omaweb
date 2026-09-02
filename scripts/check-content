@@ -76,7 +76,7 @@ for asset in $(find assets/images -type f | sort); do
   require_manifested_asset "$asset"
 done
 
-content_sources="$(find accessories air apps cloud community desktop foundation hardware labs laptops meetups mobile new-releases news patrons platforms project security server software sponsorships teams workstations _news -type f \( -name '*.md' -o -name 'index.html' \) | sort) index.html"
+content_sources="$(find accessories air apps brand cloud community desktop discord foundation hardware labs laptops manual meetups mobile new-releases news omakub patrons platforms potato project screensaver security server software sponsorships teams themes workstations _manual _news -type f \( -name '*.md' -o -name '*.html' \) | sort) index.html 404.html"
 for source in $content_sources; do
   front_matter=$(awk '
     NR == 1 {
@@ -100,9 +100,10 @@ for source in $content_sources; do
 done
 
 set -- \
-  _config.yml _data _includes _layouts _news _sass src assets accessories air apps cloud community \
-  desktop foundation hardware labs laptops meetups mobile new-releases news patrons platforms project \
-  security server software sponsorships teams workstations index.html
+  _config.yml _data _includes _layouts _manual _news _sass src assets accessories air apps brand \
+  cloud community desktop discord foundation hardware labs laptops manual meetups mobile new-releases \
+  news omakub patrons platforms potato project screensaver security server software sponsorships teams \
+  themes workstations index.html 404.html
 forbidden='massively|html5[[:space:]]*up|html5up[.]net|is-preload|is-mobile|is-touch'
 if grep -Eirn "$forbidden" --include='*.html' --include='*.md' --include='*.yml' --include='*.css' --include='*.js' -- "$@" >/dev/null 2>&1; then
   fail 'Clean-room scan found a prohibited reference-site identifier in implementation source.'

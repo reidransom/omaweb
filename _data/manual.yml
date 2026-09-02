@@ -1,0 +1,154 @@
+chapters:
+  - slug: welcome
+    title: "Welcome to Omarchy!"
+    url: /manual/
+  - slug: getting-started
+    title: "Getting Started"
+    url: /manual/getting-started/
+  - slug: coming-from-mac-or-windows
+    title: "Coming From Mac or Windows"
+    url: /manual/coming-from-mac-or-windows/
+  - slug: navigation
+    title: "Navigation"
+    url: /manual/navigation/
+  - slug: the-top-bar
+    title: "The Top Bar"
+    url: /manual/the-top-bar/
+  - slug: themes
+    title: "Themes"
+    url: /manual/themes/
+  - slug: hotkeys
+    title: "Hotkeys"
+    url: /manual/hotkeys/
+  - slug: unified-clipboard-history
+    title: "Unified Clipboard & History"
+    url: /manual/unified-clipboard-history/
+  - slug: reminders
+    title: "Reminders"
+    url: /manual/reminders/
+  - slug: notices
+    title: "Notices"
+    url: /manual/notices/
+  - slug: text-extraction-dictation
+    title: "Text Extraction & Dictation"
+    url: /manual/text-extraction-dictation/
+  - slug: screenshots-recording
+    title: "Screenshots & Recording"
+    url: /manual/screenshots-recording/
+  - slug: toggles-idle-screensaver
+    title: "Toggles, Idle & the Screensaver"
+    url: /manual/toggles-idle-screensaver/
+  - slug: omarchy-cli
+    title: "Omarchy CLI"
+    url: /manual/omarchy-cli/
+  - slug: terminal
+    title: "Terminal"
+    url: /manual/terminal/
+  - slug: neovim
+    title: "Neovim"
+    url: /manual/neovim/
+  - slug: ai
+    title: "AI"
+    url: /manual/ai/
+  - slug: development-tools
+    title: "Development Tools"
+    url: /manual/development-tools/
+  - slug: shell-tools
+    title: "Shell Tools"
+    url: /manual/shell-tools/
+  - slug: shell-functions
+    title: "Shell Functions"
+    url: /manual/shell-functions/
+  - slug: tuis
+    title: "TUIs"
+    url: /manual/tuis/
+  - slug: guis
+    title: "GUIs"
+    url: /manual/guis/
+  - slug: browsers
+    title: "Browsers"
+    url: /manual/browsers/
+  - slug: commercial-apps-services
+    title: "Commercial apps/services"
+    url: /manual/commercial-apps-services/
+  - slug: web-apps
+    title: "Web Apps"
+    url: /manual/web-apps/
+  - slug: gaming
+    title: "Gaming"
+    url: /manual/gaming/
+  - slug: filling-out-pdfs
+    title: "Filling out PDFs"
+    url: /manual/filling-out-pdfs/
+  - slug: windows-vm
+    title: "Windows VM"
+    url: /manual/windows-vm/
+  - slug: other-packages
+    title: "Other Packages"
+    url: /manual/other-packages/
+  - slug: updates
+    title: "Updates"
+    url: /manual/updates/
+  - slug: dotfiles
+    title: "Dotfiles"
+    url: /manual/dotfiles/
+  - slug: shell-plugins
+    title: "Shell Plugins"
+    url: /manual/shell-plugins/
+  - slug: monitors
+    title: "Monitors"
+    url: /manual/monitors/
+  - slug: keyboard-mouse-trackpad
+    title: "Keyboard, Mouse, Trackpad"
+    url: /manual/keyboard-mouse-trackpad/
+  - slug: networking
+    title: "Networking"
+    url: /manual/networking/
+  - slug: system-sleep
+    title: "System sleep"
+    url: /manual/system-sleep/
+  - slug: hardware-authentication
+    title: "Hardware authentication"
+    url: /manual/hardware-authentication/
+  - slug: fonts
+    title: "Fonts"
+    url: /manual/fonts/
+  - slug: backgrounds
+    title: "Backgrounds"
+    url: /manual/backgrounds/
+  - slug: prompt
+    title: "Prompt"
+    url: /manual/prompt/
+  - slug: branding
+    title: "Branding"
+    url: /manual/branding/
+  - slug: common-tweaks
+    title: "Common tweaks"
+    url: /manual/common-tweaks/
+  - slug: making-your-own-theme
+    title: "Making your own theme"
+    url: /manual/making-your-own-theme/
+  - slug: mac-support
+    title: "Mac support"
+    url: /manual/mac-support/
+  - slug: troubleshooting
+    title: "Troubleshooting"
+    url: /manual/troubleshooting/
+  - slug: faq
+    title: "FAQ"
+    url: /manual/faq/
+  - slug: system-snapshots
+    title: "System snapshots"
+    url: /manual/system-snapshots/
+  - slug: security
+    title: "Security"
+    url: /manual/security/
+  - slug: omarchy-on
+    title: "Omarchy on..."
+    url: /manual/omarchy-on/
+  - slug: dual-boot-install
+    title: "Dual Boot Install"
+    url: /manual/dual-boot-install/
+  - slug: unattended-installs
+    title: "Unattended Installs"
+    url: /manual/unattended-installs/

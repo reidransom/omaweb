@@ -1,29 +1,29 @@
 items:
   - slug: manual
     label: Manual
-    url: https://omarchy.org/manual/
-    external: true
+    url: /manual/
+    external: false
     button_treatment: secondary
   - slug: manual-getting-started
     label: Getting Started
-    url: https://omarchy.org/manual/getting-started/
-    external: true
+    url: /manual/getting-started/
+    external: false
   - slug: manual-hotkeys
     label: Hotkeys
-    url: https://omarchy.org/manual/hotkeys/
-    external: true
+    url: /manual/hotkeys/
+    external: false
   - slug: manual-cli
     label: Omarchy CLI
-    url: https://omarchy.org/manual/omarchy-cli/
-    external: true
+    url: /manual/omarchy-cli/
+    external: false
   - slug: manual-troubleshooting
     label: Troubleshooting
-    url: https://omarchy.org/manual/troubleshooting/
-    external: true
+    url: /manual/troubleshooting/
+    external: false
   - slug: manual-faq
     label: FAQ
-    url: https://omarchy.org/manual/faq/
-    external: true
+    url: /manual/faq/
+    external: false
   - slug: iso
     label: ISO
     url: https://iso.omarchy.org/omarchy-4.0.1.iso
@@ -39,8 +39,8 @@ items:
     external: true
   - slug: discord
     label: Discord
-    url: https://discord.gg/tXFUdasqhY
-    external: true
+    url: /discord/
+    external: false
   - slug: merch
     label: Merch
     url: https://supply.37signals.com/collections/omarchy

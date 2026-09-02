@@ -1,0 +1,5 @@
+<ol>
+  {% for chapter in site.data.manual.chapters %}
+    <li><a href="{{ chapter.url | relative_url }}"{% if chapter.slug == page.manual_slug %} aria-current="page"{% endif %}>{{ chapter.title | escape }}</a></li>
+  {% endfor %}
+</ol>

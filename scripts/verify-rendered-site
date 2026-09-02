@@ -32,6 +32,10 @@ ROUTES = (
     "/meetups/",
     "/patrons/",
     "/community/featured-videos/",
+    "/manual/",
+    "/manual/getting-started/",
+    "/brand/",
+    "/screensaver/",
 )
 MOTION_PROPERTIES = ("inline-size", "opacity", "pointer-events", "transform", "visibility")
 HERO_METRICS = r"""(() => {

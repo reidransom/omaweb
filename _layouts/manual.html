@@ -1,0 +1,48 @@
+---
+layout: default
+---
+<article class="manual-shell" data-manual data-pagefind-filter="section:manual">
+  <header class="manual-hero">
+    <p class="manual-hero__eyebrow">The Manual</p>
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}<p class="manual-hero__lede">{{ page.description | escape }}</p>{% endif %}
+  </header>
+
+  <div class="manual-layout">
+    <aside class="manual-sidebar" aria-label="Manual navigation">
+      <search class="manual-search" data-manual-search hidden>
+        <div class="manual-search__field">
+          <input class="manual-search__input" id="manual-search" type="search" role="combobox"
+                 placeholder="Search the Manual" aria-label="Search the Manual"
+                 aria-controls="manual-search-results" aria-expanded="false" aria-autocomplete="list"
+                 autocomplete="off" autocapitalize="off" spellcheck="false">
+          <kbd class="manual-search__shortcut">/</kbd>
+        </div>
+        <div class="manual-search__results" id="manual-search-results" role="listbox" aria-label="Manual search results" hidden></div>
+      </search>
+
+      <nav class="manual-toc manual-toc--desktop" aria-label="Manual chapters">
+        {% include manual-chapter-list.html %}
+      </nav>
+
+      <details class="manual-chapters">
+        <summary>Browse all {{ site.data.manual.chapters.size }} chapters</summary>
+        <nav class="manual-toc manual-toc--mobile" aria-label="Manual chapters">
+          {% include manual-chapter-list.html %}
+        </nav>
+      </details>
+    </aside>
+
+    <div class="manual-content">
+      {{ content }}
+
+      {% unless page.manual_toc %}
+        <nav class="manual-pagination" aria-label="Chapter pagination">
+          {% if page.previous_url %}<a class="manual-pagination__previous" href="{{ page.previous_url | relative_url }}" rel="prev">← {{ page.previous_title | escape }}</a>{% else %}<span></span>{% endif %}
+          <a class="manual-pagination__contents" href="{{ '/manual/toc/' | relative_url }}">Table of contents</a>
+          {% if page.next_url %}<a class="manual-pagination__next" href="{{ page.next_url | relative_url }}" rel="next">{{ page.next_title | escape }} →</a>{% else %}<span></span>{% endif %}
+        </nav>
+      {% endunless %}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,12 @@
+---
+layout: manual
+title: Table of contents
+description: Every chapter in the Omarchy Manual, from installation and navigation to customization, troubleshooting, and security.
+permalink: /manual/toc/
+manual_toc: true
+---
+<ol class="manual-index">
+  {% for chapter in site.data.manual.chapters %}
+    <li><a href="{{ chapter.url | relative_url }}">{{ chapter.title | escape }}</a></li>
+  {% endfor %}
+</ol>

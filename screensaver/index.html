@@ -1,0 +1,35 @@
+---
+layout: default
+title: Screensaver
+description: The Omarchy wordmark running through randomized terminal text effects.
+permalink: /screensaver/
+archetype: project
+---
+<article class="screensaver-page">
+  <header class="screensaver-page__header">
+    <p class="manual-hero__eyebrow">Omarchy utility</p>
+    <h1>Screensaver</h1>
+    <p class="manual-hero__lede">The Omarchy wordmark running through randomized terminal text effects. Press <kbd>F</kbd> or use the button to enter fullscreen.</p>
+  </header>
+
+  <section class="screensaver-demo" data-screensaver aria-label="Animated Omarchy screensaver preview">
+    <div class="screensaver-demo__controls">
+      <button class="screensaver-demo__button" type="button" data-screensaver-fullscreen>Enter fullscreen</button>
+    </div>
+    <canvas class="screensaver-demo__canvas" id="screensaver" aria-hidden="true"></canvas>
+    <pre class="screensaver-demo__art" id="screensaver-art" aria-hidden="true">
+                 ▄▄▄
+ ▄█████▄    ▄███████████▄    ▄███████   ▄███████   ▄███████   ▄█   █▄    ▄█   █▄
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   █▀   ███   ███  ███   ███
+███   ███  ███   ███   ███ ▄███▄▄▄███ ▄███▄▄▄██▀  ███       ▄███▄▄▄███▄ ███▄▄▄███
+███   ███  ███   ███   ███ ▀███▀▀▀███ ▀███▀▀▀▀    ███      ▀▀███▀▀▀███  ▀▀▀▀▀▀███
+███   ███  ███   ███   ███  ███   ███ ██████████  ███   █▄   ███   ███  ▄██   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+ ▀█████▀    ▀█   ███   █▀   ███   █▀   ███   ███  ███████▀   ███   █▀    ▀█████▀
+                                       ███   █▀
+</pre>
+  </section>
+</article>
+<script type="module" src="/assets/js/screensaver.js"></script>
+<noscript><style>.screensaver-demo__canvas,.screensaver-demo__controls{display:none}.screensaver-demo__art{display:grid!important}</style></noscript>
