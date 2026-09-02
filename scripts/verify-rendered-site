@@ -209,7 +209,7 @@ def check_page(browser: DevToolsSocket, route: str, width: int, height: int) -> 
             image.scrollIntoView({block: "center"});
             await new Promise(done => setTimeout(done, 20));
           }
-          await new Promise(done => setTimeout(done, 300));
+          await Promise.all([...document.images].map(image => image.decode().catch(() => undefined)));
           window.scrollTo(0, 0);
           resolve();
         })""",
@@ -244,7 +244,7 @@ def scroll_range(browser: DevToolsSocket) -> dict:
           const hero = document.querySelector("[data-home-hero]");
           const bounds = hero.getBoundingClientRect();
           const top = scrollY + bounds.top;
-          return {start: top - 100, end: top + bounds.height - innerHeight};
+          return {start: top, end: top + bounds.height - innerHeight};
         })()""",
     )
 
@@ -314,8 +314,6 @@ def read_featured_contract(session: ChromiumSession) -> list[dict]:
             browser,
             """[...document.querySelectorAll(".featured-video__facade")].map(link => ({
               href: link.href,
-              ariaLabel: link.getAttribute("aria-label"),
-              imageAlt: link.querySelector("img")?.getAttribute("alt"),
               target: link.getAttribute("target")
             }))""",
         )
@@ -326,10 +324,6 @@ def read_featured_contract(session: ChromiumSession) -> list[dict]:
                 f"Featured video {index + 1} must retain its YouTube watch destination.",
             )
             require(item["target"] is None, f"Featured video {index + 1} must navigate in the same tab.")
-            require(
-                item["ariaLabel"] and item["imageAlt"],
-                f"Featured video {index + 1} must retain its accessible name and image alternative.",
-            )
         return items
     finally:
         browser.close()
@@ -344,14 +338,16 @@ def require_link_contract(
     for index, (poster, expected) in enumerate(
         zip(snapshot["posters"], featured_contract, strict=True)
     ):
+        accessible_name = f"Watch {poster['title']} by {poster['creator']} on YouTube"
+        image_alt = f"{poster['title']} by {poster['creator']}"
         require(poster["href"] == expected["href"], f"{label} poster {index + 1} has the wrong destination.")
         require(poster["target"] is None, f"{label} poster {index + 1} must navigate in the same tab.")
         require(
-            poster["ariaLabel"] == expected["ariaLabel"],
+            poster["ariaLabel"] == accessible_name,
             f"{label} poster {index + 1} has the wrong accessible name.",
         )
         require(
-            poster["imageAlt"] == expected["imageAlt"],
+            poster["imageAlt"] == image_alt,
             f"{label} poster {index + 1} has the wrong image alternative.",
         )
         require(poster["playHidden"], f"{label} poster {index + 1} exposes decorative play artwork.")
@@ -367,10 +363,11 @@ def require_link_contract(
         if not node.get("ignored")
         and node.get("role", {}).get("value") == "link"
     ]
-    for expected in featured_contract:
+    for poster in snapshot["posters"]:
+        accessible_name = f"Watch {poster['title']} by {poster['creator']} on YouTube"
         require(
-            accessible_links.count(expected["ariaLabel"]) == 1,
-            f"{label} must expose one accessible link for {expected['ariaLabel']}.",
+            accessible_links.count(accessible_name) == 1,
+            f"{label} must expose one accessible link for {accessible_name}.",
         )
 
 

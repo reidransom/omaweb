@@ -1,7 +1,7 @@
 import { scroll } from "motion";
 
 const ENHANCED_HERO_QUERY = "(min-width: 40rem) and (prefers-reduced-motion: no-preference)";
-const SCROLL_OFFSETS = ["start 100px", "end end"];
+const SCROLL_OFFSETS = ["start start", "end end"];
 const STYLE_PROPERTIES = ["inline-size", "opacity", "pointer-events", "transform", "visibility"];
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]';
