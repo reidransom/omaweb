@@ -101,9 +101,12 @@
 }
 
 .navigation-link__marker {
+  position: relative;
+  inset-block-start: -0.4em;
   display: inline-block;
-  text-decoration: none;
   margin-inline-start: 3px;
+  vertical-align: baseline;
+  text-decoration: none;
 }
 .button,
 .button:link,
