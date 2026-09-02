@@ -1035,9 +1035,25 @@ def install_wordmark_observers(browser: DevToolsSocket) -> None:
             "source": """(() => {
               const evidence = {
                 errors: [],
-                resources: []
+                resources: [],
+                presentations: []
               };
               window.__wordmarkBrowserEvidence = evidence;
+              const presentationObserver = new MutationObserver(() => {
+                const root = document.querySelector("[data-wordmark]");
+                const fallback = root?.querySelector("[data-wordmark-fallback]");
+                const canvas = root?.querySelector("[data-wordmark-canvas]");
+                if (!fallback || !canvas || evidence.presentations.length > 0) return;
++
+                evidence.presentations.push({
+                  state: root.getAttribute("data-wordmark-enhanced"),
+                  pending: document.documentElement.classList.contains("wordmark-pending"),
+                  fallbackVisibility: getComputedStyle(fallback).visibility,
+                  canvasDisplay: getComputedStyle(canvas).display
+                });
+                presentationObserver.disconnect();
+              });
+              presentationObserver.observe(document, {childList: true, subtree: true});
               addEventListener("error", event => {
                 evidence.errors.push(`error: ${event.message || event.error || "unknown"}`);
               }, true);
@@ -1157,6 +1173,18 @@ def assert_no_page_errors(snapshot: dict, description: str) -> None:
     errors = snapshot["evidence"]["errors"] if snapshot["evidence"] else []
     if errors:
         fail(f"{description} must not report uncaught errors or unhandled rejections; got {errors}.")
+
+def assert_hidden_initial_wordmark(snapshot: dict, description: str) -> None:
+    presentations = snapshot["evidence"]["presentations"] if snapshot["evidence"] else []
+    expected = {
+        "state": None,
+        "pending": True,
+        "fallbackVisibility": "hidden",
+        "canvasDisplay": "none",
+    }
+    if not presentations or presentations[0] != expected:
+        fail(f"{description} must hide the fallback before Canvas enhancement; got {presentations}.")
+
 
 
 def observe_wordmark_frame_transitions(
@@ -1282,6 +1310,7 @@ def check_laseretch_wordmark(debug_url: str, origin: str, width: int, height: in
             f"enhanced wordmark at {width}x{height}",
         )
         snapshot = wordmark_snapshot(browser)
+        assert_hidden_initial_wordmark(snapshot, f"Wordmark at {width}x{height}")
         assert_matching_wordmark_bounds(snapshot, f"Wordmark at {width}x{height}")
         playback = sample_wordmark_playback(browser)
         if not playback["changed"] or not playback["stable"]:
@@ -1330,6 +1359,7 @@ def check_alternate_wordmark(debug_url: str, origin: str, width: int, height: in
             f"alternate canvas wordmark at {width}x{height}",
         )
         snapshot = wordmark_snapshot(browser)
+        assert_hidden_initial_wordmark(snapshot, f"Alternate wordmark at {width}x{height}")
         enabled = evaluate(
             browser,
             'document.querySelector("[data-wordmark]")?.dataset.wordmarkEnhancement === "laseretch"',

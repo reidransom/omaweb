@@ -89,12 +89,3 @@ labs:
   product: labs
   body: "Public experiments that are not products."
 
-final_cta:
-  title: Start with the desktop.
-  body: Install Omarchy. Read the Manual. Change what needs changing.
-  actions:
-    items:
-      - label: Get The ISO
-        destination: iso
-      - label: Read The Manual
-        destination: manual

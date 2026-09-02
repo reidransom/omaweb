@@ -46,9 +46,9 @@
               {% if product_art != empty %}
                 {% capture action_content %}
                   {{ product_art }}
-                  <span class="{{ action_button_class }}">{{ action.label | escape }}</span>
+                  <span class="{{ action_button_class }}">{{ action.label | escape }}{% include link-indicator.html destination=action.destination external=destination.external %}</span>
                 {% endcapture %}
-                {% include authoritative-link.html destination=action.destination class='home-hero__action' content=action_content %}
+                {% include authoritative-link.html destination=action.destination class='home-hero__action' content=action_content hide_indicator=true %}
               {% endif %}
             {% endfor %}
           </div>
