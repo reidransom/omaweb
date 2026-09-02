@@ -16,6 +16,8 @@ collections:
   news:
     output: true
     permalink: /news/:year/:month/:title/
+  manual:
+    output: true
 
 defaults:
   - scope:
@@ -28,6 +30,9 @@ defaults:
     values:
       layout: article
       archetype: editorial
+
+include:
+  - .well-known
 
 exclude:
   - .agents

@@ -5,6 +5,8 @@ layout: null
 @use "components";
 @use "featured-videos";
 @use "home";
+@use "legacy-content";
+@use "manual";
 @use "news";
 @use "search";
 @use "tokens";
@@ -24,6 +26,8 @@ layout: null
   @include components.styles;
   @include featured-videos.styles;
   @include home.styles;
+  @include legacy-content.styles;
+  @include manual.styles;
   @include news.styles;
   @include search.styles;
 }

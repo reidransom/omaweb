@@ -511,13 +511,18 @@ export function initSiteSearch({ quake } = {}) {
   document.addEventListener("keydown", (event) => {
     if (isEditableTarget(event.target)) return;
 
-    if (
-      event.ctrlKey &&
-      !event.altKey &&
-      !event.shiftKey &&
-      !event.metaKey &&
-      event.key.toLowerCase() === "k"
-    ) {
+    const isSearchShortcut =
+      (!event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey &&
+        event.key === "/") ||
+      (event.ctrlKey &&
+        !event.altKey &&
+        !event.shiftKey &&
+        !event.metaKey &&
+        event.key === " ");
+
+    if (isSearchShortcut) {
       event.preventDefault();
       openSpotlight(searchTriggers[0]);
     }

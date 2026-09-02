@@ -175,9 +175,37 @@ required_routes='
 /news/feed.xml
 /news/2026/08/omacom-foundation-launches-with-8-million/
 /news/2026/09/the-omarchy-core-team/
+/brand/
+/discord/
+/manual/
+/manual/toc/
+/manual/getting-started/
+/manual/hotkeys/
+/manual/omarchy-cli/
+/manual/troubleshooting/
+/manual/faq/
+/omakub/
+/potato/
+/screensaver/
+/security/credits/
+/themes/
+/404.html
+/install
+/install-dev
+/install-rc
+/upgrade-to-quattro
+/upgrade-to-quattro-dev
+/patch/pin-abseil-cpp
+/.well-known/security.txt
 '
 printf '%s' "$required_routes" | while IFS= read -r route; do
   [ -n "$route" ] && require_output_path "$route"
+done
+
+for source in _manual/*.html; do
+  route=$(sed -n 's/^permalink: //p' "$source")
+  [ -n "$route" ] || fail "Manual chapter has no declared permalink: $source"
+  require_output_path "$route"
 done
 
 require_absent_output_path /news/search/
@@ -250,7 +278,7 @@ iframe_files=$(grep -rl '<iframe' _site --include='*.html' 2>/dev/null || true)
   fail 'Meetups must contain exactly one Luma calendar embed.'
 
 article_count=$(find _site/news -mindepth 4 -maxdepth 4 -type f -name index.html | wc -l | tr -d ' ')
-[ "$article_count" -eq 12 ] || fail "Expected 12 rendered News articles, found $article_count."
+[ "$article_count" -eq 14 ] || fail "Expected 14 rendered News articles, found $article_count."
 for route in /server/ /mobile/ /laptops/ /apps/ /cloud/ /labs/; do
   grep -Fq 'Exploratory' "_site${route}index.html" || fail "Exploratory label is missing: $route"
 done
