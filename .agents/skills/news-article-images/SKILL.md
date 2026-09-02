@@ -76,23 +76,16 @@ Regenerate when neither candidate passes every check. Selection—not the first 
 Copy the selected candidate to:
 
 ```text
-../omaweb-docs/images/news/<semantic-basename>.jpg
+../omaweb-docs/images/lg/wide/news/<semantic-basename>.jpg
 ```
 
 Use a semantic basename describing the mechanism, such as `omarchy-rangers-community-guides`; avoid dates and generic names such as `news-image`.
 
 `nanobanana` may report a `.png` filename while writing JPEG bytes. Run `identify` and use the actual format for the destination extension. Record the source dimensions and SHA-256.
 
-## 5. Register and render derivatives
+## 5. Render derivatives
 
-Update all four places in `scripts/build-assets`:
-
-1. Add a source variable under the existing News artwork sources.
-2. Add the source to the approved-source loop.
-3. Add 480w, 768w, and 1152w paths to `output_paths`.
-4. Add a `render_responsive_family` call using `news_responsive_widths`.
-
-Then run the bundled preservation wrapper from the repository root:
+News sources live under the `lg/wide` size and crop convention, so `scripts/build-assets` discovers the new image automatically. Run the bundled preservation wrapper from the repository root:
 
 ```bash
 .agents/skills/news-article-images/scripts/render-news-family <semantic-basename>
@@ -161,4 +154,4 @@ After the smoke test passes, delete the `.scratch/nanobanana-<story-slug>` direc
 
 ## Completion contract
 
-The work is complete only when the selected source, three responsive derivatives, generator registration, provenance records, article frontmatter, illustration disclosure, desktop card, mobile card, and article page are all present and verified. Never leave generated drafts or unrelated derivative changes behind.
+The work is complete only when the selected source is in the `lg/wide/news` source tree, its three responsive derivatives, provenance records, article frontmatter, illustration disclosure, desktop card, mobile card, and article page are all present and verified. Never leave generated drafts or unrelated derivative changes behind.

@@ -11,6 +11,24 @@ products:
   items: []
 project_areas:
   items: [foundation, patrons]
+image:
+  src: /assets/images/news/omacom-founding-patrons-twin-keystones-1152w.webp
+  alt: Two faceted figures carry glowing blue-green keystones toward a circular platform with a luminous core beneath an aurora.
+  width: 1152
+  height: 648
+  illustrative: true
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/omacom-founding-patrons-twin-keystones-480w.webp
+              width: 480
+            - src: /assets/images/news/omacom-founding-patrons-twin-keystones-768w.webp
+              width: 768
+            - src: /assets/images/news/omacom-founding-patrons-twin-keystones-1152w.webp
+              width: 1152
 ---
 
 The [Omacom Foundation](/foundation/) keeps compounding! Two more Founding Patrons have joined our mission with $1 million each, taking our treasury chest to $12 million: Brian Armstrong and Yunjie Dai.

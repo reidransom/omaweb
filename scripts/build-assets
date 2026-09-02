@@ -36,59 +36,77 @@ require_command sort
 
 export MAGICK_THREAD_LIMIT=1
 
-hero_source=../omaweb-docs/images/0-winding-road.jpg
-news_preview_source=../omaweb-docs/images/news/radio-atlas-preview.webp
-air_artwork_source=../omaweb-docs/images/news/omarchy-air-artists-in-residence.jpg
-downloads_artwork_source=../omaweb-docs/images/news/omarchy-downloads-global-delivery.jpg
-rangers_artwork_source=../omaweb-docs/images/news/omarchy-rangers-community-guides.jpg
-desktop_preview_source=../omaweb-docs/images/desktop/tokyo-night-preview.png
-pleum_workstation_source=../omaweb-docs/images/workstations/pleum-p1554011.jpg
-sspaeti_workstation_source=../omaweb-docs/images/workstations/sspaeti-office-setup.jpg
-usb_key_source=../omaweb-docs/images/usb-key-bitart.png
-user_manual_source=../omaweb-docs/images/user-manual-bitart.png
-laptop_art_source=../omaweb-docs/images/laptop-omarchy-cool-fade-blue.svg
-video_source=../omaweb-docs/images/video/omarchy-quattro.webp
-networkchuck_video_source=../omaweb-docs/images/video/networkchuck.webp
-typecraft_video_source=../omaweb-docs/images/video/typecraft.webp
-linuxbtw_video_source=../omaweb-docs/images/video/linuxbtw.webp
-alex_finn_video_source=../omaweb-docs/images/video/alex-finn.webp
+image_source_directory=../omaweb-docs/images
 mono_font_source_directory=../omaweb-docs/fonts/jetbrains-mono-2.304
 serif_font_source_directory=../omaweb-docs/fonts/source-serif-4.005
 readable_font_source_directory=../omaweb-docs/fonts/atkinson-hyperlegible-next-2.001
-patron_profiles='
-tobi-lutke
-patrick-collison
-michael-dell
-jack-dorsey
-matthew-prince
-brendan-iribe
-jason-fried
-drew-houston
-peter-steinberger
-brian-armstrong
-yunjie-dai
-dhh
-'
-responsive_widths='480 768 1200 1600'
-news_responsive_widths='480 768 1152'
+hero_portrait_sizes='480:854 768:1365 1200:2133'
+
+widths_for_size() {
+  case "$1" in
+    xl) printf '%s\n' '480 768 1200 1600' ;;
+    lg) printf '%s\n' '480 768 1152' ;;
+    md) printf '%s\n' '480 768' ;;
+    *) fail "Unknown image size class: $1" ;;
+  esac
+}
+
+find_files() {
+  find "$1" -type f | sort
+}
+
+find_raster_sources() {
+  find "$1" -type f \
+    \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' -o -name '*.webp' \) \
+    | sort
+}
+
+require_source_directory() {
+  directory=$1
+  [ -d "$directory" ] || fail "Missing approved source directory: $directory"
+  [ -n "$(find_files "$directory")" ] || fail "No approved images found in: $directory"
+}
+
+responsive_output_paths() {
+  size=$1
+  size_directory=$image_source_directory/$size
+  widths=$(widths_for_size "$size")
+
+  find "$size_directory" -mindepth 1 -maxdepth 1 -type d | sort | while IFS= read -r mode_directory; do
+    mode=${mode_directory##*/}
+    case "$mode" in
+      wide|fit) ;;
+      *) fail "Unknown image render mode: $mode_directory" ;;
+    esac
+
+    find_raster_sources "$mode_directory" | while IFS= read -r source; do
+      relative_path=${source#"$mode_directory/"}
+      output_stem=${relative_path%.*}
+      for width in $widths; do
+        printf 'assets/images/%s-%sw.webp\n' "$output_stem" "$width"
+      done
+    done
+  done
+}
+
+copied_output_paths() {
+  copy_directory=$image_source_directory/copy
+
+  find_files "$copy_directory" | while IFS= read -r source; do
+    printf 'assets/images/%s\n' "${source#"$copy_directory/"}"
+  done
+}
+
+for directory in \
+  "$image_source_directory/xl" \
+  "$image_source_directory/lg" \
+  "$image_source_directory/md" \
+  "$image_source_directory/copy"
+do
+  require_source_directory "$directory"
+done
 
 for source in \
-  "$hero_source" \
-  "$news_preview_source" \
-  "$air_artwork_source" \
-  "$downloads_artwork_source" \
-  "$rangers_artwork_source" \
-  "$desktop_preview_source" \
-  "$pleum_workstation_source" \
-  "$sspaeti_workstation_source" \
-  "$usb_key_source" \
-  "$user_manual_source" \
-  "$laptop_art_source" \
-  "$video_source" \
-  "$networkchuck_video_source" \
-  "$typecraft_video_source" \
-  "$linuxbtw_video_source" \
-  "$alex_finn_video_source" \
   "$mono_font_source_directory/JetBrainsMono-Light.ttf" \
   "$mono_font_source_directory/JetBrainsMono-LightItalic.ttf" \
   "$mono_font_source_directory/JetBrainsMono-Regular.ttf" \
@@ -103,52 +121,8 @@ for source in \
 do
   [ -f "$source" ] || fail "Missing approved source: $source"
 done
-for patron in $patron_profiles; do
-  [ -f "../omaweb-docs/images/patrons/$patron.webp" ] || fail "Missing approved source: ../omaweb-docs/images/patrons/$patron.webp"
-done
 
 output_paths='
-assets/images/hero/winding-road-480w.webp
-assets/images/hero/winding-road-768w.webp
-assets/images/hero/winding-road-1200w.webp
-assets/images/hero/winding-road-1600w.webp
-assets/images/hero/winding-road-portrait-480w.webp
-assets/images/hero/winding-road-portrait-768w.webp
-assets/images/hero/winding-road-portrait-1200w.webp
-assets/images/hero/usb-key-bitart-480w.webp
-assets/images/hero/usb-key-bitart-768w.webp
-assets/images/hero/user-manual-bitart-480w.webp
-assets/images/hero/user-manual-bitart-768w.webp
-assets/images/desktop/laptop-omarchy-cool-fade-blue.svg
-assets/images/video/omarchy-quattro.webp
-assets/images/video/networkchuck.webp
-assets/images/video/typecraft.webp
-assets/images/video/linuxbtw.webp
-assets/images/video/alex-finn.webp
-assets/images/news/radio-atlas-preview-480w.webp
-assets/images/news/radio-atlas-preview-768w.webp
-assets/images/news/radio-atlas-preview-1152w.webp
-assets/images/news/omarchy-air-artists-in-residence-480w.webp
-assets/images/news/omarchy-air-artists-in-residence-768w.webp
-assets/images/news/omarchy-air-artists-in-residence-1152w.webp
-assets/images/news/omarchy-downloads-global-delivery-480w.webp
-assets/images/news/omarchy-downloads-global-delivery-768w.webp
-assets/images/news/omarchy-downloads-global-delivery-1152w.webp
-assets/images/news/omarchy-rangers-community-guides-480w.webp
-assets/images/news/omarchy-rangers-community-guides-768w.webp
-assets/images/news/omarchy-rangers-community-guides-1152w.webp
-assets/images/desktop/tokyo-night-preview-480w.webp
-assets/images/desktop/tokyo-night-preview-768w.webp
-assets/images/desktop/tokyo-night-preview-1200w.webp
-assets/images/desktop/tokyo-night-preview-1600w.webp
-assets/images/workstations/pleum-p1554011-480w.webp
-assets/images/workstations/pleum-p1554011-768w.webp
-assets/images/workstations/pleum-p1554011-1200w.webp
-assets/images/workstations/pleum-p1554011-1600w.webp
-assets/images/workstations/sspaeti-office-setup-480w.webp
-assets/images/workstations/sspaeti-office-setup-768w.webp
-assets/images/workstations/sspaeti-office-setup-1200w.webp
-assets/images/workstations/sspaeti-office-setup-1600w.webp
 assets/fonts/jetbrains-mono-light.woff2
 assets/fonts/jetbrains-mono-light-italic.woff2
 assets/fonts/jetbrains-mono-regular.woff2
@@ -161,94 +135,110 @@ assets/fonts/atkinson-hyperlegible-next-regular.woff2
 assets/fonts/atkinson-hyperlegible-next-italic.woff2
 assets/fonts/atkinson-hyperlegible-next-bold.woff2
 '
-for patron in $patron_profiles; do
+for size in xl lg md; do
   output_paths="$output_paths
-assets/images/patrons/$patron.webp"
+$(responsive_output_paths "$size")"
+done
+output_paths="$output_paths
+$(copied_output_paths)"
+for dimensions in $hero_portrait_sizes; do
+  width=${dimensions%:*}
+  output_paths="$output_paths
+assets/images/hero/winding-road-portrait-${width}w.webp"
 done
 
-render_wide() {
-  width=$1
-  height=$2
-  output=$3
+render_image() {
+  mode=$1
+  source=$2
+  width=$3
+  output=$4
 
-  magick "$hero_source" \
-    -auto-orient \
-    -colorspace sRGB \
-    -strip \
-    -resize "${width}x${height}^" \
-    -gravity center \
-    -extent "${width}x${height}" \
-    -quality 82 \
-    -define webp:method=6 \
-    -define webp:thread-level=0 \
-    "$output"
+  case "$mode" in
+    wide)
+      height=$((width * 9 / 16))
+      magick "$source" \
+        -auto-orient \
+        -colorspace sRGB \
+        -strip \
+        -resize "${width}x${height}^" \
+        -gravity center \
+        -extent "${width}x${height}" \
+        -quality 82 \
+        -define webp:method=6 \
+        -define webp:thread-level=0 \
+        "$output"
+      ;;
+    fit)
+      magick "$source" \
+        -auto-orient \
+        -colorspace sRGB \
+        -strip \
+        -resize "${width}x" \
+        -quality 82 \
+        -define webp:method=6 \
+        -define webp:thread-level=0 \
+        "$output"
+      ;;
+    *)
+      fail "Unknown image render mode: $mode"
+      ;;
+  esac
 }
 
-render_portrait() {
-  width=$1
-  height=$2
-  output=$3
+render_size_class() {
+  destination=$1
+  size=$2
+  size_directory=$image_source_directory/$size
+  widths=$(widths_for_size "$size")
 
-  magick "$hero_source" \
-    -auto-orient \
-    -colorspace sRGB \
-    -strip \
-    -crop 1904x3384+2750+0 +repage \
-    -resize "${width}x${height}^" \
-    -gravity center \
-    -extent "${width}x${height}" \
-    -quality 82 \
-    -define webp:method=6 \
-    -define webp:thread-level=0 \
-    "$output"
-}
-
-render_responsive_image() {
-  source=$1
-  width=$2
-  output=$3
-  height=$((width * 9 / 16))
-
-  magick "$source" \
-    -auto-orient \
-    -colorspace sRGB \
-    -strip \
-    -resize "${width}x${height}^" \
-    -gravity center \
-    -extent "${width}x${height}" \
-    -quality 82 \
-    -define webp:method=6 \
-    -define webp:thread-level=0 \
-    "$output"
-}
-
-render_product_art() {
-  source=$1
-  width=$2
-  output=$3
-
-  magick "$source" \
-    -auto-orient \
-    -colorspace sRGB \
-    -strip \
-    -resize "${width}x" \
-    -quality 82 \
-    -define webp:method=6 \
-    -define webp:thread-level=0 \
-    "$output"
-}
-
-render_responsive_family() {
-  source=$1
-  directory=$2
-  basename=$3
-  widths=$4
-
-  for width in $widths; do
-    render_responsive_image "$source" "$width" "$directory/${basename}-${width}w.webp"
+  find "$size_directory" -mindepth 1 -maxdepth 1 -type d | sort | while IFS= read -r mode_directory; do
+    mode=${mode_directory##*/}
+    find_raster_sources "$mode_directory" | while IFS= read -r source; do
+      relative_path=${source#"$mode_directory/"}
+      output_stem=${relative_path%.*}
+      for width in $widths; do
+        output=$destination/assets/images/${output_stem}-${width}w.webp
+        mkdir -p "${output%/*}"
+        render_image "$mode" "$source" "$width" "$output"
+      done
+    done
   done
 }
 
+copy_sources() {
+  destination=$1
+  copy_directory=$image_source_directory/copy
+
+  find_files "$copy_directory" | while IFS= read -r source; do
+    output=$destination/assets/images/${source#"$copy_directory/"}
+    mkdir -p "${output%/*}"
+    cp "$source" "$output"
+  done
+}
+
+render_hero_portrait() {
+  destination=$1
+  source=$image_source_directory/xl/wide/hero/winding-road.jpg
+
+  for dimensions in $hero_portrait_sizes; do
+    width=${dimensions%:*}
+    height=${dimensions#*:}
+    output=$destination/assets/images/hero/winding-road-portrait-${width}w.webp
+    mkdir -p "${output%/*}"
+    magick "$source" \
+      -auto-orient \
+      -colorspace sRGB \
+      -strip \
+      -crop 1904x3384+2750+0 +repage \
+      -resize "${width}x${height}^" \
+      -gravity center \
+      -extent "${width}x${height}" \
+      -quality 82 \
+      -define webp:method=6 \
+      -define webp:thread-level=0 \
+      "$output"
+  done
+}
 subset_font() {
   source=$1
   output=$2
@@ -259,34 +249,12 @@ subset_font() {
 render_all() {
   destination=$1
 
-  mkdir -p "$destination/assets/images/hero" "$destination/assets/images/video" "$destination/assets/images/news" "$destination/assets/images/desktop" "$destination/assets/images/workstations" "$destination/assets/images/patrons" "$destination/assets/fonts"
-  render_wide 480 270 "$destination/assets/images/hero/winding-road-480w.webp"
-  render_wide 768 432 "$destination/assets/images/hero/winding-road-768w.webp"
-  render_wide 1200 675 "$destination/assets/images/hero/winding-road-1200w.webp"
-  render_wide 1600 900 "$destination/assets/images/hero/winding-road-1600w.webp"
-  render_portrait 480 854 "$destination/assets/images/hero/winding-road-portrait-480w.webp"
-  render_portrait 768 1365 "$destination/assets/images/hero/winding-road-portrait-768w.webp"
-  render_portrait 1200 2133 "$destination/assets/images/hero/winding-road-portrait-1200w.webp"
-  render_product_art "$usb_key_source" 480 "$destination/assets/images/hero/usb-key-bitart-480w.webp"
-  render_product_art "$usb_key_source" 768 "$destination/assets/images/hero/usb-key-bitart-768w.webp"
-  render_product_art "$user_manual_source" 480 "$destination/assets/images/hero/user-manual-bitart-480w.webp"
-  render_product_art "$user_manual_source" 768 "$destination/assets/images/hero/user-manual-bitart-768w.webp"
-  cp "$laptop_art_source" "$destination/assets/images/desktop/laptop-omarchy-cool-fade-blue.svg"
-  cp "$video_source" "$destination/assets/images/video/omarchy-quattro.webp"
-  cp "$networkchuck_video_source" "$destination/assets/images/video/networkchuck.webp"
-  cp "$typecraft_video_source" "$destination/assets/images/video/typecraft.webp"
-  cp "$linuxbtw_video_source" "$destination/assets/images/video/linuxbtw.webp"
-  cp "$alex_finn_video_source" "$destination/assets/images/video/alex-finn.webp"
-  render_responsive_family "$news_preview_source" "$destination/assets/images/news" radio-atlas-preview "$news_responsive_widths"
-  render_responsive_family "$air_artwork_source" "$destination/assets/images/news" omarchy-air-artists-in-residence "$news_responsive_widths"
-  render_responsive_family "$downloads_artwork_source" "$destination/assets/images/news" omarchy-downloads-global-delivery "$news_responsive_widths"
-  render_responsive_family "$rangers_artwork_source" "$destination/assets/images/news" omarchy-rangers-community-guides "$news_responsive_widths"
-  render_responsive_family "$desktop_preview_source" "$destination/assets/images/desktop" tokyo-night-preview "$responsive_widths"
-  render_responsive_family "$pleum_workstation_source" "$destination/assets/images/workstations" pleum-p1554011 "$responsive_widths"
-  render_responsive_family "$sspaeti_workstation_source" "$destination/assets/images/workstations" sspaeti-office-setup "$responsive_widths"
-  for patron in $patron_profiles; do
-    cp "../omaweb-docs/images/patrons/$patron.webp" "$destination/assets/images/patrons/$patron.webp"
+  mkdir -p "$destination/assets/fonts"
+  for size in xl lg md; do
+    render_size_class "$destination" "$size"
   done
+  copy_sources "$destination"
+  render_hero_portrait "$destination"
   subset_font "$mono_font_source_directory/JetBrainsMono-Light.ttf" "$destination/assets/fonts/jetbrains-mono-light.woff2"
   subset_font "$mono_font_source_directory/JetBrainsMono-LightItalic.ttf" "$destination/assets/fonts/jetbrains-mono-light-italic.woff2"
   subset_font "$mono_font_source_directory/JetBrainsMono-Regular.ttf" "$destination/assets/fonts/jetbrains-mono-regular.woff2"

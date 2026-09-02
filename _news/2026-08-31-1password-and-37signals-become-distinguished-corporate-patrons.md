@@ -11,6 +11,24 @@ products:
   items: []
 project_areas:
   items: [foundation, patrons]
+image:
+  src: /assets/images/news/omacom-corporate-patrons-recurring-support-1152w.webp
+  alt: Two dark geometric towers connect a glowing modular core with intertwined blue and green light paths.
+  width: 1152
+  height: 648
+  illustrative: true
+  sizes: "(min-width: 72rem) 72rem, 100vw"
+  sources:
+    items:
+      - type: image/webp
+        srcset:
+          items:
+            - src: /assets/images/news/omacom-corporate-patrons-recurring-support-480w.webp
+              width: 480
+            - src: /assets/images/news/omacom-corporate-patrons-recurring-support-768w.webp
+              width: 768
+            - src: /assets/images/news/omacom-corporate-patrons-recurring-support-1152w.webp
+              width: 1152
 ---
 
 The [Omacom Foundation](/foundation/) has its first two Distinguished Corporate Patrons! [1Password](https://1password.com) and [37signals](https://37signals.com) are each contributing $100,000 a year for the next three years, which takes the foundation’s funding to $12.6 million.
