@@ -729,6 +729,7 @@ html.wordmark-pending .wordmark[data-wordmark-enhanced="true"] .wordmark__fallba
     opacity: 0;
     transform: translateY(var(--omarchy-space-small));
     will-change: inline-size, opacity, transform;
+    transition-property: background-color, color, box-shadow;
   }
 
   .home-hero[data-home-hero-enhanced] .home-scroll-cue {

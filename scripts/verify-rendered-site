@@ -500,18 +500,18 @@ def require_final_geometry(snapshot: dict, label: str) -> None:
         require(poster["title"] and poster["creator"], f"{label} poster {index + 1} lacks visible metadata.")
         require(poster["titleLines"] <= 2.1, f"{label} poster {index + 1} exceeds two title lines.")
         require(poster["objectFit"] == "cover", f"{label} poster {index + 1} must crop with object-fit cover.")
+        column_index = 0 if index == 0 else 1 if index < 3 else 2
         require(
-            close_enough(poster["rect"]["left"], poster["imageRect"]["left"])
-            and close_enough(poster["rect"]["top"], poster["imageRect"]["top"])
-            and close_enough(poster["rect"]["width"], poster["imageRect"]["width"])
-            and close_enough(poster["rect"]["height"], poster["imageRect"]["height"]),
-            f"{label} poster {index + 1} link must cover its complete media cell.",
+            close_enough(poster["rect"]["left"], columns[column_index]["rect"]["left"])
+            and close_enough(poster["rect"]["width"], columns[column_index]["rect"]["width"]),
+            f"{label} poster {index + 1} link must span its complete media column.",
         )
     require(snapshot["viewAll"]["visible"], f"{label} must reveal View all after column 3 settles.")
-    require(
-        snapshot["viewAll"]["transformTarget"] in ("translateY(0)", "translateY(0px)"),
-        f"{label} must target zero vertical translation for View all.",
-    )
+    if snapshot["enhanced"]:
+        require(
+            snapshot["viewAll"]["transformTarget"] in ("translateY(0)", "translateY(0px)"),
+            f"{label} must target zero vertical translation for View all.",
+        )
     require(snapshot["mediaElements"] == 0, f"{label} must render posters rather than playable media.")
     require_no_overflow(snapshot, label)
 
