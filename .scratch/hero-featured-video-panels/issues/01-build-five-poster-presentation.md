@@ -1,6 +1,6 @@
 # Build the five-poster hero presentation
 
-Status: claimed
+Status: resolved
 Type: task
 Blocked by:
 
@@ -34,3 +34,6 @@ Do not edit the scroll controller, browser verifier, featured-video data, poster
 The unenhanced homepage renders the complete intro and five-poster collection in accessible document order. Static desktop uses the final three-column composition after the intro; mobile uses one column. The enhanced-state CSS can represent the specified opening and final states through the shared DOM contract without horizontal document overflow.
 
 ## Answer
+
+- `_includes/sections/home-hero.html` now iterates the canonical featured-video collection once, groups posters 1 / 2–3 / 4–5 under the shared column selectors, keeps all five poster links ahead of **View all** in document order, and preserves link labels, image alternatives, same-tab destinations, and decorative play artwork.
+- `_sass/_home.scss` replaces the clipped three-item viewport with always-visible gradient overlays, a one-column static mobile flow, an ordinary-flow three-column desktop composition, the centered `50% 50%` poster crop, visible focus treatment, and enhancement-scoped sticky/off-stage geometry. Without `data-home-hero-enhanced`, no sticky or sideways presentation applies.

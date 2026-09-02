@@ -1,6 +1,6 @@
 {% assign home = site.data.home %}
 <section class="home-section home-hero" aria-labelledby="home-title" data-home-hero>
-  <div class="home-hero__stage">
+  <div class="home-hero__stage" data-home-hero-stage>
     <div class="home-hero__panes">
       <div class="home-hero__panel home-hero__panel--primary" data-home-hero-primary>
         <div class="home-hero__panel-content">
@@ -55,27 +55,41 @@
         </div>
       </div>
 
-      <aside class="home-hero__panel home-hero__panel--video" aria-label="Featured Omarchy videos" data-home-hero-actions>
-        <h2 class="u-visually-hidden">Featured videos</h2>
-        <div class="home-hero__video-viewport">
-          <ol class="home-hero__video-list" role="list">
-            {% for video in site.data.featured_videos.items limit: 3 %}
-            <li class="home-hero__video-item">
-              <a class="home-hero__video" href="https://www.youtube.com/watch?v={{ video.youtube_id }}" aria-label="Watch {{ video.title | escape }} by {{ video.creator | escape }} on YouTube">
-                <img src="{{ video.thumbnail | relative_url }}" width="1280" height="720" alt="{{ video.title | escape }} by {{ video.creator | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
-                <span class="video__play" aria-hidden="true">
-                  <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89.7 89.7 0 0 0 0 24a89.7 89.7 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89.7 89.7 0 0 0 68 24a89.7 89.7 0 0 0-1.5-16.3z" fill="#f00"></path><path d="M27 34.3 44.8 24 27 13.7z" fill="#fff"></path></svg>
-                </span>
-              </a>
-              <div class="home-hero__video-caption">
-                <h3><a href="https://www.youtube.com/watch?v={{ video.youtube_id }}">{{ video.title | escape }}</a></h3>
-                <p>{{ video.creator | escape }}</p>
-              </div>
-            </li>
-            {% endfor %}
-          </ol>
+      <aside class="home-hero__media" aria-labelledby="home-hero-media-title" data-home-hero-media>
+        <h2 id="home-hero-media-title" class="u-visually-hidden">Featured videos</h2>
+        <div class="home-hero__column" data-home-hero-column="1">
+          {% for video in site.data.featured_videos.items %}
+            {% case forloop.index %}
+              {% when 2 %}
+                </div>
+                <div class="home-hero__column" data-home-hero-column="2">
+              {% when 4 %}
+                </div>
+                <div class="home-hero__column" data-home-hero-column="3">
+            {% endcase %}
+            <a
+              class="home-hero__poster"
+              href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+              aria-label="Watch {{ video.title | escape }} by {{ video.creator | escape }} on YouTube"
+              data-home-hero-poster>
+              <img
+                src="{{ video.thumbnail | relative_url }}"
+                width="1280"
+                height="720"
+                alt="{{ video.title | escape }} by {{ video.creator | escape }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                decoding="async">
+              <span class="video__play" aria-hidden="true">
+                <svg viewBox="0 0 68 48"><path d="M66.5 7.7a8.6 8.6 0 0 0-6-6C55.2 0 34 0 34 0S12.8 0 7.5 1.7a8.6 8.6 0 0 0-6 6A89.7 89.7 0 0 0 0 24a89.7 89.7 0 0 0 1.5 16.3 8.6 8.6 0 0 0 6 6C12.8 48 34 48 34 48s21.2 0 26.5-1.7a8.6 8.6 0 0 0 6-6A89.7 89.7 0 0 0 68 24a89.7 89.7 0 0 0-1.5 16.3z" fill="#f00"></path><path d="M27 34.3 44.8 24 27 13.7z" fill="#fff"></path></svg>
+              </span>
+              <span class="home-hero__poster-overlay">
+                <h3 class="home-hero__poster-title">{{ video.title | escape }}</h3>
+                <p class="home-hero__poster-creator">{{ video.creator | escape }}</p>
+              </span>
+            </a>
+          {% endfor %}
         </div>
-        <a class="button button--secondary home-hero__video-all" href="{{ '/community/featured-videos/' | relative_url }}">View all</a>
+        <a class="button button--secondary home-hero__view-all" href="{{ '/community/featured-videos/' | relative_url }}" data-home-hero-view-all>View all</a>
       </aside>
     </div>
     <a class="home-scroll-cue" href="#home-news">
