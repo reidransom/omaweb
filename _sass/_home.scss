@@ -256,7 +256,7 @@
   position: absolute;
   z-index: 1;
   inset: 28% 0 0;
-  background: linear-gradient(to bottom, transparent, rgb(0 0 0 / 0.9));
+  background: linear-gradient(to bottom, transparent, var(--omarchy-night));
   content: "";
   pointer-events: none;
 }

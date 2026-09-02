@@ -68,13 +68,16 @@ HERO_METRICS = r"""(() => {
     element.tabIndex >= 0 && !element.closest("[inert]") && isVisible(element);
   const details = element => {
     const style = getComputedStyle(element);
+    const transform = style.transform;
     return {
       rect: rect(element),
       visible: isVisible(element),
       focusable: isFocusable(element),
       tabIndex: element.tabIndex,
-      transform: style.transform,
+      transform,
+      transformTarget: element.style.transform,
       visibility: style.visibility,
+      pointerEvents: style.pointerEvents,
       position: style.position,
       inert: element.hasAttribute("inert")
     };
@@ -298,6 +301,20 @@ def require_focus_state(
         f"{label} exposes the wrong sequential focus state for View all.",
     )
 
+def require_offstage_region(snapshot: dict, region: dict, label: str) -> None:
+    stage = snapshot["media"]["rect"]
+    bounds = region["rect"]
+    require(
+        bounds["right"] <= stage["left"] or bounds["left"] >= stage["right"],
+        f"{label} must remain outside the clipped media stage.",
+    )
+    require(
+        region["inert"]
+        and region["visibility"] == "hidden"
+        and region["pointerEvents"] == "none",
+        f"{label} must be inert, hidden, and pointer-disabled while off-stage.",
+    )
+
 
 def require_rect_close(first: dict, second: dict, label: str) -> None:
     for key in ("left", "top", "width", "height"):
@@ -413,6 +430,18 @@ def require_focus_indicators(browser: DevToolsSocket, label: str) -> None:
         )
 
 
+def focus_primary_action(browser: DevToolsSocket) -> None:
+    focused = evaluate(
+        browser,
+        """(() => {
+          const action = document.querySelector("[data-home-hero-primary] a[href]");
+          action.focus({preventScroll: true});
+          return document.activeElement === action;
+        })()""",
+    )
+    require(focused, "Could not focus the primary hero action before the forward-scroll check.")
+
+
 def focus_poster(browser: DevToolsSocket, index: int) -> None:
     focused = evaluate(
         browser,
@@ -479,6 +508,10 @@ def require_final_geometry(snapshot: dict, label: str) -> None:
             f"{label} poster {index + 1} link must cover its complete media cell.",
         )
     require(snapshot["viewAll"]["visible"], f"{label} must reveal View all after column 3 settles.")
+    require(
+        snapshot["viewAll"]["transformTarget"] in ("translateY(0)", "translateY(0px)"),
+        f"{label} must target zero vertical translation for View all.",
+    )
     require(snapshot["mediaElements"] == 0, f"{label} must render posters rather than playable media.")
     require_no_overflow(snapshot, label)
 
@@ -502,11 +535,65 @@ def verify_normal_choreography(
             f"{label} opening actions must participate in sequential focus.",
         )
         require_focus_state(opening_viewport, (), view_all=False, label=f"{label} opening state")
+        require(
+            opening_viewport["viewAll"]["transformTarget"]
+            == "translateY(var(--omarchy-space-small))",
+            f"{label} must hold hidden View all at its translated entrance offset.",
+        )
         require_no_overflow(opening_viewport, f"{label} opening state")
 
         limits = scroll_range(browser)
         progress_points = (0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75)
         frames = {progress: snapshot_at(browser, limits, progress) for progress in progress_points}
+        stage_gap = (
+            opening_viewport["columns"][0]["rect"]["left"]
+            - opening_viewport["media"]["rect"]["right"]
+        )
+        require(stage_gap > 0, f"{label} must stage entering columns beyond the clipping edge.")
+        seam_delta = 0.125 * stage_gap / (
+            opening_viewport["media"]["rect"]["width"] + stage_gap
+        )
+        entering_seams = (
+            ("first-column entry seam", seam_delta, 0, ()),
+            ("second-column entry seam", 0.25 + seam_delta, 1, (0,)),
+            ("third-column entry seam", 0.5 + seam_delta, 2, (0, 1, 2)),
+        )
+        for seam_label, progress, column_index, focusable_posters in entering_seams:
+            seam = snapshot_at(browser, limits, progress)
+            require_offstage_region(
+                seam,
+                seam["columns"][column_index],
+                f"{label} {seam_label}",
+            )
+            require_focus_state(
+                seam,
+                focusable_posters,
+                view_all=False,
+                label=f"{label} {seam_label}",
+            )
+        snapshot_at(browser, limits, 0.125)
+        focus_primary_action(browser)
+        primary_exit_seam = snapshot_at(browser, limits, 0.25 - seam_delta)
+        focus = active_focus(browser)
+        require(
+            focus["visible"] and focus["poster"] == 0,
+            f"{label} must move focus out of the off-stage primary panel.",
+        )
+        require_offstage_region(
+            primary_exit_seam,
+            primary_exit_seam["primary"],
+            f"{label} primary-panel exit seam",
+        )
+        require(
+            all(not action["focusable"] for action in primary_exit_seam["actions"]),
+            f"{label} primary-panel exit seam must remove its actions from sequential focus.",
+        )
+        require_focus_state(
+            primary_exit_seam,
+            (0,),
+            view_all=False,
+            label=f"{label} primary-panel exit seam",
+        )
         for progress, frame in frames.items():
             require_no_overflow(frame, f"{label} at {progress:.3f} progress")
 
@@ -633,6 +720,28 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse third interval",
         )
+        reverse_third_seam = snapshot_at(browser, limits, 0.5 + seam_delta)
+        focus = active_focus(browser)
+        require(
+            focus["visible"] and focus["poster"] in (0, 1, 2),
+            f"{label} must move focus out of off-stage column 3.",
+        )
+        require_offstage_region(
+            reverse_third_seam,
+            reverse_third_seam["columns"][2],
+            f"{label} reverse third-column exit seam",
+        )
+        require_focus_state(
+            reverse_third_seam,
+            (0, 1, 2),
+            view_all=False,
+            label=f"{label} reverse third-column exit seam",
+        )
+        require(
+            reverse_third_seam["viewAll"]["transformTarget"]
+            == "translateY(var(--omarchy-space-small))",
+            f"{label} must restore hidden View all to its translated entrance offset.",
+        )
         reverse_500 = snapshot_at(browser, limits, 0.5)
         focus = active_focus(browser)
         require(focus["visible"] and focus["poster"] in (0, 1, 2), f"{label} must move focus out of hidden column 3.")
@@ -660,6 +769,23 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse second interval",
         )
+        reverse_second_seam = snapshot_at(browser, limits, 0.25 + seam_delta)
+        focus = active_focus(browser)
+        require(
+            focus["visible"] and focus["poster"] == 0,
+            f"{label} must move focus out of off-stage column 2.",
+        )
+        require_offstage_region(
+            reverse_second_seam,
+            reverse_second_seam["columns"][1],
+            f"{label} reverse second-column exit seam",
+        )
+        require_focus_state(
+            reverse_second_seam,
+            (0,),
+            view_all=False,
+            label=f"{label} reverse second-column exit seam",
+        )
         reverse_250 = snapshot_at(browser, limits, 0.25)
         focus = active_focus(browser)
         require(focus["visible"] and focus["poster"] == 0, f"{label} must move focus out of hidden column 2.")
@@ -675,6 +801,23 @@ def verify_normal_choreography(
             reverse_125["primary"]["rect"],
             frames[0.125]["primary"]["rect"],
             f"{label} reverse first interval",
+        )
+        reverse_first_seam = snapshot_at(browser, limits, seam_delta)
+        focus = active_focus(browser)
+        require(
+            focus["visible"] and focus["inPrimary"],
+            f"{label} must move focus out of off-stage column 1.",
+        )
+        require_offstage_region(
+            reverse_first_seam,
+            reverse_first_seam["columns"][0],
+            f"{label} reverse first-column exit seam",
+        )
+        require_focus_state(
+            reverse_first_seam,
+            (),
+            view_all=False,
+            label=f"{label} reverse first-column exit seam",
         )
         restored = snapshot_at(browser, limits, 0)
         focus = active_focus(browser)

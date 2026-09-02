@@ -10,6 +10,8 @@ let disposeActiveHero;
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
 const interpolate = (from, to, progress) => from + ((to - from) * progress);
+const intersectsStage = (start, size, stageSize) =>
+  start < stageSize && start + size > 0;
 
 export function initHomeHero() {
   disposeActiveHero?.();
@@ -37,7 +39,7 @@ export function initHomeHero() {
   }
 
   const [firstColumn, secondColumn, thirdColumn] = columns;
-  const media = window.matchMedia(ENHANCED_HERO_QUERY);
+  const enhancementQuery = window.matchMedia(ENHANCED_HERO_QUERY);
   const regions = [
     { element: primary, controls: [...primary.querySelectorAll(FOCUSABLE_SELECTOR)] },
     {
@@ -161,10 +163,12 @@ export function initHomeHero() {
       const thirdInterval = clamp((progress - 0.5) / 0.25);
       const { width, gap, halfWidth, thirdWidth } = geometry;
 
+      const primaryStart = -((width + gap) * firstInterval);
       const firstColumnWidth =
         progress < 0.5
           ? interpolate(width, halfWidth, secondInterval)
           : interpolate(halfWidth, thirdWidth, thirdInterval);
+      const firstColumnStart = (width + gap) * (1 - firstInterval);
       const secondColumnWidth = interpolate(halfWidth, thirdWidth, thirdInterval);
       const secondColumnStart =
         progress < 0.25
@@ -176,10 +180,10 @@ export function initHomeHero() {
 
       primary.style.inlineSize = `${width}px`;
       primary.style.opacity = `${1 - firstInterval}`;
-      primary.style.transform = `translate3d(${-((width + gap) * firstInterval)}px, 0, 0)`;
+      primary.style.transform = `translate3d(${primaryStart}px, 0, 0)`;
 
       firstColumn.style.inlineSize = `${firstColumnWidth}px`;
-      firstColumn.style.transform = `translate3d(${(width + gap) * (1 - firstInterval)}px, 0, 0)`;
+      firstColumn.style.transform = `translate3d(${firstColumnStart}px, 0, 0)`;
 
       secondColumn.style.inlineSize = `${secondColumnWidth}px`;
       secondColumn.style.transform = `translate3d(${secondColumnStart}px, 0, 0)`;
@@ -189,12 +193,14 @@ export function initHomeHero() {
 
       viewAll.style.inlineSize = `${firstColumnWidth}px`;
       viewAll.style.opacity = thirdInterval === 1 ? "1" : "0";
+      viewAll.style.transform =
+        thirdInterval === 1 ? "translateY(0)" : "translateY(var(--omarchy-space-small))";
 
       syncInteraction([
-        firstInterval < 1,
-        firstInterval > 0,
-        secondInterval > 0,
-        thirdInterval > 0,
+        intersectsStage(primaryStart, width, width),
+        intersectsStage(firstColumnStart, firstColumnWidth, width),
+        intersectsStage(secondColumnStart, secondColumnWidth, width),
+        intersectsStage(thirdColumnStart, thirdWidth, width),
         thirdInterval === 1,
       ]);
       setPanelsAnimating(progress < 1);
@@ -234,7 +240,7 @@ export function initHomeHero() {
   const setup = () => {
     disposeEnhancement();
     disposeEnhancement = () => {};
-    if (!media.matches) return;
+    if (!enhancementQuery.matches) return;
 
     try {
       startEnhancement();
@@ -245,14 +251,14 @@ export function initHomeHero() {
   };
 
   const dispose = () => {
-    media.removeEventListener("change", setup);
+    enhancementQuery.removeEventListener("change", setup);
     disposeEnhancement();
     disposeEnhancement = () => {};
     if (disposeActiveHero === dispose) disposeActiveHero = undefined;
   };
 
   disposeActiveHero = dispose;
-  media.addEventListener("change", setup);
+  enhancementQuery.addEventListener("change", setup);
   setup();
 
   return dispose;
