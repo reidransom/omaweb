@@ -346,6 +346,7 @@ export function initSiteSearch({ quake } = {}) {
       const links = [...surface.results.querySelectorAll("[data-search-result]")];
       const resultState = { links, selectedIndex: -1 };
       surfaceResults.set(surface, resultState);
+      setSelection(surface, 0);
       links.forEach((link, index) => {
         link.addEventListener("pointermove", () => setSelection(surface, index));
         link.addEventListener("focus", () => setSelection(surface, index));
