@@ -11,7 +11,7 @@ Implement the JavaScript controller portion of `.scratch/hero-featured-video-pan
 - Replace the current two-element reveal with one controller covering the primary panel, three media columns, and **View all**.
 - Map normalized scroll progress to the four specified intervals: primary replacement, left-origin second-column entrance, right-origin third-column entrance, and stable final hold.
 - Continuously interpolate panel geometry and transforms in both scroll directions.
-- Keep poster 1 leftmost while the second column enters from the left and settles to its right.
+- Shift poster 1 right while the second column enters from the left and settles on its left; keep poster 1 centered when the third column settles on its right.
 - Keep the final quarter geometrically stable before sticky release.
 - Synchronize visibility, pointer interaction, `inert`, and sequential focus with the visible stage.
 - If a reversing transition would hide the active element, restore focus to a visible meaningful hero target without changing scroll position.
@@ -33,6 +33,7 @@ Do not edit hero markup, Sass, browser verification, data, assets, homepage copy
 
 ## Acceptance
 
+
 At the existing desktop/no-reduced-motion query, one reversible scroll controller produces every milestone and the final hold from the spec. Static, reduced-motion, mobile, and failed-initialization states retain no stale enhancement styles or hidden controls. No second controller or obsolete reveal path remains.
 
 ## Answer
@@ -40,3 +41,7 @@ At the existing desktop/no-reduced-motion query, one reversible scroll controlle
 `src/js/home-hero.js` now uses one Motion scroll observer for the four reversible intervals. It measures the media width and responsive gap, continuously sizes and positions all three columns, holds the completed geometry for the final quarter, and preserves the existing body/header coordination through the end boundary.
 
 The controller synchronizes `inert`, pointer visibility, and tab stops; moves focus with `preventScroll` before hiding its active region; and restores all owned styles and interaction attributes on media-query exit or initialization failure. A `ResizeObserver`, guarded enhancement lifecycle, and module-level disposer prevent stale geometry, listeners, or duplicate controllers on resize and reentry.
+
+## Comments
+
+- Follow-up correction: the resolved choreography now places posters 2–3 left of poster 1 rather than crossing the left-origin panel to its right.

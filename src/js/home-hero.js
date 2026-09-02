@@ -2,7 +2,14 @@ import { scroll } from "motion";
 
 const ENHANCED_HERO_QUERY = "(min-width: 40rem) and (prefers-reduced-motion: no-preference)";
 const SCROLL_OFFSETS = ["start start", "end end"];
-const STYLE_PROPERTIES = ["inline-size", "opacity", "pointer-events", "transform", "visibility"];
+const STYLE_PROPERTIES = [
+  "inline-size",
+  "inset-inline-start",
+  "opacity",
+  "pointer-events",
+  "transform",
+  "visibility",
+];
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]';
 
@@ -168,14 +175,19 @@ export function initHomeHero() {
         progress < 0.5
           ? interpolate(width, halfWidth, secondInterval)
           : interpolate(halfWidth, thirdWidth, thirdInterval);
-      const firstColumnStart = (width + gap) * (1 - firstInterval);
+      const firstColumnStart =
+        progress < 0.25
+          ? (width + gap) * (1 - firstInterval)
+          : progress < 0.5
+            ? interpolate(0, halfWidth + gap, secondInterval)
+            : interpolate(halfWidth + gap, thirdWidth + gap, thirdInterval);
       const secondColumnWidth = interpolate(halfWidth, thirdWidth, thirdInterval);
       const secondColumnStart =
         progress < 0.25
           ? -(halfWidth + gap)
           : progress < 0.5
-            ? interpolate(-(halfWidth + gap), firstColumnWidth + gap, secondInterval)
-            : firstColumnWidth + gap;
+            ? interpolate(-(halfWidth + gap), 0, secondInterval)
+            : 0;
       const thirdColumnStart = 2 * (firstColumnWidth + gap);
 
       primary.style.inlineSize = `${width}px`;
@@ -192,6 +204,7 @@ export function initHomeHero() {
       thirdColumn.style.transform = `translate3d(${thirdColumnStart}px, 0, 0)`;
 
       viewAll.style.inlineSize = `${firstColumnWidth}px`;
+      viewAll.style.insetInlineStart = `${firstColumnStart}px`;
       viewAll.style.opacity = thirdInterval === 1 ? "1" : "0";
       viewAll.style.transform =
         thirdInterval === 1 ? "translateY(0)" : "translateY(var(--omarchy-space-small))";

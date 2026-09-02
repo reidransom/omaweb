@@ -477,8 +477,8 @@ def require_final_geometry(snapshot: dict, label: str) -> None:
     columns = snapshot["columns"]
     require(visible_column_numbers(snapshot) == [1, 2, 3], f"{label} must show all three columns.")
     require(
-        columns[0]["rect"]["left"] < columns[1]["rect"]["left"] < columns[2]["rect"]["left"],
-        f"{label} must preserve the canonical 1, 2–3, 4–5 column order.",
+        columns[1]["rect"]["left"] < columns[0]["rect"]["left"] < columns[2]["rect"]["left"],
+        f"{label} must order the final columns as 2–3, 1, 4–5.",
     )
     require(
         close_enough(columns[0]["rect"]["width"], columns[1]["rect"]["width"])
@@ -634,12 +634,20 @@ def verify_normal_choreography(
             f"{label} must compress poster 1 continuously during the second interval.",
         )
         require(
+            frames[0.25]["columns"][0]["rect"]["left"]
+            < frames[0.375]["columns"][0]["rect"]["left"]
+            < frames[0.5]["columns"][0]["rect"]["left"],
+            f"{label} must shift poster 1 right while posters 2–3 enter on its left.",
+        )
+        require(
             visible_column_numbers(frames[0.5]) == [1, 2]
+            and frames[0.5]["columns"][1]["rect"]["left"]
+            < frames[0.5]["columns"][0]["rect"]["left"]
             and close_enough(
                 frames[0.5]["columns"][0]["rect"]["width"],
                 frames[0.5]["columns"][1]["rect"]["width"],
             ),
-            f"{label} second milestone must form equal half-width columns.",
+            f"{label} second milestone must place equal-width posters 2–3 left of poster 1.",
         )
         require_focus_state(frames[0.5], (0, 1, 2), view_all=False, label=f"{label} second milestone")
 
