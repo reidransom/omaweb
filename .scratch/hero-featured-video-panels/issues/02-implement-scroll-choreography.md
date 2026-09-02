@@ -1,6 +1,6 @@
 # Implement reversible hero scroll choreography
 
-Status: claimed
+Status: resolved
 Type: task
 Blocked by:
 
@@ -36,3 +36,7 @@ Do not edit hero markup, Sass, browser verification, data, assets, homepage copy
 At the existing desktop/no-reduced-motion query, one reversible scroll controller produces every milestone and the final hold from the spec. Static, reduced-motion, mobile, and failed-initialization states retain no stale enhancement styles or hidden controls. No second controller or obsolete reveal path remains.
 
 ## Answer
+
+`src/js/home-hero.js` now uses one Motion scroll observer for the four reversible intervals. It measures the media width and responsive gap, continuously sizes and positions all three columns, holds the completed geometry for the final quarter, and preserves the existing body/header coordination through the end boundary.
+
+The controller synchronizes `inert`, pointer visibility, and tab stops; moves focus with `preventScroll` before hiding its active region; and restores all owned styles and interaction attributes on media-query exit or initialization failure. A `ResizeObserver`, guarded enhancement lifecycle, and module-level disposer prevent stale geometry, listeners, or duplicate controllers on resize and reentry.
