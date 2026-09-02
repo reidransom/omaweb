@@ -658,6 +658,24 @@ a:hover .media__image {
   }
 }
 
+.team-directory {
+  display: grid;
+  gap: var(--omarchy-space-large);
+}
+
+.team-directory__section {
+  margin-block-start: 0;
+  text-align: center;
+}
+
+.team-directory__section > h2 {
+  margin-block-start: 0;
+}
+
+.team-directory__section .person-card {
+  padding: 0;
+}
+
 .people-roster {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -672,9 +690,6 @@ a:hover .media__image {
   justify-items: center;
   gap: var(--omarchy-space-small);
   padding: 1rem;
-  border: 1px solid var(--omarchy-terminal-black);
-  border-radius: var(--omarchy-radius-small);
-  background: var(--omarchy-storm);
   text-align: center;
 }
 
