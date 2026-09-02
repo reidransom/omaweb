@@ -79,6 +79,7 @@ export function initHomeHero() {
   const originalChromeTransforms = new Map(
     chromeElements.map((element) => [element, element.style.getPropertyValue("transform")]),
   );
+  const originalStageInset = stage.style.getPropertyValue("inset-block-start");
   let disposeEnhancement = () => {};
 
   const setPanelsAnimating = (active) => {
@@ -93,6 +94,14 @@ export function initHomeHero() {
         element.style.removeProperty("transform");
       }
     });
+  };
+
+  const restoreStageInset = () => {
+    if (originalStageInset) {
+      stage.style.setProperty("inset-block-start", originalStageInset);
+    } else {
+      stage.style.removeProperty("inset-block-start");
+    }
   };
 
   const setRegionState = ({ element, controls }, visible) => {
@@ -146,6 +155,7 @@ export function initHomeHero() {
       STYLE_PROPERTIES.forEach((property) => element.style.removeProperty(property));
     });
     restoreChromeTransforms();
+    restoreStageInset();
 
     regions.forEach(({ element, controls }) => {
       element.toggleAttribute("inert", originalInert.get(element));
@@ -171,6 +181,7 @@ export function initHomeHero() {
       const width = mediaComposition.getBoundingClientRect().width;
       const gap = Number.parseFloat(getComputedStyle(mediaComposition).columnGap);
       const announcementHeight = announcement?.getBoundingClientRect().height ?? 0;
+      const siteHeaderHeight = siteHeader?.getBoundingClientRect().height ?? 0;
 
       if (width <= 0 || !Number.isFinite(gap)) return;
 
@@ -178,7 +189,14 @@ export function initHomeHero() {
       const thirdWidth = (width - (2 * gap)) / 3;
       if (halfWidth <= 0 || thirdWidth <= 0) return;
 
-      geometry = { width, gap, halfWidth, thirdWidth, announcementHeight };
+      geometry = {
+        width,
+        gap,
+        halfWidth,
+        thirdWidth,
+        announcementHeight,
+        stageOffset: announcementHeight + siteHeaderHeight,
+      };
     };
 
     const render = (nextProgress) => {
@@ -189,7 +207,7 @@ export function initHomeHero() {
       const firstInterval = clamp(progress / 0.25);
       const secondInterval = clamp((progress - 0.25) / 0.25);
       const thirdInterval = clamp((progress - 0.5) / 0.25);
-      const { width, gap, halfWidth, thirdWidth, announcementHeight } = geometry;
+      const { width, gap, halfWidth, thirdWidth, announcementHeight, stageOffset } = geometry;
 
       const primaryStart = -((width + gap) * firstInterval);
       const firstColumnWidth =
@@ -237,9 +255,11 @@ export function initHomeHero() {
       if (scrollProgress < 1) {
         const chromeTransform = `translate3d(0, ${chromeOffset}px, 0)`;
         announcement?.style.setProperty("transform", chromeTransform);
+        stage.style.insetBlockStart = `${stageOffset * (1 - chromeRelease)}px`;
         siteHeader?.style.setProperty("transform", chromeTransform);
       } else {
         restoreChromeTransforms();
+        restoreStageInset();
       }
 
       syncInteraction([

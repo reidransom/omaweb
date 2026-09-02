@@ -14,6 +14,7 @@ Implement the JavaScript controller portion of `.scratch/hero-featured-video-pan
 - Shift poster 1 right while the second column enters from the left and settles on its left; keep poster 1 centered when the third column settles on its right.
 - Keep the third interval moving through the remaining pinned scroll range and release immediately when it completes.
 - Scroll the announcement banner and site header upward together during the final 5% so the animation-state release produces no visible jump.
+- Reduce the sticky stage inset over the same final 5% so the videos reach their release position without jumping.
 - Synchronize visibility, pointer interaction, `inert`, and sequential focus with the visible stage.
 - If a reversing transition would hide the active element, restore focus to a visible meaningful hero target without changing scroll position.
 - Dispose all inline styles, interaction state, body coordination state, and listeners when leaving the enhancement media query; reinitialize exactly once when re-entering.
@@ -48,3 +49,4 @@ The controller synchronizes `inert`, pointer visibility, and tab stops; moves fo
 - Follow-up correction: the resolved choreography now places posters 2–3 left of poster 1 rather than crossing the left-origin panel to its right.
 - Follow-up correction: the resolved choreography no longer holds the completed five-poster composition; the third entrance runs through the end boundary and downward scroll resumes immediately.
 - Follow-up correction: the announcement and site header now scroll out together before the completion state changes their positioning rules.
+- Follow-up correction: the sticky stage now rises with the departing banner and header instead of dropping its full offset at completion.

@@ -730,6 +730,12 @@ def verify_normal_choreography(
             > chrome_release[2]["siteHeader"]["rect"]["top"],
             f"{label} site header must smoothly replace the departing announcement.",
         )
+        require(
+            chrome_release[0]["stage"]["rect"]["top"]
+            > chrome_release[1]["stage"]["rect"]["top"]
+            > chrome_release[2]["stage"]["rect"]["top"],
+            f"{label} video stage must rise continuously with the departing page chrome.",
+        )
 
         release_position = limits["end"] + (height * 0.35)
         scroll_to(browser, release_position)

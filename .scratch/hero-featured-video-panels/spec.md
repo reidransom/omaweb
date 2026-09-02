@@ -70,6 +70,7 @@ On narrow screens, with reduced motion, or without JavaScript, preserve the OMAR
 44. As a maintainer, I want one scroll controller to own the complete choreography, so that panel widths, directions, visibility, and sticky release cannot drift between independent listeners.
 45. As a maintainer, I want the current two-element reveal replaced cleanly, so that obsolete clipping and progress logic do not remain as a competing implementation path.
 46. As a homepage visitor, I want the announcement banner to scroll upward smoothly as the final panel lands, so that it does not disappear in one frame when the hero releases.
+47. As a homepage visitor, I want the video composition to rise continuously with the departing banner and header, so that it does not jump upward when the hero state releases.
 
 ## Implementation Decisions
 
@@ -96,6 +97,7 @@ On narrow screens, with reduced motion, or without JavaScript, preserve the OMAR
 - Upward scrolling applies the exact inverse progress. No one-way classes, delayed exit timers, or snap-to-end recovery paths are permitted.
 - The sticky stage remains coordinated with the existing announcement and site header until the third panel lands, then releases immediately within the hero boundary so the News section resumes normal document flow.
 - During the final 5% of scroll progress, move the announcement banner and site header upward together by the announcement height. At the end boundary the banner is already outside the viewport and the header is already at the top, so removing the hero animation state cannot produce a visible position jump.
+- Reduce the sticky stage inset over the same final 5%, from the combined announcement-and-header height to zero. The composition must reach its release position before the animation-state attribute is removed.
 - The existing scroll cue continues to target the News section and must bypass the remaining pinned distance correctly when activated.
 
 ### Completed composition
@@ -151,7 +153,7 @@ A good test asserts what a visitor can observe: which panel is visible, where it
 - At the completed milestone, confirm the left and right stacked cells are equal height, poster 1 occupies the center column above **View all**, all five overlays are visible, and long titles occupy no more than two lines.
 - Confirm poster 1 uses a stable centered crop before, during, and after compression. Geometry changes must not change its effective focal position.
 - Sample late points in the final third and confirm the first two columns continue compressing and the right panel continues entering while the stage remains pinned.
-- Sample the final 5% and confirm the announcement and site header move upward continuously while both retain their sticky hero state.
+- Sample the final 5% and confirm the announcement, site header, and sticky video stage move upward continuously while all retain their sticky hero state.
 - Cross the end boundary and confirm the completed composition releases immediately into ordinary News flow without an unchanged pinned interval.
 - Scroll backward through every milestone and confirm the direction, dimensions, visibility, and focusability reverse without jumps. The OMARCHY primary panel must be fully restored at progress zero.
 - Activate the existing scroll cue from the opening state and confirm focus/scroll reaches the News section without trapping the viewport in an intermediate animation state.
