@@ -68,14 +68,28 @@
 }
 
 .site-search__group li {
+  position: relative;
   padding: var(--omarchy-space-medium);
   border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius);
   background: var(--omarchy-storm);
+  transition: border-color var(--omarchy-transition);
 }
 
 .site-search__group li + li {
   margin: 0;
+}
+
+.site-search__group li:hover,
+.site-search__group li:focus-within,
+.site-search__group li:has(a.is-active) {
+  border-color: var(--omarchy-turquoise);
+}
+
+.site-search__group a::after {
+  position: absolute;
+  inset: 0;
+  content: "";
 }
 
 .site-search__group a.is-active {
@@ -289,6 +303,7 @@
 .spotlight {
   box-sizing: border-box;
   inline-size: min(calc(100% - 2em), 42rem);
+  overflow: hidden;
   max-block-size: min(70vh, calc(100% - 2em));
   margin: 1em auto;
   padding: 0;

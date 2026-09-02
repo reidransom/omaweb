@@ -1012,12 +1012,49 @@ def require_static_layout(
         browser.close()
 
 
+def verify_search_default_selection(session: ChromiumSession) -> None:
+    browser = load_page(session, "/search/", 1440, 900)
+    try:
+        selection = evaluate(
+            browser,
+            """(() => {
+              const surface = document.querySelector(".content-shell--search");
+              const input = surface.querySelector("input[name='q']");
+              input.focus();
+              input.value = "Desktops";
+              input.dispatchEvent(new Event("input", {bubbles: true}));
+              const links = [...surface.querySelectorAll("[data-search-result]")];
+              return {
+                inputFocused: document.activeElement === input,
+                firstHref: links[0] ? new URL(links[0].href).pathname : null,
+                activeIndex: links.findIndex(link => link.classList.contains("is-active"))
+              };
+            })()""",
+        )
+        require(selection["inputFocused"], "Search typing must keep focus in the query field.")
+        require(selection["firstHref"] == "/desktop/", "Desktops must render as the first matching result.")
+        require(selection["activeIndex"] == 0, "Search must highlight its first result while typing.")
+
+        browser.command(
+            "Input.dispatchKeyEvent",
+            {"type": "keyDown", "key": "Enter", "code": "Enter"},
+        )
+        wait_for_complete(browser, "/desktop/", "first search result navigation")
+        require(
+            evaluate(browser, "location.pathname") == "/desktop/",
+            "Enter in the search field must navigate to the highlighted first result.",
+        )
+    finally:
+        browser.close()
+
+
 def run() -> None:
     if not SITE.is_dir():
         fail("Missing _site; build the rendered site before browser verification.")
 
     with ChromiumSession(SITE) as session:
         featured_contract = read_featured_contract(session)
+        verify_search_default_selection(session)
         verify_normal_choreography(session, 1440, 900, featured_contract)
         verify_normal_choreography(session, 768, 1024, featured_contract)
         require_static_layout(session, 390, 844)
@@ -1036,7 +1073,7 @@ def run() -> None:
 
     print(
         f"Rendered Chromium checks passed for {len(ROUTES)} routes across "
-        f"{len(VIEWPORTS)} viewports and the homepage hero acceptance scenarios."
+        f"{len(VIEWPORTS)} viewports, search behavior, and the homepage hero acceptance scenarios."
     )
 
 
