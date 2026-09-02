@@ -10,6 +10,9 @@ archetype: project
 {% assign code = site.data.destinations.items | where: "slug", "code" | first %}
 {% assign plugins = site.data.destinations.items | where: "slug", "plugins" | first %}
 {% assign community_navigation = site.data.navigation.sections | where: 'url', '/community/' | first %}
+{% capture code_link %}{% include authoritative-link.html destination='code' label='the Omarchy repository' %}{% endcapture %}
+{% capture plugins_link %}{% include authoritative-link.html destination='plugins' label='Plugins' %}{% endcapture %}
+{% capture discord_link %}{% include authoritative-link.html destination='discord' label='Discord' %}{% endcapture %}
 
 <nav class="prose section-landing-prose" aria-labelledby="community-contents-title">
   <h2 id="community-contents-title">In this section</h2>
@@ -34,9 +37,9 @@ archetype: project
   <h2 id="community-contribute-title">Bring a useful thing</h2>
   <p>A good contribution can be a patch, a plugin, a careful answer, a meetup, or a workstation photo another person can learn from. Start where the work is visible, and use the route that matches it.</p>
   <ul>
-    {% if code %}<li>For code, start at {% include authoritative-link.html destination='code' label='the Omarchy repository' %}.</li>{% endif %}
-    {% if plugins %}<li>For an extension, publish it through {% include authoritative-link.html destination='plugins' label='Plugins' %}.</li>{% endif %}
+    {% if code %}<li>For code, start at {{ code_link | strip_newlines | strip }}.</li>{% endif %}
+    {% if plugins %}<li>For an extension, publish it through {{ plugins_link | strip_newlines | strip }}.</li>{% endif %}
     <li>For community stewardship, visit the <a href="{{ '/teams/rangers/' | relative_url }}">Rangers</a>.</li>
-    {% if discord %}<li>For a question, an idea, or a photo you want considered for the gallery, bring it to {% include authoritative-link.html destination='discord' label='Discord' %}.</li>{% endif %}
+    {% if discord %}<li>For a question, an idea, or a photo you want considered for the gallery, bring it to {{ discord_link | strip_newlines | strip }}.</li>{% endif %}
   </ul>
 </section>

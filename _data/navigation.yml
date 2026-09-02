@@ -98,6 +98,10 @@ sections:
     external: false
     links:
       items:
+        - label: Teams
+          description: The people guiding Omarchy and caring for its security and community.
+          url: /teams/
+          external: false
         - destination: discord
           description: Questions, fixes, build notes, and the live community conversation.
         - label: Meetups
@@ -114,9 +118,5 @@ sections:
           external: false
         - destination: plugins
           description: The public catalog of extensions made around Omarchy.
-        - label: Teams
-          description: The people guiding Omarchy and caring for its security and community.
-          url: /teams/
-          external: false
         - destination: code
           description: The public GitHub repository for Omarchy.

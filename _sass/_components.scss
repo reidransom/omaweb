@@ -668,10 +668,21 @@ a:hover .media__image {
 }
 
 .person-card {
+  display: grid;
+  justify-items: center;
+  gap: var(--omarchy-space-small);
   padding: 1rem;
   border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius-small);
   background: var(--omarchy-storm);
+  text-align: center;
+}
+
+.person-card__image {
+  inline-size: 8em;
+  block-size: 8em;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .person-card__name {
