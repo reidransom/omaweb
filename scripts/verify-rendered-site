@@ -45,6 +45,8 @@ HERO_METRICS = r"""(() => {
   const posters = [...hero.querySelectorAll("[data-home-hero-poster]")];
   const viewAll = hero.querySelector("[data-home-hero-view-all]");
   const news = document.querySelector("#home-news");
+  const announcement = document.querySelector(".announcement");
+  const siteHeader = document.querySelector(".site-header");
   const rect = element => {
     const value = element.getBoundingClientRect();
     return {
@@ -98,6 +100,8 @@ HERO_METRICS = r"""(() => {
     hero: details(hero),
     stage: details(stage),
     primary: details(primary),
+    announcement: details(announcement),
+    siteHeader: details(siteHeader),
     media: details(media),
     columns: columns.map(details),
     actions: [...primary.querySelectorAll("a[href]")].map(link => ({
@@ -705,6 +709,26 @@ def verify_normal_choreography(
         require(
             not third_late_start["viewAll"]["visible"] and not third_late_end["viewAll"]["visible"],
             f"{label} must reveal View all only when the final panel lands.",
+        )
+        chrome_release = [
+            snapshot_at(browser, limits, progress)
+            for progress in (0.96, 0.98, 0.995)
+        ]
+        require(
+            all(frame["announcement"]["position"] == "sticky" for frame in chrome_release),
+            f"{label} announcement must remain sticky while it scrolls out.",
+        )
+        require(
+            chrome_release[0]["announcement"]["rect"]["top"]
+            > chrome_release[1]["announcement"]["rect"]["top"]
+            > chrome_release[2]["announcement"]["rect"]["top"],
+            f"{label} announcement must scroll smoothly upward before hero release.",
+        )
+        require(
+            chrome_release[0]["siteHeader"]["rect"]["top"]
+            > chrome_release[1]["siteHeader"]["rect"]["top"]
+            > chrome_release[2]["siteHeader"]["rect"]["top"],
+            f"{label} site header must smoothly replace the departing announcement.",
         )
 
         release_position = limits["end"] + (height * 0.35)
