@@ -10,7 +10,7 @@ The result feels like one secondary panel being exposed rather than a designed v
 
 ## Solution
 
-Turn the enhanced desktop hero into a reversible, vertical-scroll-driven sequence with four stages. Begin with the existing OMARCHY primary panel. Replace it with featured-video poster 1 entering from the right. Then introduce a panel containing posters 2 and 3 from the left while poster 1 contracts and shifts into the center column. Introduce posters 4 and 5 from the right to complete three equal-width columns. Hold that complete composition for a short scroll interval before releasing the sticky stage and continuing into the News section.
+Turn the enhanced desktop hero into a reversible, vertical-scroll-driven sequence with three stages. Begin with the existing OMARCHY primary panel. Replace it with featured-video poster 1 entering from the right. Then introduce a panel containing posters 2 and 3 from the left while poster 1 contracts and shifts into the center column. Introduce posters 4 and 5 from the right to complete three equal-width columns. Release the sticky stage immediately when the third panel lands so ordinary downward scrolling continues into the News section without a completed-state pause.
 
 The completed composition is:
 
@@ -35,13 +35,13 @@ On narrow screens, with reduced motion, or without JavaScript, preserve the OMAR
 9. As a homepage visitor, I want all three final columns to have equal width, so that no group appears arbitrarily more important than another.
 10. As a homepage visitor, I want posters 2 and 3 to divide their column evenly, so that both recommendations receive equal visual weight.
 11. As a homepage visitor, I want posters 4 and 5 to divide their column evenly, so that both recommendations receive equal visual weight.
-12. As a homepage visitor, I want the final five-poster composition to remain pinned briefly after it forms, so that I can take in the complete arrangement before the page moves on.
-13. As a homepage visitor, I want ordinary downward scrolling to resume after the final hold, so that the News section follows naturally.
+12. As a homepage visitor, I want the final panel to keep moving until the sticky stage releases, so that the completed composition does not pause before the page moves on.
+13. As a homepage visitor, I want ordinary downward scrolling to resume the moment the final panel lands, so that the News section follows immediately.
 14. As a visitor scrolling upward, I want the choreography to reverse continuously, so that the page never jumps between unrelated states.
 15. As a visitor scrolling upward, I want the right panel to leave rightward, the center panel to leave leftward, poster 1 to expand, and the OMARCHY panel to return, so that the reverse motion explains the original sequence.
 16. As a visitor, I want each stage to dominate a distinct scroll interval, so that all three entrances do not blur into one simultaneous animation.
 17. As a visitor, I want slight overlap between adjacent transitions, so that the sequence feels continuous rather than stopping mechanically at each boundary.
-18. As a visitor, I want the final hold to preserve a stable layout while I continue scrolling, so that the third panel is not immediately carried away.
+18. As a visitor, I want the third entrance to consume the remaining pinned scroll interval, so that there is no separate beat after all five posters are in place.
 19. As a visitor, I want every poster title and creator name visible without hovering, so that I can identify each recommendation on touch, pointer, or keyboard devices.
 20. As a visitor, I want long poster titles limited to two lines, so that text does not consume or obscure the media cells.
 21. As a visitor, I want the overlaid text supported by a dark lower gradient, so that it remains legible over all five poster images.
@@ -84,17 +84,16 @@ On narrow screens, with reduced motion, or without JavaScript, preserve the OMAR
 ### Enhanced desktop choreography
 
 - Progressive enhancement remains limited to viewports at or above the existing `40rem` breakpoint when `prefers-reduced-motion` is `no-preference`.
-- Use one normalized scroll progress value and one controller for the entire sequence. The controller owns panel transforms, widths, opacity/visibility, focusability, the final hold, breakpoint cleanup, and sticky-header coordination.
-- Divide progress into four logical intervals:
-  1. `0%–25%`: the OMARCHY primary panel exits left and fades while poster 1 enters from the right and becomes the sole full-stage poster panel.
-  2. `25%–50%`: the panel containing posters 2 and 3 travels in from the left and settles to the left of poster 1 while poster 1 contracts to half width and shifts right.
-  3. `50%–75%`: the panel containing posters 4 and 5 enters from the right while the first two panels contract to three equal-width columns.
-  4. `75%–100%`: all transforms and column sizes remain fixed in the completed state; **View all** is visible below poster 1; continued scroll supplies the deliberate final hold.
-- Adjacent transitions may overlap slightly at their boundaries to avoid dead pauses, but the ordered milestone states and the final stable quarter are fixed contracts.
+- Use one normalized scroll progress value and one controller for the entire sequence. The controller owns panel transforms, widths, opacity/visibility, focusability, breakpoint cleanup, and sticky-header coordination.
+- Divide scroll progress into three logical intervals:
+  1. `0%–33⅓%`: the OMARCHY primary panel exits left and fades while poster 1 enters from the right and becomes the sole full-stage poster panel.
+  2. `33⅓%–66⅔%`: the panel containing posters 2 and 3 travels in from the left and settles to the left of poster 1 while poster 1 contracts to half width and shifts right.
+  3. `66⅔%–100%`: the panel containing posters 4 and 5 enters from the right while the first two panels contract to three equal-width columns. The stage releases immediately at completion.
+- Adjacent transitions may overlap slightly at their boundaries to avoid dead pauses, but no completed-state hold follows the third interval.
 - Poster 1 shifts right during the second interval so the left-origin panel settles on its left. During the third interval poster 1 contracts into the center while the new right-origin panel settles on its right. The DOM and reading order remain canonical even though visual placement is `2–3`, `1`, `4–5`.
 - Entrances are scrubbed by vertical scrolling rather than time-triggered animations. Stopping midway through a phase must leave a stable intermediate frame.
 - Upward scrolling applies the exact inverse progress. No one-way classes, delayed exit timers, or snap-to-end recovery paths are permitted.
-- The sticky stage remains coordinated with the existing announcement and site header until progress reaches the end of the final hold. It then releases within the hero boundary so the News section resumes normal document flow.
+- The sticky stage remains coordinated with the existing announcement and site header until the third panel lands, then releases immediately within the hero boundary so the News section resumes normal document flow.
 - The existing scroll cue continues to target the News section and must bypass the remaining pinned distance correctly when activated.
 
 ### Completed composition
@@ -108,7 +107,7 @@ On narrow screens, with reduced motion, or without JavaScript, preserve the OMAR
 - Titles and creator names are always rendered over the bottom of each poster. Use the existing display type system, a dark lower gradient, a maximum of two title lines, and a compact creator line.
 - Overlay text must remain legible against each current poster without adding a new color system or large opaque caption card.
 - The entire cell retains its hover and focus affordance. Hover-only disclosure is prohibited.
-- Reveal **View all** only once the third panel has settled. It may enter with a restrained opacity/translation transition, but it does not alter column widths or shorten the final hold.
+- Reveal **View all** when the third panel lands. It must be at its final position when the stage releases and must not add another pinned interval.
 
 ### Static and responsive presentation
 
@@ -149,8 +148,8 @@ A good test asserts what a visitor can observe: which panel is visible, where it
 - Scroll through the third interval and sample an intermediate frame to prove the posters 4–5 panel moves in from the right. At the third milestone, confirm three equal-width columns in the visual order `2–3`, `1`, `4–5`.
 - At the completed milestone, confirm the left and right stacked cells are equal height, poster 1 occupies the center column above **View all**, all five overlays are visible, and long titles occupy no more than two lines.
 - Confirm poster 1 uses a stable centered crop before, during, and after compression. Geometry changes must not change its effective focal position.
-- Scroll within the final quarter and confirm the stage remains pinned with unchanged panel geometry while document scroll position advances.
-- Cross the end boundary and confirm the stage releases and the News section enters ordinary vertical flow.
+- Sample late points in the final third and confirm the first two columns continue compressing and the right panel continues entering while the stage remains pinned.
+- Cross the end boundary and confirm the completed composition releases immediately into ordinary News flow without an unchanged pinned interval.
 - Scroll backward through every milestone and confirm the direction, dimensions, visibility, and focusability reverse without jumps. The OMARCHY primary panel must be fully restored at progress zero.
 - Activate the existing scroll cue from the opening state and confirm focus/scroll reaches the News section without trapping the viewport in an intermediate animation state.
 - Confirm each poster cell exposes the canonical YouTube URL, navigates in the same tab, and has one descriptive accessible name. Confirm **View all** exposes the existing Featured videos route.
@@ -172,7 +171,7 @@ A good test asserts what a visitor can observe: which panel is visible, where it
 - Keep the existing production build, route, broken-image, asset, JavaScript-budget, and rendered-site checks passing.
 - Confirm no iframe, video element, remote player script, or new media request is introduced before a visitor activates a poster link.
 - Confirm the Featured videos destination still renders its complete collection independently of the hero redesign.
-- Perform browser review at `1440×900`, `768×1024`, and `390×844`. Review entry direction, continuous compression, poster crop, overlay readability, focus visibility, final-hold pacing, and the transition into News against the actual rendered surface.
+- Perform browser review at `1440×900`, `768×1024`, and `390×844`. Review entry direction, continuous compression, poster crop, overlay readability, focus visibility, immediate release timing, and the transition into News against the actual rendered surface.
 - Treat final visual review as a required acceptance step because element geometry alone cannot prove that baked-in thumbnail text and the new title overlays remain legible together.
 
 ## Out of Scope

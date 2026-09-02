@@ -2,6 +2,7 @@ import { scroll } from "motion";
 
 const ENHANCED_HERO_QUERY = "(min-width: 40rem) and (prefers-reduced-motion: no-preference)";
 const SCROLL_OFFSETS = ["start start", "end end"];
+const CHOREOGRAPHY_END = 0.75;
 const STYLE_PROPERTIES = [
   "inline-size",
   "inset-inline-start",
@@ -145,7 +146,7 @@ export function initHomeHero() {
     let stopScroll = () => {};
     let resizeObserver;
     let geometry;
-    let progress = 0;
+    let scrollProgress = 0;
 
     const measure = () => {
       geometry = undefined;
@@ -164,7 +165,8 @@ export function initHomeHero() {
     const render = (nextProgress) => {
       if (!geometry) return;
 
-      progress = clamp(nextProgress);
+      scrollProgress = clamp(nextProgress);
+      const progress = scrollProgress * CHOREOGRAPHY_END;
       const firstInterval = clamp(progress / 0.25);
       const secondInterval = clamp((progress - 0.25) / 0.25);
       const thirdInterval = clamp((progress - 0.5) / 0.25);
@@ -216,7 +218,7 @@ export function initHomeHero() {
         intersectsStage(thirdColumnStart, thirdWidth, width),
         thirdInterval === 1,
       ]);
-      setPanelsAnimating(progress < 1);
+      setPanelsAnimating(scrollProgress < 1);
     };
 
     const cleanup = () => {
@@ -241,7 +243,7 @@ export function initHomeHero() {
         cleanup();
         return;
       }
-      render(progress);
+      render(scrollProgress);
     });
     resizeObserver.observe(mediaComposition);
     stopScroll = scroll(render, {

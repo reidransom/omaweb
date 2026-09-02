@@ -17,6 +17,7 @@ from support.browser import (
 
 SITE = Path("_site").resolve()
 VIEWPORTS = ((390, 844), (768, 1024), (1440, 900))
+CHOREOGRAPHY_END = 0.75
 ROUTES = (
     "/",
     "/desktop/",
@@ -270,6 +271,9 @@ def snapshot_at(browser: DevToolsSocket, scroll_limits: dict, progress: float) -
     )
     scroll_to(browser, max(0, position))
     return hero_metrics(browser)
+
+def choreography_snapshot(browser: DevToolsSocket, scroll_limits: dict, progress: float) -> dict:
+    return snapshot_at(browser, scroll_limits, progress / CHOREOGRAPHY_END)
 
 
 def require_no_overflow(snapshot: dict, label: str) -> None:
@@ -544,7 +548,7 @@ def verify_normal_choreography(
 
         limits = scroll_range(browser)
         progress_points = (0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75)
-        frames = {progress: snapshot_at(browser, limits, progress) for progress in progress_points}
+        frames = {progress: choreography_snapshot(browser, limits, progress) for progress in progress_points}
         stage_gap = (
             opening_viewport["columns"][0]["rect"]["left"]
             - opening_viewport["media"]["rect"]["right"]
@@ -559,7 +563,7 @@ def verify_normal_choreography(
             ("third-column entry seam", 0.5 + seam_delta, 2, (0, 1, 2)),
         )
         for seam_label, progress, column_index, focusable_posters in entering_seams:
-            seam = snapshot_at(browser, limits, progress)
+            seam = choreography_snapshot(browser, limits, progress)
             require_offstage_region(
                 seam,
                 seam["columns"][column_index],
@@ -571,9 +575,9 @@ def verify_normal_choreography(
                 view_all=False,
                 label=f"{label} {seam_label}",
             )
-        snapshot_at(browser, limits, 0.125)
+        choreography_snapshot(browser, limits, 0.125)
         focus_primary_action(browser)
-        primary_exit_seam = snapshot_at(browser, limits, 0.25 - seam_delta)
+        primary_exit_seam = choreography_snapshot(browser, limits, 0.25 - seam_delta)
         focus = active_focus(browser)
         require(
             focus["visible"] and focus["poster"] == 0,
@@ -677,36 +681,39 @@ def verify_normal_choreography(
                 f"{label} must keep poster 1's centered crop stable through compression.",
             )
 
-        hold_start = snapshot_at(browser, limits, 0.8)
-        hold_end = snapshot_at(browser, limits, 0.95)
+        third_late_start = snapshot_at(browser, limits, 0.8)
+        third_late_end = snapshot_at(browser, limits, 0.95)
         require(
-            hold_end["scrollY"] - hold_start["scrollY"] > height * 0.3,
-            f"{label} final hold must consume a meaningful scroll interval.",
+            third_late_end["scrollY"] - third_late_start["scrollY"] > height * 0.3,
+            f"{label} final panel entrance must consume the remaining scroll interval.",
         )
         require(
-            close_enough(hold_start["stage"]["rect"]["top"], hold_end["stage"]["rect"]["top"]),
-            f"{label} stage must remain pinned during the final hold.",
+            close_enough(third_late_start["stage"]["rect"]["top"], third_late_end["stage"]["rect"]["top"]),
+            f"{label} stage must remain pinned until the final panel lands.",
         )
-        for index in range(3):
-            require_rect_close(
-                hold_start["columns"][index]["rect"],
-                hold_end["columns"][index]["rect"],
-                f"{label} final-hold column {index + 1}",
+        for index in (0, 1):
+            require(
+                third_late_start["columns"][index]["rect"]["width"]
+                > third_late_end["columns"][index]["rect"]["width"],
+                f"{label} must keep compressing column {index + 1} until downward scroll resumes.",
             )
-        require_rect_close(
-            hold_start["viewAll"]["rect"],
-            hold_end["viewAll"]["rect"],
-            f"{label} final-hold View all",
+        require(
+            third_late_start["columns"][2]["rect"]["left"]
+            > third_late_end["columns"][2]["rect"]["left"],
+            f"{label} must keep the right panel moving until downward scroll resumes.",
         )
-        require_final_geometry(hold_end, f"{label} final hold")
+        require(
+            not third_late_start["viewAll"]["visible"] and not third_late_end["viewAll"]["visible"],
+            f"{label} must reveal View all only when the final panel lands.",
+        )
 
         release_position = limits["end"] + (height * 0.35)
         scroll_to(browser, release_position)
         released = hero_metrics(browser)
-        require(not released["animating"], f"{label} must finish animation state after the hold.")
+        require(not released["animating"], f"{label} must finish animation state when the final panel lands.")
         require(
-            released["stage"]["rect"]["top"] < hold_end["stage"]["rect"]["top"] - (height * 0.2),
-            f"{label} sticky stage must release after the final hold.",
+            released["stage"]["rect"]["top"] < third_late_end["stage"]["rect"]["top"] - (height * 0.2),
+            f"{label} sticky stage must release as soon as the final panel lands.",
         )
         require(
             released["news"]["rect"]["top"] < height and released["news"]["rect"]["bottom"] > 0,
@@ -714,9 +721,9 @@ def verify_normal_choreography(
         )
         require_no_overflow(released, f"{label} after sticky release")
 
-        snapshot_at(browser, limits, 0.75)
+        choreography_snapshot(browser, limits, 0.75)
         focus_poster(browser, 4)
-        reverse_625 = snapshot_at(browser, limits, 0.625)
+        reverse_625 = choreography_snapshot(browser, limits, 0.625)
         require_rect_close(
             reverse_625["columns"][2]["rect"],
             frames[0.625]["columns"][2]["rect"],
@@ -728,7 +735,7 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse third interval",
         )
-        reverse_third_seam = snapshot_at(browser, limits, 0.5 + seam_delta)
+        reverse_third_seam = choreography_snapshot(browser, limits, 0.5 + seam_delta)
         focus = active_focus(browser)
         require(
             focus["visible"] and focus["poster"] in (0, 1, 2),
@@ -750,7 +757,7 @@ def verify_normal_choreography(
             == "translateY(var(--omarchy-space-small))",
             f"{label} must restore hidden View all to its translated entrance offset.",
         )
-        reverse_500 = snapshot_at(browser, limits, 0.5)
+        reverse_500 = choreography_snapshot(browser, limits, 0.5)
         focus = active_focus(browser)
         require(focus["visible"] and focus["poster"] in (0, 1, 2), f"{label} must move focus out of hidden column 3.")
         require_rect_close(
@@ -765,7 +772,7 @@ def verify_normal_choreography(
             label=f"{label} reverse second milestone",
         )
         focus_poster(browser, 2)
-        reverse_375 = snapshot_at(browser, limits, 0.375)
+        reverse_375 = choreography_snapshot(browser, limits, 0.375)
         require_rect_close(
             reverse_375["columns"][1]["rect"],
             frames[0.375]["columns"][1]["rect"],
@@ -777,7 +784,7 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse second interval",
         )
-        reverse_second_seam = snapshot_at(browser, limits, 0.25 + seam_delta)
+        reverse_second_seam = choreography_snapshot(browser, limits, 0.25 + seam_delta)
         focus = active_focus(browser)
         require(
             focus["visible"] and focus["poster"] == 0,
@@ -794,7 +801,7 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse second-column exit seam",
         )
-        reverse_250 = snapshot_at(browser, limits, 0.25)
+        reverse_250 = choreography_snapshot(browser, limits, 0.25)
         focus = active_focus(browser)
         require(focus["visible"] and focus["poster"] == 0, f"{label} must move focus out of hidden column 2.")
         require_focus_state(
@@ -804,13 +811,13 @@ def verify_normal_choreography(
             label=f"{label} reverse first milestone",
         )
         focus_poster(browser, 0)
-        reverse_125 = snapshot_at(browser, limits, 0.125)
+        reverse_125 = choreography_snapshot(browser, limits, 0.125)
         require_rect_close(
             reverse_125["primary"]["rect"],
             frames[0.125]["primary"]["rect"],
             f"{label} reverse first interval",
         )
-        reverse_first_seam = snapshot_at(browser, limits, seam_delta)
+        reverse_first_seam = choreography_snapshot(browser, limits, seam_delta)
         focus = active_focus(browser)
         require(
             focus["visible"] and focus["inPrimary"],
@@ -827,7 +834,7 @@ def verify_normal_choreography(
             view_all=False,
             label=f"{label} reverse first-column exit seam",
         )
-        restored = snapshot_at(browser, limits, 0)
+        restored = choreography_snapshot(browser, limits, 0)
         focus = active_focus(browser)
         require(focus["visible"] and focus["inPrimary"], f"{label} must move focus back to the restored OMARCHY panel.")
         require(
@@ -836,11 +843,11 @@ def verify_normal_choreography(
         )
         require_focus_state(restored, (), view_all=False, label=f"{label} restored opening state")
 
-        completed = snapshot_at(browser, limits, 0.75)
+        completed = choreography_snapshot(browser, limits, 0.75)
         require_link_contract(browser, completed, featured_contract, label)
         if width == 1440:
             require_focus_indicators(browser, label)
-            snapshot_at(browser, limits, 0)
+            choreography_snapshot(browser, limits, 0)
             evaluate(
                 browser,
                 """new Promise(resolve => {
