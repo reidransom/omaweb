@@ -42,8 +42,16 @@
   border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius);
   background: var(--omarchy-storm);
+  transition: border-color var(--omarchy-transition);
 }
 
+:is(.news-featured__media, .news-card__media):hover {
+  border-color: var(--omarchy-cyan);
+}
+
+:is(.news-featured__media, .news-card__media):hover .media__image {
+  transform: none;
+}
 .news-featured__media img,
 .news-card__media img {
   inline-size: 100%;
@@ -77,6 +85,7 @@
 
 .news-card {
   display: grid;
+  grid-template-rows: auto 1fr;
   overflow: clip;
   border: 1px solid var(--omarchy-terminal-black);
   border-radius: var(--omarchy-radius);
