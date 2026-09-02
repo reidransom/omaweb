@@ -1,6 +1,6 @@
 # Verify the rendered hero choreography
 
-Status: ready-for-agent
+Status: claimed
 Type: task
 Blocked by: 01, 02
 
