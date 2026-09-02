@@ -11,6 +11,7 @@ description = "Build JavaScript, rendered pages, and Pagefind"
 run = [
   "scripts/build js",
   "jigyll build -s . --unpublished",
+  "rm -rf pagefind",
   "npx --no-install pagefind --site _site --output-path pagefind",
 ]
 

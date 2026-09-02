@@ -43,6 +43,8 @@ run_build() {
 
   command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
   mise exec -- jigyll build --config "$config"
+  # Jigyll includes the source-root development index; replace that copy with a fresh production index.
+  rm -rf _site/pagefind
   npx --no-install pagefind --site _site
 
   [ -f scripts/verify-production ] || fail 'Missing required production verifier: scripts/verify-production'

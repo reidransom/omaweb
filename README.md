@@ -19,14 +19,14 @@ Use the focused commands when iterating, and choose the smallest command that co
 npm run assets         # rebuild committed generated image derivatives
 npm run assets:check   # reproduce those derivatives byte-for-byte
 scripts/build js       # compile the JavaScript bundle once
-mise run serve         # watch Sass and serve Jigyll pages; skips JavaScript and Pagefind
-mise run build         # compile Sass and JavaScript, render Jigyll, and refresh Pagefind
-scripts/build          # run the production-equivalent build and verification path
+mise run serve         # watch and serve Jigyll pages with the existing development Pagefind index
+mise run build         # compile, render, and manually refresh the development Pagefind index
+scripts/build          # build and verify a fresh production artifact
 ```
 
-`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, creates the local Pagefind index, and validates the rendered `_site` routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, replaces the copied development index with a fresh `_site/pagefind` production index, and validates the rendered routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
-`mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the result at `/assets/css/site.css`.
+`mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
 [servd](https://github.com/reidransom/servd) runs the same mise-selected Jigyll server through `.servd.toml`.
 

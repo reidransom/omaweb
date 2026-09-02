@@ -45,7 +45,6 @@ exclude:
   - node_modules
   - package.json
   - package-lock.json
-  - pagefind
   - scripts
   - skills-lock.json
   - src
