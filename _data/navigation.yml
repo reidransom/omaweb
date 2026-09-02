@@ -15,15 +15,19 @@ sections:
     links:
       items:
         - label: Patrons
+          description: The people funding the Omacom Foundation's mission.
           url: /patrons/
           external: false
         - label: Sponsorships
+          description: Current Foundation support for Hyprland, Quickshell, and mise.
           url: /sponsorships/
           external: false
         - label: Artists in Residence
+          description: A six-month residency for artists working on Omarchy themes, plugins, and visual art.
           url: /air/
           external: false
         - label: Security
+          description: Private reporting instructions for an Omarchy vulnerability.
           url: /security/
           external: false
 
@@ -46,19 +50,24 @@ sections:
     links:
       items:
         - label: Laptops
+          description: Questions Omarchy would answer before recommending a laptop.
           url: /laptops/
           external: false
           exploratory: true
         - label: Desktops
+          description: The tests required before Omarchy recommends desktop hardware.
           url: /desktop/
           external: false
           exploratory: true
         - label: Mobile
+          description: How a phone might extend an Omarchy environment.
           url: /mobile/
           external: false
           exploratory: true
         - destination: merch
+          description: The official Omarchy collection at 37signals Supply.
         - label: Accessories
+          description: How Omarchy would evaluate third-party hardware before recommending it.
           url: /accessories/
           external: false
           exploratory: true
@@ -90,17 +99,24 @@ sections:
     links:
       items:
         - destination: discord
+          description: Questions, fixes, build notes, and the live community conversation.
         - label: Meetups
+          description: Omarchy gatherings and the rules for running one.
           url: /meetups/
           external: false
         - label: Workstations
+          description: Cleared photographs and stories from real Omarchy desks.
           url: /workstations/
           external: false
         - label: Featured videos
+          description: The official introduction and four selected community takes.
           url: /community/featured-videos/
           external: false
         - destination: plugins
+          description: The public catalog of extensions made around Omarchy.
         - label: Teams
+          description: The people guiding Omarchy and caring for its security and community.
           url: /teams/
           external: false
         - destination: code
+          description: The public GitHub repository for Omarchy.

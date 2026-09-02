@@ -9,8 +9,19 @@ archetype: project
 {% assign discord = site.data.destinations.items | where: "slug", "discord" | first %}
 {% assign code = site.data.destinations.items | where: "slug", "code" | first %}
 {% assign plugins = site.data.destinations.items | where: "slug", "plugins" | first %}
+{% assign community_navigation = site.data.navigation.sections | where: 'url', '/community/' | first %}
 
-<section class="prose" aria-labelledby="community-start-title">
+<nav class="prose section-landing-prose" aria-labelledby="community-contents-title">
+  <h2 id="community-contents-title">In this section</h2>
+  <ul>
+{% for link in community_navigation.links.items %}
+{% capture community_link %}{% include authoritative-link.html link=link %}{% endcapture %}
+<li>{{ community_link | strip_newlines | strip }}<span class="section-toc__description">: {{ link.description | escape }}</span></li>
+{% endfor %}
+  </ul>
+</nav>
+
+<section class="prose section-landing-prose" aria-labelledby="community-start-title">
   <h2 id="community-start-title">The system is personal. The work around it doesn't have to be.</h2>
   <p>Omarchy gets more useful when people compare setups, trade fixes, write plugins, and meet in the same room. Start with the conversation, then follow the thread that fits what you want to do.</p>
   {% if discord %}
@@ -18,19 +29,8 @@ archetype: project
   {% endif %}
 </section>
 
-<section class="prose" aria-labelledby="community-places-title">
-  <h2 id="community-places-title">Find your people and your next idea</h2>
-  <ul>
-    <li><a href="{{ '/meetups/' | relative_url }}">Meetups</a> collect local gatherings and practical guidance for bringing people together.</li>
-    <li><a href="{{ '/workstations/' | relative_url }}">Workstations</a> is where community desks and their stories belong. The gallery only publishes cleared submissions.</li>
-    <li><a href="{{ '/community/featured-videos/' | relative_url }}">Featured videos</a> gathers the official introduction and community reviews selected for the Omarchy landing page.</li>
-    <li><a href="{{ '/teams/rangers/' | relative_url }}">Rangers</a> is the route to the people helping care for the community.</li>
-    {% if plugins %}<li>{% include authoritative-link.html destination='plugins' label='Plugins' %} is the authoritative catalog for extensions made around Omarchy.</li>{% endif %}
-    <li><a href="{{ '/news/' | relative_url }}">News</a> follows releases, events, and the project work worth knowing about.</li>
-  </ul>
-</section>
 
-<section class="prose" aria-labelledby="community-contribute-title">
+<section class="prose section-landing-prose" aria-labelledby="community-contribute-title">
   <h2 id="community-contribute-title">Bring a useful thing</h2>
   <p>A good contribution can be a patch, a plugin, a careful answer, a meetup, or a workstation photo another person can learn from. Start where the work is visible, and use the route that matches it.</p>
   <ul>

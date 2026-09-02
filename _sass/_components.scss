@@ -67,6 +67,14 @@
   margin-block-start: var(--omarchy-space-x-large);
 }
 
+.section-landing-prose:first-child {
+  margin-block-start: 0;
+}
+
+.section-landing-prose > :where(h2, h3, h4):first-child {
+  margin-block-start: 0;
+}
+
 .prose :where(ul, ol) {
   margin-block-start: var(--omarchy-space-medium);
   font-family: var(--omarchy-font-sans);
