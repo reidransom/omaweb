@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generic browser smoke checks for the built site."""
+"""Rendered-site acceptance checks in real Chromium."""
 
 from __future__ import annotations
 
@@ -30,7 +30,111 @@ ROUTES = (
     "/teams/",
     "/meetups/",
     "/patrons/",
+    "/community/featured-videos/",
 )
+MOTION_PROPERTIES = ("inline-size", "opacity", "pointer-events", "transform", "visibility")
+HERO_METRICS = r"""(() => {
+  const hero = document.querySelector("[data-home-hero]");
+  const stage = hero.querySelector("[data-home-hero-stage]");
+  const primary = hero.querySelector("[data-home-hero-primary]");
+  const media = hero.querySelector("[data-home-hero-media]");
+  const columns = [1, 2, 3].map(number =>
+    hero.querySelector(`[data-home-hero-column="${number}"]`)
+  );
+  const posters = [...hero.querySelectorAll("[data-home-hero-poster]")];
+  const viewAll = hero.querySelector("[data-home-hero-view-all]");
+  const news = document.querySelector("#home-news");
+  const rect = element => {
+    const value = element.getBoundingClientRect();
+    return {
+      left: value.left,
+      right: value.right,
+      top: value.top,
+      bottom: value.bottom,
+      width: value.width,
+      height: value.height
+    };
+  };
+  const isVisible = element => {
+    const style = getComputedStyle(element);
+    const bounds = element.getBoundingClientRect();
+    return style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      Number.parseFloat(style.opacity) > 0.01 &&
+      bounds.width > 0 &&
+      bounds.height > 0;
+  };
+  const isFocusable = element =>
+    element.tabIndex >= 0 && !element.closest("[inert]") && isVisible(element);
+  const details = element => {
+    const style = getComputedStyle(element);
+    return {
+      rect: rect(element),
+      visible: isVisible(element),
+      focusable: isFocusable(element),
+      tabIndex: element.tabIndex,
+      transform: style.transform,
+      visibility: style.visibility,
+      position: style.position,
+      inert: element.hasAttribute("inert")
+    };
+  };
+  const inlineMotion = element =>
+    %s.some(property => element.style.getPropertyValue(property) !== "");
+
+  return {
+    scrollY,
+    innerWidth,
+    innerHeight,
+    enhanced: hero.hasAttribute("data-home-hero-enhanced"),
+    animating: document.body.hasAttribute("data-home-hero-panels-animating"),
+    horizontalOverflow:
+      document.documentElement.scrollWidth > document.documentElement.clientWidth + 1 ||
+      document.body.scrollWidth > document.body.clientWidth + 1,
+    hero: details(hero),
+    stage: details(stage),
+    primary: details(primary),
+    media: details(media),
+    columns: columns.map(details),
+    actions: [...primary.querySelectorAll("a[href]")].map(link => ({
+      text: link.textContent.trim(),
+      href: link.href,
+      focusable: isFocusable(link),
+      tabIndex: link.tabIndex
+    })),
+    posters: posters.map(link => {
+      const image = link.querySelector("img");
+      const overlay = link.querySelector(".home-hero__poster-overlay");
+      const title = link.querySelector(".home-hero__poster-title");
+      const creator = link.querySelector(".home-hero__poster-creator");
+      const titleStyle = getComputedStyle(title);
+      const lineHeight = Number.parseFloat(titleStyle.lineHeight);
+      return {
+        ...details(link),
+        href: link.href,
+        target: link.getAttribute("target"),
+        ariaLabel: link.getAttribute("aria-label"),
+        imageAlt: image.getAttribute("alt"),
+        imageRect: rect(image),
+        objectFit: getComputedStyle(image).objectFit,
+        objectPosition: getComputedStyle(image).objectPosition,
+        overlayVisible: isVisible(overlay),
+        title: title.textContent.trim(),
+        creator: creator.textContent.trim(),
+        titleLines: lineHeight > 0 ? title.getBoundingClientRect().height / lineHeight : 99,
+        playHidden: link.querySelector(".video__play")?.getAttribute("aria-hidden") === "true"
+      };
+    }),
+    viewAll: {
+      ...details(viewAll),
+      href: viewAll.href,
+      text: viewAll.textContent.trim()
+    },
+    news: details(news),
+    inlineMotion: [primary, ...columns, viewAll].some(inlineMotion),
+    mediaElements: hero.querySelectorAll("iframe, video, audio, embed, object").length
+  };
+})()""" % repr(list(MOTION_PROPERTIES))
 
 
 class VerificationError(RuntimeError):
@@ -39,6 +143,62 @@ class VerificationError(RuntimeError):
 
 def fail(message: str) -> None:
     raise VerificationError(message)
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        fail(message)
+
+
+def close_enough(first: float, second: float, tolerance: float = 2.0) -> bool:
+    return abs(first - second) <= tolerance
+
+
+def settle(browser: DevToolsSocket) -> None:
+    evaluate(
+        browser,
+        """new Promise(resolve => requestAnimationFrame(() =>
+          requestAnimationFrame(() => requestAnimationFrame(resolve))
+        ))""",
+    )
+
+
+def load_page(
+    session: ChromiumSession,
+    route: str,
+    width: int,
+    height: int,
+    *,
+    reduced_motion: bool = False,
+    javascript: bool = True,
+) -> DevToolsSocket:
+    browser = session.open_page(route)
+    browser.command("Page.enable")
+    set_viewport(browser, width, height)
+    if reduced_motion:
+        browser.command(
+            "Emulation.setEmulatedMedia",
+            {
+                "media": "",
+                "features": [{"name": "prefers-reduced-motion", "value": "reduce"}],
+            },
+        )
+    if not javascript:
+        browser.command("Page.setLifecycleEventsEnabled", {"enabled": True})
+        browser.command("Emulation.setScriptExecutionDisabled", {"value": True})
+    navigation = browser.command("Page.navigate", {"url": session.origin + route})
+    if not javascript:
+        while True:
+            lifecycle = browser.wait_for_event("Page.lifecycleEvent")
+            if (
+                lifecycle.get("name") == "load"
+                and lifecycle.get("loaderId") == navigation.get("loaderId")
+            ):
+                break
+        browser.command("Emulation.setScriptExecutionDisabled", {"value": False})
+    wait_for_complete(browser, route)
+    settle(browser)
+    return browser
 
 
 def check_page(browser: DevToolsSocket, route: str, width: int, height: int) -> None:
@@ -73,27 +233,621 @@ def check_page(browser: DevToolsSocket, route: str, width: int, height: int) -> 
             fail(f"{route} renders an unloaded or broken image: {image['src']}.")
 
 
+def hero_metrics(browser: DevToolsSocket) -> dict:
+    return evaluate(browser, HERO_METRICS)
+
+
+def scroll_range(browser: DevToolsSocket) -> dict:
+    return evaluate(
+        browser,
+        """(() => {
+          const hero = document.querySelector("[data-home-hero]");
+          const bounds = hero.getBoundingClientRect();
+          const top = scrollY + bounds.top;
+          return {start: top - 100, end: top + bounds.height - innerHeight};
+        })()""",
+    )
+
+
+def scroll_to(browser: DevToolsSocket, position: float) -> None:
+    evaluate(
+        browser,
+        f"""new Promise(resolve => {{
+          window.scrollTo({{top: {position}, left: 0, behavior: "instant"}});
+          requestAnimationFrame(() => requestAnimationFrame(() =>
+            requestAnimationFrame(resolve)
+          ));
+        }})""",
+    )
+
+
+def snapshot_at(browser: DevToolsSocket, scroll_limits: dict, progress: float) -> dict:
+    position = scroll_limits["start"] + (
+        (scroll_limits["end"] - scroll_limits["start"]) * progress
+    )
+    scroll_to(browser, max(0, position))
+    return hero_metrics(browser)
+
+
+def require_no_overflow(snapshot: dict, label: str) -> None:
+    require(not snapshot["horizontalOverflow"], f"{label} introduces horizontal document overflow.")
+
+
+def visible_column_numbers(snapshot: dict) -> list[int]:
+    return [
+        index + 1
+        for index, column in enumerate(snapshot["columns"])
+        if column["visible"]
+    ]
+
+
+def require_focus_state(
+    snapshot: dict,
+    poster_indexes: tuple[int, ...],
+    *,
+    view_all: bool,
+    label: str,
+) -> None:
+    for index, poster in enumerate(snapshot["posters"]):
+        require(
+            poster["focusable"] == (index in poster_indexes),
+            f"{label} exposes the wrong sequential focus state for poster {index + 1}.",
+        )
+    require(
+        snapshot["viewAll"]["focusable"] == view_all,
+        f"{label} exposes the wrong sequential focus state for View all.",
+    )
+
+
+def require_rect_close(first: dict, second: dict, label: str) -> None:
+    for key in ("left", "top", "width", "height"):
+        require(
+            close_enough(first[key], second[key]),
+            f"{label} changed {key} between equivalent scroll positions.",
+        )
+
+
+def read_featured_contract(session: ChromiumSession) -> list[dict]:
+    browser = load_page(session, "/community/featured-videos/", 1440, 900)
+    try:
+        items = evaluate(
+            browser,
+            """[...document.querySelectorAll(".featured-video__facade")].map(link => ({
+              href: link.href,
+              ariaLabel: link.getAttribute("aria-label"),
+              imageAlt: link.querySelector("img")?.getAttribute("alt"),
+              target: link.getAttribute("target")
+            }))""",
+        )
+        require(len(items) == 5, "Featured videos must retain its complete five-item collection.")
+        for index, item in enumerate(items):
+            require(
+                item["href"].startswith("https://www.youtube.com/watch?v="),
+                f"Featured video {index + 1} must retain its YouTube watch destination.",
+            )
+            require(item["target"] is None, f"Featured video {index + 1} must navigate in the same tab.")
+            require(
+                item["ariaLabel"] and item["imageAlt"],
+                f"Featured video {index + 1} must retain its accessible name and image alternative.",
+            )
+        return items
+    finally:
+        browser.close()
+
+
+def require_link_contract(
+    browser: DevToolsSocket,
+    snapshot: dict,
+    featured_contract: list[dict],
+    label: str,
+) -> None:
+    for index, (poster, expected) in enumerate(
+        zip(snapshot["posters"], featured_contract, strict=True)
+    ):
+        require(poster["href"] == expected["href"], f"{label} poster {index + 1} has the wrong destination.")
+        require(poster["target"] is None, f"{label} poster {index + 1} must navigate in the same tab.")
+        require(
+            poster["ariaLabel"] == expected["ariaLabel"],
+            f"{label} poster {index + 1} has the wrong accessible name.",
+        )
+        require(
+            poster["imageAlt"] == expected["imageAlt"],
+            f"{label} poster {index + 1} has the wrong image alternative.",
+        )
+        require(poster["playHidden"], f"{label} poster {index + 1} exposes decorative play artwork.")
+
+    require(
+        snapshot["viewAll"]["href"].endswith("/community/featured-videos/"),
+        f"{label} View all must point to the Featured videos collection.",
+    )
+    tree = browser.command("Accessibility.getFullAXTree")
+    accessible_links = [
+        node.get("name", {}).get("value")
+        for node in tree.get("nodes", [])
+        if not node.get("ignored")
+        and node.get("role", {}).get("value") == "link"
+    ]
+    for expected in featured_contract:
+        require(
+            accessible_links.count(expected["ariaLabel"]) == 1,
+            f"{label} must expose one accessible link for {expected['ariaLabel']}.",
+        )
+
+
+def require_focus_indicators(browser: DevToolsSocket, label: str) -> None:
+    browser.command(
+        "Input.dispatchKeyEvent",
+        {"type": "keyDown", "key": "Tab", "code": "Tab", "windowsVirtualKeyCode": 9},
+    )
+    browser.command(
+        "Input.dispatchKeyEvent",
+        {"type": "keyUp", "key": "Tab", "code": "Tab", "windowsVirtualKeyCode": 9},
+    )
+    indicators = evaluate(
+        browser,
+        """new Promise(async resolve => {
+          const controls = [
+            ...document.querySelectorAll("[data-home-hero-poster]"),
+            document.querySelector("[data-home-hero-view-all]")
+          ];
+          const results = [];
+          for (const control of controls) {
+            control.focus({preventScroll: true});
+            await new Promise(done => requestAnimationFrame(done));
+            const style = getComputedStyle(control);
+            results.push({
+              active: document.activeElement === control,
+              focusVisible: control.matches(":focus-visible"),
+              outlineStyle: style.outlineStyle,
+              outlineWidth: Number.parseFloat(style.outlineWidth)
+            });
+          }
+          resolve(results);
+        })""",
+    )
+    for index, indicator in enumerate(indicators):
+        name = f"poster {index + 1}" if index < 5 else "View all"
+        require(indicator["active"], f"{label} {name} cannot receive keyboard focus.")
+        require(
+            indicator["focusVisible"]
+            and indicator["outlineStyle"] != "none"
+            and indicator["outlineWidth"] > 0,
+            f"{label} {name} lacks a visible keyboard focus indicator.",
+        )
+
+
+def focus_poster(browser: DevToolsSocket, index: int) -> None:
+    focused = evaluate(
+        browser,
+        f"""(() => {{
+          const poster = document.querySelectorAll("[data-home-hero-poster]")[{index}];
+          poster.focus({{preventScroll: true}});
+          return document.activeElement === poster;
+        }})()""",
+    )
+    require(focused, f"Could not focus poster {index + 1} before reverse-scroll check.")
+
+
+def active_focus(browser: DevToolsSocket) -> dict:
+    return evaluate(
+        browser,
+        """(() => {
+          const active = document.activeElement;
+          const posters = [...document.querySelectorAll("[data-home-hero-poster]")];
+          const primary = document.querySelector("[data-home-hero-primary]");
+          const style = getComputedStyle(active);
+          return {
+            poster: posters.indexOf(active),
+            inPrimary: primary.contains(active),
+            visible: style.visibility !== "hidden" &&
+              !active.closest("[inert]") &&
+              active.getBoundingClientRect().width > 0
+          };
+        })()""",
+    )
+
+
+def require_final_geometry(snapshot: dict, label: str) -> None:
+    columns = snapshot["columns"]
+    require(visible_column_numbers(snapshot) == [1, 2, 3], f"{label} must show all three columns.")
+    require(
+        columns[0]["rect"]["left"] < columns[1]["rect"]["left"] < columns[2]["rect"]["left"],
+        f"{label} must preserve the canonical 1, 2–3, 4–5 column order.",
+    )
+    require(
+        close_enough(columns[0]["rect"]["width"], columns[1]["rect"]["width"])
+        and close_enough(columns[1]["rect"]["width"], columns[2]["rect"]["width"]),
+        f"{label} must form three equal-width columns.",
+    )
+    require(
+        close_enough(snapshot["posters"][1]["rect"]["height"], snapshot["posters"][2]["rect"]["height"])
+        and close_enough(snapshot["posters"][3]["rect"]["height"], snapshot["posters"][4]["rect"]["height"]),
+        f"{label} must divide the center and right columns into equal-height cells.",
+    )
+    require(
+        snapshot["posters"][0]["rect"]["bottom"] < snapshot["viewAll"]["rect"]["top"]
+        and close_enough(snapshot["posters"][0]["rect"]["width"], snapshot["viewAll"]["rect"]["width"]),
+        f"{label} must place View all directly below poster 1 in the first column.",
+    )
+    for index, poster in enumerate(snapshot["posters"]):
+        require(poster["overlayVisible"], f"{label} must keep poster {index + 1}'s overlay visible.")
+        require(poster["title"] and poster["creator"], f"{label} poster {index + 1} lacks visible metadata.")
+        require(poster["titleLines"] <= 2.1, f"{label} poster {index + 1} exceeds two title lines.")
+        require(poster["objectFit"] == "cover", f"{label} poster {index + 1} must crop with object-fit cover.")
+        require(
+            close_enough(poster["rect"]["left"], poster["imageRect"]["left"])
+            and close_enough(poster["rect"]["top"], poster["imageRect"]["top"])
+            and close_enough(poster["rect"]["width"], poster["imageRect"]["width"])
+            and close_enough(poster["rect"]["height"], poster["imageRect"]["height"]),
+            f"{label} poster {index + 1} link must cover its complete media cell.",
+        )
+    require(snapshot["viewAll"]["visible"], f"{label} must reveal View all after column 3 settles.")
+    require(snapshot["mediaElements"] == 0, f"{label} must render posters rather than playable media.")
+    require_no_overflow(snapshot, label)
+
+
+def verify_normal_choreography(
+    session: ChromiumSession,
+    width: int,
+    height: int,
+    featured_contract: list[dict],
+) -> None:
+    label = f"Homepage at {width}x{height}"
+    browser = load_page(session, "/", width, height)
+    try:
+        opening_viewport = hero_metrics(browser)
+        require(opening_viewport["enhanced"], f"{label} must initialize the scroll enhancement.")
+        require(opening_viewport["primary"]["visible"], f"{label} must open on the OMARCHY panel.")
+        action_text = " ".join(action["text"] for action in opening_viewport["actions"])
+        require("ISO" in action_text and "Manual" in action_text, f"{label} must expose ISO and Manual actions.")
+        require(
+            all(action["focusable"] for action in opening_viewport["actions"]),
+            f"{label} opening actions must participate in sequential focus.",
+        )
+        require_focus_state(opening_viewport, (), view_all=False, label=f"{label} opening state")
+        require_no_overflow(opening_viewport, f"{label} opening state")
+
+        limits = scroll_range(browser)
+        progress_points = (0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75)
+        frames = {progress: snapshot_at(browser, limits, progress) for progress in progress_points}
+        for progress, frame in frames.items():
+            require_no_overflow(frame, f"{label} at {progress:.3f} progress")
+
+        require(
+            frames[0]["primary"]["rect"]["left"]
+            > frames[0.125]["primary"]["rect"]["left"]
+            > frames[0.25]["primary"]["rect"]["left"],
+            f"{label} must move the OMARCHY panel left during the first interval.",
+        )
+        require(
+            frames[0]["columns"][0]["rect"]["left"]
+            > frames[0.125]["columns"][0]["rect"]["left"]
+            > frames[0.25]["columns"][0]["rect"]["left"],
+            f"{label} must bring poster 1 in from the right.",
+        )
+        require(
+            visible_column_numbers(frames[0.25]) == [1]
+            and not frames[0.25]["primary"]["visible"],
+            f"{label} first milestone must contain only poster 1.",
+        )
+        require(
+            close_enough(frames[0.25]["columns"][0]["rect"]["width"], frames[0.25]["media"]["rect"]["width"])
+            and close_enough(frames[0.25]["columns"][0]["rect"]["left"], frames[0.25]["media"]["rect"]["left"]),
+            f"{label} first milestone must make poster 1 fill the stage.",
+        )
+        require_focus_state(frames[0.25], (0,), view_all=False, label=f"{label} first milestone")
+
+        require(
+            frames[0.25]["columns"][1]["rect"]["left"]
+            < frames[0.375]["columns"][1]["rect"]["left"]
+            < frames[0.5]["columns"][1]["rect"]["left"],
+            f"{label} must bring posters 2–3 in from the left.",
+        )
+        require(
+            frames[0.25]["columns"][0]["rect"]["width"]
+            > frames[0.375]["columns"][0]["rect"]["width"]
+            > frames[0.5]["columns"][0]["rect"]["width"],
+            f"{label} must compress poster 1 continuously during the second interval.",
+        )
+        require(
+            visible_column_numbers(frames[0.5]) == [1, 2]
+            and close_enough(
+                frames[0.5]["columns"][0]["rect"]["width"],
+                frames[0.5]["columns"][1]["rect"]["width"],
+            ),
+            f"{label} second milestone must form equal half-width columns.",
+        )
+        require_focus_state(frames[0.5], (0, 1, 2), view_all=False, label=f"{label} second milestone")
+
+        require(
+            frames[0.5]["columns"][2]["rect"]["left"]
+            > frames[0.625]["columns"][2]["rect"]["left"]
+            > frames[0.75]["columns"][2]["rect"]["left"],
+            f"{label} must bring posters 4–5 in from the right.",
+        )
+        for column_index in (0, 1):
+            require(
+                frames[0.5]["columns"][column_index]["rect"]["width"]
+                > frames[0.625]["columns"][column_index]["rect"]["width"]
+                > frames[0.75]["columns"][column_index]["rect"]["width"],
+                f"{label} must compress column {column_index + 1} continuously in the third interval.",
+            )
+        require_final_geometry(frames[0.75], f"{label} completed milestone")
+        require_focus_state(
+            frames[0.75],
+            (0, 1, 2, 3, 4),
+            view_all=True,
+            label=f"{label} completed milestone",
+        )
+        for progress in (0.25, 0.375, 0.5, 0.625, 0.75):
+            require(
+                frames[progress]["posters"][0]["objectPosition"] == "50% 50%",
+                f"{label} must keep poster 1's centered crop stable through compression.",
+            )
+
+        hold_start = snapshot_at(browser, limits, 0.8)
+        hold_end = snapshot_at(browser, limits, 0.95)
+        require(
+            hold_end["scrollY"] - hold_start["scrollY"] > height * 0.3,
+            f"{label} final hold must consume a meaningful scroll interval.",
+        )
+        require(
+            close_enough(hold_start["stage"]["rect"]["top"], hold_end["stage"]["rect"]["top"]),
+            f"{label} stage must remain pinned during the final hold.",
+        )
+        for index in range(3):
+            require_rect_close(
+                hold_start["columns"][index]["rect"],
+                hold_end["columns"][index]["rect"],
+                f"{label} final-hold column {index + 1}",
+            )
+        require_rect_close(
+            hold_start["viewAll"]["rect"],
+            hold_end["viewAll"]["rect"],
+            f"{label} final-hold View all",
+        )
+        require_final_geometry(hold_end, f"{label} final hold")
+
+        release_position = limits["end"] + (height * 0.35)
+        scroll_to(browser, release_position)
+        released = hero_metrics(browser)
+        require(not released["animating"], f"{label} must finish animation state after the hold.")
+        require(
+            released["stage"]["rect"]["top"] < hold_end["stage"]["rect"]["top"] - (height * 0.2),
+            f"{label} sticky stage must release after the final hold.",
+        )
+        require(
+            released["news"]["rect"]["top"] < height and released["news"]["rect"]["bottom"] > 0,
+            f"{label} must release into ordinary News flow.",
+        )
+        require_no_overflow(released, f"{label} after sticky release")
+
+        snapshot_at(browser, limits, 0.75)
+        focus_poster(browser, 4)
+        reverse_625 = snapshot_at(browser, limits, 0.625)
+        require_rect_close(
+            reverse_625["columns"][2]["rect"],
+            frames[0.625]["columns"][2]["rect"],
+            f"{label} reverse third interval",
+        )
+        require_focus_state(
+            reverse_625,
+            (0, 1, 2, 3, 4),
+            view_all=False,
+            label=f"{label} reverse third interval",
+        )
+        reverse_500 = snapshot_at(browser, limits, 0.5)
+        focus = active_focus(browser)
+        require(focus["visible"] and focus["poster"] in (0, 1, 2), f"{label} must move focus out of hidden column 3.")
+        require_rect_close(
+            reverse_500["columns"][0]["rect"],
+            frames[0.5]["columns"][0]["rect"],
+            f"{label} reverse second milestone",
+        )
+        require_focus_state(
+            reverse_500,
+            (0, 1, 2),
+            view_all=False,
+            label=f"{label} reverse second milestone",
+        )
+        focus_poster(browser, 2)
+        reverse_375 = snapshot_at(browser, limits, 0.375)
+        require_rect_close(
+            reverse_375["columns"][1]["rect"],
+            frames[0.375]["columns"][1]["rect"],
+            f"{label} reverse second interval",
+        )
+        require_focus_state(
+            reverse_375,
+            (0, 1, 2),
+            view_all=False,
+            label=f"{label} reverse second interval",
+        )
+        reverse_250 = snapshot_at(browser, limits, 0.25)
+        focus = active_focus(browser)
+        require(focus["visible"] and focus["poster"] == 0, f"{label} must move focus out of hidden column 2.")
+        require_focus_state(
+            reverse_250,
+            (0,),
+            view_all=False,
+            label=f"{label} reverse first milestone",
+        )
+        focus_poster(browser, 0)
+        reverse_125 = snapshot_at(browser, limits, 0.125)
+        require_rect_close(
+            reverse_125["primary"]["rect"],
+            frames[0.125]["primary"]["rect"],
+            f"{label} reverse first interval",
+        )
+        restored = snapshot_at(browser, limits, 0)
+        focus = active_focus(browser)
+        require(focus["visible"] and focus["inPrimary"], f"{label} must move focus back to the restored OMARCHY panel.")
+        require(
+            restored["primary"]["visible"] and visible_column_numbers(restored) == [],
+            f"{label} must fully restore its opening state when scrolling backward.",
+        )
+        require_focus_state(restored, (), view_all=False, label=f"{label} restored opening state")
+
+        completed = snapshot_at(browser, limits, 0.75)
+        require_link_contract(browser, completed, featured_contract, label)
+        if width == 1440:
+            require_focus_indicators(browser, label)
+            snapshot_at(browser, limits, 0)
+            evaluate(
+                browser,
+                """new Promise(resolve => {
+                  document.querySelector(".home-scroll-cue").click();
+                  setTimeout(() => {
+                    let previous = scrollY;
+                    let stableFrames = 0;
+                    const deadline = performance.now() + 4000;
+                    const check = () => {
+                      if (Math.abs(scrollY - previous) < 0.5) stableFrames += 1;
+                      else stableFrames = 0;
+                      previous = scrollY;
+                      if (stableFrames >= 6 || performance.now() >= deadline) resolve();
+                      else requestAnimationFrame(check);
+                    };
+                    requestAnimationFrame(check);
+                  }, 100);
+                })""",
+            )
+            cue_result = hero_metrics(browser)
+            require(
+                evaluate(browser, "location.hash") == "#home-news"
+                and cue_result["news"]["rect"]["top"] < height
+                and cue_result["news"]["rect"]["bottom"] > 0,
+                f"{label} scroll cue must bypass the pinned interval and reach News.",
+            )
+            require(not cue_result["animating"], f"{label} scroll cue must not leave an intermediate animation state.")
+
+        if width == 768:
+            set_viewport(browser, 390, 844)
+            settle(browser)
+            scroll_to(browser, 0)
+            narrow = hero_metrics(browser)
+            require(
+                not narrow["enhanced"] and not narrow["animating"] and not narrow["inlineMotion"],
+                f"{label} must clear enhancement state when resized below 40rem.",
+            )
+            require_focus_state(
+                narrow,
+                (0, 1, 2, 3, 4),
+                view_all=True,
+                label=f"{label} resized static state",
+            )
+            set_viewport(browser, width, height)
+            settle(browser)
+            scroll_to(browser, 0)
+            restored_desktop = hero_metrics(browser)
+            require(
+                restored_desktop["enhanced"]
+                and restored_desktop["primary"]["visible"]
+                and visible_column_numbers(restored_desktop) == [],
+                f"{label} must initialize one clean opening state after re-entering the breakpoint.",
+            )
+    finally:
+        browser.close()
+
+
+def require_static_layout(
+    session: ChromiumSession,
+    width: int,
+    height: int,
+    *,
+    reduced_motion: bool = False,
+    javascript: bool = True,
+) -> None:
+    mode = "reduced motion" if reduced_motion else "no JavaScript" if not javascript else "static"
+    label = f"Homepage {mode} at {width}x{height}"
+    browser = load_page(
+        session,
+        "/",
+        width,
+        height,
+        reduced_motion=reduced_motion,
+        javascript=javascript,
+    )
+    try:
+        snapshot = hero_metrics(browser)
+        require(
+            not snapshot["enhanced"] and not snapshot["animating"],
+            f"{label} must not initialize scroll choreography.",
+        )
+        require(snapshot["stage"]["position"] != "sticky", f"{label} must keep the stage in ordinary flow.")
+        require(snapshot["primary"]["visible"], f"{label} must preserve the OMARCHY introduction.")
+        require(
+            all(poster["visible"] for poster in snapshot["posters"]) and snapshot["viewAll"]["visible"],
+            f"{label} must expose all five posters followed by View all.",
+        )
+        require_focus_state(
+            snapshot,
+            (0, 1, 2, 3, 4),
+            view_all=True,
+            label=label,
+        )
+        require(not snapshot["inlineMotion"], f"{label} must not retain inline animation state.")
+        require(
+            all(item["transform"] == "none" for item in [snapshot["primary"], *snapshot["columns"]]),
+            f"{label} must not apply sideways transforms.",
+        )
+        require(
+            snapshot["primary"]["rect"]["bottom"] <= snapshot["media"]["rect"]["top"],
+            f"{label} must place the poster collection after the introduction.",
+        )
+        require(snapshot["mediaElements"] == 0, f"{label} must render static posters rather than playable media.")
+        require_no_overflow(snapshot, label)
+
+        if width < 640:
+            poster_tops = [poster["rect"]["top"] for poster in snapshot["posters"]]
+            require(
+                all(first < second for first, second in zip(poster_tops, poster_tops[1:])),
+                f"{label} must render posters 1–5 in one vertical sequence.",
+            )
+            require(
+                snapshot["posters"][-1]["rect"]["bottom"] < snapshot["viewAll"]["rect"]["top"],
+                f"{label} must place View all after poster 5.",
+            )
+            poster_widths = [poster["rect"]["width"] for poster in snapshot["posters"]]
+            require(
+                max(poster_widths) - min(poster_widths) <= 2,
+                f"{label} must keep the mobile poster widths equal.",
+            )
+        else:
+            require_final_geometry(snapshot, label)
+            require(
+                snapshot["primary"]["rect"]["bottom"] <= snapshot["media"]["rect"]["top"],
+                f"{label} must render the completed columns after the introduction.",
+            )
+    finally:
+        browser.close()
+
+
 def run() -> None:
     if not SITE.is_dir():
         fail("Missing _site; build the rendered site before browser verification.")
 
-    routes = ROUTES
-
     with ChromiumSession(SITE) as session:
+        featured_contract = read_featured_contract(session)
+        verify_normal_choreography(session, 1440, 900, featured_contract)
+        verify_normal_choreography(session, 768, 1024, featured_contract)
+        require_static_layout(session, 390, 844)
+        require_static_layout(session, 1440, 900, reduced_motion=True)
+        require_static_layout(session, 390, 844, reduced_motion=True)
+        require_static_layout(session, 1440, 900, javascript=False)
+        require_static_layout(session, 390, 844, javascript=False)
+
         for width, height in VIEWPORTS:
-            for route in routes:
-                browser = session.open_page(route)
+            for route in ROUTES:
+                browser = load_page(session, route, width, height)
                 try:
-                    set_viewport(browser, width, height)
-                    browser.command("Page.navigate", {"url": session.origin + route})
-                    wait_for_complete(browser, route)
                     check_page(browser, route, width, height)
                 finally:
                     browser.close()
 
     print(
-        f"Rendered Chromium smoke checks passed for {len(routes)} routes "
-        f"across {len(VIEWPORTS)} viewports."
+        f"Rendered Chromium checks passed for {len(ROUTES)} routes across "
+        f"{len(VIEWPORTS)} viewports and the homepage hero acceptance scenarios."
     )
 
 

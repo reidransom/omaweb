@@ -54,6 +54,7 @@ class DevToolsSocket:
         if "101" not in response.split("\r\n", 1)[0] or f"sec-websocket-accept: {expected}".lower() not in response.lower():
             raise BrowserError("Chromium DevTools WebSocket handshake failed.")
         self.next_id = 0
+        self.events: list[dict] = []
 
     def _read_headers(self) -> str:
         data = bytearray()
@@ -100,13 +101,7 @@ class DevToolsSocket:
             payload = bytes(value ^ mask[index % 4] for index, value in enumerate(payload))
         return opcode, payload
 
-    def command(self, method: str, params: dict | None = None) -> dict:
-        self.next_id += 1
-        message_id = self.next_id
-        payload = {"id": message_id, "method": method}
-        if params:
-            payload["params"] = params
-        self._send_frame(1, json.dumps(payload, separators=(",", ":")).encode("utf-8"))
+    def _receive_message(self) -> dict:
         fragments: list[bytes] = []
         while True:
             opcode, message = self._receive_frame()
@@ -122,14 +117,51 @@ class DevToolsSocket:
             else:
                 continue
             try:
-                response = json.loads(b"".join(fragments))
+                return json.loads(b"".join(fragments))
             except json.JSONDecodeError:
+                continue
+
+    def command(self, method: str, params: dict | None = None) -> dict:
+        self.next_id += 1
+        message_id = self.next_id
+        payload = {"id": message_id, "method": method}
+        if params:
+            payload["params"] = params
+        self._send_frame(1, json.dumps(payload, separators=(",", ":")).encode("utf-8"))
+        while True:
+            response = self._receive_message()
+            if "method" in response:
+                self.events.append(response)
                 continue
             if response.get("id") != message_id:
                 continue
             if "error" in response:
                 raise BrowserError(f"Chromium command {method} failed: {response['error'].get('message', response['error'])}")
             return response.get("result", {})
+
+    def wait_for_event(self, method: str, timeout: float = 15) -> dict:
+        for index, event in enumerate(self.events):
+            if event.get("method") == method:
+                return self.events.pop(index).get("params", {})
+
+        deadline = time.monotonic() + timeout
+        previous_timeout = self.socket.gettimeout()
+        try:
+            while True:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise BrowserError(f"Timed out waiting for Chromium event {method}.")
+                self.socket.settimeout(remaining)
+                try:
+                    event = self._receive_message()
+                except TimeoutError as error:
+                    raise BrowserError(f"Timed out waiting for Chromium event {method}.") from error
+                if event.get("method") == method:
+                    return event.get("params", {})
+                if "method" in event:
+                    self.events.append(event)
+        finally:
+            self.socket.settimeout(previous_timeout)
 
     def close(self) -> None:
         try:
