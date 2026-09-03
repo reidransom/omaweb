@@ -1,0 +1,96 @@
+---
+layout: manual
+title: "Prise en charge des Mac"
+description: "Omarchy prend nativement en charge les Mac Intel. Il existe actuellement quelques limitations connues, mais tant que vous en avez conscience et qu’elles vous conviennent, vous pouvez..."
+permalink: /manual/mac-support/
+manual_slug: mac-support
+manual_order: 44
+previous_title: "Créer votre propre thème"
+previous_url: /manual/making-your-own-theme/
+next_title: "Dépannage"
+next_url: /manual/troubleshooting/
+translation_key: manual-44-mac-support
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy prend nativement en charge les <strong>Mac Intel</strong>. Il existe actuellement quelques limitations connues, mais tant que vous en avez conscience et qu’elles vous conviennent, vous pouvez redonner vie à vos anciens Mac en y installant Omarchy.</p>
+
+<p>Veuillez noter que l’installation sur un Mac équipé d’une puce de série M n’est pas directement prise en charge pour le moment. Pour en savoir plus sur la situation actuelle, consultez le canal #omarchy-on-other de notre <a href="https://discord.gg/tXFUdasqhY">Discord</a>.</p>
+
+<p>Lors d’un test simple, nous avons obtenu un gain de performances de 36 % sur un MacBook Pro de 2019, simplement en installant Omarchy.</p>
+
+<p><img src="/manual/images/macbook-omarchy.webp" alt="MacBook avec Omarchy"  width="909" height="504" loading="lazy" decoding="async" /></p>
+
+<h3 id="installing-omarchy-on-mac">Installer Omarchy sur un Mac <a class="manual__heading-link" href="#installing-omarchy-on-mac" aria-label="Lien vers cette section">#</a></h3>
+
+<p>À l’heure actuelle, Omarchy ne prend en charge que les installations où il est le <strong>seul</strong> système d’exploitation. Lors de l’installation, le disque sera entièrement effacé et macOS ne pourra plus démarrer.</p>
+
+<p>Vous pourrez toujours le restaurer ultérieurement à l’aide de la récupération par Internet si vous le souhaitez.</p>
+
+<p>Pour cette partie, nous supposerons que vous avez déjà consulté la page <a href="../getting-started/">Bien démarrer</a> et que votre clé USB est prête. Si ce n’est pas le cas, faites-le maintenant.</p>
+
+<h4 id="disable-secure-boot">Désactiver le démarrage sécurisé <a class="manual__heading-link" href="#disable-secure-boot" aria-label="Lien vers cette section">#</a></h4>
+
+<p>Il est nécessaire de désactiver le démarrage sécurisé d’Apple afin de pouvoir démarrer à partir de la clé USB amorçable, ainsi que le système d’exploitation. Pour le désactiver, procédez comme suit :</p>
+
+<ol>
+  <li>Éteignez votre Mac</li>
+  <li>Allumez-le et maintenez <em>immédiatement</em> les touches Command-R enfoncées jusqu’à ce que l’écran de chargement apparaisse</li>
+  <li>Sélectionnez votre compte utilisateur et saisissez votre mot de passe si vous y êtes invité</li>
+  <li>Une fois sur l’écran de récupération, choisissez <strong>Utilitaires &gt; Utilitaire Sécurité au démarrage</strong> dans la barre des menus</li>
+  <li>Saisissez votre mot de passe lorsque vous êtes invité à vous authentifier</li>
+  <li>Choisissez « Aucune sécurité » dans les options de démarrage sécurisé</li>
+  <li>Choisissez « Autoriser le démarrage à partir de supports externes ou amovibles » dans les options de démarrage externe</li>
+</ol>
+
+<h4 id="start-the-installation">Démarrer l’installation <a class="manual__heading-link" href="#start-the-installation" aria-label="Lien vers cette section">#</a></h4>
+
+<ol>
+  <li>Insérez la clé USB</li>
+  <li>Redémarrez votre Mac et maintenez <em>immédiatement</em> la touche Option enfoncée jusqu’à ce qu’un écran présentant les périphériques de démarrage apparaisse</li>
+  <li>Sélectionnez le périphérique orange EFI Boot</li>
+  <li>Poursuivez <a href="../getting-started/">l’installation normalement</a></li>
+</ol>
+
+<p>Le programme d’installation détecte le matériel Mac et applique automatiquement les correctifs nécessaires : les pilotes et le microprogramme Wi-Fi Broadcom, le pilote de clavier SPI sur les modèles de MacBook qui en ont besoin, ainsi qu’un correctif de mise en veille NVMe pour ces mêmes modèles.</p>
+
+<h3 id="known-limitations">Limitations connues <a class="manual__heading-link" href="#known-limitations" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Les membres de la communauté travaillent constamment à trouver des solutions à ces difficultés. Si elles vous posent problème, rejoignez le canal #omarchy-on-other de notre <a href="https://discord.gg/tXFUdasqhY">Discord</a> pour vérifier s’il existe des méthodes à jour permettant de les résoudre.</p>
+
+<h4 id="devices-with-t1-chip">Appareils équipés de la puce T1 <a class="manual__heading-link" href="#devices-with-t1-chip" aria-label="Lien vers cette section">#</a></h4>
+
+<p>La puce Apple T1 a été lancée fin 2016 et utilisée exclusivement dans les modèles de MacBook Pro de première génération équipés de la Touch Bar.</p>
+<ul>
+  <li>MacBook Pro 13 pouces (2016, deux ports Thunderbolt 3) – Modèle : A1706</li>
+  <li>MacBook Pro 13 pouces (2016, quatre ports Thunderbolt 3) – Modèle : A1708</li>
+  <li>MacBook Pro 15 pouces (2016) – Modèle : A1707</li>
+</ul>
+
+<h4 id="known-issues">Problèmes connus <a class="manual__heading-link" href="#known-issues" aria-label="Lien vers cette section">#</a></h4>
+
+<ul>
+  <li>La Touch Bar ne fonctionne pas</li>
+  <li>Le son ne fonctionne pas</li>
+</ul>
+
+<h4 id="devices-with-t2-chip">Appareils équipés de la puce T2 <a class="manual__heading-link" href="#devices-with-t2-chip" aria-label="Lien vers cette section">#</a></h4>
+
+<p>La puce de sécurité Apple T2 a été lancée en 2017. Elle a été abandonnée lors de la transition vers les puces Apple Silicon (puces de série M), amorcée en 2020.</p>
+
+<ul>
+  <li>iMac Pro (2017) – Modèle : A1862</li>
+  <li>MacBook Pro 13 pouces (2018, quatre ports Thunderbolt 3) – Modèle : A1989</li>
+  <li>MacBook Pro 15 pouces (2018) – Modèle : A1990</li>
+  <li>MacBook Air (Retina, 13 pouces, 2018) – Modèle : A1932</li>
+  <li>Mac mini (2018) – Modèle : A1998</li>
+  <li>MacBook Pro 13 pouces (2019, deux ports Thunderbolt 3) – Modèle : A2159</li>
+  <li>MacBook Pro 13 pouces (2019, quatre ports Thunderbolt 3) – Modèle : A2178</li>
+  <li>MacBook Pro 15 pouces (2019) – Modèle : A1990</li>
+  <li>MacBook Pro 13 pouces (2020, deux ports Thunderbolt 3) – Modèle : A2265</li>
+  <li>MacBook Pro 15 pouces (2020) – Modèle : A1990</li>
+</ul>
+
+<p>Sur ces modèles, le programme d’installation configure automatiquement le noyau corrigé <code>linux-t2</code>, la configuration audio T2, le microprogramme Wi-Fi/Bluetooth Broadcom d’Apple et le contrôle des ventilateurs au moyen de <code>t2fanrd</code>. La Touch Bar fonctionne grâce à la prise en charge intégrée au noyau, similaire à celle de Boot Camp.</p>
+{% endraw %}

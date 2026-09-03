@@ -1,0 +1,85 @@
+---
+layout: manual
+title: "Clavier, souris, pavé tactile"
+description: "Hyprland vous permet de configurer très précisément tous vos périphériques d’entrée. Vous pouvez rendre la répétition du clavier extrêmement rapide ou utiliser le défilement naturel sur le pavé tactile..."
+permalink: /manual/keyboard-mouse-trackpad/
+manual_slug: keyboard-mouse-trackpad
+manual_order: 34
+previous_title: "Écrans"
+previous_url: /manual/monitors/
+next_title: "Réseau"
+next_url: /manual/networking/
+translation_key: manual-34-keyboard-mouse-trackpad
+lang: fr
+
+---
+{% raw %}
+<p>Hyprland vous permet de configurer très précisément tous vos périphériques d’entrée. Vous pouvez rendre la répétition du clavier extrêmement rapide ou utiliser le défilement naturel sur le pavé tactile. Tous ces réglages s’effectuent dans <code>~/.config/hypr/input.lua</code>, également accessible via <em>Configuration &gt; Périphériques d’entrée</em> dans le menu Omarchy (<code>Super + Space</code>). Tout paramètre que vous y définissez remplace les valeurs par défaut d’Omarchy.</p>
+
+<p>Voici un exemple :</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
+    kb_layout = "us,dk",
+    kb_options = "compose:caps,shift:both_capslock_cancel,grp:alts_toggle",
+
+    -- Change speed of keyboard repeat
+    repeat_rate = 40,
+    repeat_delay = 600,
+
+    -- Increase sensitivity for mouse/trackpad (default: 0)
+    sensitivity = 0.35,
+
+    touchpad = {
+      -- Use natural (inverse) scrolling
+      natural_scroll = true,
+
+      -- Use two-finger clicks for right-click instead of lower-right corner
+      clickfinger_behavior = true,
+
+      -- Control the speed of your scrolling
+      scroll_factor = 0.3,
+    },
+  },
+})
+
+-- Scroll faster in the terminal
+o.window("(Alacritty|kitty|foot)", { scroll_touchpad = 1.5 })
+</code></pre>
+
+<p>Vous pouvez <a href="https://wiki.hypr.land/Configuring/Basics/Variables/#input">consulter toutes les options des périphériques d’entrée</a> sur le wiki de Hyprland.</p>
+
+<p>Par défaut, Omarchy utilise Verr. maj. comme touche de composition pour les <a href="../hotkeys/#quick-emojis">émojis rapides</a> et les <a href="../hotkeys/#quick-completions">autres complétions</a>. Si vous préférez utiliser Verr. maj. pour verrouiller les majuscules, attribuez la touche de composition à une autre touche en modifiant <code>compose:caps</code> dans <code>kb_options</code>. Par exemple, ceci attribue la fonction de composition à Alt droite :</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    kb_options = "compose:ralt",
+  },
+})
+</code></pre>
+
+<h3 id="trackpad-gestures">Gestes du pavé tactile <a class="manual__heading-link" href="#trackpad-gestures" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez également activer les <a href="https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/">gestes du pavé tactile</a>, comme le balayage à trois doigts pour changer d’espace de travail :</p>
+
+<pre><code class="language-lua">hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+</code></pre>
+
+<p>Sur les ordinateurs portables Dell XPS équipés d’un pavé tactile haptique, vous pouvez également régler l’intensité du clic sur faible, moyenne ou élevée dans <em>Déclencheur &gt; Matériel &gt; Retour haptique du pavé tactile</em>.</p>
+
+<h3 id="typing-in-chinese-japanese-and-other-languages">Saisie en chinois, en japonais et dans d’autres langues <a class="manual__heading-link" href="#typing-in-chinese-japanese-and-other-languages" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy exécute le framework de méthode de saisie <a href="https://fcitx-im.org/">fcitx5</a> à chaque session — c’est lui qui gère les séquences de composition avec Verr. maj. L’infrastructure nécessaire à la saisie de caractères non latins est donc déjà en place : installez un moteur de saisie tel que <code>fcitx5-mozc</code> (japonais) ou <code>fcitx5-chinese-addons</code> (chinois) avec <code>omarchy pkg add</code>, ainsi que <code>fcitx5-configtool</code> pour ajouter le moteur à vos méthodes de saisie et définir la touche permettant de passer de l’une à l’autre.</p>
+
+<h3 id="use-alt-as-super">Utiliser ALT comme SUPER <a class="manual__heading-link" href="#use-alt-as-super" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Sur certains claviers, il n’est pas pratique d’utiliser la touche méta principale (touche Windows/cmd) comme SUPER. Vous pouvez utiliser ALT à la place en appliquant cette modification :</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    kb_options = "compose:caps,shift:both_capslock_cancel,altwin:swap_alt_win",
+  },
+})
+</code></pre>
+{% endraw %}

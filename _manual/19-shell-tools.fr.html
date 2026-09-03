@@ -1,0 +1,74 @@
+---
+layout: manual
+title: "Outils du shell"
+description: "En plus des outils Linux standard, Omarchy fournit également de nombreux outils de shell améliorés. Voici les principaux."
+permalink: /manual/shell-tools/
+manual_slug: shell-tools
+manual_order: 19
+previous_title: "Outils de développement"
+previous_url: /manual/development-tools/
+next_title: "Fonctions du shell"
+next_url: /manual/shell-functions/
+translation_key: manual-19-shell-tools
+lang: fr
+
+---
+{% raw %}
+<p>En plus des outils Linux standard, Omarchy fournit également de nombreux outils de shell améliorés. Voici les principaux.</p>
+
+<h2 id="fzf">fzf <a class="manual__heading-link" href="#fzf" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://junegunn.github.io/fzf/">fzf</a> permet d’effectuer une recherche approximative de fichiers grâce à l’alias <code>ff</code>. Accédez à n’importe quel répertoire, saisissez <code>ff</code> et vous pourrez rechercher de manière approximative n’importe quel fichier de cette arborescence, tout en affichant sur la droite un aperçu des fichiers correspondant progressivement à votre recherche.</p>
+
+<p>Vous pouvez utiliser <code>Ctrl + R</code> pour rechercher de manière approximative dans l’historique de vos commandes avec fzf.</p>
+
+<p>Cet outil est également utilisé par Neovim lorsque vous saisissez <code>Space Space</code>.</p>
+
+<p>Le manuel complet est accessible avec <code>man fzf</code>.</p>
+
+<h2 id="zoxide">Zoxide <a class="manual__heading-link" href="#zoxide" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/ajeetdsouza/zoxide">Zoxide</a> remplace cd. Il mémorise les répertoires que vous avez visités afin que vous puissiez y accéder plus facilement par la suite. Supposons que vous exécutiez une fois <code>cd ~/.config/omarchy</code>. La fois suivante, il vous suffira d’exécuter <code>cd omarchy</code> (ou même simplement <code>cd oma</code>) pour que Zoxide vous y conduise directement.</p>
+
+<p>Le manuel complet est accessible avec <code>man zoxide</code>.</p>
+
+<h2 id="ripgrep">ripgrep <a class="manual__heading-link" href="#ripgrep" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/BurntSushi/ripgrep">ripgrep</a> recherche dans le contenu des fichiers à l’aide de <code>rg &lt;pattern&gt; &lt;path&gt;</code>. Par exemple, <code>rg Controller app/</code> trouve toutes les occurrences de <code>Controller</code> dans le répertoire app.</p>
+
+<p>Cet outil est également utilisé par Neovim lorsque vous saisissez <code>Space S G</code>.</p>
+
+<p>Le manuel complet est accessible avec <code>man rg</code>.</p>
+
+<h2 id="eza">eza <a class="manual__heading-link" href="#eza" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://eza.rocks/">eza</a> remplace ls. Il affiche le contenu des répertoires avec davantage d’informations, des couleurs et des icônes. Par défaut, eza est associé à l’alias ls. Vous pouvez également utiliser <code>lt</code> pour afficher une arborescence sur deux niveaux. <code>lsa</code> affiche également les fichiers cachés. Enfin, <code>lta</code> affiche une arborescence incluant les fichiers cachés.</p>
+
+<p>Le manuel complet est accessible avec <code>man eza</code>.</p>
+
+<h2 id="fd">fd <a class="manual__heading-link" href="#fd" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/sharkdp/fd">fd</a> est une alternative à <code>find</code> plus facile à utiliser. Utilisez <code>fd person.rb</code> pour rechercher un fichier nommé <code>person.rb</code> dans l’arborescence actuelle. <code>fd person.rb /</code> effectuera la recherche dans l’ensemble du système de fichiers. <code>fd person.rb / -H</code> recherche dans l’ensemble du système de fichiers, y compris dans les répertoires cachés.</p>
+
+<p>Le manuel complet est accessible avec <code>man fd</code>.</p>
+
+<h2 id="bat">bat <a class="manual__heading-link" href="#bat" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/sharkdp/bat">bat</a> est une version de <code>cat</code> dotée de la coloration syntaxique, de numéros de ligne et de la pagination. Exécutez <code>bat somefile.rb</code> et vous comprendrez pourquoi il est difficile de revenir en arrière. Il œuvre également discrètement ailleurs : c’est lui qui colore vos pages de manuel et génère les aperçus dans <code>ff</code>.</p>
+
+<p>Le manuel complet est accessible avec <code>man bat</code>.</p>
+
+<h2 id="tldr">tldr <a class="manual__heading-link" href="#tldr" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://tldr.sh/">tldr</a> est l’antidote aux pages de manuel qui commencent par trois écrans d’historique avant de vous montrer un seul exemple. <code>tldr tar</code> vous présente les quelques commandes dont vous aviez réellement besoin.</p>
+
+<h2 id="yt-dlp">yt-dlp <a class="manual__heading-link" href="#yt-dlp" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> télécharge des vidéos depuis YouTube et des centaines d’autres sites. <code>yt-dlp &lt;url&gt;</code> récupère la meilleure qualité disponible dans le répertoire actuel.</p>
+
+<p>Le manuel complet est accessible avec <code>man yt-dlp</code>.</p>
+
+<h2 id="try">try <a class="manual__heading-link" href="#try" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/tobi/try">try</a> facilite la gestion d’expériences de programmation grâce à des répertoires datés. Toutes les expériences sont stockées dans <code>~/Work/tries</code> et vous pouvez y accéder avec <code>try</code>.</p>
+{% endraw %}

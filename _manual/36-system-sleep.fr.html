@@ -1,0 +1,34 @@
+---
+layout: manual
+title: "Mise en veille du système"
+description: "Omarchy active par défaut la mise en veille et la veille prolongée, mais si l’une ou l’autre pose problème sur votre machine, vous pouvez la désactiver."
+permalink: /manual/system-sleep/
+manual_slug: system-sleep
+manual_order: 36
+previous_title: "Réseau"
+previous_url: /manual/networking/
+next_title: "Authentification matérielle"
+next_url: /manual/hardware-authentication/
+translation_key: manual-36-system-sleep
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy active par défaut la mise en veille et la veille prolongée, mais si l’une ou l’autre pose problème sur votre machine, vous pouvez la désactiver.</p>
+
+<h3 id="power-profiles">Profils d’alimentation <a class="manual__heading-link" href="#power-profiles" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Sur un ordinateur portable, Omarchy mémorise séparément votre profil d’alimentation lorsque l’appareil est branché sur secteur et lorsqu’il fonctionne sur batterie, puis bascule de l’un à l’autre lorsque vous le branchez ou le débranchez. Par défaut, cela signifie le mode performances sur secteur et le mode équilibré sur batterie.</p>
+
+<p>Vous pouvez voir les profils proposés par votre machine avec <code>omarchy powerprofiles list</code>, puis définir celui que vous souhaitez pour l’état actuel avec <code>omarchy powerprofiles set autodetect power-saver</code>. Pour définir l’autre état sans rien débrancher, indiquez-le directement : <code>omarchy powerprofiles set battery power-saver</code>. Quel que soit votre choix, ce profil sera réappliqué la prochaine fois que vous vous trouverez dans cet état.</p>
+
+<h3 id="toggle-suspend">Activer ou désactiver la mise en veille <a class="manual__heading-link" href="#toggle-suspend" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez activer ou désactiver la mise en veille en exécutant <code>omarchy toggle suspend</code> dans le terminal. Cette commande se contente d’afficher ou de masquer l’option sous <em>Système</em> (ou <code>Super + Esc</code>) afin que vous puissiez vérifier si elle fonctionne de manière fiable sur votre système. Si ce n’est pas le cas, vous pouvez la masquer à nouveau avec la même commande.</p>
+
+<h3 id="toggle-hibernation">Activer ou désactiver la veille prolongée <a class="manual__heading-link" href="#toggle-hibernation" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez configurer la veille prolongée en exécutant <code>omarchy hibernation setup</code> dans le terminal. La veille prolongée crée sur votre disque de démarrage un sous-volume /swap dont la taille correspond à la quantité de mémoire vive physique de votre machine ; veillez donc à disposer de suffisamment d’espace libre. Sur une machine dotée de 32GB de mémoire, vous aurez toujours besoin d’au moins 32GB+ d’espace libre pour ce volume. La veille prolongée nécessite également le chargeur de démarrage Limine par défaut.</p>
+
+<p>Une fois la configuration terminée, l’option de veille prolongée apparaît sous <em>Système</em> (ou <code>Super + Esc</code>) afin que vous puissiez vérifier si elle fonctionne de manière fiable sur votre système. Si ce n’est pas le cas, vous pouvez la supprimer en exécutant <code>omarchy hibernation remove</code>.</p>
+{% endraw %}

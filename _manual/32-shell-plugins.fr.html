@@ -1,0 +1,136 @@
+---
+layout: manual
+title: "Plugins du shell"
+description: "Le bureau Omarchy fonctionne au sein d’un unique processus Quickshell de longue durée nommé omarchy-shell, et presque tout ce que vous voyez à l’écran est un plugin qui s’exécute en son sein. La..."
+permalink: /manual/shell-plugins/
+manual_slug: shell-plugins
+manual_order: 32
+previous_title: "Dotfiles"
+previous_url: /manual/dotfiles/
+next_title: "Écrans"
+next_url: /manual/monitors/
+translation_key: manual-32-shell-plugins
+lang: fr
+
+---
+{% raw %}
+<p>Le bureau Omarchy fonctionne au sein d’un unique processus Quickshell de longue durée nommé <code>omarchy-shell</code>, et presque tout ce que vous voyez à l’écran est un plugin qui s’exécute en son sein. La barre est un plugin. Il en va de même pour les panneaux qui se déroulent depuis celle-ci, les superpositions en plein écran comme le sélecteur d’emojis et le gestionnaire du presse-papiers, le menu Omarchy lui-même, l’écran de verrouillage, la boîte de dialogue polkit et les services sans interface qui surveillent votre batterie et réchauffent les couleurs de votre écran la nuit.</p>
+
+<p>Ce n’est pas un simple détail d’implémentation. Cela signifie que vous pouvez désactiver certaines parties du bureau, les remplacer ou créer les vôtres sans modifier une seule ligne du code source d’Omarchy.</p>
+
+<p>Les plugins officiels sont fournis avec Omarchy et se trouvent dans <code>$OMARCHY_PATH/shell/plugins/</code>. Tout ce que vous ajoutez vous-même — vos propres expérimentations ou quelque chose que vous avez trouvé sur GitHub — se trouve dans <code>~/.config/omarchy/plugins/</code>. Les deux sont détectés de la même manière au démarrage ; la seule différence est leur emplacement sur le disque.</p>
+
+<h2 id="seeing-what-you-have">Voir les plugins disponibles <a class="manual__heading-link" href="#seeing-what-you-have" aria-label="Lien vers cette section">#</a></h2>
+
+<pre><code>omarchy plugin list
+</code></pre>
+
+<p>Cette commande affiche tous les plugins détectés avec leur identifiant, leur état d’activation, leur origine officielle ou tierce, leurs types et leur nom d’affichage. Ajoutez <code>--json</code> si vous transmettez le résultat à un autre outil.</p>
+
+<p>Les identifiants des plugins utilisent des espaces de noms. Ceux des plugins intégrés commencent tous par <code>omarchy.</code> — <code>omarchy.clock</code>, <code>omarchy.network</code>, <code>omarchy.notifications</code> — et cet espace de noms est réservé, de sorte qu’aucun plugin tiers ne peut se l’approprier.</p>
+
+<h2 id="turning-them-on-and-off">Les activer et les désactiver <a class="manual__heading-link" href="#turning-them-on-and-off" aria-label="Lien vers cette section">#</a></h2>
+
+<pre><code>omarchy plugin enable omarchy.tailscale
+omarchy plugin disable omarchy.weather
+</code></pre>
+
+<p>Vous pouvez également passer par le menu : <em>Configuration &gt; Plugins</em> propose les options Activer, Désactiver, Ajouter, Cloner et Supprimer, chacune avec un sélecteur qui ne présente que les plugins pertinents pour l’action concernée.</p>
+
+<p>L’état d’activation est enregistré dans <code>~/.config/omarchy/shell.json</code>, et la règle diffère légèrement selon les deux catégories de plugins. Un plugin tiers est activé dès lors que son identifiant apparaît quelque part dans ce fichier — comme élément de la disposition de la barre, comme entrée dans <code>plugins[]</code> ou comme <code>bar.id</code>. Pour les plugins officiels qui ne sont pas des widgets de barre, c’est l’inverse : ils sont activés par défaut et ne sont désactivés que s’ils figurent dans <code>disabledPlugins[]</code>.</p>
+
+<p>Un plugin de barre complète ne peut pas être désactivé. Il y a toujours exactement une barre : pour la remplacer, il suffit donc d’en activer une autre. Le positionnement des widgets de la barre est expliqué dans la section consacrée à <a href="../the-top-bar/">la barre supérieure</a>.</p>
+
+<h2 id="adding-a-plugin-from-git">Ajouter un plugin depuis Git <a class="manual__heading-link" href="#adding-a-plugin-from-git" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Un plugin tiers est simplement un dépôt Git contenant un fichier <code>manifest.json</code> à sa racine.</p>
+
+<pre><code>omarchy plugin add https://github.com/acme/omarchy-weather.git --enable
+</code></pre>
+
+<p>Avant toute opération, la commande vous indique clairement que les plugins exécutent du code arbitraire, sans environnement isolé, au sein de votre processus shell de longue durée. Elle affiche l’URL et vous demande de confirmer. Prenez cet avertissement au sérieux. Un plugin n’est pas un fichier de configuration : c’est du code qui s’exécute pendant toute la durée de votre session, avec un accès à tout ce que votre compte utilisateur peut atteindre. N’ajoutez que des dépôts dont vous acceptez d’exécuter le code et examinez-les avant de les activer.</p>
+
+<p>La commande clone ensuite le dépôt dans un répertoire temporaire, valide le manifeste, refuse l’installation si un autre plugin utilise déjà cet identifiant, puis le déplace vers <code>~/.config/omarchy/plugins/&lt;id&gt;/</code>. Sans <code>--enable</code>, elle vous demande si vous souhaitez l’activer immédiatement ; vous pouvez répondre non et commencer par lire le code. Elle n’exécute jamais rien provenant du plugin, ne lance aucun script d’installation et ne demande jamais les droits sudo : elle clone les fichiers, vérifie le manifeste et modifie un état via IPC.</p>
+
+<p>La mise à jour consiste à effectuer une récupération en avance rapide dans ce même répertoire de travail :</p>
+
+<pre><code>omarchy plugin update acme.weather
+omarchy plugin update
+</code></pre>
+
+<p>Sans identifiant, la commande met à jour tous vos plugins gérés par Git. Elle vous présente les différences avant de les appliquer, refuse la mise à jour si des modifications locales empêchent une avance rapide et revient à la révision précédente si la nouvelle échoue à la validation.</p>
+
+<pre><code>omarchy plugin remove acme.weather
+</code></pre>
+
+<p>La suppression commence par désactiver le plugin, puis l’efface s’il s’agit d’un dépôt Git cloné (le dépôt reste disponible en amont) ou supprime son lien s’il s’agit d’un lien symbolique. Un dossier de plugin créé manuellement et ne contenant aucun dépôt Git est déplacé vers une sauvegarde horodatée dans le répertoire des plugins au lieu d’être définitivement supprimé.</p>
+
+<h2 id="cloning-a-built-in-to-modify-it">Cloner un plugin intégré pour le modifier <a class="manual__heading-link" href="#cloning-a-built-in-to-modify-it" aria-label="Lien vers cette section">#</a></h2>
+
+<p>C’est ce que je préfère. Si vous souhaitez modifier le comportement d’un widget intégré, ne modifiez pas les fichiers situés sous <code>$OMARCHY_PATH</code> : ils appartiennent au paquet et seront écrasés lors de la prochaine mise à jour. Clonez plutôt le plugin :</p>
+
+<pre><code>omarchy plugin clone omarchy.clock
+</code></pre>
+
+<p>Cette commande copie l’intégralité du plugin dans <code>~/.config/omarchy/plugins/dhh.clock</code> (avec votre nom d’utilisateur, pas le mien), le renomme « Mon horloge », l’active et fait passer le shell du plugin intégré à votre copie, tout en conservant la position et les réglages d’un éventuel widget déjà présent dans la barre. Ajoutez <code>--edit</code> pour ouvrir immédiatement le nouveau répertoire dans votre <code>$EDITOR</code> ; c’est ce que fait pour vous l’option <em>Configuration &gt; Plugins &gt; Cloner un plugin</em> du menu.</p>
+
+<p>Le préfixe correspondant à votre nom d’utilisateur garantit que l’identifiant de votre clone vous appartient, afin qu’il n’entre pas en conflit avec celui de quelqu’un d’autre lorsque vous le partagez. Les appels adressés à l’identifiant du plugin intégré d’origine sont redirigés vers votre clone : tout ce qui faisait référence à <code>omarchy.clock</code> continue donc de fonctionner sans modification. Et si vous vous y perdez, <code>omarchy plugin remove dhh.clock</code> rétablit le plugin intégré.</p>
+
+<p>L’enregistrement d’un fichier situé n’importe où sous <code>~/.config/omarchy/plugins/</code> recharge automatiquement le code du plugin. Vous pouvez donc laisser l’éditeur ouvert et voir vos modifications s’appliquer.</p>
+
+<h2 id="writing-your-own">Créer votre propre plugin <a class="manual__heading-link" href="#writing-your-own" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Un plugin est un répertoire contenant un fichier <code>manifest.json</code> et du code QML. Le manifeste déclare <code>schemaVersion: 1</code>, un <code>id</code>, un <code>name</code>, une <code>version</code>, un ou plusieurs <code>kinds</code>, ainsi qu’un objet <code>entryPoints</code> qui désigne le fichier QML correspondant à chaque type :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bar-widget</code></td>
+      <td>Un composant que la barre active peut placer dans une section</td>
+    </tr>
+    <tr>
+      <td><code>panel</code></td>
+      <td>Une fenêtre flottante permanente ou affichée à la demande</td>
+    </tr>
+    <tr>
+      <td><code>overlay</code></td>
+      <td>Une superposition en plein écran</td>
+    </tr>
+    <tr>
+      <td><code>menu</code></td>
+      <td>Une surface de menu affichée à la demande</td>
+    </tr>
+    <tr>
+      <td><code>service</code></td>
+      <td>Un singleton sans interface utilisateur</td>
+    </tr>
+    <tr>
+      <td><code>bar</code></td>
+      <td>Une barre complète qui remplace celle intégrée</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Un plugin peut déclarer plusieurs types à la fois : le plugin multimédia est à la fois un <code>service</code> et un <code>bar-widget</code>. Les widgets de barre possèdent un bloc <code>barWidget</code> supplémentaire, avec un nom d’affichage, une catégorie, un champ facultatif <code>defaultSection</code> et <code>allowMultiple</code>, qui indique s’il est pertinent d’en placer plusieurs dans la barre. La plupart des widgets le définissent sur <code>false</code> ; les espaces et les indicateurs le définissent sur <code>true</code>.</p>
+
+<p>Avant de publier quoi que ce soit, vérifiez-le :</p>
+
+<pre><code>omarchy plugin validate ./my-plugin
+</code></pre>
+
+<p>Cette commande effectue les mêmes vérifications que le shell lors du chargement : la version du schéma, les champs obligatoires, l’absence d’espace de noms réservé dans l’identifiant, des points d’entrée qui utilisent des chemins relatifs sûrs et qui existent réellement, un point d’entrée pour chaque type déclaré et l’absence de liens symboliques dans l’ensemble du dossier.</p>
+
+<p>Pour une vue d’ensemble, le code source fait office de documentation : le fichier <code>shell/README.md</code> du dépôt Omarchy décrit le schéma du manifeste, le contrat IPC du shell et la structure exacte de <code>shell.json</code>, tandis que <code>shell/plugins/README.md</code> répertorie tous les plugins officiels avec leur identifiant, leurs types et leurs points d’entrée.</p>
+
+<h2 id="sharing-yours-with-the-world">Partager votre plugin avec le monde entier <a class="manual__heading-link" href="#sharing-yours-with-the-world" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Une fois que vous avez créé quelque chose qui vous plaît, placez-le dans un dépôt Git public. C’est tout le mécanisme de distribution : n’importe qui peut alors exécuter <code>omarchy plugin add</code> avec votre URL et le faire fonctionner en quelques secondes.</p>
+
+<p>Pour aider les autres à le trouver, référencez-le sur <a href="https://omarchyplugins.com">omarchyplugins.com</a>. Il s’agit du répertoire communautaire des plugins du shell Omarchy, et c’est le premier endroit où chercher lorsque vous vous demandez si quelqu’un a déjà créé le widget que vous vous apprêtez à développer. Parcourez-le avant de commencer !</p>
+{% endraw %}

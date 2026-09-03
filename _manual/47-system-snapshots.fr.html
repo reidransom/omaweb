@@ -1,0 +1,40 @@
+---
+layout: manual
+title: "Instantanés système"
+description: "Nous créons automatiquement des instantanés à chaque mise à jour d’Omarchy, mais si vous souhaitez créer les vôtres, vous pouvez utiliser omarchy-snapshot create."
+permalink: /manual/system-snapshots/
+manual_slug: system-snapshots
+manual_order: 47
+previous_title: "FAQ"
+previous_url: /manual/faq/
+next_title: "Sécurité"
+next_url: /manual/security/
+translation_key: manual-47-system-snapshots
+lang: fr
+
+---
+{% raw %}
+<p>Nous créons automatiquement des instantanés à chaque mise à jour d’Omarchy, mais si vous souhaitez créer les vôtres, vous pouvez utiliser <code>omarchy-snapshot create</code>.</p>
+
+<p>Pour démarrer sur un instantané et le restaurer, sélectionnez-le dans le chargeur de démarrage Limine. (Si vous démarrez actuellement directement sur l’écran de déchiffrement d’Omarchy, vous devrez d’abord sélectionner Limine comme option de démarrage dans le BIOS).</p>
+
+<p>Sur cet écran, choisissez l’instantané sur lequel vous souhaitez démarrer en fonction de sa date et de sa version. La version d’Omarchy utilisée au moment de la création de l’instantané est indiquée dans le coin inférieur gauche.</p>
+
+<p><img src="/manual/images/snapshots-bootloader.webp" alt="chargeur de démarrage des instantanés"  width="1600" height="994" loading="lazy" decoding="async" /></p>
+
+<p>Une fois le démarrage terminé, une notification s’affichera pour vous indiquer que vous avez démarré sur un instantané amorçable. Cliquez dessus pour lancer le processus de restauration. Vous pouvez également utiliser <code>omarchy-snapshot restore</code>.</p>
+
+<p><img src="/manual/images/snapshots-restore.webp" alt="restauration des instantanés"  width="1600" height="996" loading="lazy" decoding="async" /></p>
+
+<p>Cette opération restaurera votre système de fichiers racine, mais pas votre répertoire <code>/home</code>. Elle permet donc d’annuler une mise à jour système défectueuse, mais pas de récupérer des fichiers personnels perdus.</p>
+
+<p>Cela signifie également que votre répertoire <code>~/.config</code> est conservé tel quel. Si vous revenez à une version antérieure d’une bibliothèque ou d’une application qui stocke ses fichiers de configuration dans un nouveau format, vous devrez donc régler le problème manuellement.</p>
+
+<p><em>Remarque : cette fonctionnalité est uniquement disponible sur les installations utilisant le chargeur de démarrage Limine, qui est utilisé par défaut depuis Omarchy 2.0. Elle n’est pas disponible si vous utilisez GRUB ou systemd-boot.</em></p>
+
+<h3 id="skipping-the-boot-menu">Ignorer le menu de démarrage <a class="manual__heading-link" href="#skipping-the-boot-menu" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous n’utilisez jamais le menu de démarrage et souhaitez que la machine accède directement à l’écran de déchiffrement, exécutez <em>Configuration &gt; Démarrage direct</em> dans le menu Omarchy. Cela ajoute une entrée EFI pointant directement vers Omarchy, afin que le micrologiciel le démarre sans s’arrêter sur Limine.</p>
+
+<p>La contrepartie est celle mentionnée plus haut : lorsque le démarrage direct est activé, vous devez d’abord sélectionner Limine dans le menu de démarrage de votre BIOS pour accéder à un instantané. Exécutez à nouveau <em>Configuration &gt; Démarrage direct</em> pour supprimer l’entrée et recommencer à démarrer via Limine. Certains micrologiciels gèrent mal les entrées EFI personnalisées : la configuration refuse donc de s’exécuter sur les micrologiciels American Megatrends et Apple.</p>
+{% endraw %}

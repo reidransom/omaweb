@@ -1,0 +1,59 @@
+---
+layout: manual
+title: "Neovim"
+description: "Si vous découvrez complètement l’édition à la Vim, je vous recommande de regarder la série Vim As Your Editor de ThePrimeagen sur YouTube. Elle vous enseignera les bases. Sachez simplement..."
+permalink: /manual/neovim/
+manual_slug: neovim
+manual_order: 16
+previous_title: "Terminal"
+previous_url: /manual/terminal/
+next_title: "IA"
+next_url: /manual/ai/
+translation_key: manual-16-neovim
+lang: fr
+
+---
+{% raw %}
+<p><a href="https://neovim.io/">Neovim</a> est une implémentation moderne de <a href="https://en.wikipedia.org/wiki/Vi_(text_editor)">l’éditeur vi</a>, créé par Bill Joy en 1976. C’est un éditeur modal dans lequel le mode insertion et le mode commande sont séparés, et il devient presque un superpouvoir dès que vous maîtrisez ne serait-ce qu’une partie de son ensemble incroyablement riche de commandes clavier. Mais la courbe d’apprentissage est également assez raide !</p>
+
+<p>Si vous découvrez complètement l’édition à la Vim, je vous recommande de regarder <a href="https://www.youtube.com/watch?v=X6AR2RMB5tE&amp;list=PLm323Lc7iSW_wuxqmKx_xxNtJC_hJbQ7R">la série Vim As Your Editor de ThePrimeagen</a> sur YouTube. Elle vous enseignera les bases. Sachez simplement que, contrairement aux éditeurs grand public plus classiques, il vous faudra davantage de temps pour acquérir une maîtrise élémentaire de Vim. Mais une fois ce cap franchi, les bénéfices sont également plus importants.</p>
+
+<p>Neovim est pour ainsi dire configurable à l’infini. Si vous voulez vraiment aller très loin, vous pouvez créer votre propre configuration Neovim à partir de zéro. Typecraft propose un excellent cours sur <a href="https://www.youtube.com/watch?v=zHTeCSVAFNY">la configuration de Neovim à partir de zéro</a>. Et <a href="https://www.youtube.com/watch?v=w7i4amO_zaE">ThePrimeagen en propose également un</a>.</p>
+
+<p>Mais Omarchy est livré avec une configuration Neovim complète — le paquet <code>omarchy-nvim</code> — soigneusement peaufinée pour présenter le meilleur de ce qu’il est possible d’obtenir dès l’installation. Sans que vous ayez à écrire une seule ligne de configuration ! Elle repose sur <a href="https://www.lazyvim.org/">LazyVim</a>, une distribution de plugins et de configurations pour Neovim. C’est génial.</p>
+
+<h2 id="lazyvim-basics">Les bases de LazyVim <a class="manual__heading-link" href="#lazyvim-basics" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Comme indiqué précédemment, je ne vais pas vous apprendre Vim dans cette courte introduction, mais je peux vous présenter quelques bases de LazyVim et vous montrer comment vous y retrouver.</p>
+
+<p>Tout d’abord, Neovim utilise le concept de touche leader. C’est en quelque sorte la porte d’entrée vers toutes les commandes. LazyVim l’a définie sur <code>Space</code>. Il vous suffit donc d’appuyer dessus, d’attendre une seconde, et vous verrez plusieurs options expliquées directement à l’écran, comme ceci :</p>
+
+<p>Voici quelques commandes de base que j’utilise tout le temps :</p>
+
+<ul>
+  <li><code>Space Space</code> - Rechercher rapidement n’importe quel fichier dans le répertoire actuel.</li>
+  <li><code>Space S G</code> - Rechercher dans tous les fichiers avec grep et afficher un aperçu.</li>
+  <li><code>Space E</code> - Afficher ou masquer l’arborescence des fichiers.</li>
+  <li><code>Ctrl + W W</code> - Passer de l’arborescence des fichiers à l’éditeur, et inversement.</li>
+  <li><code>Shift + H</code> - Se déplacer vers la gauche parmi les onglets ouverts (Vim les appelle des buffers).</li>
+  <li><code>Shift + L</code> - Se déplacer vers la droite parmi les onglets ouverts.</li>
+  <li><code>Space B D</code> - Fermer un onglet.</li>
+  <li><code>Space B O</code> - Fermer tous les onglets sauf l’onglet actuel.</li>
+  <li><code>Space G G</code> - Lancer LazyGit dans un panneau flottant depuis le répertoire actuel.</li>
+  <li><code>Space U W</code> - Activer ou désactiver le retour automatique à la ligne.</li>
+</ul>
+
+<p>Lorsque vous êtes dans l’arborescence des fichiers (<code>Space E</code> pour l’afficher, <code>Ctrl + W W</code> pour y accéder), vous pouvez ajouter un nouveau fichier avec <code>a</code> ou un nouveau répertoire avec <code>A</code>. Appuyez sur <code>?</code> lorsque vous êtes dans l’arborescence pour voir toutes les commandes.</p>
+
+<p>Si vous voulez apprendre le langage de base de Vim, j’ai écrit un article sur <a href="https://world.hey.com/dhh/wonderful-vi-a1d034d3">la syntaxe en trois parties</a> et sur la manière de réaliser ces formidables enchaînements de commandes !</p>
+
+<p>Vous pouvez consulter toutes les commandes disponibles sur <a href="https://www.lazyvim.org/keymaps">la page des raccourcis clavier de LazyVim</a>.</p>
+
+<h2 id="starting-neovim">Démarrer Neovim <a class="manual__heading-link" href="#starting-neovim" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Vous pouvez démarrer Neovim avec <code>Super + Shift + N</code> (ce raccourci lance votre éditeur par défaut, qui est Neovim dès l’installation), mais il est généralement plus simple de le lancer depuis le terminal en accédant au répertoire dans lequel vous souhaitez travailler, puis en saisissant <code>n</code>. <code>n</code> est l’alias de <code>nvim</code>, qui ouvre par défaut le répertoire actuel. Vous pouvez ouvrir un fichier unique avec <code>n myfile.txt</code>.</p>
+
+<h2 id="using-neovim-for-sudo-edits">Utiliser Neovim pour les modifications avec sudo <a class="manual__heading-link" href="#using-neovim-for-sudo-edits" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Si vous devez modifier des fichiers accessibles en écriture uniquement en tant que superutilisateur, vous pouvez utiliser Neovim avec toute votre configuration de plugins en exécutant <code>sudoedit /etc/sudoers.d/00-sudo-only-file</code>.</p>
+{% endraw %}

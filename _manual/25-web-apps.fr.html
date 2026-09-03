@@ -1,0 +1,90 @@
+---
+layout: manual
+title: "Applications web"
+description: "Vous pouvez ajouter vos propres applications web via Installer > Application web dans le menu Omarchy (Super + Space). Le nom de l’application, son URL et l’URL de son icône vous seront demandés si celle-ci..."
+permalink: /manual/web-apps/
+manual_slug: web-apps
+manual_order: 25
+previous_title: "Applications et services commerciaux"
+previous_url: /manual/commercial-apps-services/
+next_title: "Jeux vidéo"
+next_url: /manual/gaming/
+translation_key: manual-25-web-apps
+lang: fr
+
+---
+{% raw %}
+<p>Vous pouvez ajouter vos propres applications web via <em>Installer &gt; Application web</em> dans le menu Omarchy (<code>Super + Space</code>). Le nom de l’application, son URL et l’URL de son icône vous seront demandés si celle-ci ne peut pas être récupérée via le favicon. Vous trouverez d’excellentes icônes PNG pour de nombreuses applications web populaires sur <a href="https://dashboardicons.com">Dashboard Icons</a>.</p>
+
+<p>Elles seront ensuite accessibles depuis le lanceur d’applications (<code>Super + Space</code>) et utiliseront l’élégante fenêtre sans bordure des applications web.</p>
+
+<p>Si vous souhaitez supprimer une application web, accédez simplement à <em>Supprimer &gt; Application web</em> dans le menu Omarchy.</p>
+
+<p>Il est préférable de vous connecter à tous vos comptes dans un navigateur classique avant d’utiliser les raccourcis des applications web. La fine couche d’encapsulation ne fonctionne pas bien avec 1password, il est donc plus simple de vous connecter directement au préalable.</p>
+
+<p>Tous les raccourcis clavier de ces applications web peuvent être modifiés dans <code>~/.config/hypr/bindings.lua</code>.</p>
+
+<p>Lorsque vous êtes dans une application web, vous pouvez copier l’URL actuelle dans le presse-papiers avec <code>Shift + Alt + L</code>.</p>
+
+<p>Par défaut, Omarchy intègre déjà un assortiment d’applications :</p>
+
+<h2 id="hey">HEY <a class="manual__heading-link" href="#hey" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.hey.com/">HEY</a> est un service de messagerie et de calendrier qui constitue une excellente alternative pour les personnes lassées de Gmail, Outlook ou Apple Mail. Il est conçu par <a href="https://37signals.com/">37signals</a>, l’entreprise à l’origine d’Omarchy.</p>
+
+<p>Vous pouvez lancer HEY Email avec <code>Super + Shift + E</code>, passer directement à la rédaction d’un nouvel e-mail avec <code>Super + Shift + Alt + E</code> et lancer HEY Calendar avec <code>Super + Shift + C</code>.</p>
+
+<h2 id="basecamp">Basecamp <a class="manual__heading-link" href="#basecamp" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://basecamp.com/">Basecamp</a> est un service de gestion de projets qui aide les petites équipes à avancer plus vite et à accomplir davantage. Au lieu d’assembler tant bien que mal un mélange de Trello, Slack, Asana, Notion ou autre, vous pouvez tout regrouper au même endroit avec Basecamp. Il est conçu par <a href="https://37signals.com/">37signals</a>, l’entreprise à l’origine d’Omarchy.</p>
+
+<p>Vous pouvez lancer Basecamp depuis le lanceur d’applications (<code>Super + Space</code>)</p>
+
+<h2 id="chatgpt">ChatGPT <a class="manual__heading-link" href="#chatgpt" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://chatgpt.com">ChatGPT</a> est le chatbot d’IA le plus populaire au monde.</p>
+
+<p>Vous pouvez lancer ChatGPT avec <code>Super + Shift + A</code>.</p>
+
+<h2 id="grok">Grok <a class="manual__heading-link" href="#grok" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://grok.com">Grok</a> est le chatbot de xAI.</p>
+
+<p>Vous pouvez lancer Grok avec <code>Super + Shift + Alt + A</code>.</p>
+
+<h2 id="whatsapp">WhatsApp <a class="manual__heading-link" href="#whatsapp" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.whatsapp.com/">WhatsApp</a> est l’un des services de messagerie les plus populaires au monde, et sa version web est une excellente option sous Linux.</p>
+
+<p>Vous pouvez lancer WhatsApp avec <code>Super + Shift + Alt + G</code>.</p>
+
+<h2 id="google-apps">Applications Google <a class="manual__heading-link" href="#google-apps" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Google Messages, Google Photos, Google Maps et Google Contacts sont également inclus sous forme d’applications web.</p>
+
+<p>Vous pouvez lancer Google Messages avec <code>Super + Shift + Ctrl + G</code>, Google Photos avec <code>Super + Shift + P</code> et Google Maps avec <code>Super + Shift + S</code>. Google Contacts est accessible depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="x">X <a class="manual__heading-link" href="#x" aria-label="Lien vers cette section">#</a></h2>
+
+<p>C’est sur X que l’actualité se fait.</p>
+
+<p>Vous pouvez lancer X avec <code>Super + Shift + X</code> et passer directement à la rédaction d’une nouvelle publication avec <code>Super + Shift + Alt + X</code>.</p>
+
+<h2 id="youtube">YouTube <a class="manual__heading-link" href="#youtube" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://youtube.com/">YouTube</a> est la plateforme vidéo la plus populaire au monde.</p>
+
+<p>Vous pouvez lancer YouTube avec <code>Super + Shift + Y</code>.</p>
+
+<h2 id="zoom">Zoom <a class="manual__heading-link" href="#zoom" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://zoom.us/">Zoom</a> est le système de visioconférence le plus populaire aux États-Unis. Il offre d’excellentes connexions partout dans le monde. Et des réunions de 40 minutes peuvent être organisées sans compte payant. Omarchy intègre le client web de Zoom, et les liens de réunion Zoom s’y ouvriront directement.</p>
+
+<p>Vous pouvez lancer Zoom depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="discord">Discord <a class="manual__heading-link" href="#discord" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://discord.com/">Discord</a> est le lieu de rencontre de la plupart des communautés de joueurs et du logiciel libre, notamment <a href="https://discord.gg/tXFUdasqhY">celle d’Omarchy</a>.</p>
+
+<p>Vous pouvez lancer Discord depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+{% endraw %}

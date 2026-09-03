@@ -1,0 +1,113 @@
+---
+layout: manual
+title: "Interfaces graphiques"
+description: "Fichiers (Nautilus) est le gestionnaire de fichiers graphique. Super + Shift + F l’ouvre, et Super + Shift + Alt + F l’ouvre dans le répertoire courant de votre terminal..."
+permalink: /manual/guis/
+manual_slug: guis
+manual_order: 22
+previous_title: "Interfaces texte"
+previous_url: /manual/tuis/
+next_title: "Navigateurs"
+next_url: /manual/browsers/
+translation_key: manual-22-guis
+lang: fr
+
+---
+{% raw %}
+<h2 id="files">Fichiers <a class="manual__heading-link" href="#files" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Fichiers (Nautilus) est le gestionnaire de fichiers graphique. <code>Super + Shift + F</code> l’ouvre, et <code>Super + Shift + Alt + F</code> l’ouvre dans le répertoire courant de votre terminal, ce qui évite beaucoup de clics. <code>Ctrl + L</code> vous permet de saisir un chemin, tandis qu’un appui sur <code>Space</code> lorsque vous avez sélectionné un fichier vous en donne un aperçu rapide sans rien ouvrir.</p>
+
+<p>Branchez une clé USB ou insérez une carte SD : le support est monté automatiquement et apparaît simplement dans la barre latérale. Pour les opérations plus avancées — formater un disque, vérifier son état SMART, créer des partitions — lancez <em>Disques</em> depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<p>Le double-clic utilise des applications par défaut judicieuses : les images s’ouvrent dans imv, les vidéos dans mpv, les PDF dans Visionneur de documents et les fichiers texte brut dans Neovim.</p>
+
+<h2 id="obsidian">Obsidian <a class="manual__heading-link" href="#obsidian" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://obsidian.md/">Obsidian</a> est une application de prise de notes gratuite et très extensible qui utilise de simples fichiers Markdown pour le stockage.</p>
+
+<p>Obsidian est gratuit pour tous les usages, qu’ils soient personnels, commerciaux ou à but non lucratif.</p>
+
+<p>Obsidian propose également un <a href="https://obsidian.md/sync">module complémentaire payant pour la synchronisation</a> avec les applications mobiles sur iOS et Android. (https://obsidian.md/pricing).</p>
+
+<p>Vous lancez Obsidian avec <code>Super + Shift + O</code>. Pour utiliser la synchronisation du thème, vous devez sélectionner le thème <code>Omarchy</code> dans les paramètres.</p>
+
+<h2 id="omawrite">Omawrite <a class="manual__heading-link" href="#omawrite" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omawrite">Omawrite</a> est l’application d’écriture Markdown ultra-simple d’Omarchy. Pas de coffres, pas d’extensions : seulement vous et les mots.</p>
+
+<p>Vous lancez Omawrite avec <code>Super + Shift + W</code>.</p>
+
+<h2 id="pinta">Pinta <a class="manual__heading-link" href="#pinta" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.pinta-project.com/">Pinta</a> est un outil de retouche d’images basique, idéal pour recadrer, redimensionner et effectuer d’autres manipulations simples. N’en attendez simplement pas une alternative à Photoshop. Il dispose tout de même d’une Baguette magique et de calques !</p>
+
+<p>Vous lancez Pinta depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="aether">Aether <a class="manual__heading-link" href="#aether" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/bjarneo/aether">Aether</a> est une application de création de thèmes capable d’extraire les couleurs d’une image d’arrière-plan et de les transformer en un thème complet et cohérent. C’est la façon la plus simple de <a href="../making-your-own-theme/">créer votre propre thème</a>.</p>
+
+<p>Vous lancez Aether depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="localsend">LocalSend <a class="manual__heading-link" href="#localsend" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://localsend.org/">LocalSend</a> vous permet d’envoyer des fichiers à d’autres appareils du même réseau sur lesquels l’application est exécutée, à la manière d’AirDrop d’Apple. Comme il est multiplateforme, vous pouvez envoyer des fichiers depuis et vers Windows, macOS, Android, iOS et, bien sûr, Linux.</p>
+
+<p>Vous pouvez ouvrir le menu Partager avec <code>Super + Ctrl + S</code> ou depuis <em>Déclencher &gt; Partager</em> dans le menu Omarchy. Quatre options vous sont proposées :</p>
+
+<ul>
+  <li><strong>Presse-papiers</strong> envoie tout ce que vous avez copié sous forme de fichier texte. Idéal pour transférer un lien ou un extrait vers votre téléphone sans vous l’envoyer par e-mail.</li>
+  <li><strong>Fichier</strong> ouvre un sélecteur de fichiers dans lequel vous pouvez en choisir plusieurs à la fois.</li>
+  <li><strong>Dossier</strong> envoie un répertoire entier.</li>
+  <li><strong>Recevoir</strong> ouvre l’application LocalSend elle-même afin qu’un autre appareil puisse vous envoyer quelque chose.</li>
+</ul>
+
+<p>La même chose fonctionne depuis le terminal avec <code>omarchy share clipboard</code>, <code>omarchy share file [path]</code> et <code>omarchy share folder [path]</code>. Omettez le chemin pour afficher le sélecteur.</p>
+
+<p>Vous pouvez également envoyer des fichiers directement depuis le gestionnaire de fichiers : faites un clic droit sur n’importe quelle sélection dans Nautilus et choisissez <em>Envoyer via LocalSend</em>.</p>
+
+<p>Le pare-feu d’Omarchy bloque tout par défaut, à l’exception du port de LocalSend. Cette fonctionnalité est donc opérationnelle immédiatement après une nouvelle installation. Consultez la section consacrée à la <a href="../security/">sécurité</a>.</p>
+
+<h2 id="libreoffice">LibreOffice <a class="manual__heading-link" href="#libreoffice" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.libreoffice.org/">LibreOffice</a> est une suite bureautique complète comprenant un traitement de texte, un tableur, un logiciel de présentation, une application de dessin et bien plus encore. Elle est compatible avec les fichiers Microsoft Office, ce qui en fait un excellent moyen d’ouvrir ces documents Word.</p>
+
+<p>Vous lancez LibreOffice depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="omacalc">Omacalc <a class="manual__heading-link" href="#omacalc" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omacalc">Omacalc</a> est la calculatrice ultra-simple d’Omarchy, qui s’ouvre dans une fenêtre flottante.</p>
+
+<p>Vous lancez Omacalc avec <code>Super + Ctrl + Q</code> (ou avec la touche de calculatrice, si votre clavier en possède une).</p>
+
+<h2 id="signal">Signal <a class="manual__heading-link" href="#signal" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://signal.org/">Signal</a> est un pionnier de la messagerie chiffrée de bout en bout et une excellente solution de communication pour quiconque préfère ne pas passer par l’un des grands conglomérats technologiques.</p>
+
+<p>Vous lancez Signal avec <code>Super + Shift + G</code>. Il ne fait pas partie de l’installation de base : la première fois que vous utiliserez ce raccourci, Omarchy vous proposera donc de l’installer (vous le trouverez également sous <em>Installer &gt; Service</em> dans le menu Omarchy).</p>
+
+<h2 id="mpv">mpv <a class="manual__heading-link" href="#mpv" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://mpv.io/">mpv</a> est un lecteur multimédia simple et rapide, capable de lire presque tout depuis pratiquement n’importe quelle source. Il est idéal pour regarder des vidéos.</p>
+
+<p>Vous lancez mpv depuis le lanceur d’applications (<code>Super + Space</code>) ou simplement en double-cliquant sur une vidéo dans le gestionnaire de fichiers.</p>
+
+<h2 id="obs-studio">OBS Studio <a class="manual__heading-link" href="#obs-studio" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://obsproject.com/">OBS Studio</a> vous permet d’enregistrer ou de diffuser de la vidéo à partir de plusieurs sources. Vous pouvez combiner une capture d’écran, une webcam et une entrée microphone. C’est avec lui qu’ont été enregistrées les captures vidéo d’Omarchy.</p>
+
+<p>Vous lancez OBS Studio depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="kdenlive">Kdenlive <a class="manual__heading-link" href="#kdenlive" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://kdenlive.org/">Kdenlive</a> est un excellent logiciel de montage vidéo. Il est parfait pour retravailler les vidéos produites par OBS Studio avant de les partager.</p>
+
+<p>Vous lancez Kdenlive depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<h2 id="omacut">Omacut <a class="manual__heading-link" href="#omacut" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omacut">Omacut</a> est l’outil de découpe vidéo ultra-simple d’Omarchy. Lorsque vous avez seulement besoin de couper le début et la fin d’un clip, il est bien plus pratique que de lancer un logiciel de montage vidéo complet.</p>
+
+<p>Vous lancez Omacut depuis le lanceur d’applications (<code>Super + Space</code>).</p>
+{% endraw %}

@@ -1,0 +1,48 @@
+---
+layout: manual
+title: "Sécurité"
+description: "Omarchy prend la sécurité extrêmement au sérieux. Il s’agit d’un système d’exploitation que vous pouvez utiliser pour effectuer un véritable travail dans le monde réel. Où perdre un..."
+permalink: /manual/security/
+manual_slug: security
+manual_order: 48
+previous_title: "Instantanés du système"
+previous_url: /manual/system-snapshots/
+next_title: "Omarchy sur..."
+next_url: /manual/omarchy-on/
+translation_key: manual-48-security
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy prend la sécurité extrêmement au sérieux. Il s’agit d’un système d’exploitation que vous pouvez utiliser pour effectuer un <em>véritable travail</em> dans le <em>monde réel</em>. Un système avec lequel la perte d’un ordinateur portable ne peut pas provoquer une urgence de sécurité. Voici donc ce que nous faisons :</p>
+
+<ol>
+  <li><em>Le chiffrement intégral du disque est obligatoire</em> : c’est l’étape la plus importante pour assurer la protection physique de vos données. Si votre ordinateur est perdu ou volé, les données sont entièrement chiffrées à l’aide du standard LUKS (Linux Unified Key Setup).</li>
+  <li><em>Le pare-feu est activé par défaut</em> : tout le trafic entrant est bloqué par défaut, à l’exception du port 53317 pour <a href="https://localsend.org/">LocalSend</a>. Même SSH est désactivé jusqu’à ce que vous l’activiez via <em>Configuration &gt; Sécurité &gt; SSHD</em>, ce qui ouvre le port 22 (avec limitation du débit pour contrer les attaques par force brute) dans le cadre de la configuration. Nous verrouillons même l’accès à Docker à l’aide de la configuration <a href="https://github.com/chaifeng/ufw-docker">ufw-docker</a> afin d’éviter que vos conteneurs ne soient accidentellement exposés au monde entier.</li>
+  <li><em>Arch dispose toujours des dernières mises à jour</em> : Arch, la distribution sous-jacente sur laquelle Omarchy est construit, est une distribution en publication continue. Cela signifie que, lorsqu’une vulnérabilité de sécurité est découverte et corrigée dans un paquet, le correctif devient rapidement disponible à l’installation avec <code>omarchy-update</code>. Vous utilisez ainsi toujours les versions les plus récentes et les plus sûres de tous les logiciels.</li>
+  <li><em>Omarchy gère ses propres paquets et son propre miroir</em> : par défaut, Omarchy utilise uniquement les paquets provenant des dépôts core/extra/multilib d’Arch et de son propre dépôt de paquets Omarchy. Vous pouvez installer des logiciels directement depuis l’AUR, mais l’installation de base ne le fait pas ; seules quelques installations facultatives, comme celles des navigateurs tiers, utilisent l’AUR.</li>
+  <li><em>Cloudflare nous protège contre les attaques DDoS</em> : toute l’infrastructure de distribution d’Omarchy — les images ISO, les paquets Omarchy et le miroir Arch — est protégée par le puissant bouclier anti-DDoS de Cloudflare et hébergée sur son CDN. Cela garantit une excellente disponibilité.</li>
+</ol>
+
+<h2 id="changing-your-passwords">Modifier vos mots de passe <a class="manual__heading-link" href="#changing-your-passwords" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Une installation chiffrée comporte deux mots de passe : celui qui déverrouille le disque au démarrage et celui que vous utilisez pour vous connecter et exécuter <code>sudo</code>. Tous deux peuvent être modifiés sous <em>Mise à jour &gt; Mot de passe</em> dans le menu Omarchy : <em>Chiffrement du disque</em> pour le premier et <em>Utilisateur</em> pour le second. Pour modifier le mot de passe du disque, vous devez d’abord saisir le mot de passe actuel ; veillez donc à l’avoir à portée de main.</p>
+
+<h2 id="passing-on-a-machine-youve-already-used">Céder une machine que vous avez déjà utilisée <a class="manual__heading-link" href="#passing-on-a-machine-youve-already-used" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Si vous cédez votre machine à quelqu’un d’autre, vous n’avez pas besoin de la réinstaller. Exécutez <em>Configuration &gt; Réinitialiser l’ordinateur</em> dans le menu Omarchy, saisissez <code>reset</code> pour confirmer, puis redémarrez. Cette opération efface tous les comptes utilisateur et tout le contenu de <code>/home</code>, supprime tous les paquets et toutes les modifications système effectuées depuis l’installation, et réinitialise l’identité de la machine, notamment les connexions réseau et les clés d’hôte. Au redémarrage, l’assistant de configuration initiale s’affiche, prêt à permettre au nouveau propriétaire de saisir son nom, son mot de passe et son mot de passe de chiffrement.</p>
+
+<p>Cette opération restaure l’instantané de référence créé par le programme d’installation ; elle n’est donc disponible que sur les machines installées à partir de l’image ISO d’Omarchy. De plus, sur un disque non chiffré, une réinitialisation constitue une simple suppression et non un effacement sécurisé. Si les données étaient sensibles, effectuez plutôt une nouvelle installation.</p>
+
+<h2 id="passwordless-sudo">sudo sans mot de passe <a class="manual__heading-link" href="#passwordless-sudo" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Vous pouvez parfois souhaiter que <code>sudo</code> cesse de demander votre mot de passe, le plus souvent lorsqu’un agent d’IA effectue pour vous une longue série d’opérations système. <em>Configuration &gt; Sécurité &gt; Sudo sans mot de passe</em> désactive cette demande pendant 15 minutes, puis la rétablit automatiquement. Exécutez de nouveau cette commande avant la fin du délai pour rétablir la demande plus tôt, ou indiquez votre propre durée en minutes avec <code>omarchy-sudo-passwordless 30</code> si 15 minutes ne suffisent pas.</p>
+
+<p>Soyez pleinement conscient des implications : tant que cette option est activée, tout ce qui s’exécute sous votre compte utilisateur peut effectuer n’importe quelle action en tant que root sans qu’aucune confirmation ne soit demandée. C’est précisément l’objectif, mais aussi tout le risque.</p>
+
+<h2 id="signing-keys">Clés de signature <a class="manual__heading-link" href="#signing-keys" aria-label="Lien vers cette section">#</a></h2>
+
+<p>La clé publique utilisée pour toutes les signatures des images ISO et des paquets du dépôt Omarchy est <code>40DFB630FF42BCFFB047046CF0134EE680CAC571</code> (<a href="https://keys.openpgp.org/search?q=pkgs%40omarchy.org">vérifier sur openpgp.org</a>). Le paquet <code>omarchy/omarchy-keyring</code> la contient également et permettra de déployer de façon transparente toute éventuelle mise à jour.</p>
+
+<p>Vous pouvez trouver la signature de n’importe quelle version ISO en ajoutant .sig à l’URL. Par exemple : https://iso.omarchy.org/omarchy-x.x.x.iso.sig.</p>
+{% endraw %}

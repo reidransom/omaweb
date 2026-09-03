@@ -1,0 +1,76 @@
+---
+layout: manual
+title: "Fonctions shell"
+description: "Omarchy comprend un ensemble de fonctions shell qui simplifient les tâches courantes et encapsulent les appels de commandes aux paramètres complexes."
+permalink: /manual/shell-functions/
+manual_slug: shell-functions
+manual_order: 20
+previous_title: "Outils shell"
+previous_url: /manual/shell-tools/
+next_title: "Interfaces en mode texte"
+next_url: /manual/tuis/
+translation_key: manual-20-shell-functions
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy comprend un ensemble de fonctions shell qui simplifient les tâches courantes et encapsulent les appels de commandes aux paramètres complexes.</p>
+
+<h2 id="compression">Compression <a class="manual__heading-link" href="#compression" aria-label="Lien vers cette section">#</a></h2>
+
+<ul>
+  <li><code>compress [file/dir]</code> : crée une archive tar.gz à partir du fichier ou du répertoire.</li>
+  <li><code>decompress [file.tar.gz]</code> : extrait un fichier tar.gz.</li>
+</ul>
+
+<h2 id="drives">Disques <a class="manual__heading-link" href="#drives" aria-label="Lien vers cette section">#</a></h2>
+
+<ul>
+  <li><code>iso2sd [image.iso]</code> : crée un support amorçable sur une carte SD à partir du fichier ISO indiqué, en permettant de choisir le disque de manière interactive.</li>
+  <li><code>format-drive [device] [name]</code> : formate un disque entier avec une seule partition exFAT (qui fonctionne également sous Windows et macOS). Exécutez cette commande sans argument pour afficher les disques disponibles. Attention !</li>
+</ul>
+
+<h2 id="dev-layouts">Dispositions de développement <a class="manual__heading-link" href="#dev-layouts" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Des dispositions de développement instantanées à plusieurs volets pour tmux :</p>
+
+<ul>
+  <li><code>tdl [ai]</code> : crée une disposition de développement Tmux avec votre éditeur, un agent d’IA et un terminal. Utilisez les alias d’agents, comme <code>tdl c</code> pour opencode ou <code>tdl cx</code> pour Claude Code, ou indiquez un second agent pour exécuter les deux, comme <code>tdl c cx</code>.</li>
+  <li><code>tds</code> : crée un carré de développement Tmux avec un éditeur, le suivi des différences (via <code>hunk diff --watch</code>), un terminal et opencode.</li>
+  <li><code>tdlm [ai]</code> : crée une fenêtre <code>tdl</code> pour chaque sous-répertoire du répertoire actuel.</li>
+  <li><code>tsl [count] [command]</code> : crée un essaim de volets disposés en grille, exécutant tous la même commande (idéal pour les agents d’IA).</li>
+</ul>
+
+<p>Les mêmes dispositions sont disponibles pour Herdr sous les noms <code>hdl</code>, <code>hds</code>, <code>hdlm</code> et <code>hsl</code>.</p>
+
+<h2 id="git-worktrees">Arbres de travail Git <a class="manual__heading-link" href="#git-worktrees" aria-label="Lien vers cette section">#</a></h2>
+
+<ul>
+  <li><code>ga [branch]</code> : crée un nouvel arbre de travail et une nouvelle branche à côté du dépôt actuel, puis s’y place.</li>
+  <li><code>gd</code> : supprime l’arbre de travail actuel et sa branche (après avoir demandé confirmation).</li>
+</ul>
+
+<h2 id="rsync-watchers">Surveillance avec rsync <a class="manual__heading-link" href="#rsync-watchers" aria-label="Lien vers cette section">#</a></h2>
+
+<ul>
+  <li><code>rsw [source] [destination]</code> : lance en arrière-plan un processus de surveillance qui synchronise la source vers la destination avec rsync à chaque modification. La destination peut être un hôte distant, comme dans <code>rsw ~/Work/app nyc-dev:Work/app</code>.</li>
+  <li><code>lsw</code> : répertorie tous les processus de surveillance actifs.</li>
+  <li><code>dsw</code> : arrête tous les processus de surveillance actifs.</li>
+</ul>
+
+<h2 id="ssh-portforwarding">Redirection de ports SSH <a class="manual__heading-link" href="#ssh-portforwarding" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Idéal pour effectuer du développement web avec les privilèges de contexte sécurisé de localhost sur une machine distante.</p>
+
+<ul>
+  <li><code>fip</code> : redirige un ou plusieurs ports d’un hôte distant vers localhost via SSH.</li>
+  <li><code>dip</code> : déconnecte un ou plusieurs ports redirigés.</li>
+  <li><code>lip</code> : répertorie toutes les redirections de ports SSH actives.</li>
+</ul>
+
+<p>Supposons que vous lanciez un serveur de développement sur le port <code>3000</code> d’une machine accessible sous le nom <code>nyc-dev</code>. Vous pouvez alors exécuter <code>fip nyc-dev 3000</code> pour rediriger ce port, de sorte que <code>localhost:3000</code> accède en réalité à <code>nyc-dev:3000</code>, sans avoir besoin de certificats SSL pour établir le contexte sécurisé nécessaire au test des WebSockets ou de fonctionnalités similaires.</p>
+
+<h2 id="ssh-reconnection">Reconnexion SSH <a class="manual__heading-link" href="#ssh-reconnection" aria-label="Lien vers cette section">#</a></h2>
+
+<p><code>ssh</code> est lui-même enveloppé dans une fonction qui nettoie le terminal si une connexion est interrompue alors qu’un tmux, Herdr ou éditeur distant en a pris le contrôle, puis se reconnecte automatiquement lorsqu’une session interactive est interrompue (Ctrl-C arrête la boucle de nouvelle tentative).</p>
+{% endraw %}

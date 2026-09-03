@@ -1,0 +1,66 @@
+---
+layout: manual
+title: "Interfaces en mode texte (TUI)"
+description: "Vous pouvez l’exécuter directement en vous rendant dans n’importe quel répertoire géré par Git et en lançant lazygit. Vous pouvez également l’exécuter dans Neovim, où il peut être démarré avec Espace G G."
+permalink: /manual/tuis/
+manual_slug: tuis
+manual_order: 21
+previous_title: "Fonctions shell"
+previous_url: /manual/shell-functions/
+next_title: "Interfaces graphiques"
+next_url: /manual/guis/
+translation_key: manual-21-tuis
+lang: fr
+
+---
+{% raw %}
+<h2 id="lazygit">Lazygit <a class="manual__heading-link" href="#lazygit" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/jesseduffield/lazygit">Lazygit</a> est une excellente alternative à une application comme GitHub Desktop, et il s’exécute dans le terminal.</p>
+
+<p>Vous pouvez l’exécuter directement en vous rendant dans n’importe quel répertoire géré par Git et en lançant <code>lazygit</code>. Vous pouvez également l’exécuter dans Neovim, où il peut être démarré avec <code>Space G G</code>.</p>
+
+<p>Vous passez d’un volet à l’autre avec <code>Tab</code>. Dans le volet Fichiers, vous sélectionnez les fichiers à ajouter à la zone de préparation avec <code>Space</code>, puis vous pouvez créer un nouveau commit avec <code>c</code>. Vous pouvez afficher toutes les commandes disponibles avec <code>?</code>.</p>
+
+<h2 id="lazydocker">Lazydocker <a class="manual__heading-link" href="#lazydocker" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/jesseduffield/lazydocker">Lazydocker</a> est conçu dans le même esprit que Lazygit et vous offre également une interface dans le terminal pour gérer vos conteneurs et vos images.</p>
+
+<p>Vous pouvez le lancer avec <code>Super + Shift + D</code>.</p>
+
+<p>Vous arrêtez un conteneur avec <code>s</code>, ou vous le démarrez ou redémarrez avec <code>r</code>. Affichez toutes les commandes avec <code>?</code>.</p>
+
+<h2 id="btop">Btop <a class="manual__heading-link" href="#btop" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/aristocratos/btop">Btop</a> est un élégant gestionnaire de ressources qui affiche l’utilisation de la mémoire, du processeur, du disque et du réseau. Il répertorie également tous les processus actifs et vous permet de les gérer.</p>
+
+<p>Omarchy l’appelle Activité, et vous le lancez avec <code>Super + Ctrl + T</code>. Il s’ouvre dans une fenêtre flottante, que vous pouvez intégrer à la mosaïque avec <code>Super + T</code>.</p>
+
+<h2 id="herdr">Herdr <a class="manual__heading-link" href="#herdr" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/herdr">Herdr</a> est un gestionnaire d’espaces de travail pour terminal qui vous fournit des espaces de travail, des onglets et des volets, tout en les maintenant actifs dans une session persistante dont vous pouvez vous détacher puis reprendre ultérieurement.</p>
+
+<p>Vous le lancez (ou vous vous reconnectez à votre session existante) avec <code>Super + Ctrl + Return</code>. Omarchy fournit une configuration Herdr qui reprend sa configuration Tmux, si bien que la touche préfixe est également <code>Ctrl + Space</code>. Vous pouvez parcourir tous les raccourcis clavier avec <code>Super + Ctrl + K</code>.</p>
+
+<h2 id="fastfetch">Fastfetch <a class="manual__heading-link" href="#fastfetch" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://github.com/fastfetch-cli/fastfetch">Fastfetch</a> affiche des informations sur le système, comme la version du noyau, la durée de fonctionnement, le thème, le processeur, la mémoire et bien plus encore. Il succède au populaire outil neofetch.</p>
+
+<p>Omarchy l’a intégré sous le nom <em>À propos</em> dans le menu Omarchy (<code>Super + Space</code>).</p>
+
+<h2 id="disk-usage">Utilisation du disque <a class="manual__heading-link" href="#disk-usage" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Lorsque le disque est plein et que vous ne savez pas ce qui occupe tout l’espace, lancez <em>Utilisation du disque</em> depuis le lanceur d’applications (<code>Super + Space</code>). Il s’agit de <a href="https://github.com/Byron/dua-cli">dua</a> en mode interactif, lancé sur l’ensemble du système de fichiers : vous pouvez ainsi parcourir les répertoires jusqu’à trouver le responsable, les plus volumineux étant affichés en premier, puis supprimer des éléments directement depuis l’interface.</p>
+
+<h2 id="cliamp">Cliamp <a class="manual__heading-link" href="#cliamp" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.cliamp.stream/">Cliamp</a> est un lecteur de musique rétro pour terminal inspiré de Winamp 2.x, avec notamment des stations de radio intégrées diffusant des rythmes lo-fi. Lancez-le avec <code>Super + Shift + Alt + M</code>, ou depuis la rubrique <em>Applications</em> du menu Omarchy. Appuyez sur <code>?</code> pour afficher la liste complète des raccourcis clavier.</p>
+
+<h2 id="what-about-wi-fi-and-bluetooth">Et le Wi-Fi et le Bluetooth ? <a class="manual__heading-link" href="#what-about-wi-fi-and-bluetooth" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Vous ne trouverez pas d’interfaces en mode texte pour le Wi-Fi et le Bluetooth : ces tâches sont prises en charge par le shell d’Omarchy. Cliquez sur l’icône Wi-Fi dans la barre supérieure (ou appuyez sur <code>Super + Ctrl + W</code>) pour afficher les réseaux et vous connecter, puis cliquez sur l’icône Bluetooth (ou appuyez sur <code>Super + Ctrl + B</code>) pour associer et connecter des appareils. Consultez la section consacrée au <a href="../networking/">réseau</a> pour en savoir plus.</p>
+
+<h2 id="adding-your-own">Ajouter les vôtres <a class="manual__heading-link" href="#adding-your-own" aria-label="Lien vers cette section">#</a></h2>
+
+<p>N’importe quel programme pour terminal peut être intégré comme une application à part entière. Accédez à <em>Installer &gt; TUI</em> dans le menu Omarchy (<code>Super + Space</code>), indiquez un nom, une commande de lancement, un style de fenêtre et une icône, et il apparaîtra dans le lanceur d’applications comme n’importe quelle autre application. Vous pouvez ensuite le supprimer depuis <em>Supprimer &gt; TUI</em>.</p>
+{% endraw %}

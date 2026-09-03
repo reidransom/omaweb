@@ -1,0 +1,15 @@
+---
+layout: manual
+title: Table des matières
+description: Tous les chapitres du manuel Omarchy, de l’installation et la navigation à la personnalisation, au dépannage et à la sécurité.
+permalink: /manual/toc/
+manual_toc: true
+translation_key: manual-toc-index
+lang: fr
+
+---
+<ol class="manual-index">
+  {% for chapter in site.data.manual.chapters %}
+    <li><a href="{{ chapter.url | relative_url }}">{{ chapter.title | escape }}</a></li>
+  {% endfor %}
+</ol>
