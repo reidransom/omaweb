@@ -3,14 +3,14 @@
 lockfile_version = 1
 
 [[tools."github:reidransom/jigyll"]]
-version = "1.9.2"
+version = "1.10.1"
 backend = "github:reidransom/jigyll"
-specifiers = ["1.9.2"]
+specifiers = ["1.10.1"]
 
 [tools."github:reidransom/jigyll"."platforms.linux-x64"]
-checksum = "sha256:3272444801ff16632d4ab334b472d9fb48b45b071374315d8cd541c2af4bc241"
-url = "https://github.com/reidransom/jigyll/releases/download/v1.9.2/jigyll_Linux_x86_64v1.tar.gz"
-url_api = "https://api.github.com/repos/reidransom/jigyll/releases/assets/540114085"
+checksum = "sha256:484fd240227bd32ddee7f66e3b4a1b486bf6513cfba119255b624bfd8d422713"
+url = "https://github.com/reidransom/jigyll/releases/download/v1.10.1/jigyll_Linux_x86_64v1.tar.gz"
+url_api = "https://api.github.com/repos/reidransom/jigyll/releases/assets/541743734"
 
 [[tools."github:sass/dart-sass"]]
 version = "1.103.1"

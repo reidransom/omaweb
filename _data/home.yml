@@ -53,6 +53,7 @@ project_paths:
     - title: News
       body: Releases, events, and the people doing the work.
       url: /news/
+      language: en
     - title: Community
       body: Find meetups, contributors, plugins, and the places Omarchs gather.
       url: /community/

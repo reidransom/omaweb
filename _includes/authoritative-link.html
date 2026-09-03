@@ -1,12 +1,13 @@
 {% assign link = include.link %}
 {% assign destination_slug = include.destination | default: link.destination %}
 {% assign product_slug = include.product | default: link.product %}
-{% assign product = site.data.products.items | where: 'slug', product_slug | first %}
+{% assign product = site.data.products.items[product_slug] %}
 {% if destination_slug == nil and product %}
   {% assign destination_slug = product.destination %}
 {% endif %}
-{% assign destination = site.data.destinations.items | where: 'slug', destination_slug | first %}
+{% assign destination = site.data.destinations.items[destination_slug] %}
 {% assign label = include.label | default: link.label | default: product.label | default: destination.label %}
+{% assign language = include.language | default: link.language | default: product.language | default: destination.language %}
 {% assign href = nil %}
 {% assign external = false %}
 {% if destination %}
@@ -22,15 +23,22 @@
 {% assign exploratory = include.exploratory | default: link.exploratory %}
 {% assign description_id = include.exploratory_description_id %}
 {% assign is_current = false %}
-{% if external == false and page.url == href %}
-  {% assign is_current = true %}
+{% if href and external == false %}
+  {% if language %}
+    {% assign localized_href = href | relative_url %}
+  {% else %}
+    {% assign localized_href = href | localized_url %}
+  {% endif %}
+  {% if page.url == localized_href %}
+    {% assign is_current = true %}
+  {% endif %}
 {% endif %}
 {% if href %}
-<a{% if include.class %} class="{{ include.class | escape }}"{% endif %} href="{% if external %}{{ href | escape }}{% else %}{{ href | relative_url }}{% endif %}"{% if include.spotlight_open %} data-spotlight-open{% endif %}{% if external %} rel="noreferrer" data-external="true"{% endif %}{% if is_current %} aria-current="page"{% endif %}>
+<a{% if include.class %} class="{{ include.class | escape }}"{% endif %} href="{% if external %}{{ href | escape }}{% else %}{{ localized_href | escape }}{% endif %}"{% if include.spotlight_open %} data-spotlight-open{% endif %}{% if external %} rel="noreferrer" data-external="true"{% endif %}{% if is_current %} aria-current="page"{% endif %}>
   {% if include.content %}{{ include.content }}{% else %}{{ label | escape }}{% endif %}
   {%- unless include.hide_indicator -%}{%- include link-indicator.html destination=destination_slug external=external -%}{%- endunless -%}
   {% if include.shortcut %}<span class="site-header__shortcut" aria-hidden="true">{{ include.shortcut | escape }}</span>{% endif %}
   {%- if exploratory and description_id -%}<sup class="navigation-link__marker" aria-describedby="{{ description_id | escape }}">*</sup>{%- endif -%}
-  {% if external %}<span class="u-visually-hidden"> (external)</span>{% endif %}
+  {% if external %}<span class="u-visually-hidden"> ({{ 'link.external' | translate | escape }})</span>{% endif %}
 </a>
 {% endif %}

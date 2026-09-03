@@ -1,0 +1,11 @@
+items:
+  manual:
+    label: Manual (engelsk)
+  manual-getting-started:
+    label: Kom godt i gang
+  manual-hotkeys:
+    label: Genvejstaster
+  manual-troubleshooting:
+    label: Fejlfinding
+  code:
+    label: Kode

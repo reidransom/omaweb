@@ -6,7 +6,8 @@
       <h3>{% include authoritative-link.html link=navigation.home %}</h3>
     {% endif %}
   </section>
-  {% for section in navigation.sections %}
+  {% for section_key in navigation.section_order %}
+    {% assign section = navigation.sections[section_key] %}
     <section>
       {% if include.heading_level == 4 %}
         <h4>{% include authoritative-link.html link=section %}</h4>
@@ -14,7 +15,8 @@
         <h3>{% include authoritative-link.html link=section %}</h3>
       {% endif %}
       <ul role="list">
-        {% for link in section.links.items %}
+        {% for link_key in section.links %}
+          {% assign link = navigation.links[link_key] %}
           <li>{% include authoritative-link.html link=link %}</li>
         {% endfor %}
       </ul>
@@ -24,7 +26,8 @@
   <div class="site-search__menu" data-search-menu hidden>
     <ul class="site-search__fallback-menu" data-search-menu-root role="list">
       <li>{% include authoritative-link.html link=navigation.home %}</li>
-      {% for section in navigation.sections %}
+      {% for section_key in navigation.section_order %}
+        {% assign section = navigation.sections[section_key] %}
         <li>
           <button type="button" data-search-menu-open data-search-menu-section="{{ forloop.index0 }}" aria-expanded="false">
             <span>{{ section.label | escape }}</span>
@@ -33,7 +36,8 @@
         </li>
       {% endfor %}
     </ul>
-    {% for section in navigation.sections %}
+    {% for section_key in navigation.section_order %}
+      {% assign section = navigation.sections[section_key] %}
       <div class="site-search__menu-panel" data-search-menu-panel data-search-menu-section="{{ forloop.index0 }}" aria-label="{{ section.label | escape }}" hidden>
         <div class="site-search__menu-heading">
           <button type="button" data-search-menu-back>
@@ -43,7 +47,8 @@
           <strong>{{ section.label | escape }}</strong>
         </div>
         <ul class="site-search__fallback-submenu" role="list">
-          {% for link in section.links.items %}
+          {% for link_key in section.links %}
+            {% assign link = navigation.links[link_key] %}
             <li>{% include authoritative-link.html link=link %}</li>
           {% endfor %}
         </ul>

@@ -1,0 +1,19 @@
+{% assign copy = site.data.page_content.apps %}
+{% capture plugins_link %}{% include authoritative-link.html destination='plugins' label=copy.community.link_label %}{% endcapture %}
+<section class="prose" aria-labelledby="apps-question-title">
+  <h2 id="apps-question-title">{{ copy.question.title | escape }}</h2>
+  {% for paragraph in copy.question.paragraphs %}<p>{{ paragraph | escape }}</p>{% endfor %}
+</section>
+
+<section class="prose" aria-labelledby="apps-principles-title">
+  <h2 id="apps-principles-title">{{ copy.principles.title | escape }}</h2>
+  <ul>
+    {% for item in copy.principles.items %}<li>{{ item | escape }}</li>{% endfor %}
+  </ul>
+</section>
+
+<section class="prose" aria-labelledby="apps-community-title">
+  <h2 id="apps-community-title">{{ copy.community.title | escape }}</h2>
+  <p>{{ copy.community.body | escape }}</p>
+  <p>{{ plugins_link | strip_newlines | strip }}.</p>
+</section>

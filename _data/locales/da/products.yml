@@ -1,0 +1,21 @@
+items:
+  desktop:
+    summary: Spørgsmål om stationær hardware, og hvad en anbefaling fra Omarchy bør kræve.
+  server:
+    summary: Spørgsmål om et holdningsstærkt fundament til selvhosting, arbejdsbelastninger og fjernadministration.
+  mobile:
+    summary: Spørgsmål om en ledsager og et mere komplet mobilmiljø til Omarchy.
+  laptops:
+    summary: Spørgsmål om certificering, reparerbarhed, testet hardware og tilgængelighed.
+  accessories:
+    summary: Mulige fremtidige anbefalinger af hardware fra tredjeparter, men endnu er der intet at anbefale.
+  workstations:
+    summary: Aktuelle opsætninger fra fællesskabet, der viser, hvor mange former en fungerende opsætning kan have.
+  apps:
+    summary: Spørgsmål om egne programmer med fælles visuelle konventioner og tastaturgenveje.
+  plugins:
+    summary: Tilføjelser fra fællesskabet samlet i deres eget autoritative katalog.
+  cloud:
+    summary: Spørgsmål om hostede arbejdsstationer, synkronisering, computerkraft, sikkerhed og ejerskab.
+  labs:
+    summary: Offentlige eksperimenter, der ikke er produkter.

@@ -1,0 +1,10 @@
+tiers:
+  founding:
+    label: Stiftende mæcener
+    contribution: 1.000.000 USD
+    description: Hver stiftende mæcen bidrog med 1.000.000 USD til fondens mission.
+  distinguished:
+    label: Fremtrædende mæcener
+    contribution: 100.000 USD
+    description: Støtten fra en fremtrædende mæcen er 100.000 USD til fondens mission.
+    contact_label: Kontakt fonden

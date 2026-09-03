@@ -1,0 +1,20 @@
+{% assign copy = site.data.page_content.mobile %}
+{% capture iso_link %}{% include authoritative-link.html destination='iso' label=copy.trust.iso_label %}{% endcapture %}
+{% capture manual_link %}{% include authoritative-link.html destination='manual' label=copy.trust.manual_label %}{% endcapture %}
+<section class="prose" aria-labelledby="mobile-question-title">
+  <h2 id="mobile-question-title">{{ copy.question.title | escape }}</h2>
+  {% for paragraph in copy.question.paragraphs %}<p>{{ paragraph | escape }}</p>{% endfor %}
+</section>
+
+<section class="prose" aria-labelledby="mobile-continuity-title">
+  <h2 id="mobile-continuity-title">{{ copy.continuity.title | escape }}</h2>
+  <ul>
+    {% for item in copy.continuity.items %}<li>{{ item | escape }}</li>{% endfor %}
+  </ul>
+</section>
+
+<section class="prose" aria-labelledby="mobile-trust-title">
+  <h2 id="mobile-trust-title">{{ copy.trust.title | escape }}</h2>
+  <p>{{ copy.trust.body | escape }}</p>
+  <p>{{ copy.trust.link_prefix | escape }} {{ iso_link | strip_newlines | strip }} {{ copy.trust.link_join | escape }} {{ manual_link | strip_newlines | strip }}{{ copy.trust.link_suffix | escape }}</p>
+</section>

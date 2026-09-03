@@ -3,6 +3,8 @@ layout: landing
 title: Project
 description: Follow Omarchy through current community, news, foundation work, and exploratory Labs.
 permalink: /project/
+lang: en
+translation_key: project
 nav_group: project
 archetype: landing
 markdown: false
@@ -40,7 +42,7 @@ markdown: false
           <span aria-hidden="true">Meet the Foundation →</span>
         </a>
       </li>
-      {% assign labs = site.data.products.items | where: "slug", "labs" %}
+      {% assign labs = site.data.products.groups.project %}
       {% include product-cards.html products=labs description='summary' cta_prefix='Explore' %}
     </ul>
   </div>

@@ -1,0 +1,18 @@
+{% assign copy = site.data.page_content.desktops %}
+<section class="prose" aria-labelledby="desktops-question-title">
+  <h2 id="desktops-question-title">{{ copy.question.title | escape }}</h2>
+  {% for paragraph in copy.question.paragraphs %}<p>{{ paragraph | escape }}</p>{% endfor %}
+</section>
+
+<section class="prose" aria-labelledby="desktops-evidence-title">
+  <h2 id="desktops-evidence-title">{{ copy.evidence.title | escape }}</h2>
+  <ul>
+    {% for item in copy.evidence.items %}<li>{{ item | escape }}</li>{% endfor %}
+  </ul>
+</section>
+
+<section class="prose" aria-labelledby="desktops-standard-title">
+  <h2 id="desktops-standard-title">{{ copy.standard.title | escape }}</h2>
+  <p>{{ copy.standard.body | escape }}</p>
+  <p>{{ copy.standard.link_prefix | escape }} <a href="{{ '/workstations/' | localized_url }}">{{ copy.standard.link_label | escape }}</a>.</p>
+</section>

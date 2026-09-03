@@ -3,13 +3,15 @@ layout: content
 title: Community
 description: Find Omarchy people, meetups, workstations, Rangers, plugins, news, and ways to contribute.
 permalink: /community/
+lang: en
+translation_key: community
 nav_group: project
 archetype: project
 ---
-{% assign discord = site.data.destinations.items | where: "slug", "discord" | first %}
-{% assign code = site.data.destinations.items | where: "slug", "code" | first %}
-{% assign plugins = site.data.destinations.items | where: "slug", "plugins" | first %}
-{% assign community_navigation = site.data.navigation.sections | where: 'url', '/community/' | first %}
+{% assign discord = site.data.destinations.items.discord %}
+{% assign code = site.data.destinations.items.code %}
+{% assign plugins = site.data.destinations.items.plugins %}
+{% assign community_navigation = site.data.navigation.sections.community %}
 {% capture code_link %}{% include authoritative-link.html destination='code' label='the Omarchy repository' %}{% endcapture %}
 {% capture plugins_link %}{% include authoritative-link.html destination='plugins' label='Plugins' %}{% endcapture %}
 {% capture discord_link %}{% include authoritative-link.html destination='discord' label='Discord' %}{% endcapture %}
@@ -17,7 +19,8 @@ archetype: project
 <nav class="prose section-landing-prose" aria-labelledby="community-contents-title">
   <h2 id="community-contents-title">In this section</h2>
   <ul>
-{% for link in community_navigation.links.items %}
+{% for link_key in community_navigation.links %}
+{% assign link = site.data.navigation.links[link_key] %}
 {% capture community_link %}{% include authoritative-link.html link=link %}{% endcapture %}
 <li>{{ community_link | strip_newlines | strip }}<span class="section-toc__description">: {{ link.description | escape }}</span></li>
 {% endfor %}

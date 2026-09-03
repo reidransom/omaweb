@@ -1,0 +1,94 @@
+hero:
+  descriptor: Smuk, sjov og holdningsstærk Linux af DHH
+  promise: Det formbare styresystem til agenternes tidsalder.
+  detail: Begynd med et komplet, smukt skrivebord. Få det så til at fungere som din computer.
+  actions:
+    items:
+    - label: Hent ISO'en
+      destination: iso
+    - label: Læs manualen på engelsk
+      destination: manual
+desktop:
+  title: Brug det, før du tilpasser det.
+  body: Omarchy er en omakase-Linuxdistribution baseret på Arch, Hyprland og Quickshell. Du får fra start
+    et fliseopdelt skrivebord, terminalbaserede værktøjer og et sammenhængende visuelt system i stedet
+    for en bunke valgmuligheder.
+  actions:
+    items:
+    - label: Hent ISO'en
+      destination: iso
+    - label: Læs manualen på engelsk
+      destination: manual
+actions:
+  title: Delene, der gør det til dit.
+  intro: Begynd ved den autoritative kilde. Installer fra ISO'en, lær systemet at kende i manualen, udvid
+    det med Plugins fra fællesskabet, eller gennemgå koden.
+  items:
+  - label: Manualen på engelsk
+    detail: Konfiguration, programmer og hverdagens genveje samlet ét sted.
+    destination: manual
+  - label: ISO'en
+    detail: Installationsimaget til det aktuelle skrivebord.
+    destination: iso
+  - label: Plugins
+    detail: Tilføjelser fra fællesskabet findes i deres eget autoritative katalog.
+    destination: plugins
+  - label: Koden
+    detail: Læs kildekoden, følg ændringerne, og bidrag selv.
+    destination: code
+workflows:
+  title: Tilpas computeren. Behold kontrollen.
+  intro: En agent er nyttig, når den arbejder gennem en reel grænseflade i systemet, ikke når den bare
+    gestikulerer mod en sort boks.
+  items:
+  - title: Vælg en agent, ikke en fastlåsning
+    body: Omarchy kobler de store CLI'er til kodeagenter på som launchere, der indlæses efter behov. Intet
+      bliver downloadet, før du vælger at bruge det.
+  - title: Vælg standarden, og kald den så
+    body: Vælg en standardagent, og start den med Super + Shift + Ctrl + A. Eller start en fokuseret opgave
+      med kommandoen omarchy agent prompt.
+  - title: Brug den eksperimentelle funktion med omtanke
+    body: Den eksperimentelle Omarchy Skill kan justere Hyprland-konfigurationen, tilpasse bjælken eller
+      oprette et tema. Gennemgå hver ændring, der anvendes; systemet forbliver dit.
+project_paths:
+  title: Flere mennesker gør systemet bedre.
+  items:
+  - title: Nyheder på engelsk
+    body: Udgivelser, arrangementer og menneskene bag arbejdet.
+    url: /news/
+    language: en
+  - title: Fællesskab
+    body: Find træf, bidragydere, Plugins og stederne, hvor Omarchs mødes.
+    url: /community/
+  - title: Omacom Foundation
+    body: Fonden støtter projektet og dets offentlige arbejde.
+    url: /foundation/
+expansion:
+  title: Skrivebordet er virkeligt. De næste platforme er spørgsmål.
+  body: Omarchy kan vokse til flere slags computere og tjenester. Idéerne nedenfor er undersøgelser, ikke
+    en udgivelsesplan, et løfte om kompatibilitet eller en produktannoncering.
+hardware:
+  items:
+  - product: laptops
+    body: Hvordan ville en nyttig certificering, reparerbarhed, testet hardware og tilgængelighed se ud?
+  - product: workstations
+    body: Se de aktuelle opsætninger fra fællesskabet, som giver skrivebordet dets mange former.
+server_apps:
+  items:
+  - product: server
+    body: Undersøg et holdningsstærkt fundament til selvhosting, arbejdsbelastninger, fjernadministration
+      og agentstyret infrastruktur.
+  - product: apps
+    body: Undersøg førstepartsprogrammer med fælles visuelle konventioner og tastaturkonventioner, adskilt fra Plugins
+      fra fællesskabet.
+cloud_mobile:
+  items:
+  - product: cloud
+    body: Undersøg hostede arbejdsstationer, vedvarende agenter, synkronisering, computerkraft, sikkerhed
+      og ejerskab over data.
+  - product: mobile
+    body: Undersøg en ledsager til notifikationer, delt udklipsholder og filer, godkendelse, fjernkommandoer
+      og synkronisering af enheder.
+labs:
+  product: labs
+  body: Offentlige eksperimenter, der ikke er produkter.

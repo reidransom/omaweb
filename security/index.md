@@ -3,6 +3,8 @@ layout: content
 title: Security at Omarchy
 description: How to responsibly report a security vulnerability in Omarchy.
 permalink: /security/
+lang: en
+translation_key: security
 nav_group: project
 archetype: project
 ---

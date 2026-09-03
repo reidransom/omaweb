@@ -1,0 +1,50 @@
+---
+layout: default
+title: Mæcener
+description: De nuværende mæcener, der støtter Omacom Foundations mission.
+permalink: /patrons/
+lang: da
+translation_key: patrons
+nav_group: project
+archetype: project
+---
+{% assign patron_tier_order = site.data.patrons.tier_order %}
+{% assign patron_tiers = site.data.patrons.tiers %}
+{% assign patrons = site.data.patrons.people %}
+
+<article class="patrons-page">
+<header class="patrons-page__header">
+<h1>Omacom Foundation</h1>
+</header>
+
+<div class="patron-tiers">
+{% for tier_key in patron_tier_order %}
+{% assign tier = patron_tiers[tier_key] %}
+<section class="patron-tier" aria-labelledby="patron-tier-{{ tier_key }}">
+<header class="patron-tier__header">
+<h2 id="patron-tier-{{ tier_key }}">{{ tier.label }}</h2>
+<p>{{ tier.description }}</p>
+</header>
+
+{% if tier.people.size > 0 %}
+<ul class="patron-list" aria-label="{{ tier.label | escape }}">
+{% for patron_key in tier.people %}
+{% assign patron = patrons[patron_key] %}
+<li class="patron-card">
+{% if patron.image %}
+<img class="patron-card__image" src="{{ patron.image | relative_url }}" alt="{{ patron.name | escape }}" width="240" height="240" loading="lazy" decoding="async">
+{% endif %}
+<h3><a href="{{ patron.profile | escape }}" rel="noreferrer">{{ patron.name | escape }}</a></h3>
+<p class="patron-card__organization"><a href="{{ patron.organization_url | escape }}" rel="noreferrer">{{ patron.organization | escape }}</a></p>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if tier.contact_url %}
+<p class="patron-tier__note"><a href="{{ tier.contact_url | escape }}">{{ tier.contact_label | escape }}: {{ tier.contact | escape }}</a>.</p>
+{% endif %}
+</section>
+{% endfor %}
+</div>
+</article>

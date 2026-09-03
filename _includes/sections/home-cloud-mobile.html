@@ -1,9 +1,10 @@
 {% assign items = site.data.home.cloud_mobile.items %}
+{% assign explore_label = 'home.explore' | translate %}
 <section class="home-section home-section--reading" aria-labelledby="cloud-mobile-title">
   <div class="home-section__inner">
-    <h2 id="cloud-mobile-title">Computing should travel without becoming generic.</h2>
+    <h2 id="cloud-mobile-title">{{ 'home.cloud_mobile_title' | translate | escape }}</h2>
     <ul class="home-card-grid" role="list">
-      {% include product-cards.html items=items cta_prefix='Explore' %}
+      {% include product-cards.html items=items cta_prefix=explore_label %}
     </ul>
   </div>
 </section>

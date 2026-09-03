@@ -16,27 +16,31 @@ function conciseText(value) {
 function navigationDestinations() {
   const navigationData = document.querySelector("[data-search-navigation]");
   const destinationData = document.querySelector("[data-search-destinations]");
+  const productData = document.querySelector("[data-search-products]");
 
-  if (!navigationData || !destinationData) return [];
+  if (!navigationData || !destinationData || !productData) return [];
 
   try {
     const navigation = JSON.parse(navigationData.textContent);
-    const destinations = new Map(
-      JSON.parse(destinationData.textContent).items.map((destination) => [
-        destination.slug,
-        destination,
-      ]),
-    );
+    const destinations = JSON.parse(destinationData.textContent).items;
+    const products = JSON.parse(productData.textContent).items;
     const seenUrls = new Set();
 
-    return navigation.sections.flatMap((section) => {
-      const entries = [section, ...(section.links?.items ?? [])];
+    return navigation.section_order.flatMap((sectionKey) => {
+      const section = navigation.sections[sectionKey];
+      const entries = [
+        section,
+        ...section.links.map((linkKey) => navigation.links[linkKey]),
+      ];
 
       return entries.flatMap((entry) => {
-        const destination = entry.destination ? destinations.get(entry.destination) : null;
-        const url = destination?.url ?? entry.url;
-        const label = entry.label ?? destination?.label;
-        const external = destination?.external ?? entry.external ?? false;
+        const product = entry.product ? products[entry.product] : null;
+        const destinationKey = entry.destination ?? product?.destination;
+        const destination = destinationKey ? destinations[destinationKey] : null;
+        const url = destination?.url ?? product?.url ?? entry.url;
+        const label = entry.label ?? product?.label ?? destination?.label;
+        const external =
+          destination?.external ?? product?.external ?? entry.external ?? false;
 
         if (!url || !label || seenUrls.has(url)) return [];
         seenUrls.add(url);

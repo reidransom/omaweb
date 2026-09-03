@@ -1,0 +1,11 @@
+{% assign copy = site.data.page_content.labs %}
+<section class="prose" aria-labelledby="labs-purpose-title">
+  <h2 id="labs-purpose-title">{{ copy.purpose.title | escape }}</h2>
+  <p>{{ copy.purpose.body | escape }}</p>
+</section>
+
+<section class="prose" aria-labelledby="labs-air-title">
+  <h2 id="labs-air-title">{{ copy.air.title | escape }}</h2>
+  <p>{{ copy.air.body | escape }}</p>
+  <p>{{ copy.air.link_prefix | escape }} <a href="{{ '/air/' | localized_url }}">Artists in Residence</a>{{ copy.air.link_suffix | escape }}</p>
+</section>

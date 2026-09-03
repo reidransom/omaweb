@@ -1,9 +1,10 @@
 {% assign items = site.data.home.server_apps.items %}
+{% assign explore_label = 'home.explore' | translate %}
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="server-apps-title">
   <div class="home-section__inner">
-    <h2 id="server-apps-title">More places for an opinionated base.</h2>
+    <h2 id="server-apps-title">{{ 'home.server_apps_title' | translate | escape }}</h2>
     <ul class="home-card-grid" role="list">
-      {% include product-cards.html items=items cta_prefix='Explore' %}
+      {% include product-cards.html items=items cta_prefix=explore_label %}
     </ul>
   </div>
 </section>

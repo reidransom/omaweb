@@ -1,40 +1,42 @@
 {% assign navigation = site.data.navigation %}
-{% assign discord = site.data.destinations.items | where: 'slug', 'discord' | first %}
+{% assign discord = site.data.destinations.items.discord %}
 {% assign revision = site.env.OMARCHY_REVISION | default: 'local' %}
 {% assign build_date = site.env.OMARCHY_BUILD_DATE | default: site.time | date: '%Y-%m-%dT%H:%M:%SZ' %}
 <footer class="site-footer">
   <div class="site-footer__inner">
     <div class="site-footer__identity">
-      <a href="{{ '/' | relative_url }}"><img class="site-footer__mark" src="{{ '/assets/images/favicon.png' | relative_url }}" width="300" height="300" alt="Omarchy"></a>
-      <p><a href="{{ '/' | relative_url }}">Home</a></p>
-      <p>Omacom Foundation supports Omarchy.</p>
-      <p>Omarchy is a pending trademark.</p>
+      <a href="{{ '/' | localized_url }}"><img class="site-footer__mark" src="{{ '/assets/images/favicon.png' | relative_url }}" width="300" height="300" alt="Omarchy"></a>
+      <p><a href="{{ '/' | localized_url }}">{{ 'footer.home' | translate | escape }}</a></p>
+      <p>{{ 'footer.support' | translate | escape }}</p>
+      <p>{{ 'footer.trademark' | translate | escape }}</p>
       {% if discord %}
-        <p>Contact via {% include authoritative-link.html destination='discord' label='Discord' %}.</p>
+        <p>{{ 'footer.contact' | translate | escape }} {% include authoritative-link.html destination='discord' label='Discord' %}.</p>
       {% endif %}
     </div>
 
-    <nav class="site-footer__sitemap" aria-label="Footer sitemap">
-      {% for section in navigation.sections %}
+    <nav class="site-footer__sitemap" aria-label="{{ 'navigation.footer' | translate | escape }}">
+      {% for section_key in navigation.section_order %}
+        {% assign section = navigation.sections[section_key] %}
         <section>
           <h2>
             {% include authoritative-link.html link=section exploratory_description_id='footer-exploratory-status' %}
           </h2>
           <ul role="list">
-            {% for link in section.links.items %}
+            {% for link_key in section.links %}
+              {% assign link = navigation.links[link_key] %}
               <li>
                 {% include authoritative-link.html link=link exploratory_description_id='footer-exploratory-status' %}
               </li>
             {% endfor %}
           </ul>
           {% if section.exploratory %}
-            <span class="u-visually-hidden" id="footer-exploratory-status">Exploratory</span>
+            <span class="u-visually-hidden" id="footer-exploratory-status">{{ 'navigation.exploratory' | translate | escape }}</span>
           {% endif %}
         </section>
       {% endfor %}
     </nav>
 
 
-    <p class="site-footer__provenance">Build {{ revision | escape }} · {{ build_date | escape }} · Website by <a href="https://reidransom.com/" rel="noreferrer" data-external="true">reidransom<span class="u-visually-hidden"> (external)</span></a></p>
+    <p class="site-footer__provenance">{{ 'footer.build' | translate | escape }} {{ revision | escape }} · {{ build_date | escape }} · {{ 'footer.website_by' | translate | escape }} <a href="https://reidransom.com/" rel="noreferrer" data-external="true">reidransom<span class="u-visually-hidden"> ({{ 'link.external' | translate | escape }})</span></a></p>
   </div>
 </footer>

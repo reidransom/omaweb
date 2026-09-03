@@ -1,0 +1,21 @@
+items:
+  desktop:
+    summary: Les questions sur le matériel de bureau et les exigences d’une recommandation Omarchy.
+  server:
+    summary: Les questions sur des fondations assumées pour l’auto-hébergement, les charges de travail et l’administration à distance.
+  mobile:
+    summary: Les questions sur un compagnon et un environnement mobile Omarchy plus complet.
+  laptops:
+    summary: Les questions sur la certification, la réparabilité, le matériel testé et la disponibilité.
+  accessories:
+    summary: D’éventuelles recommandations futures de matériel tiers, mais rien à recommander pour l’instant.
+  workstations:
+    summary: Les configurations actuelles de la communauté montrent toutes les formes que peut prendre un poste de travail fonctionnel.
+  apps:
+    summary: Les questions sur des applications développées par Omarchy, avec des conventions visuelles et des raccourcis clavier communs.
+  plugins:
+    summary: Les extensions de la communauté réunies dans leur propre catalogue officiel.
+  cloud:
+    summary: Les questions sur les postes de travail hébergés, la synchronisation, la puissance de calcul, la sécurité et la propriété.
+  labs:
+    summary: Des expériences publiques qui ne sont pas des produits.

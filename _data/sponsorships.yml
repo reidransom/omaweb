@@ -1,5 +1,10 @@
+order:
+  - hyprland
+  - quickshell
+  - mise
+
 items:
-  - slug: hyprland
+  hyprland:
     label: Hyprland
     level: Exclusive
     url: https://hypr.land/
@@ -9,7 +14,7 @@ items:
     summary: The tiling Wayland compositor at the heart of Omarchy and one of its three core technologies.
     term: Three years, with an option for another two.
     starts_at: 2026-10-10
-  - slug: quickshell
+  quickshell:
     label: Quickshell
     level: Premier
     url: https://quickshell.org/
@@ -18,7 +23,7 @@ items:
     announcement_url: /news/2026/08/omacom-foundation-to-be-premier-quickshell-sponsor/
     summary: The desktop construction kit used for the Omarchy shell, including the bar, menus, notifications, OSDs, and lock screen.
     term: Three years.
-  - slug: mise
+  mise:
     label: mise
     level: Premier
     url: https://mise.jdx.dev/

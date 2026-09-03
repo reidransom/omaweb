@@ -1,8 +1,11 @@
+order:
+  - foundation-launch
+
 items:
-  - id: foundation-launch
+  foundation-launch:
     label: The Omacom Foundation launches with $8 million.
     url: /news/2026/08/omacom-foundation-launches-with-8-million/
+    language: en
     selected: true
     starts_at: 2026-08-21T00:00:00Z
     ends_at: null
-    order: 10

@@ -5,6 +5,23 @@ description: >-
 url: "https://omaweb.r2ware.dev"
 baseurl: ""
 lang: en
+localization:
+  default_language: en
+  locales:
+    en:
+      tag: en
+      label: English
+      weight: 1
+    da:
+      tag: da-DK
+      label: Dansk
+      weight: 2
+      fallbacks: [en]
+    fr:
+      tag: fr-FR
+      label: Français
+      weight: 3
+      fallbacks: [en]
 permalink: pretty
 social_image: /assets/images/opengraph.png
 social_image_alt: Omarchy wordmark on a dark background
@@ -47,6 +64,7 @@ exclude:
   - _docs
   - _plans
   - _site
+  - _site.jigyll-localized-backup
   - node_modules
   - package.json
   - package-lock.json

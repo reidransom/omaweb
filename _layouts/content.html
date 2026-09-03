@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-{% assign product = site.data.products.items | where: 'slug', page.product | first %}
+{% assign product = site.data.products.items[page.product] %}
 <article class="content-shell content-shell--{{ page.archetype | escape }}" data-archetype="{{ page.archetype | escape }}">
   <div class="page-hero">
     {% if page.archetype == 'product' %}

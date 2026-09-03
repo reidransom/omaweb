@@ -1,0 +1,11 @@
+items:
+  manual:
+    label: Manuel (anglais)
+  manual-getting-started:
+    label: Bien démarrer
+  manual-hotkeys:
+    label: Raccourcis clavier
+  manual-troubleshooting:
+    label: Dépannage
+  code:
+    label: Code

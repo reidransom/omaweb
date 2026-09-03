@@ -3,6 +3,8 @@ layout: landing
 title: Hardware
 description: See current community workstations and exploratory questions about desktops, laptops, and accessories.
 permalink: /hardware/
+lang: en
+translation_key: hardware
 nav_group: hardware
 archetype: landing
 markdown: false
@@ -19,7 +21,7 @@ markdown: false
   <div class="home-section__inner">
     <h2 id="hardware-options-title">See what exists, then the questions</h2>
     <ul class="home-card-grid" role="list">
-      {% assign products = site.data.products.items | where: "group", "hardware" %}
+      {% assign products = site.data.products.groups.hardware %}
       {% include product-cards.html products=products description='summary' cta_prefix='Explore' %}
     </ul>
   </div>

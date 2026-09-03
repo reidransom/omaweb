@@ -5,7 +5,7 @@
     <p class="home-prose home-section__intro">{{ actions.intro | escape }}</p>
     <ul class="home-card-grid" role="list">
       {% for action in actions.items %}
-        {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+        {% assign destination = site.data.destinations.items[action.destination] %}
         {% if destination %}
           {% capture action_icon %}
             {% case action.destination %}
@@ -29,7 +29,7 @@
             <h3>{{ action.label | escape }}</h3>
             <p>{{ action.detail | escape }}</p>
             {{ action_icon | strip }}
-            <span aria-hidden="true">Open{% include link-indicator.html destination=action.destination external=destination.external %}</span>
+            <span aria-hidden="true">{{ 'home.open' | translate | escape }}{% include link-indicator.html destination=action.destination external=destination.external %}</span>
           {% endcapture %}
           <li class="home-card">
             {% include authoritative-link.html destination=action.destination class='home-card__link' content=action_content hide_indicator=true %}

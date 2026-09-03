@@ -3,6 +3,8 @@ layout: content
 title: Workstations
 description: A community gallery for cleared Omarchy workstation photographs and the people who share them.
 permalink: /workstations/
+lang: en
+translation_key: workstations
 nav_group: hardware
 archetype: project
 product: workstations

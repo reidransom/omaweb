@@ -7,7 +7,7 @@
         src="{{ '/assets/images/desktop/laptop-omarchy-cool-fade-blue.svg' | relative_url }}"
         width="1110"
         height="760"
-        alt="Omarchy displayed on a laptop"
+        alt="{{ 'home.desktop_image_alt' | translate | escape }}"
         loading="lazy"
         decoding="async"
       >
@@ -15,7 +15,8 @@
     <div class="home-prose home-desktop__content">
       <h2 id="desktop-title">{{ desktop.title | escape }}</h2>
       <p>{{ desktop.body | escape }}</p>
-      {% include action-group.html actions=desktop.actions.items label='Desktop actions' %}
+      {% assign desktop_actions_label = 'home.desktop_actions' | translate %}
+      {% include action-group.html actions=desktop.actions.items label=desktop_actions_label %}
     </div>
   </div>
 </section>

@@ -1,0 +1,14 @@
+items:
+  pleum:
+    caption: Fotografi af pleum, delt med det officielle Workstations-galleri.
+    media:
+      alt: En sort kat ligger ved siden af et mekanisk tastatur foran Omarchy-navnet på en skærm; hovedtelefoner og en skrivebordslampe indrammer arbejdspladsen.
+  sspaeti:
+    caption: Fotografi af sspaeti, delt med det officielle Workstations-galleri.
+    media:
+      alt: Et hvidt skrivebord med en mikrofon, et mekanisk tastatur, bærbare computere og en stor skærm med flere åbne vinduer.
+
+empty_state:
+  title: Fællesskabets arbejdsstationer venter på godkendte fotografier.
+  body: Vi har endnu ikke et lokalt, godkendt fotografi af en arbejdsstation fra fællesskabet, som vi kan udgive. Send holdet et foto på Discord med tilladelse til at vise det her; siden skal vokse med rigtige skriveborde, ikke arkivbilleder.
+  action_label: Del en arbejdsstation på Discord

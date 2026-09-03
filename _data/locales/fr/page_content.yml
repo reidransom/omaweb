@@ -1,0 +1,134 @@
+accessories:
+  status:
+    title: Aucun accessoire à recommander pour l’instant.
+    body: Omarchy ne recommande aucun accessoire. Cette page pourra un jour documenter du matériel tiers évalué, mais elle n’annonce ni produit ni projet de fabrication d’accessoires.
+  evaluation:
+    title: Le matériel tiers exige une évaluation documentée.
+    body: Toute future recommandation devra préciser ce qui a été évalué, ce qui a été observé et les compromis qui en découlent. C’est le travail nécessaire avant qu’un accessoire tiers mérite sa place ici.
+
+desktops:
+  question:
+    title: Ce qu’Omarchy testerait avant de recommander du matériel de bureau
+    paragraphs:
+    - Omarchy explore ce qu’il faudrait pour assumer une recommandation de matériel de bureau. Une norme utile doit tenir compte de la machine que les gens utilisent, entretiennent et sollicitent réellement à leur bureau.
+    - Ce travail commence par des questions, pas par une liste de matériel.
+  evidence:
+    title: Le matériel de bureau exige des tests reproductibles.
+    items:
+    - Quelles parties d’une configuration de bureau exigent des tests directs et reproductibles avant qu’une recommandation puisse être utile ?
+    - Que doit dire une évaluation honnête sur les environnements et les compromis qu’elle a observés ?
+    - Comment une recommandation peut-elle rester utile lorsque le lecteur dispose d’un autre bureau, d’un autre budget ou d’autres besoins ?
+  standard:
+    title: Aucun ordinateur de bureau n’est annoncé.
+    body: Toute future évaluation devra indiquer clairement ce qu’elle a observé et ce qu’elle n’a pas observé. C’est ainsi qu’une recommandation reste utile sans transformer un terrain d’exploration en promesse de produit.
+    link_prefix: Pour voir comment les gens utilisent Omarchy sur le matériel qu’ils possèdent déjà, visitez
+    link_label: Workstations
+
+laptops:
+  question:
+    title: Une recommandation doit avoir du poids.
+    paragraphs:
+    - "Omarchy explore ce qu’il faudrait pour assumer la recommandation d’un ordinateur portable. Apposer un logo sur le couvercle serait facile. Une norme utile doit décrire l’expérience de vivre avec une machine : l’ouvrir, la réparer et utiliser les composants qui donnent à un ordinateur sa qualité d’ordinateur."
+    - Ce travail commence par des questions, pas par une liste de machines.
+  evidence:
+    title: Quelles preuves mériteraient le nom de certification ?
+    items:
+    - À quoi ressemble la réparabilité lorsque vous devez pouvoir comprendre et entretenir vous-même votre machine ?
+    - Quelles parties de l’expérience matérielle exigent des tests directs et reproductibles avant qu’une recommandation puisse être utile ?
+    - Que doit dire une recommandation honnête lorsqu’elle ne peut pas supposer que chaque lecteur aura accès à la même machine ?
+  standard:
+    title: La norme compte plus que le badge.
+    body: Toute future évaluation devra indiquer clairement ce qu’elle a observé et ce qu’elle n’a pas observé. C’est ainsi qu’une recommandation reste utile lorsque le lecteur a d’autres besoins, un autre bureau ou l’envie d’ouvrir le panneau arrière.
+    link_prefix: Pour voir comment les gens façonnent aujourd’hui Omarchy autour du matériel qu’ils utilisent déjà, visitez
+    link_label: Workstations
+
+server:
+  question:
+    title: Un serveur doit laisser le contrôle à son opérateur.
+    paragraphs:
+    - Omarchy explore ce qu’une approche assumée des serveurs pourrait signifier pour les personnes qui exploitent leurs propres services et assument le travail derrière eux. Le plus difficile n’est pas de placer un panneau de contrôle de plus devant une machine. C’est de décider quels choix méritent une valeur par défaut claire et lesquels doivent manifestement rester les vôtres.
+    - Ce sont des questions, pas un produit serveur.
+  workloads:
+    title: Que devraient rendre plus lisible des fondations ciblées ?
+    items:
+    - Quels services auto-hébergés et quelles charges de production bénéficient d’un point de départ assumé ?
+    - Comment garder l’administration à distance compréhensible lorsque la machine se trouve ailleurs ?
+    - Où les agents peuvent-ils aider au travail d’infrastructure sans cacher les commandes, les fichiers ou les décisions à l’opérateur ?
+  defaults:
+    title: La sécurité et les mises à jour sont des questions de conception.
+    body: Les valeurs par défaut peuvent réduire les répétitions. Elles peuvent aussi masquer un choix qui mérite d’être examiné. Toute exploration doit demander à quoi ressemble une posture de sécurité responsable, quelles décisions de mise à jour doivent rester visibles et comment un opérateur peut comprendre un système avant qu’il ne change.
+    link_prefix: Commencez par
+    iso_label: l’ISO
+    link_join: et
+    manual_label: le manuel en anglais
+    link_suffix: " pour le système actuel."
+
+mobile:
+  question:
+    title: Un téléphone doit prolonger votre environnement, pas lui faire concurrence.
+    paragraphs:
+    - Omarchy explore la frontière entre un compagnon du système existant et un environnement mobile plus complet. Cette frontière compte. Un écran plus petit change l’attention, la saisie, la confidentialité et les moments où un ordinateur peut être utile.
+    - La question n’est pas de réduire un système existant à la taille d’un téléphone. Elle est de savoir quelle continuité mérite d’être préservée entre les deux.
+  continuity:
+    title: Quelles parties d’une journée de travail doivent vous suivre ?
+    items:
+    - Quand une notification du bureau doit-elle atteindre un appareil compagnon, et quand doit-elle rester là où elle est ?
+    - Que faut-il pour qu’un presse-papiers partagé et le transfert de fichiers paraissent intentionnels plutôt que magiques ?
+    - Quelles commandes à distance méritent une interface pour petit écran, et lesquelles appartiennent au terminal ?
+  trust:
+    title: La continuité dépend de la confiance.
+    body: L’authentification et la synchronisation des appareils ne sont pas des détails d’arrière-plan. Elles déterminent qui peut agir, ce qui circule entre les appareils et ce qui reste local. Voilà les questions auxquelles il faut répondre avant de décider de la forme que pourrait prendre une initiative mobile.
+    link_prefix: Commencez par
+    iso_label: l’ISO
+    link_join: et
+    manual_label: le manuel en anglais
+    link_suffix: " pour le système actuel."
+
+cloud:
+  question:
+    title: Un poste de travail ailleurs doit toujours sembler être le vôtre.
+    paragraphs:
+    - Omarchy explore ce qu’un poste de travail hébergé doit préserver avant de mériter ce nom. Une machine distante peut changer l’endroit où le travail s’exécute, mais elle ne doit pas brouiller la propriété de l’environnement, le droit de l’examiner ni ce qui arrive au travail qui y reste.
+    - C’est une question de frontières, pas un raccourci pour les contourner.
+  continuity:
+    title: Que doit-il rester lorsque l’écran change ?
+    items:
+    - Que doit conserver un environnement entre les sessions, et qu’est-ce qui doit rester uniquement avec la personne qui l’a créé ?
+    - Comment garder la synchronisation compréhensible lorsque les fichiers, la configuration et le travail des agents circulent entre les machines ?
+    - Quelles formes de calcul appartiennent à un environnement hébergé, et comment ce choix doit-il rester visible pour la personne qui l’utilise ?
+  ownership:
+    title: La sécurité et la propriété ne doivent pas être des notes de bas de page.
+    body: Toute exploration sérieuse doit commencer par les accès, les limites des données et la capacité à comprendre ce qui arrive à votre travail. La commodité est utile. Le contrôle est l’essentiel.
+    link_prefix: Commencez par
+    iso_label: l’ISO
+    link_join: et
+    manual_label: le manuel en anglais
+    link_suffix: " pour le système local actuel."
+
+apps:
+  question:
+    title: Une application développée par Omarchy doit mériter sa place.
+    paragraphs:
+    - Omarchy explore les applications qui appartiennent étroitement au système et les idées qu’il vaut mieux laisser à la communauté. La différence ne tient pas à la propriété pour elle-même. Elle tient à la capacité d’une application à exprimer une vision claire de la façon dont l’ordinateur doit se présenter et fonctionner.
+    - Les principes viennent donc en premier. Le catalogue peut attendre.
+  principles:
+    title: Que doivent partager les applications ?
+    items:
+    - Quels choix visuels permettent à un outil de se sentir chez lui sans effacer sa raison d’être ?
+    - Quelles conventions clavier réduisent le besoin de réapprendre sans transformer chaque interaction en règle ?
+    - Où la configuration doit-elle rester visible, transportable et compréhensible pour la personne qui la modifie ?
+    - Que faut-il pour que les mises à jour soient lisibles plutôt que surprenantes ?
+  community:
+    title: Les Plugins sont une autre forme de contribution.
+    body: Les Plugins de la communauté donnent déjà aux gens un endroit où partager extensions et expériences. Ils n’ont pas besoin d’imiter l’idée d’une application développée par Omarchy pour avoir de la valeur. Le catalogue actuel est le bon endroit pour voir ce que crée la communauté.
+    link_label: Visiter le catalogue des Plugins
+
+labs:
+  purpose:
+    title: Des expériences publiques, pas des annonces de produits.
+    body: Labs est l’espace d’Omarchy consacré aux expériences publiques. Aucune expérience active n’y est annoncée pour le moment.
+  air:
+    title: Artists in Residence mène son propre travail.
+    body: Omacom Foundation organise Artists in Residence, une résidence de six mois pour les artistes travaillant sur les thèmes, les Plugins et tout ce qui rend Omarchy beau. Les résidents choisissent leur travail, sans feuille de route imposée ni file de tâches.
+    link_prefix: Labs ne transforme pas le travail de cette résidence en sortie produit. Découvrez le programme actuel
+    link_suffix: "."

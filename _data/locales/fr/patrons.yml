@@ -1,0 +1,10 @@
+tiers:
+  founding:
+    label: Mécènes fondateurs
+    contribution: 1 000 000 USD
+    description: Chaque mécène fondateur a versé 1 000 000 USD à la mission de la fondation.
+  distinguished:
+    label: Mécènes distingués
+    contribution: 100 000 USD
+    description: Le soutien d’un mécène distingué s’élève à 100 000 USD pour la mission de la fondation.
+    contact_label: Contacter la fondation

@@ -1,0 +1,94 @@
+hero:
+  descriptor: Linux beau, amusant et assumé par DHH
+  promise: Le système d’exploitation malléable pour l’ère des agents.
+  detail: Commencez avec un bureau complet et soigné. Puis faites-en votre ordinateur.
+  actions:
+    items:
+    - label: Télécharger l’ISO
+      destination: iso
+    - label: Lire le manuel en anglais
+      destination: manual
+desktop:
+  title: Utilisez-le avant de le personnaliser.
+  body: Omarchy est une distribution Linux omakase basée sur Arch, Hyprland et Quickshell. Dès le départ,
+    vous obtenez un bureau en mosaïque, des outils centrés sur le terminal et un système visuel cohérent,
+    plutôt qu’une pile de choix à faire.
+  actions:
+    items:
+    - label: Télécharger l’ISO
+      destination: iso
+    - label: Lire le manuel en anglais
+      destination: manual
+actions:
+  title: Les éléments qui en font le vôtre.
+  intro: Commencez par la source qui fait autorité. Installez depuis l’ISO, apprenez le système avec le manuel,
+    étendez-le avec les Plugins de la communauté ou parcourez le code.
+  items:
+  - label: Le manuel en anglais
+    detail: Configuration, applications et raccourcis du quotidien, réunis au même endroit.
+    destination: manual
+  - label: L’ISO
+    detail: L’image d’installation du bureau actuel.
+    destination: iso
+  - label: Les Plugins
+    detail: Les extensions de la communauté vivent dans leur propre catalogue officiel.
+    destination: plugins
+  - label: Le code
+    detail: Lisez le code source, suivez les changements et contribuez.
+    destination: code
+workflows:
+  title: Façonnez l’ordinateur. Gardez le contrôle.
+  intro: Un agent est utile lorsqu’il agit par une véritable interface du système, pas lorsqu’il se contente
+    de désigner une boîte noire.
+  items:
+  - title: Choisissez un agent, pas une dépendance
+    body: Omarchy connecte les principaux CLI d’agents de code sous forme de lanceurs chargés à la demande.
+      Rien n’est téléchargé tant que vous ne choisissez pas de l’utiliser.
+  - title: Définissez la valeur par défaut, puis appelez-la
+    body: Choisissez un agent par défaut et lancez-le avec Super + Shift + Ctrl + A. Ou démarrez une tâche
+      ciblée avec la commande omarchy agent prompt.
+  - title: Utilisez la fonction expérimentale avec discernement
+    body: L’Omarchy Skill expérimentale peut ajuster la configuration Hyprland, personnaliser la barre ou
+      créer un thème. Examinez chaque changement appliqué ; le système reste le vôtre.
+project_paths:
+  title: Plus il y a de personnes, meilleur est le système.
+  items:
+  - title: Actualités en anglais
+    body: Les versions, les événements et les personnes derrière le travail.
+    url: /news/
+    language: en
+  - title: Communauté
+    body: Trouvez les rencontres, les contributeurs, les Plugins et les lieux où les Omarchs se retrouvent.
+    url: /community/
+  - title: Omacom Foundation
+    body: La fondation soutient le projet et son travail public.
+    url: /foundation/
+expansion:
+  title: Le bureau est réel. Les prochaines plateformes restent des questions.
+  body: Omarchy peut s’étendre à d’autres types d’ordinateurs et de services. Les idées ci-dessous sont des
+    pistes d’exploration, pas un calendrier de sorties, une promesse de compatibilité ou une annonce produit.
+hardware:
+  items:
+  - product: laptops
+    body: À quoi ressembleraient une certification utile, la réparabilité, du matériel testé et la disponibilité ?
+  - product: workstations
+    body: Découvrez les configurations actuelles de la communauté qui donnent au bureau toutes ses formes.
+server_apps:
+  items:
+  - product: server
+    body: Explorer des fondations assumées pour l’auto-hébergement, les charges de travail, l’administration
+      à distance et l’infrastructure pilotée par des agents.
+  - product: apps
+    body: Explorer des applications développées par Omarchy, avec des conventions visuelles et clavier communes,
+      distinctes des Plugins de la communauté.
+cloud_mobile:
+  items:
+  - product: cloud
+    body: Explorer les postes de travail hébergés, les agents persistants, la synchronisation, la puissance
+      de calcul, la sécurité et la propriété des données.
+  - product: mobile
+    body: Explorer un compagnon pour les notifications, le presse-papiers partagé et les fichiers, l’authentification,
+      les commandes à distance et la synchronisation des appareils.
+labs:
+  product: labs
+  body: Des expériences publiques qui ne sont pas des produits.

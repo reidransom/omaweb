@@ -1,0 +1,70 @@
+home:
+  label: Forside
+
+search:
+  label: Søg på engelsk
+  spotlight: false
+
+sections:
+  foundation:
+    label: Fonden
+  manual:
+    label: Manual på engelsk
+  shop:
+    label: Butik
+  news:
+    label: Nyheder på engelsk
+  community:
+    label: Fællesskab
+
+links:
+  patrons:
+    label: Mæcener
+    description: Menneskene, der finansierer Omacom Foundations mission.
+  sponsorships:
+    label: Sponsorater
+    description: Fondens aktuelle støtte til Hyprland, Quickshell og mise.
+  artists-in-residence:
+    description: Et seks måneders ophold for kunstnere, der arbejder med Omarchy-temaer, Plugins og billedkunst.
+  security:
+    label: Sikkerhed
+    description: Vejledning til privat rapportering af en sårbarhed i Omarchy.
+  download-iso:
+    label: Hent ISO
+  laptops:
+    description: Spørgsmål, Omarchy ville besvare, før en bærbar computer blev anbefalet.
+  desktop:
+    description: De test, der kræves, før Omarchy anbefaler stationær hardware.
+  mobile:
+    description: Hvordan en telefon kan udvide et Omarchy-miljø.
+  merch:
+    description: Den officielle Omarchy-kollektion hos 37signals Supply.
+  accessories:
+    description: Hvordan Omarchy ville vurdere hardware fra tredjeparter, før det blev anbefalet.
+  news-product:
+    label: Produkt
+  news-releases:
+    label: Udgivelser
+  news-events:
+    label: Arrangementer
+  news-editorial:
+    label: Redaktionelt
+  atom-feed:
+    label: Atom-feed
+  teams:
+    label: Hold
+    description: Menneskene, der sætter kursen for Omarchy og tager sig af sikkerheden og fællesskabet.
+  discord:
+    description: Spørgsmål, rettelser, byggenoter og den levende samtale i fællesskabet.
+  meetups:
+    label: Træf
+    description: Omarchy-træf og reglerne for at afholde et.
+  workstations:
+    description: Godkendte fotografier og historier fra rigtige Omarchy-skriveborde.
+  featured-videos:
+    label: Udvalgte videoer
+    description: Den officielle introduktion og fire udvalgte perspektiver fra fællesskabet.
+  plugins:
+    description: Det offentlige katalog over udvidelser skabt omkring Omarchy.
+  code:
+    description: Omarchys offentlige GitHub-repository.

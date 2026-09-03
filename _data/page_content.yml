@@ -1,0 +1,134 @@
+accessories:
+  status:
+    title: No accessories to recommend yet.
+    body: Omarchy has no accessory recommendations. This route may later document third-party hardware that has been evaluated, but it does not announce products or a plan to manufacture accessories.
+  evaluation:
+    title: Third-party accessories need documented evaluation.
+    body: Any future recommendation should say what was evaluated, what was observed, and which tradeoffs remain. That is the work required before a third-party accessory earns a place here.
+
+desktops:
+  question:
+    title: What Omarchy would test before recommending desktop hardware
+    paragraphs:
+    - Omarchy is exploring what it would take to stand behind a desktop hardware recommendation. A useful standard would need to account for the machine people actually use, maintain, and rely on at their desks.
+    - This work begins with questions, not a list of hardware.
+  evidence:
+    title: Desktop hardware needs repeatable testing.
+    items:
+    - Which parts of a desktop setup need direct, repeatable testing before anyone can make a useful recommendation?
+    - What should an honest evaluation say about the environments and tradeoffs it observed?
+    - How can a recommendation remain useful when the person reading it has a different desk, budget, or set of needs?
+  standard:
+    title: No desktop product is being announced.
+    body: Any future evaluation should be clear about what it observed and what it did not. That is how a recommendation stays useful without turning an exploratory area into a product promise.
+    link_prefix: For examples of how people use Omarchy on the hardware they already own, visit
+    link_label: Workstations
+
+laptops:
+  question:
+    title: A recommendation should mean something.
+    paragraphs:
+    - "Omarchy is exploring what it would take to stand behind a laptop recommendation. A logo on a lid would be cheap. A useful standard would have to describe the experience of living with a machine: opening it, fixing it, and using the parts that make a computer feel like a computer."
+    - That work begins with questions, not a list of machines.
+  evidence:
+    title: What evidence should earn the name?
+    items:
+    - What does repairability look like when a person needs to understand and service their own machine?
+    - Which parts of the hardware experience need direct, repeatable testing before anyone can make a useful recommendation?
+    - What should an honest recommendation say when it cannot assume every reader can get the same machine?
+  standard:
+    title: The standard matters more than the badge.
+    body: Any future evaluation should be clear about what it observed and what it did not. That is how a recommendation stays useful when the person reading it has different needs, a different desk, or the nerve to open the back panel.
+    link_prefix: For current proof of how people shape Omarchy around the hardware they already use, visit
+    link_label: Workstations
+
+server:
+  question:
+    title: A server should leave the operator in charge.
+    paragraphs:
+    - Omarchy is exploring what an opinionated server stance could mean for people who run their own services and carry responsibility for the work behind them. The hard part is not putting another control panel in front of a machine. It is deciding which choices deserve a strong default and which must remain plainly yours.
+    - This is a set of questions, not a server product.
+  workloads:
+    title: What should a focused base make easier to reason about?
+    items:
+    - Which self-hosted services and production workloads benefit from an opinionated starting point?
+    - How can remote administration stay legible when the machine is somewhere else?
+    - Where can agents help with infrastructure work without hiding the commands, files, or decisions from the operator?
+  defaults:
+    title: Security and updates are design questions.
+    body: Defaults can reduce repetition. They can also conceal a choice that deserves inspection. Any exploration here has to ask what a responsible security posture looks like, which update decisions should be visible, and how an operator can understand a system before changing it.
+    link_prefix: For the current system, begin with the
+    iso_label: ISO
+    link_join: and the
+    manual_label: Manual
+    link_suffix: "."
+
+mobile:
+  question:
+    title: A phone should extend your environment, not compete with it.
+    paragraphs:
+    - Omarchy is exploring the boundary between a companion for a current system and a fuller mobile environment. That boundary matters. A smaller screen changes attention, input, privacy, and the moments when a computer can be useful.
+    - The question is not how to shrink a current system into a phone. It is what continuity is worth carrying between them.
+  continuity:
+    title: Which pieces of a working day should travel with you?
+    items:
+    - When should a desktop notification reach a companion device, and when should it stay put?
+    - What would make shared clipboard and file handoff feel deliberate rather than magical?
+    - Which remote commands deserve a small-screen interface, and which belong at the terminal?
+  trust:
+    title: Continuity depends on trust.
+    body: Authentication and device synchronization are not background details. They decide who can act, what crosses between devices, and what remains local. Those are the questions worth answering before deciding the shape of any mobile work.
+    link_prefix: For the current system, begin with the
+    iso_label: ISO
+    link_join: and the
+    manual_label: Manual
+    link_suffix: "."
+
+cloud:
+  question:
+    title: A workstation somewhere else still has to feel like yours.
+    paragraphs:
+    - Omarchy is exploring what a hosted workstation would have to preserve before it deserves the name. A remote machine can change where work runs, but it should not blur who owns the environment, who can inspect it, or what happens to the work left inside it.
+    - That is a question of boundaries, not a shortcut around them.
+  continuity:
+    title: What must persist when the screen changes?
+    items:
+    - What should remain in an environment between sessions, and what should remain only with the person who created it?
+    - How could synchronization stay understandable when files, configuration, and agent work move between machines?
+    - What kinds of compute belong in a hosted environment, and how should that choice stay visible to the person using it?
+  ownership:
+    title: Security and ownership cannot be footnotes.
+    body: Any serious exploration has to begin with access, data boundaries, and the ability to understand what is happening to your work. Convenience is useful. Control is the point.
+    link_prefix: For the current local system, begin with the
+    iso_label: ISO
+    link_join: and the
+    manual_label: Manual
+    link_suffix: "."
+
+apps:
+  question:
+    title: A first-party app should earn its place.
+    paragraphs:
+    - Omarchy is exploring which applications belong close to the system and which ideas are better left to the community. The distinction is not ownership for its own sake. It is whether an application can carry a clear point of view about how the computer should feel and work.
+    - That makes principles the first job. A catalog can wait.
+  principles:
+    title: What should shared applications hold in common?
+    items:
+    - Which visual decisions make a tool feel at home without sanding off its purpose?
+    - Which keyboard conventions reduce relearning without turning every interaction into a rule?
+    - Where should configuration remain visible, portable, and understandable to the person changing it?
+    - What would make the update story legible instead of surprising?
+  community:
+    title: Plugins are a different kind of contribution.
+    body: Community Plugins already give people a place to share additions and experiments. They do not need to imitate a first-party application idea to be valuable. The current directory is the right destination when you want to see what the community is making.
+    link_label: Visit the Plugins directory
+
+labs:
+  purpose:
+    title: Public experiments, not product announcements.
+    body: Labs is Omarchy's place for public experiments. No active experiment is announced here.
+  air:
+    title: Artists in Residence has its own work.
+    body: The Omacom Foundation runs Artists in Residence as a six-month residency for artists working on themes, plugins, and other work that makes Omarchy beautiful. Residents choose the work, without a prescribed roadmap or ticket queue.
+    link_prefix: Labs does not turn that residency work into a product release. Read about the current
+    link_suffix: " program."

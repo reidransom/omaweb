@@ -242,7 +242,11 @@ for html in $html_files; do
   [ "$(count_matches "$html" '<h1([[:space:]>])')" -eq 1 ] || fail "Expected one page-level h1: $html"
   grep -Fq "frame-src https://luma.com" "$html" || fail "Missing Luma frame CSP: $html"
 
+  language=$(sed -n 's/.*<html lang="\([^"]*\)".*/\1/p' "$html")
+  [ -n "$language" ] || fail "Missing document language: $html"
+  printf '%s\t' "$language" >> "$titles_file"
   sed -n 's/.*<title>\(.*\)<\/title>.*/\1/p' "$html" >> "$titles_file"
+  printf '%s\t' "$language" >> "$descriptions_file"
   sed -n 's/.*<meta name="description" content="\([^"]*\)".*/\1/p' "$html" >> "$descriptions_file"
   sed -n 's/.*<link rel="canonical" href="\([^"]*\)".*/\1/p' "$html" >> "$canonicals_file"
 
@@ -272,10 +276,14 @@ if grep -Eirn 'massively|html5[[:space:]]*up|html5up[.]net|is-preload|is-mobile|
 fi
 luma_files=$(grep -rl 'https://luma.com/embed/calendar/' _site --include='*.html' 2>/dev/null || true)
 iframe_files=$(grep -rl '<iframe' _site --include='*.html' 2>/dev/null || true)
-[ "$iframe_files" = '_site/meetups/index.html' ] || fail 'Meetups must be the only rendered route with an iframe.'
-[ "$luma_files" = '_site/meetups/index.html' ] || fail 'Luma may appear only on the rendered Meetups route.'
-[ "$(grep -Eo 'https://luma.com/embed/calendar/' _site/meetups/index.html | wc -l | tr -d ' ')" -eq 1 ] ||
-  fail 'Meetups must contain exactly one Luma calendar embed.'
+[ "$(printf '%s\n' "$iframe_files" | wc -l | tr -d ' ')" -eq 3 ] || fail 'Only localized Meetups routes may contain an iframe.'
+[ "$(printf '%s\n' "$luma_files" | wc -l | tr -d ' ')" -eq 3 ] || fail 'Luma may appear only on localized Meetups routes.'
+for route in /meetups/ /da/meetups/ /fr/meetups/; do
+  html="_site${route}index.html"
+  [ "$(count_matches "$html" '<iframe')" -eq 1 ] || fail "Meetups must contain exactly one iframe: $route"
+  [ "$(grep -Eo 'https://luma.com/embed/calendar/' "$html" | wc -l | tr -d ' ')" -eq 1 ] ||
+    fail "Meetups must contain exactly one Luma calendar embed: $route"
+done
 
 article_count=$(find _site/news -mindepth 4 -maxdepth 4 -type f -name index.html | wc -l | tr -d ' ')
 [ "$article_count" -eq 14 ] || fail "Expected 14 rendered News articles, found $article_count."

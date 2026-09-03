@@ -1,0 +1,27 @@
+teams:
+  core:
+    remit: Sætter retningen
+    role: Kerneteam
+  security:
+    label: Omarchy-sikkerhed
+    remit: Holder dit system sikkert
+    role: Sikkerhed
+  rangers:
+    remit: Hjælper andre med at finde vej
+    role: Vejviser
+
+people:
+  dhh:
+    location: USA/Danmark
+  bjarne-overli:
+    location: Norge
+  hancore:
+    location: Tyskland
+  mehmet-ince:
+    location: Storbritannien
+  erik-melton:
+    location: Norge
+  sebastian-stange:
+    location: Tyskland
+  mihai:
+    location: Rumænien

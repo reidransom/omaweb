@@ -1,26 +1,28 @@
 {% assign navigation = site.data.navigation %}
-<dialog class="mobile-drawer" id="mobile-drawer" data-drawer aria-label="Mobile navigation">
+<dialog class="mobile-drawer" id="mobile-drawer" data-drawer aria-label="{{ 'navigation.mobile' | translate | escape }}">
   <div class="mobile-drawer__inner">
     <div class="mobile-drawer__heading">
-      <a class="mobile-drawer__brand" href="{{ '/' | relative_url }}">Omarchy</a>
-      <button type="button" data-drawer-close>Close</button>
+      <a class="mobile-drawer__brand" href="{{ '/' | localized_url }}">Omarchy</a>
+      <button type="button" data-drawer-close>{{ 'navigation.close' | translate | escape }}</button>
     </div>
 
-    <nav aria-label="Mobile navigation">
-      {% for section in navigation.sections %}
+    <nav aria-label="{{ 'navigation.mobile' | translate | escape }}">
+      {% for section_key in navigation.section_order %}
+        {% assign section = navigation.sections[section_key] %}
         <section class="mobile-drawer__group">
           <h2>
             {% include authoritative-link.html link=section exploratory_description_id='mobile-drawer-exploratory-status' %}
           </h2>
           <ul>
-            {% for link in section.links.items %}
+            {% for link_key in section.links %}
+              {% assign link = navigation.links[link_key] %}
               <li>
                 {% include authoritative-link.html link=link exploratory_description_id='mobile-drawer-exploratory-status' %}
               </li>
             {% endfor %}
           </ul>
           {% if section.exploratory %}
-            <span class="u-visually-hidden" id="mobile-drawer-exploratory-status">Exploratory</span>
+            <span class="u-visually-hidden" id="mobile-drawer-exploratory-status">{{ 'navigation.exploratory' | translate | escape }}</span>
           {% endif %}
         </section>
       {% endfor %}

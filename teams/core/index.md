@@ -3,10 +3,12 @@ layout: content
 title: Omarchy Core
 description: The people setting the direction for Omarchy.
 permalink: /teams/core/
+lang: en
+translation_key: core-team
 nav_group: project
 archetype: project
 ---
-{% assign team = site.data.people.core %}
+{% assign team = site.data.people.teams.core %}
 
 <section class="prose" aria-labelledby="core-remit-title">
   <h2 id="core-remit-title">{{ team.remit }}</h2>
