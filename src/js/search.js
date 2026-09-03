@@ -4,26 +4,8 @@ const minimumQueryLength = 2;
 const debounceDuration = 150;
 const destinationLimit = 5;
 const pagefindLimit = 8;
-
-const MANUAL_SEARCH_FOCUS_STORAGE_KEY = "omarchy.manual-search.focus";
 const MANUAL_PAGEFIND_FILTERS = { section: "manual" };
 
-function rememberManualSearchFocus(target) {
-  if (!(target instanceof Element)) return;
-
-  const link = target.closest("a[href]");
-  if (!link) return;
-
-  const targetUrl = new URL(link.href, window.location.href);
-  if (
-    targetUrl.origin === window.location.origin &&
-    targetUrl.pathname.startsWith("/manual/")
-  ) {
-    try {
-      window.sessionStorage.setItem(MANUAL_SEARCH_FOCUS_STORAGE_KEY, "true");
-    } catch {}
-  }
-}
 
 function conciseText(value) {
   const documentFragment = new DOMParser().parseFromString(value ?? "", "text/html");
@@ -489,9 +471,6 @@ export function initSiteSearch({ quake } = {}) {
       }
 
       moveMenuFocus(surface, event);
-    });
-    surface.fallback?.addEventListener("click", (event) => {
-      rememberManualSearchFocus(event.target);
     });
     surface.form.addEventListener("keydown", (event) => {
       if (moveMenuFocus(surface, event)) return;

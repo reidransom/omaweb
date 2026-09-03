@@ -10,16 +10,6 @@ layout: default
 
   <div class="manual-layout">
     <aside class="manual-sidebar" aria-label="Manual navigation">
-      <search class="manual-search" data-manual-search data-pagefind-url="{{ '/pagefind/pagefind.js' | relative_url }}" hidden>
-        <div class="manual-search__field">
-          <input class="manual-search__input" id="manual-search" type="search" role="combobox"
-                 placeholder="Search the Manual" aria-label="Search the Manual"
-                 aria-controls="manual-search-results" aria-expanded="false" aria-autocomplete="list"
-                 autocomplete="off" autocapitalize="off" spellcheck="false">
-          <kbd class="manual-search__shortcut">/</kbd>
-        </div>
-        <div class="manual-search__results" id="manual-search-results" role="listbox" aria-label="Manual search results" hidden></div>
-      </search>
 
       <nav class="manual-toc manual-toc--desktop" aria-label="Manual chapters">
         {% include manual-chapter-list.html %}
