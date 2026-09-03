@@ -1266,3 +1266,213 @@ items:
     clearance_basis: The patrons-page implementation request directs local use of the official Omarchy patron profile image.
     publication_status: cleared
     third_party_marks: { present: true, disclosure: Portraits may include photographer credits or incidental apparel marks. }
+
+  - id: team-adrian-rangel
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/adrian-rangel.webp
+    source_url: https://omarchy.org/assets/images/team/adrian-rangel.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: aa7df3dd1160d47c654ed2c353b291181887ec41340eda8a76c87d6f88bd87a2
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-bjarne-overli
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/bjarne-overli.webp
+    source_url: https://omarchy.org/assets/images/team/bjarne-overli.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: acb8aefa6a76fe960d730f5e6108af942973c42c72455522ad1d7a75322bc8e3
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-dhh
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/dhh.webp
+    source_url: https://omarchy.org/assets/images/team/dhh.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 69074f4fd8e745c42a47ba795a2dcf1c33d28f39f77ea1676f6e16bc6d7cc0db
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-erik-melton
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/erik-melton.webp
+    source_url: https://omarchy.org/assets/images/team/erik-melton.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 1cede5ed1ea3136404e7d81a8b2f8d58476412042d0815342845fb3dd2d58ca8
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-hancore
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/hancore.webp
+    source_url: https://omarchy.org/assets/images/team/hancore.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: b0307ef00ca4d928c5203061a48cd31802753eb92840fdc7b957589494aa87a7
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-mateo-vaz
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/mateo-vaz.webp
+    source_url: https://omarchy.org/assets/images/team/mateo-vaz.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 3ee82f5555a7a4782d9ae230be6f6e08af14aa00c9eb81dab6bc5d992b365718
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-mehmet-ince
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/mehmet-ince.webp
+    source_url: https://omarchy.org/assets/images/team/mehmet-ince.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 7e7705f60d7bd72e9cf7b586466bf69d80accf5c155eb566d06eab2c7cbf1970
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-mihai
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/mihai.webp
+    source_url: https://omarchy.org/assets/images/team/mihai.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 39fc8091f2b50b151735e7f0ac3acbdeada317bd0e2e07077b605d85ed9776ee
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-nira
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/nira.webp
+    source_url: https://omarchy.org/assets/images/team/nira.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: d3b9f96312c860d26b80fd8fc9e4e6d2291aafae0a5cb5534654eb34bd9f5108
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-ryan-hughes
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/ryan-hughes.webp
+    source_url: https://omarchy.org/assets/images/team/ryan-hughes.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 44249dc59e4edc9717bb6ecd322ea22362578f2fb253f9fffbea6cf6267cac95
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-sayem-chowdhury
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/sayem-chowdhury.webp
+    source_url: https://omarchy.org/assets/images/team/sayem-chowdhury.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: e126823c3a2a25797bae184b1166ef8acec17dbcb35bfbbdad9c009514859fff
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-sebastian-stange
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/sebastian-stange.webp
+    source_url: https://omarchy.org/assets/images/team/sebastian-stange.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: ad0748e0d958c8f65abaa28fd3e0e3a7da14543623b5e6614e784f9fee428c44
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-spencer-bull
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/spencer-bull.webp
+    source_url: https://omarchy.org/assets/images/team/spencer-bull.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: 81db308fd4f107bf65cb1b0bcdb6647c5c8529796f4689494215771175ca6b4b
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
+
+  - id: team-tobi-lutke
+    asset_type: image
+    role: team-profile
+    path: assets/images/team/tobi-lutke.webp
+    source_url: https://omarchy.org/assets/images/team/tobi-lutke.webp
+    inspected_date: 2026-09-03
+    provenance: Exact copy of the official Omarchy teams-page asset.
+    sha256: f7381b92aa5e3bf3e0899c093e27f4af048ea8016250bc0c37d147050fada053
+    dimensions: { width: 240, height: 240 }
+    rights_owner: Original photographer, artist, or rights holder
+    license_or_permission: Published by Omacom on the official teams page; no broader public license is asserted.
+    clearance_basis: The teams-page implementation uses the official Omarchy team profile image.
+    publication_status: cleared
+    third_party_marks: { present: true, disclosure: Profile images may include incidental apparel or service marks. }
