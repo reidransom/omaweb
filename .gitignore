@@ -5,3 +5,6 @@ _plans/
 assets/js/site.js
 
 /pagefind/
+mise.local.toml
+.env
+.envrc
