@@ -22,6 +22,10 @@ sections:
           description: Current Foundation support for Hyprland, Quickshell, and mise.
           url: /sponsorships/
           external: false
+        - label: Teams
+          description: The people guiding Omarchy and caring for its security and community.
+          url: /teams/
+          external: false
         - label: Artists in Residence
           description: A six-month residency for artists working on Omarchy themes, plugins, and visual art.
           url: /air/
@@ -98,10 +102,6 @@ sections:
     external: false
     links:
       items:
-        - label: Teams
-          description: The people guiding Omarchy and caring for its security and community.
-          url: /teams/
-          external: false
         - destination: discord
           description: Questions, fixes, build notes, and the live community conversation.
         - label: Meetups

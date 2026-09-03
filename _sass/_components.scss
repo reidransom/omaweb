@@ -667,7 +667,7 @@ a:hover .media__image {
 }
 
 .team-directory__section {
-  margin-block-start: 0;
+  margin-block-start: 2rem;
   inline-size: 100%;
   max-inline-size: none;
   text-align: center;
@@ -722,12 +722,8 @@ a:hover .media__image {
   font-size: var(--omarchy-font-medium);
 }
 
-.person-card__detail,
 .person-card__location {
   margin-block-end: 0;
-}
-
-.person-card__location {
   color: var(--omarchy-terminal-white);
 }
 

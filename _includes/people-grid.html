@@ -7,8 +7,7 @@
     <h3 class="person-card__name">
       {% if person.profile %}<a href="{{ person.profile | escape }}" rel="noreferrer">{{ person.name | escape }}</a>{% else %}{{ person.name | escape }}{% endif %}
     </h3>
-    <p class="person-card__detail">{{ person.role | escape }}</p>
-    {% if person.location %}<p class="person-card__detail person-card__location">{{ person.location | escape }}</p>{% endif %}
+    {% if person.location %}<p class="person-card__location">{{ person.location | escape }}</p>{% endif %}
   </li>
   {% endfor %}
 </ul>
