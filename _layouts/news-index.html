@@ -14,9 +14,9 @@ layout: default
   <div class="content-body news-index">
     {% if page.news_page == 2 %}
       <section class="news-index__latest" aria-labelledby="latest-news">
-        <h2 id="latest-news">Earlier news</h2>
+        <h2 id="latest-news">Full Archive</h2>
         <div class="news-card-grid">
-          {% for article in articles offset: site.data.news.page_size limit: site.data.news.page_size %}{% include news-card.html article=article %}{% endfor %}
+          {% for article in articles %}{% include news-card.html article=article %}{% endfor %}
         </div>
         <nav class="news-pagination" aria-label="News pages">
           <a class="button button--secondary" href="{{ '/news/' | relative_url }}">Newer news</a>
@@ -54,26 +54,15 @@ layout: default
         </div>
       </section>
 
-      <aside class="news-pinned" aria-labelledby="pinned-news">
-        <h2 id="pinned-news">Keep close</h2>
-        <ul>
-          {% for item in site.data.news.pinned_items.items %}
-            <li><a href="{{ item.url | relative_url }}">{{ item.label | escape }}</a>{% if item.description %}<p>{{ item.description | escape }}</p>{% endif %}</li>
-          {% endfor %}
-        </ul>
-      </aside>
 
       <section class="news-index__filters" aria-labelledby="filter-news">
         <h2 id="filter-news">Filter the archive</h2>
         {% include news-category-nav.html %}
       </section>
 
-      <section id="archive" class="news-index__archive" aria-label="News archive">
-        {% include news-archive.html articles=articles limit=site.data.news.page_size %}
-        <nav class="news-pagination" aria-label="News pages">
-          <a class="button button--secondary" href="{{ '/news/page/2/' | relative_url }}">Older news</a>
-        </nav>
-      </section>
+      <nav class="news-pagination" aria-label="News pages">
+        <a class="button button--secondary" href="{{ '/news/page/2/' | relative_url }}">Full Archive</a>
+      </nav>
 
       <section class="news-spotlights" aria-label="News spotlights">
         {% for spotlight in site.data.news.spotlights.items %}
