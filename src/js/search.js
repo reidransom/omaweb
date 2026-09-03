@@ -303,7 +303,7 @@ export function initSiteSearch({ quake } = {}) {
         menuRoot.hidden = true;
       }
     });
-    panel.querySelector("a[href]")?.focus({ preventScroll: true });
+    surface.input.focus({ preventScroll: true });
   };
 
   const moveMenuFocus = (surface, event) => {

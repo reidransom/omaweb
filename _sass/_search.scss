@@ -97,6 +97,10 @@
   text-decoration-color: var(--omarchy-turquoise);
 }
 
+[data-search-result]:focus-visible {
+  outline: none;
+}
+
 .site-search__result-context,
 .site-search__result-excerpt,
 .site-search__external {
