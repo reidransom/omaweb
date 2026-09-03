@@ -1,0 +1,65 @@
+---
+layout: manual
+title: "TUI'er"
+description: "Du kan køre det direkte ved at gå til en vilkårlig mappe, der administreres af git, og køre lazygit. Eller du kan køre det inde i Neovim, hvor det kan startes med Space G G."
+permalink: /manual/tuis/
+manual_slug: tuis
+manual_order: 21
+previous_title: "Shellfunktioner"
+previous_url: /manual/shell-functions/
+next_title: "GUI'er"
+next_url: /manual/guis/
+lang: da
+translation_key: manual-21-tuis
+---
+{% raw %}
+<h2 id="lazygit">Lazygit <a class="manual__heading-link" href="#lazygit" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/jesseduffield/lazygit">Lazygit</a> er et glimrende alternativ til programmer som GitHub Desktop, og det kører i terminalen.</p>
+
+<p>Du kan køre det direkte ved at gå til en vilkårlig mappe, der administreres af git, og køre <code>lazygit</code>. Eller du kan køre det inde i Neovim, hvor det kan startes med <code>Space G G</code>.</p>
+
+<p>Du skifter mellem de forskellige ruder med <code>Tab</code>. I filruden vælger du filer til staging med <code>Space</code>, og derefter kan du oprette et nyt commit med <code>c</code>. Du kan se alle tilgængelige kommandoer med <code>?</code>.</p>
+
+<h2 id="lazydocker">Lazydocker <a class="manual__heading-link" href="#lazydocker" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/jesseduffield/lazydocker">Lazydocker</a> er skabt i samme ånd som Lazygit og giver dig også en terminalgrænseflade til at administrere dine containere og images.</p>
+
+<p>Du kan starte det med <code>Super + Shift + D</code>.</p>
+
+<p>Du stopper en container med <code>s</code> eller starter eller genstarter den med <code>r</code>. Få vist alle kommandoer med <code>?</code>.</p>
+
+<h2 id="btop">Btop <a class="manual__heading-link" href="#btop" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/aristocratos/btop">Btop</a> er et flot værktøj til ressourcestyring, der viser forbruget af hukommelse, CPU, disk og netværk. Det viser også alle aktive processer og giver dig mulighed for at administrere dem.</p>
+
+<p>Omarchy kalder det Aktivitet, og du starter det ved at trykke på <code>Super + Ctrl + T</code>. Det åbnes som et svævende vindue, som du kan føje til fliselayoutet med <code>Super + T</code>.</p>
+
+<h2 id="herdr">Herdr <a class="manual__heading-link" href="#herdr" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/herdr">Herdr</a> er et værktøj til håndtering af arbejdsområder i terminalen, som giver dig arbejdsområder, faner og ruder og holder dem alle kørende i en vedvarende session, som du kan koble dig fra og vende tilbage til senere.</p>
+
+<p>Du starter det (eller genopretter forbindelsen til din eksisterende session) med <code>Super + Ctrl + Return</code>. Omarchy leveres med en Herdr-konfiguration, der afspejler Omarchys Tmux-konfiguration, så præfikstasten er også her <code>Ctrl + Space</code>. Du kan gennemse alle tastebindingerne med <code>Super + Ctrl + K</code>.</p>
+
+<h2 id="fastfetch">Fastfetch <a class="manual__heading-link" href="#fastfetch" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/fastfetch-cli/fastfetch">Fastfetch</a> viser systemoplysninger såsom kerneversion, oppetid, tema, CPU, hukommelse og meget mere. Det er en efterfølger til det populære værktøj neofetch.</p>
+
+<p>Omarchy har pakket det som <em>Om</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<h2 id="disk-usage">Diskforbrug <a class="manual__heading-link" href="#disk-usage" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når drevet er ved at være fyldt, og du ikke aner, hvad der optager al pladsen, skal du starte <em>Diskforbrug</em> fra appstarteren (<code>Super + Space</code>). Det er <a href="https://github.com/Byron/dua-cli">dua</a> i interaktiv tilstand med hele filsystemet som udgangspunkt, så du kan navigere ned til den mappe, der er synderen, mens de største mapper vises først, og slette direkte derfra.</p>
+
+<h2 id="cliamp">Cliamp <a class="manual__heading-link" href="#cliamp" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://www.cliamp.stream/">Cliamp</a> er en retromusikafspiller til terminalen, som er inspireret af Winamp 2.x og har indbyggede radiostationer til lo-fi-beats. Start den med <code>Super + Shift + Alt + M</code> eller fra Omarchy-menuen under <em>Apps</em>. Tryk på <code>?</code> for at se den komplette liste over tastebindinger.</p>
+
+<h2 id="what-about-wi-fi-and-bluetooth">Hvad med Wi-Fi og Bluetooth? <a class="manual__heading-link" href="#what-about-wi-fi-and-bluetooth" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Du finder ikke TUI'er til Wi-Fi og Bluetooth — de opgaver tager Omarchy-shellen sig af. Klik på Wi-Fi-ikonet i toplinjen (eller tryk på <code>Super + Ctrl + W</code>) for at se netværk og oprette forbindelse, og klik på Bluetooth-ikonet (eller tryk på <code>Super + Ctrl + B</code>) for at parre enheder og oprette forbindelse til dem. Se <a href="../networking/">netværk</a> for hele forklaringen.</p>
+
+<h2 id="adding-your-own">Tilføj din egen <a class="manual__heading-link" href="#adding-your-own" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Ethvert terminalprogram kan blive behandlet som en fuldgyldig app. Gå til <em>Installér &gt; TUI</em> i Omarchy-menuen (<code>Super + Space</code>), angiv et navn, en startkommando, en vinduesstil og et ikon, så dukker programmet op i appstarteren ligesom enhver anden applikation. Du kan fjerne det igen under <em>Fjern &gt; TUI</em>.</p>
+{% endraw %}

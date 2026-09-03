@@ -1,0 +1,37 @@
+---
+layout: manual
+title: "Meddelelser"
+description: "Du kan hurtigt se dato og klokkeslæt, batteristatus og det aktuelle vejr ved hjælp af tastaturgenvejene til meddelelser."
+permalink: /manual/notices/
+manual_slug: notices
+manual_order: 10
+previous_title: "Påmindelser"
+previous_url: /manual/reminders/
+next_title: "Tekstudtrækning og diktering"
+next_url: /manual/text-extraction-dictation/
+lang: da
+translation_key: manual-10-notices
+---
+{% raw %}
+<p>Du kan hurtigt se dato og klokkeslæt, batteristatus og det aktuelle vejr ved hjælp af tastaturgenvejene til meddelelser.</p>
+
+<h3 id="date--time">Dato og klokkeslæt <a class="manual__heading-link" href="#date--time" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + Alt + T</code></p>
+
+<p><img src="/manual/images/notice-datetime.webp" alt="Meddelelse om dato og klokkeslæt"  width="1416" height="230" loading="lazy" decoding="async" /></p>
+
+<h3 id="weather">Vejr <a class="manual__heading-link" href="#weather" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + Alt + W</code></p>
+
+<p><img src="/manual/images/notice-weather.webp" alt="Meddelelse om vejret"  width="1600" height="651" loading="lazy" decoding="async" /></p>
+
+<p>Placeringen registreres ud fra din IP-adresse, hvilket som regel er præcist nok, men ikke altid. Du kan angive den med <code>omarchy weather location --set Malibu</code> eller være helt præcis ved at tilføje koordinater: <code>omarchy weather location --set Malibu 34.0259,-118.7798</code>. Kør <code>omarchy weather location</code> alene for at se, hvor den mener, du befinder dig, og brug <code>--clear</code> for at gå tilbage til automatisk registrering.</p>
+
+<h3 id="battery">Batteri <a class="manual__heading-link" href="#battery" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + Alt + B</code></p>
+
+<p><img src="/manual/images/notice-battery.webp" alt="Meddelelse om batteriet"  width="1416" height="230" loading="lazy" decoding="async" /></p>
+{% endraw %}

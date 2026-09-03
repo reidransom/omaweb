@@ -1,0 +1,108 @@
+---
+layout: manual
+title: "Ubemandede installationer"
+description: "Omarchy ISO kan installere sig selv, uden at nogen sidder ved tastaturet. Hvis installationsprogrammet finder et andet drev mærket cidata med konfigurationsfilerne, kopierer det dem derfra, springer..."
+permalink: /manual/unattended-installs/
+manual_slug: unattended-installs
+manual_order: 51
+previous_title: "Installation med dual boot"
+previous_url: /manual/dual-boot-install/
+lang: da
+translation_key: manual-51-unattended-installs
+---
+{% raw %}
+<p>Omarchy ISO kan installere sig selv, uden at nogen sidder ved tastaturet. Hvis installationsprogrammet finder et andet drev mærket <code>cidata</code> med konfigurationsfilerne, kopierer det dem derfra, springer opsætningsguiden helt over og genstarter af sig selv i det færdige system. Der kræves hverken en specialbygget ISO eller et ekstra punkt i startmenuen — hvis der ikke er tilsluttet et sådant drev, ændres intet, og du får den normale guide.</p>
+
+<p>Det gør Omarchy velegnet som grundafbildning til udviklingsmiljøer, der kan kasseres efter brug: Opret en VM i Proxmox eller med Packer, start den, lad den passe sig selv, og log ind via SSH. <code>cidata</code> er cloud-init-mærkaten <code>NoCloud</code>, så alle almindelige virtualiseringsværktøjer ved allerede, hvordan et sådant drev tilsluttes.</p>
+
+<h2 id="the-configuration-files">Konfigurationsfilerne <a class="manual__heading-link" href="#the-configuration-files" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Filerne er præcis dem, som installationsprogrammets egen guide skriver, så den nemmeste måde at få et udgangspunkt på er at gennemføre én interaktiv installation, f.eks. i en VM, og kopiere det, den skrev, fra <code>/root</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fil</th>
+      <th>Påkrævet</th>
+      <th>Formål</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>user_configuration.json</code></td>
+      <td>Ja</td>
+      <td>Disk, værtsnavn, tidszone og tastatur</td>
+    </tr>
+    <tr>
+      <td><code>user_credentials.json</code></td>
+      <td>Ja</td>
+      <td>Brugernavn og adgangskodehash</td>
+    </tr>
+    <tr>
+      <td><code>user_full_name.txt</code></td>
+      <td>Nej</td>
+      <td>Fuldt navn i Git</td>
+    </tr>
+    <tr>
+      <td><code>user_email_address.txt</code></td>
+      <td>Nej</td>
+      <td>E-mailadresse i Git</td>
+    </tr>
+    <tr>
+      <td><code>user_encrypt_installation.txt</code></td>
+      <td>Nej</td>
+      <td><code>true</code>, når konfigurationen indeholder en <code>disk_encryption</code>-blok</td>
+    </tr>
+    <tr>
+      <td><code>authorized_keys</code></td>
+      <td>Nej</td>
+      <td>Offentlige SSH-nøgler, én pr. linje</td>
+    </tr>
+    <tr>
+      <td><code>tailscale_authkey</code></td>
+      <td>Nej</td>
+      <td>Tailscale-godkendelsesnøgle til at slutte maskinen til dit tailnet ved første opstart</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Opret adgangskodehashen til <code>user_credentials.json</code> med <code>openssl passwd -6 "yourpassword"</code>.</p>
+
+<p>Du kan også indsætte en tom fil med navnet <code>defer-provisioning</code> i stedet for <code>user_credentials.json</code>. Det kører den samme <a href="../getting-started/">installation til klargøring for en anden ejer</a>, som du kan starte interaktivt: Maskinen installeres uden personlige oplysninger, og den, der starter den første gang, vælger sit tastatur og opretter sin bruger. Det er tilstanden til miljøer, der bruges til systemafbildning, hvor drevet slet ikke bør indeholde nogens loginoplysninger.</p>
+
+<h2 id="ssh-access">SSH-adgang <a class="manual__heading-link" href="#ssh-access" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når <code>authorized_keys</code> er til stede, placerer installationen nøglerne i brugerens <code>~/.ssh/authorized_keys</code>, aktiverer <code>sshd</code> og åbner firewallen for tjenesten. (En standardinstallation af Omarchy leveres med openssh, hvor tjenesten er deaktiveret og porten lukket, så en ubemandet maskine ellers ikke ville kunne kontaktes.) Installationen tilføjer kun dine nøgler — den lemper ikke nogen af SSH-dæmonens øvrige godkendelsesindstillinger.</p>
+
+<p>Når <code>tailscale_authkey</code> er til stede, slutter maskinen sig i stedet til dit tailnet ved første opstart: Tailscale installeres fra de pakker, der følger med ISO'en, firewallen tillader tailnet-grænsefladen, og et baggrundsjob udfører tilslutningen, så snart maskinen faktisk har netværksforbindelse, og prøver igen, indtil det lykkes. Brug en genbrugelig, forhåndsgodkendt nøgle, så én drevafbildning kan bruges til mange maskiner.</p>
+
+<h2 id="building-the-cidata-drive">Oprettelse af cidata-drevet <a class="manual__heading-link" href="#building-the-cidata-drive" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Ethvert filsystem med den rette mærkat kan bruges. En lille ISO er den nemmeste løsning:</p>
+
+<pre><code class="language-bash">mkdir cidata
+cp user_configuration.json user_credentials.json authorized_keys cidata/
+genisoimage -output cidata.iso -volid cidata -joliet -rock cidata/
+</code></pre>
+
+<p>Tilslut den derefter til VM'en sammen med Omarchy ISO. Her er et komplet eksempel til Proxmox:</p>
+
+<pre><code class="language-bash">qm create 101 --name my-omarchy \
+  --bios ovmf --machine q35 --cpu host --cores 4 --memory 8192 \
+  --ostype l26 --scsihw virtio-scsi-single \
+  --efidisk0 local-lvm:0,efitype=4m,pre-enrolled-keys=0 \
+  --scsi0 local-lvm:40,discard=on,iothread=1 \
+  --net0 virtio,bridge=vmbr0 --vga virtio --serial0 socket \
+  --ide2 local:iso/omarchy.iso,media=cdrom \
+  --ide3 local:iso/cidata.iso,media=cdrom \
+  --boot order='scsi0;ide2'
+
+qm start 101
+</code></pre>
+
+<p>Startrækkefølgen angiver med vilje disken først: Den tomme disk kan ikke startes fra, så ved første opstart fortsættes der til ISO'en, og derefter starter det installerede system altid fra disken.</p>
+
+<h2 id="two-caveats">To forbehold <a class="manual__heading-link" href="#two-caveats" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Krypterede ubemandede installationer er ikke helt ubemandede — nogen skal stadig indtaste LUKS-adgangsfrasen ved første opstart. Desuden indeholder <code>disk_encryption</code>-blokken i <code>user_configuration.json</code> adgangsfrasen i klartekst, så behandl et cidata-drev, der er oprettet ud fra en krypteret installation, som den hemmelighed, det er.</p>
+{% endraw %}

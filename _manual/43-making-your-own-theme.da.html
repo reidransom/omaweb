@@ -1,0 +1,59 @@
+---
+layout: manual
+title: "Sådan laver du dit eget tema"
+description: "Du kan tilføje dine egne temaer i ~/.config/omarchy/themes. Kopiér blot et af de eksisterende som udgangspunkt (se i /usr/share/omarchy/themes), og tilpas det så..."
+permalink: /manual/making-your-own-theme/
+manual_slug: making-your-own-theme
+manual_order: 43
+previous_title: "Almindelige tilpasninger"
+previous_url: /manual/common-tweaks/
+next_title: "Mac-understøttelse"
+next_url: /manual/mac-support/
+lang: da
+translation_key: manual-43-making-your-own-theme
+---
+{% raw %}
+<p>Du kan tilføje dine egne temaer i <code>~/.config/omarchy/themes</code>. Kopiér blot et af de eksisterende som udgangspunkt (se i <code>/usr/share/omarchy/themes</code>), og tilpas det efter behag. Så længe dit tema ligger i den mappe, bliver det vist i menuen til valg af tema.</p>
+
+<p>Den vigtigste fil, du skal tilpasse, er <code>colors.toml</code>. Den definerer det farvesæt, der derefter bruges til at generere konfigurationer til terminalen (Foot/Alacritty/Ghostty/Kitty), btop, Chromium, Hyprland, Neovim, Helix, VSCode, Obsidian og hele Omarchy-skallen (toplinje, menu, notifikationer, OSD og låseskærm).</p>
+
+<p>Du kan også bruge det medfølgende Aether-program til at oprette et nyt tema via en lækker grafisk brugerflade, hvor du kan eksperimentere med farver og søge efter baggrunde. Start det blot fra programmenuen med <code>Super + Alt + Space</code>.</p>
+
+<h3 id="what-an-installed-theme-can-contain">Hvad et installeret tema kan indeholde <a class="manual__heading-link" href="#what-an-installed-theme-can-contain" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Et tema, du selv skriver i <code>~/.config/omarchy/themes</code>, kan indeholde lige, hvad du ønsker — det er din maskine og din fil, og Omarchy anvender det hele.</p>
+
+<p>Et tema, du installerer fra en andens repository med <code>omarchy theme install</code>, beholder alt, der har med farver at gøre, men mister de få filer, som ville køre kode på din maskine: enhver <code>.lua</code>-fil, terminalkonfigurationerne (<code>alacritty.toml</code>, <code>foot.ini</code>, <code>ghostty.conf</code>, <code>kitty.conf</code>) og <code>vscode.json</code>. Et temas <code>hyprland.lua</code> er Lua-kode, som din compositor kører ved login, en terminalkonfiguration angiver det program, din terminal starter, og <code>vscode.json</code> angiver en VSCode-udvidelse, der skal installeres. Når du installerer en andens tema, bør det ændre, hvordan dit skrivebord ser ud, aldrig hvad det kører.</p>
+
+<p>Alt andet fungerer fortsat præcis, som temaets forfatter har skrevet det — <code>btop.theme</code>, <code>chromium.theme</code>, <code>helix.toml</code>, <code>icons.theme</code>, <code>shell.toml</code>, baggrundene og forhåndsvisningerne bevares alle. Kun det, der blev fjernet, bliver genereret igen ud fra <code>colors.toml</code> på din maskine.</p>
+
+<p>Omarchy skelner mellem de to ud fra, om temaet har sit eget git-repository indeni, hvilket er det, <code>omarchy theme install</code> efterlader, når det kloner. Et tema, du selv har skrevet, forbliver derfor dit, mens et, du har hentet fra internettet, begrænses til farver.</p>
+
+<h3 id="light-mode">Lys tilstand <a class="manual__heading-link" href="#light-mode" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du laver et tema til lys tilstand, skal du angive <code>mode = "light"</code> øverst i din <code>colors.toml</code>. Så bliver det automatisk kombineret med lys tilstand i alle programmerne. (Den gamle metode, hvor du placerer en tom fil med navnet <code>light.mode</code> i roden af dit tema, virker også stadig.)</p>
+
+<h3 id="icon-colors">Ikonfarver <a class="manual__heading-link" href="#icon-colors" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du vil matche filhåndteringens ikonfarver med dit tema, skal du tilføje en fil med navnet <code>icons.theme</code>, som indeholder navnet på det ikonsæt, du vil bruge. Som standard er mulighederne: <code>Yaru Yaru-blue Yaru-dark Yaru-magenta Yaru-olive Yaru-prussiangreen Yaru-purple Yaru-red Yaru-sage Yaru-wartybrown Yaru-yellow</code>.</p>
+
+<h3 id="unlock-image">Oplåsningsbillede <a class="manual__heading-link" href="#unlock-image" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Temaer, der leveres med billederne <code>unlock.png</code> og <code>preview-unlock.png</code>, vises under <em>Stil &gt; Lås op</em>. Din <code>unlock.png</code> bør helst være en gennemsigtig PNG-fil. Du kan oprette forhåndsvisningsbilledet med <code>omarchy plymouth preview</code>.</p>
+
+<h3 id="theming-apps-omarchy-doesnt-cover">Tilpas temaet i programmer, som Omarchy ikke dækker <a class="manual__heading-link" href="#theming-apps-omarchy-doesnt-cover" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du bruger et program, der ikke står på listen, kan du selv lære Omarchy at tilpasse det med en skabelon. Placér en fil i <code>~/.config/omarchy/themed/</code>, navngivet efter den konfiguration, den genererer, plus filendelsen <code>.tpl</code>, og skriv konfigurationen med <code>{{ background }}</code>, <code>{{ foreground }}</code>, <code>{{ accent }}</code>, <code>{{ red }}</code>, <code>{{ color0 }}</code> til og med <code>{{ color15 }}</code> samt resten af paletten som pladsholdere. Hver gang du skifter tema, genereres filen igen med temaets farver.</p>
+
+<p>Der ligger en fuldt kommenteret <code>alacritty.toml.tpl.sample</code> i mappen, som du kan tage udgangspunkt i — den viser alle de variabler, du kan bruge, samt modifikatorerne <code>_strip</code> og <code>_rgb</code> til programmer, der skal bruge farverne uden <code>#</code> eller som decimale RGB-værdier. Dine skabeloner har højere prioritet end Omarchys egne, så du kan også bruge dette til at tilsidesætte, hvordan et indbygget program får tilpasset sit tema.</p>
+
+<h3 id="distributing-your-theme">Distribution af dit tema <a class="manual__heading-link" href="#distributing-your-theme" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du vil distribuere dit tema, så andre kan bruge det, skal du lægge det på en offentlig git-server såsom GitHub. Derefter kan andre installere det via <em>Installér &gt; Stil &gt; Tema</em> i Omarchy-menuen ved at bruge URL'en. Det anbefales, at du følger navngivningskonventionen <code>omarchy-[themename]-theme</code>, da temaet så vises korrekt som blot <code>[themename]</code> i menuen til valg af tema efter installationen.</p>
+
+<p>Den resterende del, <code>[themename]</code>, bliver temaets mappenavn, så det skal være et navn, Omarchy kan håndtere sikkert: Det skal begynde med et bogstav, et tal eller en understregning, og resten må indeholde bogstaver, tal, <code>.</code>, <code>_</code>, <code>+</code> og <code>-</code>. Store bogstaver konverteres automatisk til små, men alt andet — et mellemrum, et anførselstegn eller et ikke-engelsk tegn — afvises under installationen i stedet for at blive omdannet til et mappenavn. Derfor kan <code>omarchy-tokyo-night-theme</code>, <code>omarchy-flexoki_light-theme</code> og <code>omarchy-c++-theme</code> alle installeres uden problemer.</p>
+
+<p>Husk, at når temaet først er installeret fra et repository, fjernes eventuelle <code>.lua</code>-filer, terminalkonfigurationer og <code>vscode.json</code>, som følger med, så byg ikke temaet op omkring dem.</p>
+
+<p>Du kan få dit tema føjet til <a href="/themes/">siden med ekstra temaer</a> ved at sende en pull request til <a href="https://github.com/omacom-io/omarchy-site">omarchy-site-repositoriet</a>.</p>
+{% endraw %}

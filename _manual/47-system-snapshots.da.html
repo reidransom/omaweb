@@ -1,0 +1,39 @@
+---
+layout: manual
+title: "Snapshots af systemet"
+description: "Vi opretter automatisk snapshots ved hver opdatering af Omarchy, men hvis du vil oprette dit eget, kan du bruge omarchy-snapshot create."
+permalink: /manual/system-snapshots/
+manual_slug: system-snapshots
+manual_order: 47
+previous_title: "FAQ"
+previous_url: /manual/faq/
+next_title: "Sikkerhed"
+next_url: /manual/security/
+lang: da
+translation_key: manual-47-system-snapshots
+---
+{% raw %}
+<p>Vi opretter automatisk snapshots ved hver opdatering af Omarchy, men hvis du vil oprette dit eget, kan du bruge <code>omarchy-snapshot create</code>.</p>
+
+<p>For at starte op fra og gendanne et snapshot skal du vælge det i Limine-bootloaderen. (Hvis du i øjeblikket starter direkte op til dekrypteringsskærmen i Omarchy, skal du først vælge Limine som opstartsindstilling via BIOS).</p>
+
+<p>På denne skærm vælger du det snapshot, du vil starte op fra, ud fra datoen og versionen. Den version af Omarchy, der var installeret, da snapshottet blev oprettet, vises i nederste venstre hjørne.</p>
+
+<p><img src="/manual/images/snapshots-bootloader.webp" alt="bootloader med snapshots"  width="1600" height="994" loading="lazy" decoding="async" /></p>
+
+<p>Når systemet er startet, vises en meddelelse om, at du befinder dig i et snapshot, der kan startes op fra. Hvis du klikker på meddelelsen, starter gendannelsesprocessen. Alternativt kan du bruge <code>omarchy-snapshot restore</code>.</p>
+
+<p><img src="/manual/images/snapshots-restore.webp" alt="gendannelse af snapshot"  width="1600" height="996" loading="lazy" decoding="async" /></p>
+
+<p>Dette gendanner dit rodfilsystem, men ikke din <code>/home</code>. Det kan derfor bruges til at rulle en defekt systemopdatering tilbage, men ikke til at gendanne mistede personlige filer.</p>
+
+<p>Det betyder også, at din <code>~/.config</code>-mappe bevares uændret. Hvis du ruller tilbage til en tidligere version af et bibliotek eller program, der gemmer konfigurationsfiler i et nyt format, skal du derfor selv løse problemet manuelt.</p>
+
+<p><em>Bemærk: Denne funktion er kun tilgængelig på installationer, der bruger Limine-bootloaderen, som har været standard siden Omarchy 2.0. Den er ikke tilgængelig, hvis du bruger GRUB eller systemd-boot.</em></p>
+
+<h3 id="skipping-the-boot-menu">Sådan springer du opstartsmenuen over <a class="manual__heading-link" href="#skipping-the-boot-menu" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du aldrig bruger opstartsmenuen og blot ønsker, at computeren går direkte til dekrypteringsskærmen, skal du køre <em>Opsætning &gt; Direkte opstart</em> i Omarchy-menuen. Det tilføjer en EFI-post, der peger direkte på Omarchy, så firmwaren starter systemet uden at standse ved Limine.</p>
+
+<p>Ulempen er den, der blev nævnt i begyndelsen: Når direkte opstart er slået til, skal du først vælge Limine i BIOS-opstartsmenuen for at få adgang til et snapshot. Kør <em>Opsætning &gt; Direkte opstart</em> igen for at fjerne posten og vende tilbage til opstart via Limine. Visse typer firmware fungerer ikke godt med brugerdefinerede EFI-poster, så opsætningen kan ikke køres på firmware fra American Megatrends og Apple.</p>
+{% endraw %}

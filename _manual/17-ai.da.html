@@ -1,0 +1,108 @@
+---
+layout: manual
+title: "AI"
+description: "Omarchy giver AI-agenter til kodning førsteklasses status, men vælger ikke en favorit for dig. I stedet er alle større CLI’er til kodeagenter på forhånd klargjort som en..."
+permalink: /manual/ai/
+manual_slug: ai
+manual_order: 17
+previous_title: "Neovim"
+previous_url: /manual/neovim/
+next_title: "Udviklingsværktøjer"
+next_url: /manual/development-tools/
+lang: da
+translation_key: manual-17-ai
+---
+{% raw %}
+<p>Omarchy giver AI-agenter til kodning førsteklasses status, men vælger ikke en favorit for dig. I stedet er alle større CLI’er til kodeagenter på forhånd klargjort som launchere, der indlæses efter behov. Launcherne er små stubfiler i <code>~/.local/bin/</code>, som administreres af <a href="https://mise.jdx.dev/">mise</a>, så intet downloades, før du rent faktisk kører en af dem første gang. Kør en af disse, og autentificer dig, når du bliver bedt om det:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kommando</th>
+      <th>Agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>claude</code></td>
+      <td><a href="https://code.claude.com/docs/en/overview">Claude Code</a></td>
+    </tr>
+    <tr>
+      <td><code>codex</code></td>
+      <td><a href="https://github.com/openai/codex">OpenAI Codex</a></td>
+    </tr>
+    <tr>
+      <td><code>opencode</code></td>
+      <td><a href="https://opencode.ai/">OpenCode</a></td>
+    </tr>
+    <tr>
+      <td><code>agy</code></td>
+      <td><a href="https://github.com/google-antigravity/antigravity-cli">Google Antigravity CLI</a></td>
+    </tr>
+    <tr>
+      <td><code>copilot</code></td>
+      <td><a href="https://github.com/github/copilot-cli">GitHub Copilot CLI</a></td>
+    </tr>
+    <tr>
+      <td><code>crush</code></td>
+      <td><a href="https://github.com/charmbracelet/crush">Crush</a></td>
+    </tr>
+    <tr>
+      <td><code>grok</code></td>
+      <td>Grok CLI fra xAI</td>
+    </tr>
+    <tr>
+      <td><code>pi</code></td>
+      <td><a href="https://github.com/badlogic/pi-mono">Mario Zechners Pi</a></td>
+    </tr>
+    <tr>
+      <td><code>omp</code></td>
+      <td><a href="https://github.com/can1357/oh-my-pi">Oh My Pi</a></td>
+    </tr>
+    <tr>
+      <td><code>ori</code></td>
+      <td><a href="https://openrouter.ai/docs/guides/ori/harness">Ori</a>, OpenRouters agentmiljø</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><code>ori</code> skiller sig ud: Den kører de andre agentmiljøer med hele OpenRouters modelkatalog, så <code>ori claude</code>, <code>ori codex</code> eller <code>ori opencode</code> starter disse agenter med den model, du peger dem på, mens <code>ori code</code> er Oris egen agent.</p>
+
+<p>Hvis du vil pakke en ekstra CLI ind på samme måde, skal du køre <code>omarchy-mise-install &lt;package&gt; [command-name]</code>. Stubfilerne holdes opdateret sammen med alt andet, som mise administrerer, når du kører <code>omarchy update</code> (eller aliasset <code>mup</code>).</p>
+
+<h3 id="the-default-agent">Standardagenten <a class="manual__heading-link" href="#the-default-agent" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Vælg din standardagent med <code>omarchy default agent &lt;name&gt;</code> eller under <em>Opsætning &gt; Standardvalg &gt; Agent</em> i Omarchy Menu (<code>Super + Space</code>). Hvis agenten endnu ikke er installeret, bliver den installeret, når du vælger den. En ny Omarchy-installation vil via en engangsnotifikation opfordre dig til at træffe dette valg.</p>
+
+<p>Når du har valgt, starter <code>Super + Shift + Ctrl + A</code> standardagenten i et separat terminalvindue (eller åbner vælgeren, hvis du endnu ikke har valgt). Du kan også starte den direkte med en opgave ved hjælp af <code>omarchy agent prompt "Review this project"</code>. Agenter, der startes på denne måde, kører uden opsyn i deres respektive tilstande, hvor de ikke stopper for at spørge, så vær klar på, at de rent faktisk foretager sig noget! Og fordi agenter nægter at huske, at de har tillid til din hjemmemappe, starter de i <code>~/Work</code> i stedet, når de køres fra <code>$HOME</code>.</p>
+
+<p>Der er også terminalgenveje: <code>a</code> kører standardagenten direkte i den aktuelle terminal, mens <code>c</code>, <code>cx</code> og <code>cy</code> starter henholdsvis OpenCode, Claude Code og Codex direkte (igen i deres tilstande med automatisk godkendelse). Temaændringer synkroniseres også med agenterne: Claude Code, Pi og OpenCode følger alle med, når du skifter Omarchy-tema.</p>
+
+<h3 id="the-agents-panel">Agentpanelet <a class="manual__heading-link" href="#the-agents-panel" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Toplinjen får et agentikon, første gang Omarchy registrerer brug af AI-kodning på maskinen (og holder sig ude af vejen indtil da). Panelet bag ikonet samler alle abonnementer ét sted: dit abonnement, hvor mange procent du har brugt af grænserne for 5-timerssessionen og ugen (eller den resterende forudbetalte saldo) samt tokenforbruget fordelt på dag og model. Claude Code, Codex og Fireworks understøttes som standard.</p>
+
+<p>Venstreklik på ikonet i linjen for at åbne panelet, og højreklik for at starte din standardagent. De bagvedliggende forbrugsdata gendannes hvert 15. minut af <code>omarchy agent usage-update</code>, og panelet kan endda samle forbrugsdata fra dine andre maskiner via en synkroniseret mappe. Se README-filen under <code>$OMARCHY_PATH/shell/plugins/agents/</code> for alle indstillingerne.</p>
+
+<h3 id="crash-diagnosis">Nedbrudsdiagnose <a class="manual__heading-link" href="#crash-diagnosis" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy overvåger systemd-coredump for procesnedbrud. Når en proces får en segmenteringsfejl, modtager du notifikationen “Processen brød ned” — klik på den, så overdrages nedbruddet til din standardagent sammen med Omarchys diagnose-crash-færdighed, som guider agenten gennem fastlæggelsen af fakta fra core dumpet og vurderingen af, om nedbruddet bør rapporteres til det oprindelige projekt. Du kan også køre den manuelt for et vilkårligt PID fra <code>coredumpctl list</code> med <code>omarchy agent crash &lt;pid&gt;</code>.</p>
+
+<p>Overvågningen er aktiveret som standard. Slå den fra under <em>Udløser &gt; Slå til/fra &gt; Indfangning af nedbrud</em> (eller med <code>omarchy toggle crash-capture</code>), så stopper notifikationerne. <code>omarchy agent crash &lt;pid&gt;</code> kan stadig køres manuelt.</p>
+
+<p>Notifikationer om nedbrud kan også deaktiveres for ét program ad gangen, hvilket er den mulighed, diagnosen tilbyder til sidst. <code>omarchy crash mute hyprland</code> stopper kun notifikationerne for det pågældende program, <code>omarchy crash mute hyprland off</code> aktiverer dem igen, og <code>omarchy crash mute</code> viser alene en liste over det, du har deaktiveret notifikationer for. Kommandoen accepterer både stien til binærfilen og dens navn, så <code>omarchy crash mute /usr/bin/hyprland</code> gør det samme. Sæt anførselstegn om et navn med mellemrum, som i <code>omarchy crash mute 'Some App'</code>. Alt andet udløser fortsat notifikationer, og det deaktiverede program går stadig ned — dette skjuler kun påmindelsen; det løser ikke noget.</p>
+
+<h3 id="desktop-apps">Skrivebordsapps <a class="manual__heading-link" href="#desktop-apps" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Menuen <em>Installér &gt; AI</em> indeholder også et par grafiske AI-apps: ChatGPT-skrivebordsappen og Grok Bot til at chatte med xAI’s modeller.</p>
+
+<h3 id="local-llms">Lokale LLM’er <a class="manual__heading-link" href="#local-llms" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy anbefaler to måder at køre lokale LLM-modeller på: LM Studio og Ollama. LM Studio har en grafisk brugerflade til at finde modeller med åbne vægte, installere dem og køre dem. Det er en rigtig god og nem måde at komme i gang på. Ollama tilbyder en CLI til at gøre det samme. Men hvis lokale modeller er nyt for dig, ville jeg begynde med LM Studio. Du kan installere en af dem under <em>Installér &gt; AI</em> i Omarchy Menu.</p>
+
+<h3 id="the-omarchy-skill">Omarchy-færdigheden <a class="manual__heading-link" href="#the-omarchy-skill" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Agentfærdigheder hjælper AI med at bruge bestemte værktøjer på en bestemt måde, og Omarchy leveres med en standardfærdighed til at tilpasse systemet. Det kan f.eks. være at finjustere din Hyprland-konfiguration, justere linjen eller endda oprette et helt nyt tema fra bunden. Den er symbolsk linket ind i færdighedsmapperne for Claude Code (<code>~/.claude/skills</code>), Codex (<code>~/.codex/skills</code>), Pi (<code>~/.pi/agent/skills</code>), Antigravity (<code>~/.gemini/config/skills</code>) og den generelle placering <code>~/.agents/skills</code>, så de fleste agentmiljøer registrerer den automatisk.</p>
+
+<p>Men du bør betragte denne færdighed som eksperimentel. Forskellige modeller vil bruge den med forskellige resultater. Det er bedst først at køre i plantilstand, så du får en idé om, hvad agenten gerne vil ændre. Vær derefter forberedt på at rulle ændringer tilbage eller endda køre <code>omarchy reinstall configs</code>, hvis agenten roder det hele til.</p>
+{% endraw %}

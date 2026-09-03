@@ -1,0 +1,29 @@
+---
+layout: manual
+title: "Tekstudtræk og diktering"
+description: "Tryk på Super + Ctrl + PrtScr for at vælge et område på skærmen til tekstudtræk. Open source-OCR-modellen tesseract konverterer derefter hurtigt markeringen..."
+permalink: /manual/text-extraction-dictation/
+manual_slug: text-extraction-dictation
+manual_order: 11
+previous_title: "Bemærkninger"
+previous_url: /manual/notices/
+next_title: "Skærmbilleder og optagelse"
+next_url: /manual/screenshots-recording/
+lang: da
+translation_key: manual-11-text-extraction-dictation
+---
+{% raw %}
+<h3 id="text-extraction">Tekstudtræk <a class="manual__heading-link" href="#text-extraction" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Tryk på <code>Super + Ctrl + PrtScr</code> for at vælge et område på skærmen til tekstudtræk. Open source-OCR-modellen tesseract konverterer derefter hurtigt markeringen til tekst og placerer den i udklipsholderen. Tryk derefter blot på <code>Super + V</code> for at indsætte teksten.</p>
+
+<p>Det er meget nyttigt til at hente adresser fra sidefødder i billeder eller telefonnumre, der er indlejret i overskrifter på websites.</p>
+
+<p><img src="/manual/images/text-extraction.webp" alt="tekstudtræk"  width="918" height="168" loading="lazy" decoding="async" /></p>
+
+<h3 id="dictation">Diktering <a class="manual__heading-link" href="#dictation" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy tilbyder AI-diktering via <a href="https://voxtype.io/">Voxtype</a>. Du installerer det via <em>Installér &gt; AI &gt; Diktering</em> i Omarchy-menuen. Som standard indlæses en grundmodel til engelsk, der fylder 150MB. Du kan dog vælge, hvilken model du vil bruge, ved at køre <code>voxtype setup model</code> i terminalen. Du kan desuden justere alle indstillingerne via <code>~/.config/voxtype/config.toml</code>.</p>
+
+<p>Når det er installeret, kan du diktere ved at holde <code>F9</code> nede eller ved at slå diktering til og fra med <code>Super + Ctrl + X</code>. Den dikterede tekst vises i det aktive indtastningsfelt.</p>
+{% endraw %}

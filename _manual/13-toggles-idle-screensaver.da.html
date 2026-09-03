@@ -1,0 +1,161 @@
+---
+layout: manual
+title: "Til/fra-funktioner, inaktivitet og pauseskærmen"
+description: "Meget af det, du ændrer til daglig, er egentlig ikke en indstilling. Det er en tilstand, du slår til i en time og fra igen: natlys, mens du arbejder sent, forstyr ikke..."
+permalink: /manual/toggles-idle-screensaver/
+manual_slug: toggles-idle-screensaver
+manual_order: 13
+previous_title: "Skærmbilleder og optagelse"
+previous_url: /manual/screenshots-recording/
+next_title: "Omarchy CLI"
+next_url: /manual/omarchy-cli/
+lang: da
+translation_key: manual-13-toggles-idle-screensaver
+---
+{% raw %}
+<p>Meget af det, du ændrer til daglig, er egentlig ikke en indstilling. Det er en tilstand, du slår til i en time og fra igen: natlys, mens du arbejder sent, forstyr ikke, mens du præsenterer, og hold vågen, mens du ser noget. Omarchy kalder dem til/fra-funktioner, og de fungerer alle på samme måde — en genvejstast, et menupunkt og en kommando, der alle betjener den samme kontakt.</p>
+
+<h3 id="the-toggle-menu">Menuen Til/fra <a class="manual__heading-link" href="#the-toggle-menu" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + O</code> åbner <em>Udløs &gt; Til/fra</em> direkte, eller du kan gå dertil fra Omarchy-menuen (<code>Super + Space</code>). Alt på listen er en funktion, du kan slå til eller fra uden at tænke over, hvor tilstanden gemmes.</p>
+
+<p>Fra terminalen er de samme funktioner tilgængelige som <code>omarchy toggle &lt;thing&gt;</code>. Kør <code>omarchy toggle</code> alene for at se hele gruppen.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Til/fra-funktion</th>
+      <th>Genvejstast</th>
+      <th>Kommando</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Natlys</td>
+      <td><code>Super + Ctrl + N</code></td>
+      <td><code>omarchy toggle nightlight</code></td>
+    </tr>
+    <tr>
+      <td>Slå notifikationer fra</td>
+      <td><code>Super + Ctrl + ,</code></td>
+      <td><code>omarchy toggle notification silencing</code></td>
+    </tr>
+    <tr>
+      <td>Hold vågen (ingen lås ved inaktivitet)</td>
+      <td><code>Super + Ctrl + I</code></td>
+      <td><code>omarchy toggle idle</code></td>
+    </tr>
+    <tr>
+      <td>Registrering af nedbrud</td>
+      <td>—</td>
+      <td><code>omarchy toggle crash-capture</code></td>
+    </tr>
+    <tr>
+      <td>Pauseskærm</td>
+      <td>—</td>
+      <td><code>omarchy toggle screensaver</code></td>
+    </tr>
+    <tr>
+      <td>Menulinje</td>
+      <td><code>Super + Shift + Space</code></td>
+      <td><code>omarchy toggle bar</code></td>
+    </tr>
+    <tr>
+      <td>Touchpad</td>
+      <td><code>XF86TouchpadToggle</code></td>
+      <td><code>omarchy toggle touchpad</code></td>
+    </tr>
+    <tr>
+      <td>Berøringsskærm</td>
+      <td>—</td>
+      <td><code>omarchy toggle touchscreen</code></td>
+    </tr>
+    <tr>
+      <td>Hviletilstand</td>
+      <td>—</td>
+      <td><code>omarchy toggle suspend</code></td>
+    </tr>
+    <tr>
+      <td>Hybrid-GPU</td>
+      <td>—</td>
+      <td><code>omarchy toggle hybrid gpu</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Funktionerne til touchpad, berøringsskærm og hybrid-GPU findes under <em>Udløs &gt; Hardware</em> (<code>Super + Ctrl + H</code>) i stedet for under Til/fra, da de kun vises, når du rent faktisk har den pågældende hardware. Indstillingerne for touchpad og berøringsskærm bevares efter en genindlæsning af Hyprland — navnet på den deaktiverede enhed gemmes i en lille tilstandsfil, som Hyprland læser ved opstart for at deaktivere den igen.</p>
+
+<p>Menuen Til/fra indeholder også nogle få ting, som ikke er <code>omarchy toggle</code>-kommandoer, men opfører sig på samme måde: batteriprocent i linjen, arbejdsområdets layout (<code>Super + L</code>), mellemrum mellem vinduer (<code>Super + Shift + Backspace</code>) og kvadratisk format for ét vindue (<code>Super + Ctrl + Backspace</code>).</p>
+
+<p>De fleste af disse er blot en markørfil under <code>~/.local/state/omarchy/toggles/</code>. Hvis du vil forgrene et script ud fra en af dem, giver <code>omarchy-toggle-enabled</code> dig en afslutningskode, så du slipper for selv at lede:</p>
+
+<pre><code class="language-bash">omarchy-toggle-enabled screensaver-off &amp;&amp; echo "screensaver is off"
+</code></pre>
+
+<p>Markørerne er navngivet efter den deaktiverede tilstand — <code>screensaver-off</code>, <code>suspend-off</code>, <code>bar-off</code> — så deres tilstedeværelse betyder, at funktionen er deaktiveret.</p>
+
+<h3 id="indicators-in-the-bar">Indikatorer i linjen <a class="manual__heading-link" href="#indicators-in-the-bar" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Når en tilstand er slået til, vises et lille symbol midt på toplinjen ved siden af uret. Det er indikator-widgetten, som viser diktering, skærmoptagelse, afventende påmindelser, natlys, forstyr ikke og hold vågen.</p>
+
+<p>Inaktive indikatorer er skjult. Hold markøren over området omkring dem, så toner de frem i dæmpet form, og du kan klikke på en for at slå den til uden at kende dens genvejstast. Klikker du på en aktiv indikator, slås den fra igen. Hvis du hellere vil se dem alle hele tiden, skal du sætte <code>alwaysShow</code> til <code>true</code> i posten <code>omarchy.indicators</code> i <code>~/.config/omarchy/shell.json</code> — se <a href="../the-top-bar/">toplinjen</a> for at få oplysninger om, hvordan widgets i linjen konfigureres.</p>
+
+<h3 id="night-light">Natlys <a class="manual__heading-link" href="#night-light" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + N</code> gør skærmens farvetemperatur varmere ved 4000K, og et tryk mere skifter den tilbage til 6500K. Funktionen drives af hyprsunset, som til/fra-funktionen starter for dig, hvis den ikke allerede kører.</p>
+
+<p>Som standard ændrer hyprsunset slet ikke noget på din skærm. <code>~/.config/hypr/hyprsunset.conf</code> leveres med en identitetsprofil netop for at lade skærmen være urørt, indtil du beder om en varmere farvetemperatur. Hvis du hellere vil have den til at skifte efter klokkeslættet, skal du erstatte den med en tidsprofil:</p>
+
+<pre><code>profile {
+    time = 20:00
+    temperature = 4000
+}
+</code></pre>
+
+<p>Start derefter hyprsunset ved login ved at føje <code>o.launch_on_start("hyprsunset")</code> til <code>~/.config/hypr/autostart.lua</code>. Kombinationen 4000K/6500K, som til/fra-funktionen bruger, er fast, så det er i konfigurationsfilen, du skal foretage ændringer, hvis du ønsker en anden temperatur.</p>
+
+<h3 id="do-not-disturb">Forstyr ikke <a class="manual__heading-link" href="#do-not-disturb" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + ,</code> slår notifikationer fra. Der vises ingen pop op-meddelelser, mens funktionen er slået til, og indikatoren med den overstregede klokke sidder i linjen for at minde dig om, hvorfor skrivebordet er blevet stille.</p>
+
+<p>Intet går dog tabt. En lydløs notifikation skrives direkte til din notifikationshistorik, hvilket netop er den oversigt, du har brug for, når du vender tilbage og spekulerer på, hvad du er gået glip af. Åbn den med <code>Super + Shift + Alt + ,</code>. Se <a href="../notices/">notifikationer</a> for resten af historien om notifikationer.</p>
+
+<p>To typer meddelelser slipper stadig igennem: Omarchys egne bekræftelser på noget, du lige har gjort (“Tema ændret”, “Skærmbillede gemt”), og kritiske advarsler sendt fra kommandolinjen. Chat-apps, der markerer alt som kritisk for at tvinge sig frem foran dig, tæller ikke med.</p>
+
+<h3 id="idle">Inaktivitet <a class="manual__heading-link" href="#idle" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy-skallen styrer adfærden ved inaktivitet, og tidsgrænserne findes i en <code>idle</code>-blok på øverste niveau i <code>~/.config/omarchy/shell.json</code>:</p>
+
+<pre><code class="language-json">{
+  "version": 1,
+  "idle": {
+    "screensaver": 150,
+    "lock": 300
+  }
+}
+</code></pre>
+
+<p>Begge tal er sekunder regnet fra det øjeblik, du blev inaktiv — ikke fra hinanden. Med standardværdierne vises pauseskærmen derfor efter to et halvt minut, og låseskærmen tager over efter fem minutter, uanset om pauseskærmen blev kørt eller ej. Gem filen, så anvender skallen straks de nye tidsgrænser.</p>
+
+<p>Hvis du lukker pauseskærmen, før fristen for låsning er nået, tæller det som aktivitet, og den afventende låsning annulleres. Du bliver ikke låst ude, blot fordi du kaster et blik på din maskine.</p>
+
+<p>Hvis du vil forhindre låsning ved inaktivitet helt, slår <code>Super + Ctrl + I</code> — eller <code>omarchy toggle idle</code> — Hold vågen til, og indikatoren med kaffekoppen vises i linjen. Det er den, du skal bruge før en lang præsentation eller et build, du gerne vil følge med i. Brug den igen for at vende tilbage til normal tilstand. <code>omarchy toggle idle status</code> udskriver den aktuelle tilstand som JSON, hvis du har brug for den fra et script.</p>
+
+<p>Dette handler om låsning og pauseskærmen, ikke om strømstyring. Hvile- og dvaletilstand har deres egen opsætning under <a href="../system-sleep/">systemets dvaletilstand</a>.</p>
+
+<h3 id="the-screensaver">Pauseskærmen <a class="manual__heading-link" href="#the-screensaver" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchys pauseskærm er ASCII-grafik, der vises med tilfældige teksteffekter, én instans pr. skærm. Et tryk på en vilkårlig tast eller en bevægelse med musen afslutter den.</p>
+
+<p>Du kan starte den efter behov fra <em>System &gt; Pauseskærm</em> (<code>Super + Esc</code>), hvilket tvinger den frem, selv hvis du har slået pauseskærmen ved inaktivitet fra. Der er som standard ikke knyttet nogen genvejstast til den.</p>
+
+<p><code>omarchy toggle screensaver</code> er den kommando, der slår pauseskærmen ved inaktivitet fra, hvis du hellere vil gå direkte fra arbejde til låst tilstand. Den kræver en terminal, som den ved, hvordan den skal konfigurere — Alacritty, Foot, Ghostty eller Kitty — og fortæller dig det, hvis din standardterminal er en anden.</p>
+
+<p>Du kan ændre det logo, den tegner, under <em>Stil &gt; Pauseskærm</em>. Upload en png eller svg, så konverterer Omarchy den til ASCII. Se <a href="../branding/">branding</a>.</p>
+
+<h3 id="the-lock-screen">Låseskærmen <a class="manual__heading-link" href="#the-lock-screen" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>Super + Ctrl + L</code> låser maskinen. Det starter låseskærmen fra Omarchy-skallen, gør skærmen sort, nulstiller dit tastaturlayout til det første, så du ikke skriver din adgangskode med det forkerte alfabet, og — hvis du har det kørende — låser 1Password på vejen.</p>
+
+<p>Låseskærmen accepterer en adgangskode, og den accepterer også et fingeraftryk, når du har konfigureret et. Dette og de andre måder at godkende sig på er beskrevet under <a href="../hardware-authentication/">hardwaregodkendelse</a>.</p>
+{% endraw %}

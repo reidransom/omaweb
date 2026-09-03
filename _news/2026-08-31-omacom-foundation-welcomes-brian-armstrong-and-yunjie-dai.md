@@ -29,6 +29,7 @@ image:
               width: 768
             - src: /assets/images/news/omacom-founding-patrons-twin-keystones-1152w.webp
               width: 1152
+translation_key: news-2026-08-31-omacom-foundation-welcomes-brian-armstrong-and-yunjie-dai
 ---
 
 The [Omacom Foundation](/foundation/) keeps compounding! Two more Founding Patrons have joined our mission with $1 million each, taking our treasury chest to $12 million: Brian Armstrong and Yunjie Dai.

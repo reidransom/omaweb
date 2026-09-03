@@ -29,6 +29,7 @@ image:
               width: 768
             - src: /assets/images/news/omacom-corporate-patrons-recurring-support-1152w.webp
               width: 1152
+translation_key: news-2026-08-31-1password-and-37signals-become-distinguished-corporate-patrons
 ---
 
 The [Omacom Foundation](/foundation/) has its first two Distinguished Corporate Patrons! [1Password](https://1password.com) and [37signals](https://37signals.com) are each contributing $100,000 a year for the next three years, which takes the foundation’s funding to $12.6 million.

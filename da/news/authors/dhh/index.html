@@ -1,0 +1,15 @@
+---
+layout: news-taxonomy
+markdown: false
+title: DHH
+description: Skaber af Omarchy og forfatter til The News.
+term: dhh
+lang: da
+translation_key: news-authors-dhh-index
+---
+{% assign articles = site.news | sort: 'date' | reverse %}
+<div class="news-card-grid">
+  {% for article in articles %}
+    {% if article.author == page.term %}{% include news-card.html article=article %}{% endif %}
+  {% endfor %}
+</div>

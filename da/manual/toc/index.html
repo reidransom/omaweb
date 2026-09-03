@@ -1,0 +1,14 @@
+---
+layout: manual
+title: Indholdsfortegnelse
+description: Alle kapitler i Omarchy-manualen, fra installation og navigation til tilpasning, fejlfinding og sikkerhed.
+permalink: /manual/toc/
+manual_toc: true
+lang: da
+translation_key: manual-toc-index
+---
+<ol class="manual-index">
+  {% for chapter in site.data.manual.chapters %}
+    <li><a href="{{ chapter.url | relative_url }}">{{ chapter.title | escape }}</a></li>
+  {% endfor %}
+</ol>

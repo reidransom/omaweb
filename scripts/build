@@ -35,10 +35,6 @@ run_build() {
 
   set_provenance
 
-  [ -f scripts/check-content ] || fail 'Missing required content checker: scripts/check-content'
-  sh scripts/check-content
-
-  scripts/build-assets --check
   build_js
 
   command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
@@ -47,8 +43,7 @@ run_build() {
   rm -rf _site/pagefind
   npx --no-install pagefind --site _site
 
-  [ -f scripts/verify-production ] || fail 'Missing required production verifier: scripts/verify-production'
-  sh scripts/verify-production
+
 }
 
 case "${1-}" in

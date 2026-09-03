@@ -1,0 +1,62 @@
+---
+layout: manual
+title: "Windows-VM"
+description: "Omarchy gør det nemt at køre Windows via en Docker-VM. Du kan installere den via Installér > Windows i Omarchy-menuen (Super + Space)."
+permalink: /manual/windows-vm/
+manual_slug: windows-vm
+manual_order: 28
+previous_title: "Udfyldning af PDF-filer"
+previous_url: /manual/filling-out-pdfs/
+next_title: "Andre pakker"
+next_url: /manual/other-packages/
+lang: da
+translation_key: manual-28-windows-vm
+---
+{% raw %}
+<p>Omarchy gør det nemt at køre Windows via en Docker-VM. Du kan installere den via <em>Installér &gt; Windows</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<p>Din maskine skal understøtte KVM-virtualisering for at kunne gøre dette, hvilket de fleste gør — men det er nogle gange slået fra i BIOS, og installationsprogrammet giver dig besked, hvis det er tilfældet. Du skal også have plads på disken: den mængde, du tildeler Windows, plus cirka 10 GB til selve imaget.</p>
+
+<p>Installationsprogrammet spørger, hvor meget RAM, hvor mange CPU-kerner og hvor meget diskplads der skal tildeles (64 GB eller mere er et fornuftigt minimum), og derefter om et Windows-brugernavn og en adgangskode. Lader du disse felter stå tomme, får du <code>docker</code> / <code>admin</code>. Downloaden tager et stykke tid — 10-15 minutter er normalt — og du kan følge forløbet i browseren på <code>http://127.0.0.1:8006</code>. Browseren beder om det samme brugernavn og den samme adgangskode, før konsollen åbnes.</p>
+
+<p><img src="/manual/images/windows-vm.webp" alt="Windows-VM"  width="1600" height="1067" loading="lazy" decoding="async" /></p>
+
+<h2 id="using-it">Brug af den <a class="manual__heading-link" href="#using-it" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når den er installeret, kan du starte <em>Windows</em> fra programstarteren. Det starter VM'en, hvis den ikke allerede kører, og opretter forbindelse til den via RDP i fuld skærm. Giv den 15-30 sekunder ved opstart fra slukket tilstand.</p>
+
+<p>RDP-sessionen overfører lyd, din mikrofon og et delt udklipsholder, så det uden videre fungerer at kopiere tekst mellem Linux og Windows. Opløsningen tilpasser sig dit vindue, og Omarchy videresender din skærmskalering, så det ikke ender som et sløret rod på en HiDPI-skærm.</p>
+
+<p>Når du lukker RDP-vinduet, lukker VM'en automatisk ned. Hvis du hellere vil lade den køre — for eksempel fordi noget arbejder videre derinde — skal du i stedet starte den med <code>omarchy windows vm launch --keep-alive</code>.</p>
+
+<p>Resten af betjeningen findes under den samme kommando:</p>
+
+<pre><code class="language-bash">omarchy windows vm status    # is it running?
+omarchy windows vm stop      # shut it down
+omarchy windows vm launch    # start and connect
+</code></pre>
+
+<h2 id="sharing-files">Deling af filer <a class="manual__heading-link" href="#sharing-files" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Mappen <code>~/Windows</code> i din hjemmemappe deles automatisk med VM'en. Læg filer der, hvis de skal være tilgængelige i Windows. VM'en har ikke adgang til andre dele af dit filsystem, så du er beskyttet mod eventuelle ubehageligheder på Windows-siden. Dens egen virtuelle disk findes under <code>~/.windows</code>.</p>
+
+<p>Disse velkendte stier i hjemmemappen forbliver på deres respektive filsystemer. De kan også være symbolske links til mapper, du ejer, hvilket er nyttigt, når den virtuelle disk ligger på et større drev. Installationsprogrammet måler den ledige plads på det filsystem, der rent faktisk indeholder <code>~/.windows</code>, og ikke nødvendigvis på det filsystem, der indeholder din hjemmemappe.</p>
+
+<p>Sørg for, at stierne til disken og den delte mappe er separate mapper, der ikke overlapper. Ved fjernelse tømmes diskmappen bevidst, mens den delte mappe bevares. Umiddelbart før sletningen udfører Omarchy en tidsbegrænset kontrol af, om mapperne ligger i hinanden, og nægter at fjerne noget, hvis kontrollen udløber eller ikke kan bevise, at de to mappetræer er separate.</p>
+
+<p>Før VM'en starter, åbner og fastholder Omarchy disse to mapper og bind-monterer derefter de præcise mappeinoder på private, brugerspecifikke ankerpunkter under <code>/var/lib/omarchy/windows/mounts</code>. Docker ser kun disse root-beskyttede ankerpunkter. Det bevarer brugerdefinerede diskplaceringer og forhindrer samtidig en anden proces, der kører under din bruger, i at udskifte en kontrolleret sti, før den privilegerede container tager den i brug. Eksisterende diskmapper og delte mapper får under migreringen strammet tilladelserne til <code>0700</code>, så andre lokale konti ikke kan gennemse deres indhold.</p>
+
+<p>VM'ens porte bindes kun til localhost, så intet på dit netværk kan få adgang til Windows-maskinen. Webkonsollen kræver også det konfigurerede Windows-brugernavn og den tilhørende adgangskode, hvilket forhindrer en anden lokal konto i at styre VM'en via port 8006.</p>
+
+<h2 id="limits-and-licensing">Begrænsninger og licensering <a class="manual__heading-link" href="#limits-and-licensing" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Denne opsætning understøtter ikke GPU-passthrough, så den er ikke egnet til spil eller videoredigering. Den er til gengæld en glimrende måde at køre Microsoft Office eller andet, du absolut ikke kan undvære.</p>
+
+<p>Den installerede version er Windows 11 Pro, som ikke er aktiveret. Du skal bruge din egen licensnøgle for at få adgang til de funktioner, der kræver aktivering.</p>
+
+<p>Hvis denne computer blev leveret med Windows, ligger OEM-nøglen stadig i firmwaren, selv efter at Omarchy er installeret. Vis den med <code>omarchy windows key</code>. Denne nøgle er bundet til maskinen — den kan aktivere Windows, hvis det geninstalleres på denne hardware, men den kan normalt ikke aktivere VM'en.</p>
+
+<p>Du kan ændre ressourcetildelingen senere ved at køre <code>omarchy-windows-vm install</code> igen, hvilket omskriver VM'ens konfiguration ud fra dine svar. Selve compose-filen ligger nu på <code>/var/lib/omarchy/windows/docker-compose.yml</code> og ejes af root — det er bevidst, så en proces, der kører under din bruger, ikke kan omskrive den og få den privilegerede opstart til at montere hele din disk i containeren. Hvis du har brug for at redigere den manuelt (for eksempel for at montere en USB-enhed), skal du redigere den med <code>sudo</code> og se alle mulighederne hos <a href="https://github.com/dockur/windows">projektet Dockur Windows</a>.</p>
+
+<p>Hvis du vil fjerne det hele, skal du bruge <em>Fjern &gt; Windows</em> i Omarchy-menuen. Det sletter VM'ens disk og alle dens data, så sørg først for at flytte alt, du vil beholde, ud af <code>~/Windows</code>.</p>
+{% endraw %}

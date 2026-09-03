@@ -1,0 +1,58 @@
+---
+layout: manual
+title: "Dual boot-installation"
+description: "Du kan installere Omarchy på en enkelt partition ved siden af Windows eller andre installationer."
+permalink: /manual/dual-boot-install/
+manual_slug: dual-boot-install
+manual_order: 50
+previous_title: "Omarchy på..."
+previous_url: /manual/omarchy-on/
+next_title: "Ubemandede installationer"
+next_url: /manual/unattended-installs/
+lang: da
+translation_key: manual-50-dual-boot-install
+---
+{% raw %}
+<p>Du kan installere Omarchy på en enkelt partition ved siden af Windows eller andre installationer.</p>
+
+<p>Denne installationsmetode anvender stadig som standard LUKS-kryptering af partitionen, så den adskiller sig reelt ikke fra en installation på hele drevet og kræver blot, at der er ledig plads på disken.</p>
+
+<h2 id="making-space-on-windows">Sådan frigør du plads i Windows <a class="manual__heading-link" href="#making-space-on-windows" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Hvis du vil installere ved siden af Windows, skal du skrive <code>disk management</code> i startmenuen og vælge <strong>Opret og formatér harddiskpartitioner</strong>.</p>
+
+<p><img src="/manual/images/dual-boot-1.webp" alt="dual-boot-1"  width="1600" height="1000" loading="lazy" decoding="async" /></p>
+
+<p>Find den relevante partition, højreklik på den, og vælg <strong>Formindsk diskenhed</strong>.</p>
+
+<p><img src="/manual/images/dual-boot-2.webp" alt="dual-boot-2"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<p>Angiv, hvor meget diskenheden skal formindskes med. Bemærk, at dette bliver størrelsen på din kommende Omarchy-installation inklusive bootpartitionen.</p>
+
+<p><img src="/manual/images/dual-boot-3.webp" alt="dual-boot-3"  width="1600" height="1002" loading="lazy" decoding="async" /></p>
+
+<p>Når du er færdig, bør du se noget i stil med dette. I dette eksempel er området på 50 GB det sted, hvor vi installerer Omarchy.</p>
+
+<p><img src="/manual/images/dual-boot-4.webp" alt="dual-boot-4"  width="1600" height="1003" loading="lazy" decoding="async" /></p>
+
+<h2 id="installing-omarchy">Installation af Omarchy <a class="manual__heading-link" href="#installing-omarchy" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Installationen af Omarchy foregår stort set som normalt. Når du har valgt din disk, får du mulighed for at vælge <strong>Installation på ledig plads</strong>. Vælg denne mulighed for at undgå at slette hele disken.</p>
+
+<p><img src="/manual/images/dual-boot-5.webp" alt="dual-boot-5"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<p>Bekræft, at alt ser korrekt ud, og vent som normalt på, at installationen bliver færdig. Her kan du også vælge at installere uden kryptering (anbefales ikke), ligesom ved en installation på hele drevet.
+ <img src="/manual/images/dual-boot-6.webp" alt="dual-boot-6"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<h2 id="adding-other-installs-to-the-bootloader">Sådan føjer du andre installationer til bootloaderen <a class="manual__heading-link" href="#adding-other-installs-to-the-bootloader" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når din Omarchy-installation er færdig, vil du bemærke, at Limine-bootloaderen nu er standard. Du kan også føje valgmuligheder til Limine for dine andre installationer, f.eks. Windows.</p>
+
+<p>For at gøre det skal du køre <code>limine-scan</code> og følge anvisningerne for at føje de ønskede elementer til din Limine-konfiguration. Næste gang du starter computeren, får du vist de sædvanlige valgmuligheder for Omarchy samt Windows Boot Manager eller andre muligheder.</p>
+
+<h2 id="bitlocker">Bitlocker <a class="manual__heading-link" href="#bitlocker" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Det er vigtigt at bemærke, at denne installationsmetode ikke er kompatibel med Bitlocker, da Bitlocker krypterer hele drevet og ikke kun partitionen. Hvis du får vist en fejl om, at Bitlocker er aktiveret, skal du starte Windows, gå til <strong>Indstillinger -&gt; Beskyttelse af personlige oplysninger og sikkerhed -&gt; Enhedskryptering</strong> og deaktivere Bitlocker. Det kan tage noget tid at dekryptere drevet.</p>
+
+<p><img src="/manual/images/dual-boot-7.webp" alt="dual-boot-7"  width="1600" height="1001" loading="lazy" decoding="async" /></p>
+{% endraw %}

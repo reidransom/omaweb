@@ -1,0 +1,73 @@
+---
+layout: manual
+title: "Shell-værktøjer"
+description: "Ud over Linux-standardværktøjerne leveres Omarchy også med en række forbedrede shell-værktøjer. Her er de vigtigste."
+permalink: /manual/shell-tools/
+manual_slug: shell-tools
+manual_order: 19
+previous_title: "Udviklingsværktøjer"
+previous_url: /manual/development-tools/
+next_title: "Shell-funktioner"
+next_url: /manual/shell-functions/
+lang: da
+translation_key: manual-19-shell-tools
+---
+{% raw %}
+<p>Ud over Linux-standardværktøjerne leveres Omarchy også med en række forbedrede shell-værktøjer. Her er de vigtigste.</p>
+
+<h2 id="fzf">fzf <a class="manual__heading-link" href="#fzf" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://junegunn.github.io/fzf/">fzf</a> giver dig mulighed for at foretage en fuzzy-søgning efter filer via aliasset <code>ff</code>. Gå til en vilkårlig mappe, skriv <code>ff</code>, og du kan bruge fuzzy-søgning til at finde en hvilken som helst fil i mappetræet, mens du ser en forhåndsvisning af de filer, du indsnævrer søgningen til, i højre side.</p>
+
+<p>Du kan bruge <code>Ctrl + R</code> til at søge i din kommandohistorik med fzf.</p>
+
+<p>Dette værktøj bruges også af Neovim, når du skriver <code>Space Space</code>.</p>
+
+<p>Den komplette manual kan findes via <code>man fzf</code>.</p>
+
+<h2 id="zoxide">Zoxide <a class="manual__heading-link" href="#zoxide" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/ajeetdsouza/zoxide">Zoxide</a> er en erstatning for cd. Det husker de mapper, du har besøgt, så du nemmere kan springe til dem næste gang. Lad os sige, at du én gang kører <code>cd ~/.config/omarchy</code>. Næste gang kan du nøjes med at køre <code>cd omarchy</code> (eller endda bare <code>cd oma</code>), hvorefter Zoxide fører dig direkte dertil.</p>
+
+<p>Den komplette manual kan findes via <code>man zoxide</code>.</p>
+
+<h2 id="ripgrep">ripgrep <a class="manual__heading-link" href="#ripgrep" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/BurntSushi/ripgrep">ripgrep</a> søger i filers indhold ved hjælp af <code>rg &lt;pattern&gt; &lt;path&gt;</code>. Du kan for eksempel bruge <code>rg Controller app/</code> til at finde alle forekomster af <code>Controller</code> i mappen app.</p>
+
+<p>Dette værktøj bruges også af Neovim, når du skriver <code>Space S G</code>.</p>
+
+<p>Den komplette manual kan findes via <code>man rg</code>.</p>
+
+<h2 id="eza">eza <a class="manual__heading-link" href="#eza" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://eza.rocks/">eza</a> er en erstatning for ls. Det giver dig mappeoversigter med flere oplysninger, farver og ikoner. Som standard er eza blevet oprettet som alias for ls. Du kan også bruge <code>lt</code> til at få en oversigt med to niveauers indlejring. <code>lsa</code> giver dig en oversigt, der også omfatter skjulte filer. Og <code>lta</code> giver dig en indlejret oversigt med skjulte filer.</p>
+
+<p>Den komplette manual kan findes via <code>man eza</code>.</p>
+
+<h2 id="fd">fd <a class="manual__heading-link" href="#fd" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/sharkdp/fd">fd</a> er en mere brugervenlig erstatning for <code>find</code>. Brug <code>fd person.rb</code> til at finde en fil med navnet <code>person.rb</code> i det aktuelle mappetræ. <code>fd person.rb /</code> søger i hele filsystemet. <code>fd person.rb / -H</code> søger i hele filsystemet, herunder skjulte mapper.</p>
+
+<p>Den komplette manual kan findes via <code>man fd</code>.</p>
+
+<h2 id="bat">bat <a class="manual__heading-link" href="#bat" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/sharkdp/bat">bat</a> er <code>cat</code> med syntaksfremhævning, linjenumre og sideinddeling. Kør <code>bat somefile.rb</code>, så vil du forstå, hvorfor det er svært at gå tilbage. Det arbejder også ubemærket for dig andre steder: Det farvelægger dine manualsider og gengiver forhåndsvisningerne i <code>ff</code>.</p>
+
+<p>Den komplette manual kan findes via <code>man bat</code>.</p>
+
+<h2 id="tldr">tldr <a class="manual__heading-link" href="#tldr" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://tldr.sh/">tldr</a> er modgiften til manualsider, der åbner med tre skærmbilleder fulde af historik, før de viser dig et eneste eksempel. <code>tldr tar</code> giver dig de få kommandoer, du faktisk var ude efter.</p>
+
+<h2 id="yt-dlp">yt-dlp <a class="manual__heading-link" href="#yt-dlp" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> downloader videoer fra YouTube og hundredvis af andre websteder. <code>yt-dlp &lt;url&gt;</code> henter den bedste tilgængelige kvalitet til den aktuelle mappe.</p>
+
+<p>Den komplette manual kan findes via <code>man yt-dlp</code>.</p>
+
+<h2 id="try">try <a class="manual__heading-link" href="#try" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/tobi/try">try</a> gør det nemt at administrere programmeringseksperimenter i datostemplede mapper. Alle eksperimenter ligger i <code>~/Work/tries</code>, og du kan få adgang til dem via <code>try</code>.</p>
+{% endraw %}

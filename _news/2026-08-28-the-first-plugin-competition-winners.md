@@ -30,6 +30,7 @@ image:
               width: 768
             - src: /assets/images/news/radio-atlas-preview-1152w.webp
               width: 1152
+translation_key: news-2026-08-28-the-first-plugin-competition-winners
 ---
 
 The votes are in! [Omarchy Core](/teams/) went through the submissions, voted, and we have a podium for [the first plugin competition](/news/2026/08/the-first-plugin-competition/).

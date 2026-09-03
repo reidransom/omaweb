@@ -1,0 +1,58 @@
+---
+layout: manual
+title: "Neovim"
+description: "Hvis du er helt ny inden for redigering i vim-stil, anbefaler jeg, at du ser ThePrimeagen's Vim As Your Editor-serie på YouTube. Den lærer dig det grundlæggende. Bare..."
+permalink: /manual/neovim/
+manual_slug: neovim
+manual_order: 16
+previous_title: "Terminal"
+previous_url: /manual/terminal/
+next_title: "AI"
+next_url: /manual/ai/
+lang: da
+translation_key: manual-16-neovim
+---
+{% raw %}
+<p><a href="https://neovim.io/">Neovim</a> er en moderne implementering af <a href="https://en.wikipedia.org/wiki/Vi_(text_editor)">vi-editoren</a>, som Bill Joy skabte helt tilbage i 1976. Det er en modal editor, hvor indsætningstilstand og kommandotilstand er adskilt, og den bliver lidt af en superkraft, når du først har lært blot en delmængde af det utroligt omfattende sæt tastaturkommandoer. Men læringskurven er også ret stejl!</p>
+
+<p>Hvis du er helt ny inden for redigering i vim-stil, anbefaler jeg, at du ser <a href="https://www.youtube.com/watch?v=X6AR2RMB5tE&amp;list=PLm323Lc7iSW_wuxqmKx_xxNtJC_hJbQ7R">ThePrimeagen’s Vim As Your Editor-serie</a> på YouTube. Den lærer dig det grundlæggende. Du skal blot vide, at det i modsætning til mere gængse editorer tager længere tid at opnå grundlæggende færdigheder i vim. Men når du først har gjort det, er udbyttet også større.</p>
+
+<p>Neovim kan i praksis konfigureres i det uendelige. Hvis du virkelig vil gå amok, kan du oprette din egen Neovim-konfiguration helt fra bunden. Typecraft har et glimrende kursus om <a href="https://www.youtube.com/watch?v=zHTeCSVAFNY">opsætning af Neovim fra bunden</a>. Og <a href="https://www.youtube.com/watch?v=w7i4amO_zaE">ThePrimeagen har også et</a>.</p>
+
+<p>Men Omarchy leveres med en komplet Neovim-opsætning — pakken <code>omarchy-nvim</code> — som omhyggeligt er finjusteret til at vise det bedste af, hvad der er muligt fra starten. Uden at du behøver skrive en eneste linje konfiguration! Den er bygget på <a href="https://www.lazyvim.org/">LazyVim</a>, en distribution af Neovim-plugins og -konfigurationer. Den er fantastisk.</p>
+
+<h2 id="lazyvim-basics">Grundlæggende om LazyVim <a class="manual__heading-link" href="#lazyvim-basics" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Som nævnt vil jeg ikke lære dig vim i denne korte introduktion, men jeg kan vise dig nogle grundlæggende funktioner i LazyVim, og hvordan du finder rundt.</p>
+
+<p>For det første har Neovim et koncept kaldet ledertasten. Den er i praksis indgangen til alle kommandoerne. LazyVim har sat den til <code>Space</code>. Så tryk blot på den, vent et øjeblik, og du vil se en række valgmuligheder forklaret direkte på skærmen sådan her:</p>
+
+<p>Her er nogle grundlæggende kommandoer, som jeg bruger hele tiden:</p>
+
+<ul>
+  <li><code>Space Space</code> - Find enhver fil i den aktuelle mappe med fuzzy-søgning.</li>
+  <li><code>Space S G</code> - Søg i alle filer med grep og forhåndsvisning.</li>
+  <li><code>Space E</code> - Slå filtræet til eller fra.</li>
+  <li><code>Ctrl + W W</code> - Hop fra filtræet til editoren og tilbage igen.</li>
+  <li><code>Shift + H</code> - Gå mod venstre mellem de åbne faner (vim kalder dem buffere).</li>
+  <li><code>Shift + L</code> - Gå mod højre mellem de åbne faner.</li>
+  <li><code>Space B D</code> - Luk en fane.</li>
+  <li><code>Space B O</code> - Luk alle andre faner end den aktuelle.</li>
+  <li><code>Space G G</code> - Start LazyGit i en flydende rude fra den aktuelle mappe.</li>
+  <li><code>Space U W</code> - Slå automatisk linjeombrydning til eller fra.</li>
+</ul>
+
+<p>Mens du befinder dig i filtræet (<code>Space E</code> for at vise det, <code>Ctrl + W W</code> for at hoppe derover), kan du tilføje en ny fil med <code>a</code> eller en ny mappe med <code>A</code>. Tryk på <code>?</code>, mens du er i træet, for at se alle kommandoer.</p>
+
+<p>Hvis du vil lære det grundlæggende vim-sprog, har jeg skrevet om <a href="https://world.hey.com/dhh/wonderful-vi-a1d034d3">syntaksen i tre dele</a>, og hvordan du udfører de seje kombinationsmanøvrer!</p>
+
+<p>Du kan se alle de mulige kommandoer på <a href="https://www.lazyvim.org/keymaps">LazyVims side med tastaturgenveje</a>.</p>
+
+<h2 id="starting-neovim">Start af Neovim <a class="manual__heading-link" href="#starting-neovim" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Du kan starte Neovim med <code>Super + Shift + N</code> (genvejen starter din standardeditor, som fra starten er Neovim), men det er som regel nemmere at starte den fra terminalen ved at navigere til den mappe, du vil arbejde i, og skrive <code>n</code>. <code>n</code> er et alias for <code>nvim</code>, som som standard åbner den aktuelle mappe. Du kan åbne en enkelt fil med <code>n myfile.txt</code>.</p>
+
+<h2 id="using-neovim-for-sudo-edits">Brug af Neovim til redigeringer med sudo <a class="manual__heading-link" href="#using-neovim-for-sudo-edits" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Hvis du har brug for at redigere filer, som du kun kan ændre som superbruger, kan du bruge neovim med alle dine plugins konfigureret ved at køre <code>sudoedit /etc/sudoers.d/00-sudo-only-file</code>.</p>
+{% endraw %}

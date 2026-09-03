@@ -1,0 +1,135 @@
+---
+layout: manual
+title: "Shell-plugins"
+description: "Omarchy-skrivebordet kører som en enkelt, langlivet Quickshell-proces kaldet omarchy-shell, og næsten alt, hvad du ser på skærmen, er et plugin i den. Det..."
+permalink: /manual/shell-plugins/
+manual_slug: shell-plugins
+manual_order: 32
+previous_title: "Dotfiles"
+previous_url: /manual/dotfiles/
+next_title: "Skærme"
+next_url: /manual/monitors/
+lang: da
+translation_key: manual-32-shell-plugins
+---
+{% raw %}
+<p>Omarchy-skrivebordet kører som en enkelt, langlivet Quickshell-proces kaldet <code>omarchy-shell</code>, og næsten alt, hvad du ser på skærmen, er et plugin i den. Bjælken er et plugin. Det samme gælder panelerne, der folder sig ud fra den, fuldskærmslagene som emoji-vælgeren og udklipsholderhåndteringen, selve Omarchy-menuen, låseskærmen, polkit-dialogboksen og tjenesterne uden brugerflade, der overvåger dit batteri og gør skærmens farver varmere om natten.</p>
+
+<p>Det er ikke bare en implementeringsdetalje. Det betyder, at du kan slå dele af skrivebordet fra, udskifte dem eller skrive dine egne uden at røre en eneste linje i Omarchys kildekode.</p>
+
+<p>Førstepartsplugins følger med Omarchy og ligger i <code>$OMARCHY_PATH/shell/plugins/</code>. Alt, du selv tilføjer — dine egne eksperimenter eller noget, du har fundet på GitHub — ligger i <code>~/.config/omarchy/plugins/</code>. Begge dele findes på samme måde ved opstart; den eneste forskel er, hvor de ligger på disken.</p>
+
+<h2 id="seeing-what-you-have">Se, hvad du har <a class="manual__heading-link" href="#seeing-what-you-have" aria-label="Link til dette afsnit">#</a></h2>
+
+<pre><code>omarchy plugin list
+</code></pre>
+
+<p>Det viser alle fundne plugins med deres id, om de er aktiveret, om de er første- eller tredjepartsplugins, deres typer og deres viste navn. Tilføj <code>--json</code>, hvis du sender outputtet videre til noget andet.</p>
+
+<p>Plugin-id'er bruger navnerum. Alle de indbyggede begynder med <code>omarchy.</code> — <code>omarchy.clock</code>, <code>omarchy.network</code>, <code>omarchy.notifications</code> — og det navnerum er reserveret, så et tredjepartsplugin aldrig kan gøre krav på det.</p>
+
+<h2 id="turning-them-on-and-off">Slå dem til og fra <a class="manual__heading-link" href="#turning-them-on-and-off" aria-label="Link til dette afsnit">#</a></h2>
+
+<pre><code>omarchy plugin enable omarchy.tailscale
+omarchy plugin disable omarchy.weather
+</code></pre>
+
+<p>Du kan også bruge menuen: <em>Opsætning &gt; Plugins</em> har Aktivér, Deaktivér, Tilføj, Klon og Fjern, hver med en vælger, der kun viser de plugins, som giver mening for den pågældende handling.</p>
+
+<p>Aktiveringstilstanden gemmes i <code>~/.config/omarchy/shell.json</code>, og reglen er lidt forskellig for de to typer plugins. Et tredjepartsplugin er aktiveret, præcis når dets id optræder et sted i den fil — som et element i bjælkens layout, som et element i <code>plugins[]</code> eller som <code>bar.id</code>. For førstepartsplugins, der ikke er bjælke-widgets, er det omvendt: De er slået til som standard og bliver kun slået fra ved at være angivet i <code>disabledPlugins[]</code>.</p>
+
+<p>Et komplet bjælkeplugin kan slet ikke være slået fra. Der er altid præcis én bjælke, så du erstatter den ved at aktivere en anden. Placering af bjælke-widgets er beskrevet under <a href="../the-top-bar/">den øverste bjælke</a>.</p>
+
+<h2 id="adding-a-plugin-from-git">Tilføj et plugin fra git <a class="manual__heading-link" href="#adding-a-plugin-from-git" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Et tredjepartsplugin er blot et git-repository med en <code>manifest.json</code> i roden.</p>
+
+<pre><code>omarchy plugin add https://github.com/acme/omarchy-weather.git --enable
+</code></pre>
+
+<p>Før kommandoen gør noget, fortæller den dig tydeligt, at plugins kører som vilkårlig kode uden sandboxing i din langlivede shell-proces, viser dig URL'en og beder dig bekræfte. Tag det alvorligt. Et plugin er ikke en konfigurationsfil — det er kode, der kører, så længe din session gør, med adgang til alt, din brugerkonto kan nå. Tilføj kun repositories, du er villig til at køre, og læs koden, før du aktiverer dem.</p>
+
+<p>Derefter kloner kommandoen repositoriet til en midlertidig mappe, validerer manifestet, afviser installationen, hvis et andet plugin allerede gør krav på det pågældende id, og flytter det til <code>~/.config/omarchy/plugins/&lt;id&gt;/</code>. Uden <code>--enable</code> spørger den, om du vil slå det til nu, og du kan sige nej og læse koden først. Den kører aldrig noget fra pluginet, udfører aldrig en installations-hook og beder aldrig om sudo — den kloner filer, kontrollerer manifestet og ændrer en tilstand via IPC.</p>
+
+<p>En opdatering er et fast-forward-pull af den samme checkout:</p>
+
+<pre><code>omarchy plugin update acme.weather
+omarchy plugin update
+</code></pre>
+
+<p>Uden et id opdaterer kommandoen alle dine git-administrerede plugins. Den viser dig forskellen, før den anvender den, nægter at opdatere, hvis du har lokale ændringer, den ikke kan komme forbi med fast-forward, og ruller tilbage, hvis den nye revision ikke består valideringen.</p>
+
+<pre><code>omarchy plugin remove acme.weather
+</code></pre>
+
+<p>Ved fjernelse deaktiveres pluginet først, hvorefter det slettes, hvis det er en git-checkout (repositoriet findes stadig upstream), eller linket fjernes, hvis det er et symbolsk link. En håndlavet pluginmappe uden et git-repository flyttes i stedet til en tidsstemplet sikkerhedskopi i pluginmappen frem for at blive slettet permanent.</p>
+
+<h2 id="cloning-a-built-in-to-modify-it">Klon et indbygget plugin for at ændre det <a class="manual__heading-link" href="#cloning-a-built-in-to-modify-it" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Dette er min yndlingsdel. Hvis du vil ændre, hvordan en indbygget widget opfører sig, skal du ikke redigere filerne under <code>$OMARCHY_PATH</code> — de tilhører pakken, og den næste opdatering overskriver dem. Klon den i stedet:</p>
+
+<pre><code>omarchy plugin clone omarchy.clock
+</code></pre>
+
+<p>Det kopierer hele pluginet til <code>~/.config/omarchy/plugins/dhh.clock</code> (dit brugernavn, ikke mit), omdøber det til “Mit ur”, aktiverer det og får shellen til at skifte fra det indbyggede plugin til din kopi — samtidig med at en eksisterende bjælke-widgets placering og indstillinger bevares. Tilføj <code>--edit</code> for straks at åbne den nye mappe i din <code>$EDITOR</code>, hvilket er det, menuvalget <em>Opsætning &gt; Plugins &gt; Klon plugin</em> gør for dig.</p>
+
+<p>Brugernavnspræfikset sikrer, at din klons id tilhører dig, så den ikke kolliderer med andres, hvis du deler den. Kald til det oprindelige indbyggede id omdirigeres til din klon, så intet, der henviste til <code>omarchy.clock</code>, behøver at blive opdateret. Og hvis du roder det hele til, gendanner <code>omarchy plugin remove dhh.clock</code> det indbyggede plugin.</p>
+
+<p>Når du gemmer en fil hvor som helst under <code>~/.config/omarchy/plugins/</code>, genindlæses plugin-koden automatisk, så du kan lade editoren stå åben og se dine ændringer træde i kraft.</p>
+
+<h2 id="writing-your-own">Skriv dit eget <a class="manual__heading-link" href="#writing-your-own" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Et plugin er en mappe med en <code>manifest.json</code> og noget QML. Manifestet erklærer <code>schemaVersion: 1</code>, et <code>id</code>, et <code>name</code>, en <code>version</code>, en eller flere <code>kinds</code> samt et <code>entryPoints</code>-objekt, der peger på QML-filen for hver type:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Hvad det er</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bar-widget</code></td>
+      <td>En komponent, som den aktive bjælke kan placere i et afsnit</td>
+    </tr>
+    <tr>
+      <td><code>panel</code></td>
+      <td>Et permanent eller fremkaldt flydende vindue</td>
+    </tr>
+    <tr>
+      <td><code>overlay</code></td>
+      <td>Et fuldskærmslag</td>
+    </tr>
+    <tr>
+      <td><code>menu</code></td>
+      <td>En menuflade, der kan fremkaldes</td>
+    </tr>
+    <tr>
+      <td><code>service</code></td>
+      <td>En singleton uden brugerflade</td>
+    </tr>
+    <tr>
+      <td><code>bar</code></td>
+      <td>En komplet bjælke, der erstatter den indbyggede</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Et plugin kan erklære flere typer på én gang — mediepluginet er både en <code>service</code> og en <code>bar-widget</code>. Bjælke-widgets får en ekstra <code>barWidget</code>-blok med et vist navn, en kategori, en valgfri <code>defaultSection</code> og <code>allowMultiple</code>, som angiver, om det giver mening at have mere end én på bjælken. De fleste widgets sætter den til <code>false</code>; afstandselementer og indikatorer sætter den til <code>true</code>.</p>
+
+<p>Kontrollér dit plugin, før du udgiver noget:</p>
+
+<pre><code>omarchy plugin validate ./my-plugin
+</code></pre>
+
+<p>Det udfører de samme kontroller, som shellen gør ved indlæsning: skemaversionen, de obligatoriske felter, et id, der ikke er reserveret, indgangspunkter, der er sikre relative stier og faktisk findes, et indgangspunkt for hver type, du har angivet, samt at der ikke findes symbolske links noget sted i mappen.</p>
+
+<p>Hvis du vil have det fulde overblik, er kildekoden dokumentationen: <code>shell/README.md</code> i Omarchy-repositoriet beskriver manifestets skema, shellens IPC-kontrakt og den præcise struktur af <code>shell.json</code>, mens <code>shell/plugins/README.md</code> oplister alle førstepartsplugins med deres id, typer og indgangspunkter.</p>
+
+<h2 id="sharing-yours-with-the-world">Del dit plugin med verden <a class="manual__heading-link" href="#sharing-yours-with-the-world" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når du har lavet noget, du kan lide, skal du lægge det i et offentligt git-repository. Det er hele distributionsmekanismen — derefter kan alle køre <code>omarchy plugin add</code> med din URL og have det kørende på få sekunder.</p>
+
+<p>For at hjælpe folk med rent faktisk at finde det kan du registrere det på <a href="https://omarchyplugins.com">omarchyplugins.com</a>. Det er fællesskabets katalog over Omarchy-shell-plugins, og det er det første sted, du bør lede, når du overvejer, om nogen allerede har bygget den widget, du er ved at skrive. Gå på opdagelse der, før du går i gang!</p>
+{% endraw %}

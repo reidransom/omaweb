@@ -1,0 +1,75 @@
+---
+layout: manual
+title: "Shellfunktioner"
+description: "Omarchy leveres med et sæt shellfunktioner, der forenkler almindelige opgaver og indkapsler indviklede parameterkald."
+permalink: /manual/shell-functions/
+manual_slug: shell-functions
+manual_order: 20
+previous_title: "Shellværktøjer"
+previous_url: /manual/shell-tools/
+next_title: "TUI'er"
+next_url: /manual/tuis/
+lang: da
+translation_key: manual-20-shell-functions
+---
+{% raw %}
+<p>Omarchy leveres med et sæt shellfunktioner, der forenkler almindelige opgaver og indkapsler indviklede parameterkald.</p>
+
+<h2 id="compression">Komprimering <a class="manual__heading-link" href="#compression" aria-label="Link til dette afsnit">#</a></h2>
+
+<ul>
+  <li><code>compress [file/dir]</code>: Opret et tar.gz-arkiv ud fra filen/mappen.</li>
+  <li><code>decompress [file.tar.gz]</code>: Pak en tar.gz-fil ud.</li>
+</ul>
+
+<h2 id="drives">Drev <a class="manual__heading-link" href="#drives" aria-label="Link til dette afsnit">#</a></h2>
+
+<ul>
+  <li><code>iso2sd [image.iso]</code>: Opret et startbart drev på et SD-kort ved hjælp af den angivne iso-fil, og vælg drevet interaktivt.</li>
+  <li><code>format-drive [device] [name]</code>: Formatér en hel disk med en enkelt exFAT-partition (som også fungerer på Windows og macOS). Kør kommandoen uden argumenter for at se de tilgængelige drev. Vær forsigtig!</li>
+</ul>
+
+<h2 id="dev-layouts">Udviklingslayouts <a class="manual__heading-link" href="#dev-layouts" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Øjeblikkelige udviklingslayouts med flere ruder til tmux:</p>
+
+<ul>
+  <li><code>tdl [ai]</code>: Opret et Tmux Dev Layout med din editor, en AI-agent og en terminal. Brug agenternes aliasser, f.eks. <code>tdl c</code> til opencode eller <code>tdl cx</code> til Claude Code, eller angiv endnu en agent for at køre begge, f.eks. <code>tdl c cx</code>.</li>
+  <li><code>tds</code>: Opret en Tmux Dev Square med editor, overvågning af forskelle (via <code>hunk diff --watch</code>), terminal og opencode.</li>
+  <li><code>tdlm [ai]</code>: Opret et <code>tdl</code>-vindue for hver undermappe i den aktuelle mappe.</li>
+  <li><code>tsl [count] [command]</code>: Opret en sværm af ruder arrangeret i et gitter, som alle kører den samme kommando (velegnet til AI-agenter).</li>
+</ul>
+
+<p>De samme layouts er tilgængelige til Herdr som <code>hdl</code>, <code>hds</code>, <code>hdlm</code> og <code>hsl</code>.</p>
+
+<h2 id="git-worktrees">Git-worktrees <a class="manual__heading-link" href="#git-worktrees" aria-label="Link til dette afsnit">#</a></h2>
+
+<ul>
+  <li><code>ga [branch]</code>: Opret et nyt worktree og en ny branch ved siden af det aktuelle repository, og skift til det.</li>
+  <li><code>gd</code>: Fjern det aktuelle worktree og dets branch (beder først om bekræftelse).</li>
+</ul>
+
+<h2 id="rsync-watchers">Rsync-overvågning <a class="manual__heading-link" href="#rsync-watchers" aria-label="Link til dette afsnit">#</a></h2>
+
+<ul>
+  <li><code>rsw [source] [destination]</code>: Start en baggrundsproces, der overvåger ændringer og bruger rsync til at synkronisere kilden med destinationen, hver gang noget ændres. Destinationen kan være en fjernvært, f.eks. <code>rsw ~/Work/app nyc-dev:Work/app</code>.</li>
+  <li><code>lsw</code>: Vis alle aktive overvågningsprocesser.</li>
+  <li><code>dsw</code>: Stop alle aktive overvågningsprocesser.</li>
+</ul>
+
+<h2 id="ssh-portforwarding">SSH-portvideresendelse <a class="manual__heading-link" href="#ssh-portforwarding" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Ideel til webudvikling mod en fjernmaskine, når du har brug for localhosts rettigheder i en sikker kontekst.</p>
+
+<ul>
+  <li><code>fip</code>: Videresend en eller flere porte fra en fjernvært til localhost via SSH.</li>
+  <li><code>dip</code>: Afbryd en eller flere videresendte porte.</li>
+  <li><code>lip</code>: Vis alle aktive SSH-portvideresendelser.</li>
+</ul>
+
+<p>Antag, at du starter en udviklingsserver på port <code>3000</code> på en maskine, der kan tilgås som <code>nyc-dev</code>. Så kan du køre <code>fip nyc-dev 3000</code> for at videresende porten, så <code>localhost:3000</code> faktisk opretter forbindelse til <code>nyc-dev:3000</code>, men uden behov for SSL-certifikater til at etablere den sikre kontekst, der kræves for at teste websockets eller lignende.</p>
+
+<h2 id="ssh-reconnection">Genoprettelse af SSH-forbindelser <a class="manual__heading-link" href="#ssh-reconnection" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><code>ssh</code> er selv pakket ind i en funktion, der rydder op i terminalen, hvis en forbindelse afbrydes, mens en ekstern tmux, Herdr eller editor har overtaget den, og derefter automatisk genopretter forbindelsen, når en interaktiv session afbrydes (Ctrl-C stopper gentagelsesløkken).</p>
+{% endraw %}

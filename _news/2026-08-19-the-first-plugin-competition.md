@@ -11,6 +11,7 @@ products:
   items: [plugins]
 project_areas:
   items: [plugins]
+translation_key: news-2026-08-19-the-first-plugin-competition
 ---
 
 The [Omarchy Plugin Marketplace](https://omarchyplugins.com/) is already home to over 500 plugins and growing very fast. We have a million ideas for how we can improve this setup, including with automated agent-powered security reviews, but let’s not have perfect be the enemy of good and fun for now!

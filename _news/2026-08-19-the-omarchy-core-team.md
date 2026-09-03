@@ -11,6 +11,7 @@ products:
   items: []
 project_areas:
   items: [core, teams]
+translation_key: news-2026-08-19-the-omarchy-core-team
 ---
 
 Omarchy’s explosive growth demands structured teams in response, and we’re going to get started by incorporating The Omarchy Core Team. This group will share the responsibility of driving the direction of our distro, ensuring we continue to push forward, and assisting other contributors.

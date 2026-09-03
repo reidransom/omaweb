@@ -1,0 +1,49 @@
+---
+layout: manual
+title: "Udviklingsværktøjer"
+description: "Omarchy leveres som standard med Neovim, men hvis du gerne vil have noget lidt mere gængs og velkendt, kan du åbne Omarchy-menuen (Super + Space) og se..."
+permalink: /manual/development-tools/
+manual_slug: development-tools
+manual_order: 18
+previous_title: "AI"
+previous_url: /manual/ai/
+next_title: "Shellværktøjer"
+next_url: /manual/shell-tools/
+lang: da
+translation_key: manual-18-development-tools
+---
+{% raw %}
+<h2 id="alternative-editors">Alternative editorer <a class="manual__heading-link" href="#alternative-editors" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Omarchy leveres som standard med <a href="https://neovim.io/">Neovim</a>, men hvis du gerne vil have noget lidt mere gængs og velkendt, kan du åbne Omarchy-menuen (<code>Super + Space</code>) og se mulighederne under <em>Installér &gt; Editor</em>. Her finder du VSCode, Cursor, Zed, Sublime Text, Helix, Vim og Emacs. Hvis du ikke finder det, du leder efter, kan du se under <em>Installér &gt; Pakke</em> og undersøge, om det findes som en Arch-pakke (og hvis ikke, kan du prøve <em>Installér &gt; AUR</em> for at søge i AUR).</p>
+
+<p>Tematilpasning understøttes for <code>VSCode</code>, <code>Cursor</code>, <code>VSCodium</code> og <code>Helix</code>.</p>
+
+<p>Du kan vælge standardsystemeditoren under <code>Opsætning &gt; Standardvalg &gt; Editor</code>.</p>
+
+<h2 id="environment">Miljø <a class="manual__heading-link" href="#environment" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Omarchy understøtter opsætning af en lang række udviklingsmiljøer via sektionen <em>Installér &gt; Udvikling</em> i Omarchy-menuen (<code>Super + Space</code>). Du finder selvfølgelig <em>Ruby on Rails</em>, men også alle tre store kørselsmiljøer til JavaScript (Node.js, Bun, Deno) samt populære PHP-frameworks som Laravel og Symfony. Derudover er der også Go, Rust, Python, Java, Elixir (med Phoenix), .NET, OCaml, Zig, Clojure og Scala. Udvalget er meget bredt!</p>
+
+<p>De fleste af disse miljøer administreres med <a href="https://mise.jdx.dev/">Mise</a>. Det er et værktøj, der gør det muligt at installere og køre flere versioner af et programmeringssprog på den samme maskine. Det fungerer som rbenv eller rvm til Ruby eller virtualenv til Python, men understøtter en lang række forskellige miljøer.</p>
+
+<p>Hvis du eksempelvis vil installere Ruby, skal du køre <code>mise use -g ruby</code>. Det installerer både Ruby og angiver det som global standard. Hvis dit projekt har en .ruby-version-fil, kan du også blot køre <code>mise i</code> i projektets rodmappe.</p>
+
+<h2 id="docker">Docker <a class="manual__heading-link" href="#docker" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://www.docker.com/">Docker</a> behøver næppe nogen introduktion. Det giver dig mulighed for at køre isolerede containere, og Omarchy installerer alt, hvad der kræves for at bruge det effektivt, herunder selve Docker og <a href="https://docs.docker.com/compose/">Docker Compose</a>.</p>
+
+<p>Som standard er din bruger <em>ikke</em> medlem af gruppen <code>docker</code>. Den gruppe giver reelt root-adgang uden adgangskode — enhver i gruppen kan køre <code>docker run -v /:/host</code> og overtage maskinen — så et enkelt ondsindet script eller en afhængighed, der kører som dig, ville ellers kun være én kommando fra root-adgang. Derfor kører du Docker med <code>sudo</code> på kommandolinjen (<code>sudo docker ps</code>, <code>sudo docker compose up</code>), mens de grafiske værktøjer, der kommunikerer med daemonen — Docker TUI på <code>Super + Shift + D</code> og Windows VM — beder om godkendelse, når det er nødvendigt. Hvis du vil have bekvemmeligheden ved en opsætning uden <code>sudo</code> tilbage og forstår afvejningen, kan du aktivere den under <strong>Opsætning &gt; Sikkerhed &gt; Docker uden sudo</strong> (eller køre <code>omarchy-setup-security-sudoless-docker</code>). Efter en advarsel bliver du føjet til gruppen <code>docker</code>, hvorefter almindelig <code>docker</code> og aliaset <code>d</code> igen fungerer uden <code>sudo</code>.</p>
+
+<p>Husk at prøve Lazydocker-kommandoen, som lader dig administrere dine containere i en smart TUI med <code>Super + Shift + D</code>. Den beder om godkendelse første gang, medmindre du har aktiveret Docker uden sudo.</p>
+
+<p>Du kan konfigurere almindelige databaser til lokal udvikling i Docker via <em>Installér &gt; Udvikling &gt; Docker-database</em> i Omarchy-menuen.</p>
+
+<h2 id="github-cli">GitHub CLI <a class="manual__heading-link" href="#github-cli" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://cli.github.com/">GitHub CLI</a> giver dig mulighed for at godkende med din GitHub-konto og bruge den til at klone private repositories. Det er konfigureret som et af de mise-stubprogrammer, der indlæses efter behov, så det installerer sig selv, første gang du kører <code>gh</code>. Kør <code>gh auth login</code> for at godkende. Derefter kan du klone private repositories med <code>gh repo clone org/repo</code>.</p>
+
+<p>Du kan også udføre en lang række andre GitHub-handlinger med denne kommando. Kør blot <code>gh</code> for at se alle mulighederne.</p>
+
+<p>Der findes også et stubprogram til <code>ghui</code>, som installeres efter behov og lader dig administrere dine pull requests i en TUI. Og <a href="https://github.com/jesseduffield/lazygit">lazygit</a> er forudinstalleret, hvis du også gerne vil styre selve git fra en TUI.</p>
+{% endraw %}

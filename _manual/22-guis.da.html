@@ -1,0 +1,112 @@
+---
+layout: manual
+title: "GUI'er"
+description: "Files (Nautilus) er den grafiske filhåndtering. Super + Shift + F åbner den, og Super + Shift + Alt + F åbner den i den mappe, som din terminal befinder sig i..."
+permalink: /manual/guis/
+manual_slug: guis
+manual_order: 22
+previous_title: "TUI'er"
+previous_url: /manual/tuis/
+next_title: "Browsere"
+next_url: /manual/browsers/
+lang: da
+translation_key: manual-22-guis
+---
+{% raw %}
+<h2 id="files">Files <a class="manual__heading-link" href="#files" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Files (Nautilus) er den grafiske filhåndtering. <code>Super + Shift + F</code> åbner den, og <code>Super + Shift + Alt + F</code> åbner den i den mappe, som din terminal befinder sig i, så du slipper for en masse klik. Med <code>Ctrl + L</code> kan du indtaste en sti, og hvis du trykker på <code>Space</code> på en fil, får du en hurtig forhåndsvisning uden at åbne noget.</p>
+
+<p>Tilslut en USB-nøgle eller et SD-kort, så bliver det automatisk monteret og vises i sidepanelet. Hvis du skal foretage dig noget mere avanceret — formatere et drev, kontrollere SMART-status eller oprette partitioner — skal du åbne <em>Disks</em> fra appstarteren (<code>Super + Space</code>).</p>
+
+<p>Dobbeltklik følger fornuftige standardindstillinger: Billeder åbnes i imv, videoer i mpv, PDF-filer i Document Viewer og almindelig tekst i Neovim.</p>
+
+<h2 id="obsidian">Obsidian <a class="manual__heading-link" href="#obsidian" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://obsidian.md/">Obsidian</a> er et gratis noteprogram med mange udvidelsesmuligheder, som gemmer indholdet i enkle Markdown-filer.</p>
+
+<p>Obsidian er gratis til alle formål, herunder personlig, kommerciel og almennyttig brug.</p>
+
+<p>Obsidian tilbyder også en <a href="https://obsidian.md/sync">kommerciel tilføjelse til synkronisering</a> med mobilapps til iOS og Android. (https://obsidian.md/pricing).</p>
+
+<p>Du starter Obsidian med <code>Super + Shift + O</code>. For at bruge temasynkronisering skal du vælge temaet <code>Omarchy</code> under indstillingerne.</p>
+
+<h2 id="omawrite">Omawrite <a class="manual__heading-link" href="#omawrite" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omawrite">Omawrite</a> er Omarchys eget helt enkle skriveprogram til Markdown. Ingen notearkiver, ingen plugins, kun dig og ordene.</p>
+
+<p>Du starter Omawrite med <code>Super + Shift + W</code>.</p>
+
+<h2 id="pinta">Pinta <a class="manual__heading-link" href="#pinta" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://www.pinta-project.com/">Pinta</a> er et grundlæggende billedredigeringsværktøj, som er velegnet til beskæring, størrelsesændringer og andre enkle justeringer. Du skal bare ikke forvente et alternativ til Photoshop. Men det har stadig både en tryllestav og lag!</p>
+
+<p>Du starter Pinta via appstarteren (<code>Super + Space</code>).</p>
+
+<h2 id="aether">Aether <a class="manual__heading-link" href="#aether" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/bjarneo/aether">Aether</a> er et temaprogram, som kan udtrække farver fra et baggrundsbillede og omdanne dem til et komplet, sammenhængende tema. Det er den nemmeste måde at <a href="../making-your-own-theme/">lave dit eget tema</a> på.</p>
+
+<p>Du starter Aether via appstarteren (<code>Super + Space</code>).</p>
+
+<h2 id="localsend">LocalSend <a class="manual__heading-link" href="#localsend" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Med <a href="https://localsend.org/">LocalSend</a> kan du sende filer til andre enheder på det samme netværk, som kører appen, ligesom med Apples AirDrop. Det fungerer dog på tværs af platforme, så du kan sende filer til og fra Windows, macOS, Android, iOS og selvfølgelig Linux.</p>
+
+<p>Du kan åbne menuen Del med <code>Super + Ctrl + S</code> eller under <em>Udløser &gt; Del</em> i Omarchy-menuen. Den giver dig fire muligheder:</p>
+
+<ul>
+  <li><strong>Udklipsholder</strong> sender det, du har kopieret, som en tekstfil. Perfekt til at få et link eller et tekstudsnit over på din telefon uden at sende en mail til dig selv.</li>
+  <li><strong>Fil</strong> åbner en filvælger, hvor du kan vælge flere filer på én gang.</li>
+  <li><strong>Mappe</strong> sender en hel mappe.</li>
+  <li><strong>Modtag</strong> åbner selve LocalSend, så en anden enhed kan sende noget til dig.</li>
+</ul>
+
+<p>Det samme fungerer fra terminalen med <code>omarchy share clipboard</code>, <code>omarchy share file [path]</code> og <code>omarchy share folder [path]</code>. Udelad stien for at få vist filvælgeren.</p>
+
+<p>Du kan også sende direkte fra filhåndteringen: Højreklik på en markering i Nautilus, og vælg <em>Send via LocalSend</em>.</p>
+
+<p>Omarchys firewall er som standard lukket bortset fra LocalSends port, så det virker med det samme på en ny installation. Se <a href="../security/">sikkerhed</a>.</p>
+
+<h2 id="libreoffice">LibreOffice <a class="manual__heading-link" href="#libreoffice" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://www.libreoffice.org/">LibreOffice</a> er en komplet kontorpakke med tekstbehandling, regneark, præsentationer, tegneprogram og meget mere. Den er kompatibel med filer fra Microsoft Office, så det er en glimrende måde at kunne åbne disse Word-dokumenter på.</p>
+
+<p>Du starter LibreOffice via appstarteren (<code>Super + Space</code>).</p>
+
+<h2 id="omacalc">Omacalc <a class="manual__heading-link" href="#omacalc" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omacalc">Omacalc</a> er Omarchys egen helt enkle lommeregner, som åbnes i et flydende vindue.</p>
+
+<p>Du starter Omacalc med <code>Super + Ctrl + Q</code> (eller lommeregnertasten, hvis dit tastatur har en).</p>
+
+<h2 id="signal">Signal <a class="manual__heading-link" href="#signal" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://signal.org/">Signal</a> er en pioner inden for ende-til-ende-krypterede beskeder og en glimrende kommunikationsløsning for alle, der helst vil undgå at gå gennem et af de store teknologikonglomerater.</p>
+
+<p>Du starter Signal med <code>Super + Shift + G</code>. Det er ikke en del af grundinstallationen, så første gang du bruger genvejen, tilbyder Omarchy at installere det for dig (det findes også under <em>Installer &gt; Tjeneste</em> i Omarchy-menuen).</p>
+
+<h2 id="mpv">mpv <a class="manual__heading-link" href="#mpv" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://mpv.io/">mpv</a> er en enkel og hurtig medieafspiller, som kan afspille næsten alt fra enhver kilde. Den er perfekt til at se videoer.</p>
+
+<p>Du starter mpv via appstarteren (<code>Super + Space</code>) eller ved blot at dobbeltklikke på en video i filhåndteringen.</p>
+
+<h2 id="obs-studio">OBS Studio <a class="manual__heading-link" href="#obs-studio" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Med <a href="https://obsproject.com/">OBS Studio</a> kan du optage eller streame video fra flere inputkilder. Du kan kombinere en skærmoptagelse med et webcam og et mikrofoninput. Det er programmet, der blev brugt til at optage Omarchy-skærmoptagelserne.</p>
+
+<p>Du starter OBS Studio via appstarteren (<code>Super + Space</code>).</p>
+
+<h2 id="kdenlive">Kdenlive <a class="manual__heading-link" href="#kdenlive" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://kdenlive.org/">Kdenlive</a> er et fremragende videoredigeringsprogram. Det er perfekt til at bearbejde video fra OBS Studio, før du deler den.</p>
+
+<p>Du starter Kdenlive via appstarteren (<code>Super + Space</code>).</p>
+
+<h2 id="omacut">Omacut <a class="manual__heading-link" href="#omacut" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://github.com/omacom-io/omacut">Omacut</a> er Omarchys eget helt enkle program til at trimme video. Når du kun skal klippe begyndelsen og slutningen af et klip, er det langt nemmere end at starte et komplet videoredigeringsprogram.</p>
+
+<p>Du starter Omacut via appstarteren (<code>Super + Space</code>).</p>
+{% endraw %}

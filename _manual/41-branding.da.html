@@ -1,0 +1,68 @@
+---
+layout: manual
+title: "Branding"
+description: "Omarchy giver dig mulighed for at bruge dit firmalogo eller et personligt billede ved oplåsning under opstart, som pauseskærm og på Om-skærmen."
+permalink: /manual/branding/
+manual_slug: branding
+manual_order: 41
+previous_title: "Prompt"
+previous_url: /manual/prompt/
+next_title: "Almindelige tilpasninger"
+next_url: /manual/common-tweaks/
+lang: da
+translation_key: manual-41-branding
+---
+{% raw %}
+<p>Omarchy giver dig mulighed for at bruge dit firmalogo eller et personligt billede ved oplåsning under opstart, som pauseskærm og på Om-skærmen.</p>
+
+<h3 id="boot-unlock">Oplåsning under opstart <a class="manual__heading-link" href="#boot-unlock" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du kan bruge <code>omarchy plymouth preview</code> til at se, hvordan dit eget logo og dine farver vil se ud. Kommandoen tager en baggrundsfarve, en tekstfarve, et logo i PNG-format og en sti til eksempelbilledet:</p>
+
+<pre><code>omarchy plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
+</code></pre>
+
+<p>Anvend derefter opsætningen med <code>omarchy plymouth set '#1d2021' '#ebdbb2' logo.png</code>, som også giver SDDM-loginskærmen de samme farver og det samme logo. Hvis du vil gendanne standardopsætningen, kan du bruge <code>omarchy plymouth reset</code>.</p>
+
+<p><img src="/manual/images/branding-plymouth-shopify.webp" alt="Shopify-branding i Plymouth"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<h3 id="screensaver">Pauseskærm <a class="manual__heading-link" href="#screensaver" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du kan ændre det logo, der bruges til pauseskærmen, under <em>Stil &gt; Pauseskærm</em>. Det er et ASCII-logo, så du kan redigere teksten direkte, men du kan også give den et billede i PNG- eller SVG-format, som vi konverterer til ASCII. Det ser ret fedt ud.</p>
+
+<p><img src="/manual/images/branding-screensaver.webp" alt="Branding af pauseskærmen"  width="1200" height="676" loading="lazy" decoding="async" /></p>
+
+<p>Menuen indeholder tre punkter:</p>
+
+<ul>
+  <li><strong>Rediger tekst</strong> åbner <code>~/.config/omarchy/branding/screensaver.txt</code> i din editor. Skriv eller indsæt lige det, du har lyst til — ASCII-kunst, dit navn eller et bandeord. Gem og afslut, så starter pauseskærmen med det samme, og du kan se resultatet.</li>
+  <li><strong>Indstil fra billede</strong> åbner en filvælger til en PNG- eller SVG-fil, konverterer den til ASCII og viser dig resultatet. Logoer med en tydelig silhuet fungerer langt bedre end fotografier.</li>
+  <li><strong>Gendan standard</strong> sætter Omarchy-logoet tilbage.</li>
+</ul>
+
+<h3 id="about-screen">Om-skærm <a class="manual__heading-link" href="#about-screen" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>De samme tre valgmuligheder findes under <em>Stil &gt; Om</em> for den <em>Om</em>-skærm, du kan åbne fra Omarchy-menuen, og de fungerer på præcis samme måde — filen er <code>~/.config/omarchy/branding/about.txt</code>, og Om-vinduet vises efter hver ændring. Grafikken på Om-skærmen konverteres til en mindre størrelse end pauseskærmens, fordi den skal kunne være i et vindue i stedet for at fylde hele skærmen.</p>
+
+<p>Mens vinduet er åbent, bevæger et grønt lysskær sig skråt hen over grafikken med få sekunders mellemrum, hvorefter den står stille igen. Din egen grafik får også denne effekt, så længe hvert tegn i den er én kolonne bredt — alt, hvad <em>Indstil fra billede</em> fremstiller, opfylder dette krav. Grafik, der er lavet med emoji eller tegn med dobbelt bredde, forbliver i stedet stillestående. Det samme gælder skærmen, hvis du bruger din egen fastfetch-konfiguration: I disse tilfælde betyder et stillestående logo, at animationen med vilje holder sig væk, ikke at den er gået i stykker, for hvis lysskæret gled hen over dem, ville resten af linjen ende det forkerte sted.</p>
+
+<p><img src="/manual/images/branding-about.webp" alt="Branding af Om-skærmen"  width="1600" height="955" loading="lazy" decoding="async" /></p>
+
+<h3 id="converting-images-yourself">Konvertér selv billeder <a class="manual__heading-link" href="#converting-images-yourself" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Begge valgmuligheder med <em>Indstil fra billede</em> kalder blot <code>omarchy transcode ascii</code>, som du kan køre direkte, hvis du vil have kontrol over konverteringen:</p>
+
+<pre><code>omarchy transcode ascii ~/logo.svg ~/.config/omarchy/branding/screensaver.txt --width 100
+</code></pre>
+
+<p>Den tager <code>--width</code> og <code>--height</code> angivet i terminalkolonner og -rækker, en <code>--mode</code> på enten <code>braille</code> (standarden, som giver langt flere detaljer) eller <code>block</code>, en procentværdi for <code>--threshold</code>, der afgør, hvilke pixels der regnes som en del af logoet, samt <code>--invert</code>, når dit logo er lyst på en mørk baggrund. Hvis en konvertering ender som en uformelig klat, er tærskelværdien som regel den indstilling, du skal justere.</p>
+
+<h3 id="words-instead-of-a-logo">Ord i stedet for et logo <a class="manual__heading-link" href="#words-instead-of-a-logo" aria-label="Link til dette afsnit">#</a></h3>
+
+<p><code>omarchy ascii</code> tegner tekst med Delta Corps Priest 1, den FIGlet-skrifttype, som selve Omarchy-ordmærket er tegnet med, så en pauseskærm kan vise en tekst i stedet for et billede:</p>
+
+<pre><code>omarchy ascii "Back in five" &gt; ~/.config/omarchy/branding/screensaver.txt
+</code></pre>
+
+<p>Den tager teksten som argumenter eller læser den fra en pipe, når der ikke angives nogen. Skrifttypen indeholder kun bogstaver og mellemrum — den blev tegnet uden tal eller tegnsætning — så alt andet udelades og angives på stderr i stedet for blot at blive ignoreret.</p>
+{% endraw %}

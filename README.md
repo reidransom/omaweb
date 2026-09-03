@@ -21,10 +21,10 @@ npm run assets:check   # reproduce those derivatives byte-for-byte
 scripts/build js       # compile the JavaScript bundle once
 mise run serve         # watch and serve Jigyll pages with the existing development Pagefind index
 mise run build         # compile, render, and manually refresh the development Pagefind index
-scripts/build          # build and verify a fresh production artifact
+scripts/build          # build a fresh production artifact
 ```
 
-`scripts/build` checks source content, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, replaces the copied development index with a fresh `_site/pagefind` production index, and validates the rendered routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+`scripts/build` builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, and replaces the copied development index with a fresh `_site/pagefind` production index.
 
 `mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
@@ -47,7 +47,7 @@ Cloudflare Pages hosts two deployments from one Pages project:
 
 Configure those domains in Cloudflare before the first release. Export `PAGES_PROJECT_NAME`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` for Wrangler.
 
-`mise run deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, and executes the full `scripts/build` pipeline with a temporary deployment URL configuration before invoking Wrangler, so canonical and social URLs match the selected review or production domain.
+`mise run deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, builds the site with a temporary deployment URL configuration, and copies `_site` to Cloudflare with Wrangler. It does not run source, asset, rendered-site, or browser verification.
 
 The release flow expects `main` and `rev` branches. When bootstrapping a repository that still uses `master`, rename it and create the review branch:
 
@@ -57,8 +57,8 @@ git branch rev
 ```
 
 ```sh
-mise run deploy  # deploy the current clean rev or main branch
-mise run ship    # deploy rev, pause for review, then fast-forward and deploy main
+mise run deploy  # build and deploy the current clean rev or main branch
+mise run ship    # build, verify, and deploy the current clean rev or main branch
 ```
 
-`mise run ship` must start on a clean `rev` branch in an interactive terminal. It switches the worktree to `main` after approval and fast-forwards `main` to `rev`; it does not push either branch.
+`mise run ship` builds the current deployment artifact, verifies source content, deterministic assets, and rendered output, then copies the verified build to Cloudflare. It does not check out, merge, fast-forward, or otherwise modify branches.

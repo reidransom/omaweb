@@ -1,5 +1,5 @@
 [tools]
-"github:reidransom/jigyll" = "1.10.1"
+"github:reidransom/jigyll" = "1.11.0"
 "github:sass/dart-sass" = "1.103.1"
 
 [tasks.serve]
@@ -28,5 +28,5 @@ description = "Deploy the current rev or main branch"
 run = "scripts/deploy"
 
 [tasks.ship]
-description = "Deploy rev, fast-forward main, and deploy production"
+description = "Build, verify, and deploy the current rev or main branch"
 run = "scripts/ship"

@@ -1,0 +1,152 @@
+---
+layout: manual
+title: "Skærmbilleder og optagelse"
+description: "Alt, hvad du kan hente fra skærmen, er knyttet til Print Screen-tasten. Tasten alene tager et billede, mens kombinationer med modifikationstaster optager, vælger en farve eller..."
+permalink: /manual/screenshots-recording/
+manual_slug: screenshots-recording
+manual_order: 12
+previous_title: "Tekstudtræk og diktering"
+previous_url: /manual/text-extraction-dictation/
+next_title: "Til/fra-indstillinger, inaktivitet og pauseskærmen"
+next_url: /manual/toggles-idle-screensaver/
+lang: da
+translation_key: manual-12-screenshots-recording
+---
+{% raw %}
+<p>Alt, hvad du kan hente fra skærmen, er knyttet til Print Screen-tasten. Tasten alene tager et billede, mens kombinationer med modifikationstaster optager, vælger en farve eller henter teksten i et område. Hvis dit tastatur slet ikke har en Print Screen-tast, åbner <code>Super + Ctrl + C</code> de samme funktioner som en menu.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Print Screen</code></td>
+      <td>Skærmbillede</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Print Screen</code></td>
+      <td>Skærmoptagelse (eller stop den igangværende)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Print Screen</code></td>
+      <td>Farvevælger</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Print Screen</code></td>
+      <td>Udtræk tekst fra et område</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + C</code></td>
+      <td>Optagelsesmenu</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + .</code></td>
+      <td>Transkodér et billede eller en video</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="screenshots">Skærmbilleder <a class="manual__heading-link" href="#screenshots" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Tryk på <code>Print Screen</code>, så fryser skærmen, og intet flytter sig, mens du sigter. Træk en ramme omkring et valgfrit område, eller klik blot én gang, så tilpasses skærmbilledet det rektangel, du klikkede i — et vindue, hvis du ramte et, eller hele skærmen, hvis du ramte bjælken eller et tomt område. Har du ombestemt dig? Tryk på <code>Print Screen</code> igen for at lukke vælgeren.</p>
+
+<p>Resultatet ender to steder på én gang: som en PNG-fil i din billedmappe og på udklipsholderen, så du kan indsætte det direkte i et chatvindue med <code>Super + V</code>. Der vises en notifikation med en miniature. Klik på den (eller tryk på <code>Super + Alt + ,</code> for at hente den seneste notifikation frem), så åbnes skærmbilledet i Tensaku, annoteringseditoren, hvor du kan tegne pile og rammer på det, før du sender det.</p>
+
+<p>Filerne gemmes som standard i <code>~/Pictures</code> med navne som <code>screenshot-2026-08-13_14-22-05.png</code>. Hvis du hellere vil samle dem i deres egen mappe, skal du angive <code>OMARCHY_SCREENSHOT_DIR</code> — se <a href="../faq/">de ofte stillede spørgsmål</a> for at finde ud af, hvor miljøvariabler for sessionen skal placeres. Omarchy opretter mappen for dig, hvis den ikke findes. Du kan også skifte editor med <code>OMARCHY_SCREENSHOT_EDITOR</code>.</p>
+
+<p>Fra terminalen tager <code>omarchy screenshot</code> det samme skærmbillede, og du kan også angive typen eksplicit: <code>omarchy capture screenshot region</code> kun for et valgfrit område, <code>windows</code> for at tilpasse markeringen til vinduers og skærmes rektangler eller <code>fullscreen</code> for helt at springe vælgeren over og optage den aktive skærm. Et ekstra argument med værdien <code>copy</code> placerer kun skærmbilledet på udklipsholderen, mens <code>save</code> kun gemmer det på disken.</p>
+
+<h3 id="driving-the-picker-from-the-keyboard">Betjening af vælgeren med tastaturet <a class="manual__heading-link" href="#driving-the-picker-from-the-keyboard" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Mens markeringen er aktiv, behøver du slet ikke bruge musen:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Return</code></td>
+      <td>Tag et skærmbillede af det fremhævede vindue</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Return</code></td>
+      <td>Tag et skærmbillede af hele skærmen</td>
+    </tr>
+    <tr>
+      <td><code>Tab</code> / <code>Ctrl + Tab</code></td>
+      <td>Fremhæv det næste / forrige vindue</td>
+    </tr>
+    <tr>
+      <td>Piletasterne</td>
+      <td>Fremhæv vinduet i den pågældende retning</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Piletasterne og Tab flytter markøren til det valgte vindue, så fremhævningen følger med, og du kan se, hvad du er ved at optage. Disse tastebindinger findes kun, mens der vises en markering på skærmen, så de kan ikke kollidere med noget i din egen konfiguration.</p>
+
+<h2 id="screen-recording">Skærmoptagelse <a class="manual__heading-link" href="#screen-recording" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><code>Alt + Print Screen</code> åbner <em>Udløser &gt; Optagelse &gt; Skærmoptagelse</em>, hvor du bliver spurgt, hvad lydsporet skal indeholde: ingen lyd, systemlyd, systemlyd plus mikrofon eller systemlyd plus mikrofon plus webcam. Den sidste mulighed vises kun, hvis du faktisk har tilsluttet et kamera. Vælg en mulighed, så får du den samme vælger som ved et skærmbillede: Træk et område, eller klik på et vindue eller en skærm.</p>
+
+<p>Optagelsen foretages med gpu-screen-recorder, som koder på GPU'en med 60fps og falder tilbage på CPU'en, hvis det er nødvendigt. Resultatet er en MP4-fil i <code>~/Videos</code> med et navn som <code>screenrecording-2026-08-13_14-22-05.mp4</code>. Angiv <code>OMARCHY_SCREENRECORD_DIR</code> for at ændre dette — men bemærk, at denne mappe i modsætning til mappen til skærmbilleder allerede skal findes, ellers nægter optagelsen at starte.</p>
+
+<p>Mens du optager, vises en lille indikator i bjælken. Klik på den for at stoppe. Du kan også stoppe ved at trykke på <code>Alt + Print Screen</code> igen eller med punktet <em>Stop skærmoptagelse</em> under <em>Udløser &gt; Optagelse &gt; Skærmoptagelse</em>, som kun vises, mens en optagelse rent faktisk er i gang.</p>
+
+<p>Når du stopper, ryddes der lidt op, før du får filen: Det første billede klippes væk, og hvis der er lyd, normaliseres den til -14 LUFS, mens klikket fra PipeWire-optagelsen helt i begyndelsen fjernes. Derefter vises en notifikation med en miniature fra optagelsen. Klik på den for at afspille filen i mpv.</p>
+
+<h3 id="the-webcam-overlay">Webcam-overlejringen <a class="manual__heading-link" href="#the-webcam-overlay" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Når du optager med et webcam, vises kameraet som et fastgjort, beskåret vindue i portrætformat i nederste højre hjørne af det, du optager. Hvis det ligger oven på noget, du har brug for, kan du ændre størrelsen undervejs:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Alt + [</code></td>
+      <td>Gør webcam-overlejringen mindre</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + ]</code></td>
+      <td>Gør webcam-overlejringen større</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Der er tre størrelser — lille, mellem og stor — og genvejstasterne skifter mellem dem. Mellemstørrelsen er standard. Størrelserne er proportionale med optagelsen, så kameraet fylder den samme del af billedet, uanset om du optager en 1080p-skærm eller en i 6K. Hvis du har optaget et område i stedet for en hel skærm, placeres overlejringen i områdets hjørne frem for skærmens, så den bliver inden for optagelsen.</p>
+
+<p>Du kan også kalde funktionen direkte med <code>omarchy-capture-webcam-resize small</code> eller bruge <code>reset</code> for at vende tilbage til mellemstørrelsen.</p>
+
+<h2 id="text-qr-codes-and-colours">Tekst, QR-koder og farver <a class="manual__heading-link" href="#text-qr-codes-and-colours" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><code>Super + Ctrl + Print Screen</code> vælger et område, kører OCR på det og lægger teksten på udklipsholderen. Det gennemgås udførligt under <a href="../text-extraction-dictation/">Tekstudtræk &amp; diktering</a>.</p>
+
+<p><em>Udløser &gt; Optagelse &gt; QR-kode</em> gør det samme for QR-koder. Vælg det område, koden befinder sig i, så placeres den afkodede værdi på udklipsholderen. Funktionen leder kun efter QR-koder — komplekst skærmindhold har ellers en tendens til fejlagtigt at blive genkendt som en stregkode. Værd at vide: Den afkodede værdi placeres på udklipsholderen og ingen andre steder. Den udskrives ikke, den vises ikke i notifikationen, og den markeres som følsom, så den ikke bliver liggende i <a href="../unified-clipboard-history/">udklipsholderhistorikken</a>. QR-koder indeholder jævnligt hemmeligheder — for eksempel <code>otpauth://</code>-URI'en bag en opsætningskode til 2FA — og dem ønsker du ikke i en logfil. Du kan stadig indsætte værdien helt normalt.</p>
+
+<p><code>Super + Print Screen</code> (eller <em>Udløser &gt; Optagelse &gt; Farve</em>) forvandler markøren til en pipette. Klik hvor som helst på skærmen, så placeres farven på udklipsholderen. Tryk på genvejstasten igen for at annullere uden at vælge en farve.</p>
+
+<h2 id="transcoding-before-you-share">Transkodning før deling <a class="manual__heading-link" href="#transcoding-before-you-share" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>En 4K-skærmoptagelse eller en rå HEIC-fil fra din telefon er ofte for stor til bare at sende. <code>Super + Ctrl + .</code> (eller <em>Udløser &gt; Transkodér</em>) løser det. Funktionen viser en filvælger med fuzzy-søgning i <code>~/Pictures</code> og <code>~/Videos</code> og beder derefter om et format og en størrelse.</p>
+
+<p>Billeder konverteres til jpg eller png i høj, mellem eller lav kvalitet, som begrænser bredden til henholdsvis 3160, 2160 og 1080 pixels. Videoer konverteres til mp4 eller en animeret gif i 4k, 1080p eller 720p. Den konverterede fil gemmes ved siden af originalen med opløsningen i navnet — <code>demo-1080p.mp4</code> — og stien kopieres til udklipsholderen som en fil-URI, så du kan indsætte den direkte i en app, der understøtter filtræk og -slip.</p>
+
+<p>Det virker også fra terminalen, hvis du allerede ved, hvad du vil have: <code>omarchy transcode ~/Videos/demo.mov mp4 1080p</code>. Der findes også <code>omarchy transcode ascii</code>, som omdanner et billede til ASCII-kunst — den er mest beregnet til <a href="../branding/">branding</a>.</p>
+
+<h2 id="sending-it-somewhere">Send det videre <a class="manual__heading-link" href="#sending-it-somewhere" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når du har filen, åbner <code>Super + Ctrl + S</code> menuen Del og sender den til en anden enhed på dit netværk via LocalSend. Se <a href="../guis/">GUI'er</a> for at læse mere.</p>
+{% endraw %}

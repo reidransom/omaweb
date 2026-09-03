@@ -11,6 +11,7 @@ products:
   items: []
 project_areas:
   items: [meetups, community]
+translation_key: news-2026-08-24-omarchy-meetups-around-the-world
 ---
 
 Omarchy has grown into a global community, with ~35,000 members on [the Discord](https://discord.com/invite/tXFUdasqhY), and now it’s time we started meeting face to face. So we’re launching [Omarchy Meetups](/meetups/) with a shared calendar for gatherings around the world.

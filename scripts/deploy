@@ -6,9 +6,26 @@ fail() {
   exit 1
 }
 
+usage() {
+  printf '%s\n' 'Usage: scripts/deploy [build|copy]'
+}
+
 require_env() {
   eval "value=\${$1-}"
   [ -n "$value" ] || fail "Missing required environment variable: $1"
+}
+
+action=${1-}
+case "$action" in
+  ''|build|copy) ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+[ "$#" -le 1 ] || {
+  usage >&2
+  exit 2
 }
 
 branch=$(git branch --show-current)
@@ -31,23 +48,37 @@ require_env CLOUDFLARE_API_TOKEN
 require_env CLOUDFLARE_ACCOUNT_ID
 
 command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
-command -v node >/dev/null 2>&1 || fail 'Missing required command: node (used for rendered-site browser verification)'
-command -v npm >/dev/null 2>&1 || fail 'Missing required command: npm (used for the locked browser toolchain)'
+command -v node >/dev/null 2>&1 || fail 'Missing required command: node (used by the build toolchain)'
+command -v npm >/dev/null 2>&1 || fail 'Missing required command: npm (used by the build toolchain)'
 command -v npx >/dev/null 2>&1 || fail 'Missing required command: npx (used to run Wrangler)'
 
-build_config=$(mktemp)
-cleanup() {
-  rm -f "$build_config"
+build_site() {
+  build_config=$(mktemp)
+  trap 'rm -f "$build_config"' EXIT HUP INT TERM
+  printf 'url: "%s"\n' "$deployment_url" > "$build_config"
+
+  mise install
+  npm ci
+  scripts/build --config "_config.yml,$build_config"
 }
-trap cleanup EXIT HUP INT TERM
-printf 'url: "%s"\n' "$deployment_url" > "$build_config"
 
-mise install
-npm ci
-scripts/build --config "_config.yml,$build_config"
+copy_site() {
+  if [ "$branch" = rev ]; then
+    npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME" --branch=rev
+  else
+    npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME"
+  fi
+}
 
-if [ "$branch" = rev ]; then
-  npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME" --branch=rev
-else
-  npx wrangler pages deploy _site --project-name="$PAGES_PROJECT_NAME"
-fi
+case "$action" in
+  build)
+    build_site
+    ;;
+  copy)
+    copy_site
+    ;;
+  '')
+    build_site
+    copy_site
+    ;;
+esac

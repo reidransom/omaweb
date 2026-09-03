@@ -1,0 +1,74 @@
+---
+layout: manual
+title: "Omarchy CLI"
+description: "Omarchy styres normalt via genvejstasterne og Omarchy-menuen (Super + Space). Men du kan også styre det via kommandolinjeværktøjet omarchy. Dette er..."
+permalink: /manual/omarchy-cli/
+manual_slug: omarchy-cli
+manual_order: 14
+previous_title: "Til/fra-funktioner, inaktivitet og pauseskærmen"
+previous_url: /manual/toggles-idle-screensaver/
+next_title: "Terminal"
+next_url: /manual/terminal/
+lang: da
+translation_key: manual-14-omarchy-cli
+---
+{% raw %}
+<p>Omarchy styres normalt via genvejstasterne og Omarchy-menuen (<code>Super + Space</code>). Men du kan også styre det via kommandolinjeværktøjet <code>omarchy</code>. Det er især nyttigt, når du får en AI-agent til at hjælpe dig med tilpasning eller konfiguration.</p>
+
+<p>CLI'en har adgang til alle de interne værktøjer, der både bruges via menuen og på anden vis. Du kan se alt, hvad der er tilgængeligt, ved at køre <code>omarchy</code> i terminalen.</p>
+
+<p>Det ser nogenlunde sådan ud:</p>
+
+<pre><code>~ ❯ omarchy
+Omarchy command center
+
+Usage:
+  omarchy &lt;command&gt; [args...]
+  omarchy commands [--all] [--json] [--check]
+  omarchy &lt;group&gt; --help
+  omarchy &lt;group&gt; &lt;command&gt; --help
+
+Common commands:
+  omarchy update              Update Omarchy and system packages
+  omarchy theme list          List available themes
+  omarchy theme set &lt;name&gt;    Apply a theme
+  omarchy font list           List available fonts
+  omarchy screenshot          Take a screenshot
+  omarchy debug               Print debugging information
+
+Groups:
+  agent          AI coding agent usage data
+  audio          Audio input and output controls
+  bar            Omarchy shell bar layout and settings
+  battery        Battery status helpers
+  bluetooth      Bluetooth device controls
+  branch         Omarchy git branch management
+  branding       About and screensaver branding
+  brightness     Display and keyboard brightness
+  capture        Screenshots and screen recording
+  channel        Omarchy release channel management
+  clipboard      Clipboard helpers
+  cmd            Command and shortcut helpers
+  config         System configuration helpers
+  debug          Diagnostics and support logs
+  ...
+</code></pre>
+
+<p>Du kan også gå i dybden med hver gruppe:</p>
+
+<pre><code>~ ❯ omarchy capture
+Capture commands — Screenshots and screen recording:
+  omarchy capture qr                                                                                                                                                                                                       Decode a QR code from a screenshot region
+  omarchy capture screenrecording [--fullscreen] [--with-desktop-audio] [--with-microphone-audio] [--with-webcam] [--webcam-device=&lt;device&gt;] [--webcam-size=&lt;small|medium|large&gt;] [--resolution=&lt;size&gt;] [--stop-recording]  Start or stop screen recording
+  omarchy capture screenrecording with webcam                                                                                                                                                                              Pick a webcam and start a screen recording with it
+  omarchy capture screenshot [smart|region|windows|fullscreen] [slurp|copy|save] [--editor=&lt;name&gt;]                                                                                                                         Take a screenshot
+  omarchy capture text                                                                                                                                                                                                     Extract text from a screenshot region with OCR
+  omarchy capture webcam resize &lt;smaller|larger|reset|small|medium|large&gt;                                                                                                                                                  Resize the active webcam recording overlay
+</code></pre>
+
+<p>Alle kommandoer accepterer også <code>--help</code>, uanset om du spørger om en hel gruppe (<code>omarchy capture --help</code>) eller en enkelt kommando (<code>omarchy capture screenshot --help</code>).</p>
+
+<h3 id="opening-the-menu-from-the-terminal">Åbn menuen fra terminalen <a class="manual__heading-link" href="#opening-the-menu-from-the-terminal" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy-menuen kan også styres med scripts, hvilket er praktisk til dine egne tastebindinger. <code>omarchy menu</code> åbner den på øverste niveau, og du kan springe direkte til et hvilket som helst punkt i træet ved at angive det: <code>omarchy menu summon style.theme</code> går direkte til temavælgeren, <code>omarchy menu toggle system</code> åbner systemmenuen og lukker den igen, hvis den allerede er åben, og <code>omarchy menu close</code> lukker den.</p>
+{% endraw %}

@@ -1,0 +1,49 @@
+---
+layout: manual
+title: "Almindelige tilpasninger"
+description: "Dette er en samling af almindelige tilpasninger af Omarchy-opsætningen. Vær opmærksom på, at det af og til kan være nødvendigt, at systemopdateringer gendanner visse konfigurationer..."
+permalink: /manual/common-tweaks/
+manual_slug: common-tweaks
+manual_order: 42
+previous_title: "Branding"
+previous_url: /manual/branding/
+next_title: "Lav dit eget tema"
+next_url: /manual/making-your-own-theme/
+lang: da
+translation_key: manual-42-common-tweaks
+---
+{% raw %}
+<p>Dette er en samling af almindelige tilpasninger af Omarchy-opsætningen. Vær opmærksom på, at det af og til kan være nødvendigt, at systemopdateringer gendanner visse konfigurationer til deres oprindelige tilstand. Hvis det sker, går dine ændringer ikke tabt, men gemmes i en <code>.bak</code>-fil i samme mappe.</p>
+
+<p>Hvis du kommer til at ødelægge noget, kan du gendanne individuelle konfigurationer til deres oprindelige opsætning via <em>Update &gt; Config</em> i Omarchy-menuen. Hvis du <em>virkelig</em> får ødelagt det hele, kan du nulstille alle konfigurationer med <code>omarchy-reinstall</code>.</p>
+
+<h3 id="reveal-all-tray-icons-all-the-time">Vis altid alle ikoner i systembakken <a class="manual__heading-link" href="#reveal-all-tray-icons-all-the-time" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Som standard er ikoner i systembakken, såsom Dropbox, 1password eller Steam, skjult bag systembakkens udvidelsespil, som viser dem, når du holder markøren over den. Hvis du gerne vil have dem vist hele tiden, skal du højreklikke på udvidelsespilen for at åbne administrationen af systembakkeikoner og derefter fastgøre de ikoner, du vil have synlige (du kan også skjule dem, du aldrig vil se).</p>
+
+<h3 id="rounded-window-corners">Afrundede vindueshjørner <a class="manual__heading-link" href="#rounded-window-corners" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchys standarddesign bruger firkantede hjørner, men hvis du gerne vil bløde udtrykket lidt op, kan du ændre <code>~/.config/hypr/looknfeel.lua</code>, så afrunding ikke længere er udkommenteret:</p>
+
+<pre><code>hl.config({
+  decoration = {
+    -- Use round window corners.
+    rounding = 8,
+  },
+})
+</code></pre>
+
+<h3 id="remove-window-gaps">Fjern mellemrum mellem vinduer <a class="manual__heading-link" href="#remove-window-gaps" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>På bærbare skærme foretrækker nogle ikke at spilde nogen pixels på mellemrum mellem vinduer (eller sågar en topbjælke, som du kan slå fra med <code>Super + Shift + Space</code>). Du kan slå alle mellemrum og kanter fra med <code>Super + Shift + Backspace</code> eller fjerne dem permanent ved at fjerne kommentarerne i dette afsnit af <code>~/.config/hypr/looknfeel.lua</code>:</p>
+
+<pre><code>hl.config({
+  general = {
+    -- No gaps between windows or borders.
+    gaps_in = 0,
+    gaps_out = 0,
+    border_size = 0,
+  },
+})
+</code></pre>
+{% endraw %}
