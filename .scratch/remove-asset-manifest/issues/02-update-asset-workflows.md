@@ -1,7 +1,7 @@
 # Update asset policy and image workflows
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: 01
 
 ## Context
