@@ -1,5 +1,5 @@
-# Each item is an authorized contributor photograph with a cleared local source,
-# deterministic responsive derivatives, and an asset-manifest record.
+# Each item is a contributor photograph with a local source and deterministic
+# responsive derivatives.
 order:
   - pleum
   - sspaeti
@@ -55,9 +55,9 @@ items:
                   width: 1600
 
 empty_state:
-  title: Community workstations are waiting on cleared photographs.
+  title: Community workstations are waiting on photographs.
   body: >-
-    We do not have a local, cleared community workstation photograph to publish
-    yet. Send the team a photo in Discord with the permission to feature it here;
-    this page will grow from real desks, not stock stand-ins.
+    We do not have a local community workstation photograph to publish yet.
+    Send the team a photo in Discord; this page will grow from real desks, not
+    stock stand-ins.
   action_label: Share a workstation in Discord
