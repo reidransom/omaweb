@@ -6,18 +6,18 @@ fail() {
   exit 1
 }
 
-[ "$(git branch --show-current)" = rev ] || fail 'Shipping is allowed only from the rev branch.'
-[ -z "$(git status --porcelain)" ] || fail 'Shipping requires a clean rev worktree.'
-[ -t 0 ] || fail 'Shipping requires an interactive terminal for manual review.'
+verify_source() {
+  [ -f scripts/check-content ] || fail 'Missing required content checker: scripts/check-content'
+  sh scripts/check-content
+  scripts/build-assets --check
+}
 
-scripts/deploy
+verify_site() {
+  [ -f scripts/verify-production ] || fail 'Missing required production verifier: scripts/verify-production'
+  sh scripts/verify-production
+}
 
-printf '%s\n' 'Review https://omaweb-rev.r2ware.dev/. Type "deploy production" to fast-forward main and deploy production:'
-IFS= read -r approval || fail 'Production deployment was not approved.'
-[ "$approval" = 'deploy production' ] || fail 'Production deployment was not approved.'
-
-git switch main
-git merge --ff-only rev
-
-scripts/deploy
-printf '%s\n' 'Production deployed to https://omaweb.r2ware.dev/.'
+scripts/deploy build
+verify_source
+verify_site
+scripts/deploy copy

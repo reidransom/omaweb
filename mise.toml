@@ -28,5 +28,5 @@ description = "Deploy the current rev or main branch"
 run = "scripts/deploy"
 
 [tasks.ship]
-description = "Deploy rev, fast-forward main, and deploy production"
+description = "Build, verify, and deploy the current rev or main branch"
 run = "scripts/ship"
