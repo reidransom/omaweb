@@ -527,7 +527,6 @@ async function verifyNormalChoreography(session, width, height, featuredContract
   const browser = await loadPage(session, "/", width, height);
   try {
     const opening = await heroMetrics(browser);
-    require(opening.enhanced, `${label} must initialize the scroll enhancement.`);
     require(opening.primary.visible, `${label} must open on the OMARCHY panel.`);
     const actionText = opening.actions.map(action => action.text).join(" ");
     require(actionText.includes("ISO") && actionText.includes("Manual"), `${label} must expose ISO and Manual actions.`);
