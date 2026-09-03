@@ -5,6 +5,26 @@ const debounceDuration = 150;
 const destinationLimit = 5;
 const pagefindLimit = 8;
 
+const MANUAL_SEARCH_FOCUS_STORAGE_KEY = "omarchy.manual-search.focus";
+const MANUAL_PAGEFIND_FILTERS = { section: "manual" };
+
+function rememberManualSearchFocus(target) {
+  if (!(target instanceof Element)) return;
+
+  const link = target.closest("a[href]");
+  if (!link) return;
+
+  const targetUrl = new URL(link.href, window.location.href);
+  if (
+    targetUrl.origin === window.location.origin &&
+    targetUrl.pathname.startsWith("/manual/")
+  ) {
+    try {
+      window.sessionStorage.setItem(MANUAL_SEARCH_FOCUS_STORAGE_KEY, "true");
+    } catch {}
+  }
+}
+
 function conciseText(value) {
   const documentFragment = new DOMParser().parseFromString(value ?? "", "text/html");
   const text = documentFragment.body.textContent.replace(/\s+/g, " ").trim();
@@ -132,9 +152,11 @@ export function initSiteSearch({ quake } = {}) {
     menu: root.querySelector("[data-search-menu]"),
     staticMenu: root.querySelector("[data-search-menu-static]"),
     isSpotlight: root.closest("dialog") !== null,
+    scope: root.dataset.searchScope,
   }));
   const dialog = document.querySelector("[data-spotlight]");
   const searchTriggers = [...document.querySelectorAll("[data-spotlight-open]")];
+  const isManualScope = surfaces.some(({ scope }) => scope === "manual");
 
   if (
     surfaces.length === 0 ||
@@ -326,7 +348,7 @@ export function initSiteSearch({ quake } = {}) {
       const fragment = document.createDocumentFragment();
       const index = { next: 0 };
       const destinationGroup = resultGroup("Destinations", destinationResults, index);
-      const pageGroup = resultGroup("Pages & News", pageResults, index);
+      const pageGroup = resultGroup(isManualScope ? "Manual" : "Pages & News", pageResults, index);
 
       if (destinationGroup) fragment.append(destinationGroup);
       if (pageGroup) fragment.append(pageGroup);
@@ -370,13 +392,16 @@ export function initSiteSearch({ quake } = {}) {
   const runSearch = async (term, identity) => {
     if (identity !== requestIdentity) return;
 
-    const destinationResults = matchingDestinations(destinations, term);
+    const destinationResults = isManualScope ? [] : matchingDestinations(destinations, term);
     render({ state: "loading" });
 
     try {
       pagefindPromise ??= import(pagefindUrl);
       const pagefind = await pagefindPromise;
-      const response = await pagefind.search(term);
+      const response = await pagefind.search(
+        term,
+        isManualScope ? { filters: MANUAL_PAGEFIND_FILTERS } : undefined,
+      );
       const documents = await Promise.all(
         response.results.slice(0, pagefindLimit).map((result) => result.data()),
       );
@@ -410,7 +435,11 @@ export function initSiteSearch({ quake } = {}) {
 
     window.clearTimeout(debounceTimer);
     const identity = ++requestIdentity;
-    render({ state: "loading", term, destinationResults: matchingDestinations(destinations, term) });
+    render({
+      state: "loading",
+      term,
+      destinationResults: isManualScope ? [] : matchingDestinations(destinations, term),
+    });
     debounceTimer = window.setTimeout(() => runSearch(term, identity), debounceDuration);
   };
 
@@ -460,6 +489,9 @@ export function initSiteSearch({ quake } = {}) {
       }
 
       moveMenuFocus(surface, event);
+    });
+    surface.fallback?.addEventListener("click", (event) => {
+      rememberManualSearchFocus(event.target);
     });
     surface.form.addEventListener("keydown", (event) => {
       if (moveMenuFocus(surface, event)) return;

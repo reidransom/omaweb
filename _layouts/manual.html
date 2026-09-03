@@ -10,7 +10,7 @@ layout: default
 
   <div class="manual-layout">
     <aside class="manual-sidebar" aria-label="Manual navigation">
-      <search class="manual-search" data-manual-search hidden>
+      <search class="manual-search" data-manual-search data-pagefind-url="{{ '/pagefind/pagefind.js' | relative_url }}" hidden>
         <div class="manual-search__field">
           <input class="manual-search__input" id="manual-search" type="search" role="combobox"
                  placeholder="Search the Manual" aria-label="Search the Manual"
