@@ -1,6 +1,7 @@
 ---
 layout: null
 permalink: /news/feed.xml
+translation_key: news-feed
 ---
 {% assign articles = site.news | sort: 'date' | reverse %}
 {% assign newest = articles | first %}

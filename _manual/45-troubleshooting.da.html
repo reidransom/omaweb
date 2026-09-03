@@ -1,0 +1,62 @@
+---
+layout: manual
+title: "Fejlfinding"
+description: "Prøv først at rulle systemet tilbage til versionen før din seneste opdatering. Hvis det ikke virker, kan du bruge omarchy-debug til at dele dit problem på #omarchy-help..."
+permalink: /manual/troubleshooting/
+manual_slug: troubleshooting
+manual_order: 45
+previous_title: "Mac-understøttelse"
+previous_url: /manual/mac-support/
+next_title: "Ofte stillede spørgsmål"
+next_url: /manual/faq/
+lang: da
+translation_key: manual-45-troubleshooting
+---
+{% raw %}
+<h3 id="i-broke-my-system-with-an-update">Jeg ødelagde mit system med en opdatering! <a class="manual__heading-link" href="#i-broke-my-system-with-an-update" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Prøv først at <a href="../system-snapshots/">rulle systemet tilbage</a> til versionen før din seneste opdatering. Hvis det ikke virker, kan du bruge <code>omarchy-debug</code> til at dele dit problem på #omarchy-help i Discord. Og hvis intet af det hjælper, kan du geninstallere standardkonfigurationerne og -pakkerne med <code>omarchy-reinstall</code>.</p>
+
+<h3 id="why-are-some-apps-so-large-on-my-display">Hvorfor er nogle apps så store på min skærm? <a class="manual__heading-link" href="#why-are-some-apps-so-large-on-my-display" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy tager udgangspunkt i en 2x-skærm med høj opløsning, hvilket kræver, at <code>GDK_SCALE</code> sættes til 2 i <code>~/.config/hypr/monitors.lua</code>. Men hvis du bruger en 1x-skærm, kan du ændre <code>local omarchy_gdk_scale = 2</code> til 1 (og derefter genstarte alle apps, der vises for store). Se <a href="../monitors/">manualen om skærme</a>.</p>
+
+<p>I Spotify kan du bruge <code>Ctrl + Minus</code> til at gøre brugerfladen mindre (og <code>Ctrl + Plus</code> til at gøre den større).</p>
+
+<h3 id="why-isnt-caps-lock-working">Hvorfor virker Caps Lock ikke? <a class="manual__heading-link" href="#why-isnt-caps-lock-working" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>I Omarchy er Caps Lock angivet som xcompose-tasten. Det er sådan, du får adgang til <a href="../hotkeys/#quick-emojis">hurtige emojis</a> og <a href="../hotkeys/#quick-completions">andre automatiske fuldførelser</a>. Hvis du virkelig savner at bruge Caps Lock, kan du knytte xcompose-funktionen til en anden tast ved at redigere <code>~/.config/hypr/input.lua</code>, for eksempel ved at knytte den til højre alt-tast:</p>
+
+<pre><code>hl.config({
+  input = {
+    kb_options = "compose:ralt",
+  },
+})
+</code></pre>
+
+<h3 id="my-wi-fi-bluetooth-audio-or-trackpad-just-stopped-working">Mit Wi-Fi, Bluetooth, min lyd eller pegefeltet holdt pludselig op med at virke <a class="manual__heading-link" href="#my-wi-fi-bluetooth-audio-or-trackpad-just-stopped-working" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Før du genstarter computeren, kan du prøve kun at genstarte det delsystem, der giver problemer. <em>Opdatering &gt; Hardware</em> i Omarchy-menuen indeholder Wi-Fi, Bluetooth, Lyd og Pegefelt, og en genindlæsning af et af dem løser de fleste situationer, hvor “det virkede for fem minutter siden” — et Bluetooth-headset, der ikke vil oprette forbindelse igen, et pegefelt, der holdt op med at virke efter dvale, eller lyd, der forsvandt, da du frakoblede en skærm.</p>
+
+<h3 id="why-are-my-external-speakers-not-playing">Hvorfor kommer der ingen lyd fra mine eksterne højttalere? <a class="manual__heading-link" href="#why-are-my-external-speakers-not-playing" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Sandsynligvis fordi de ikke er angivet som den primære lydudgang. Klik på højttalerikonet i højre side af bjælken for at åbne lydstyrkevinduet, hvor du kan vælge outputenhed (og også justere lydstyrken for hver enkelt app).</p>
+
+<h3 id="my-laptop-speakers-sound-off">Min bærbare computers højttalere lyder forkert <a class="manual__heading-link" href="#my-laptop-speakers-sound-off" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>På nogle bærbare computere anvender Omarchy automatisk en højttalerjustering, der korrigerer de indbyggede højttaleres frekvensrespons. <code>omarchy audio tuning status</code> fortæller dig, om en sådan justering er aktiv på din maskine, og <code>omarchy audio tuning off</code> slår den fra, hvis du hellere vil høre højttalernes ubehandlede lyd.</p>
+
+<h3 id="why-cant-i-login-or-sudo-with-my-password">Hvorfor kan jeg ikke logge ind eller bruge sudo med min adgangskode? <a class="manual__heading-link" href="#why-cant-i-login-or-sudo-with-my-password" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du har sandsynligvis indtastet den forkert for mange gange og er derfor blevet låst ude. Hvis det sker på låseskærmen, kan du trykke på <code>CTRL + ALT + F2</code> for at starte en ny TTY, hvor du kan logge ind som root, og derefter køre <code>faillock --reset --user [your-username]</code>. Det nulstiller spærringen, så du kan fortsætte.</p>
+
+<h3 id="why-isnt-my-1password-authorization-prompts-for-1password-ssh-agent--cli-appearing">Hvorfor vises mine godkendelsesprompter til 1Password SSH Agent / CLI ikke? <a class="manual__heading-link" href="#why-isnt-my-1password-authorization-prompts-for-1password-ssh-agent--cli-appearing" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Det kan skyldes 2 ting:</p>
+
+<p>For at den udvidede godkendelsesprompt kan vises, skal Indstillinger &gt; Avanceret &gt; Brug hardwareacceleration være slået til. <em>Bemærk: Det kræver en genstart, før det virker.</em></p>
+
+<p><img src="/manual/images/troubleshooting-1password.webp" alt="Fejlfinding i 1Password"  width="1182" height="1030" loading="lazy" decoding="async" /></p>
+
+<p>Prompten vises heller ikke, hvis du ikke har startet 1Password, siden computeren blev startet.</p>
+{% endraw %}

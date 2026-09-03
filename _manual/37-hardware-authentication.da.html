@@ -1,0 +1,31 @@
+---
+layout: manual
+title: "Hardwaregodkendelse"
+description: "Mange bærbare computere har en fingeraftrykssensor til godkendelse. Du kan bruge den med Omarchy ved at køre Opsætning > Sikkerhed > Fingeraftryk i Omarchy..."
+permalink: /manual/hardware-authentication/
+manual_slug: hardware-authentication
+manual_order: 37
+previous_title: "Systemdvale"
+previous_url: /manual/system-sleep/
+next_title: "Skrifttyper"
+next_url: /manual/fonts/
+lang: da
+translation_key: manual-37-hardware-authentication
+---
+{% raw %}
+<h3 id="fingerprint-authentication">Fingeraftryksgodkendelse <a class="manual__heading-link" href="#fingerprint-authentication" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Mange bærbare computere har en fingeraftrykssensor til godkendelse. Du kan bruge den med Omarchy ved at vælge <em>Opsætning &gt; Sikkerhed &gt; Fingeraftryk</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<p>Det installerer fingeraftrykspakken, registrerer og bekræfter dit fingeraftryk, hvorefter du kan bruge det til at låse computeren op fra låseskærmen (som du kan aktivere med <code>Super + Ctrl + L</code>), bruge sudo-tilstand og godkende systemanmodninger.</p>
+
+<p>Når låget på din bærbare computer er lukket, springes anmodningen om fingeraftryk automatisk over, så du kommer direkte til adgangskodeprompten i stedet for at vente på en sensor, du ikke kan nå. Hvis du har brug for at arbejde med et eksternt tastatur uden en sensor, skal du blot trykke på <code>CTRL + C</code>, når du bliver bedt om dit fingeraftryk under <code>sudo</code>.</p>
+
+<p>Du kan fjerne fingeraftryksgodkendelse under <em>Fjern &gt; Sikkerhed &gt; Fingeraftryk</em> i Omarchy-menuen.</p>
+
+<h3 id="fido2-authentication">Fido2-godkendelse <a class="manual__heading-link" href="#fido2-authentication" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du bruger en Fido2-enhed, kan du konfigurere den til <code>sudo</code>-godkendelse ved at vælge <em>Opsætning &gt; Sikkerhed &gt; Fido2</em> i Omarchy-menuen (<code>Super + Space</code>). Det omfatter dog kun <code>sudo</code> og systemets godkendelsesanmodninger, ikke oplåsning af din computer.</p>
+
+<p>Du kan fjerne Fido2-godkendelse under <em>Fjern &gt; Sikkerhed &gt; Fido2</em> i Omarchy-menuen.</p>
+{% endraw %}

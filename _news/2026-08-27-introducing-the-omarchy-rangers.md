@@ -29,6 +29,7 @@ image:
               width: 768
             - src: /assets/images/news/omarchy-rangers-community-guides-1152w.webp
               width: 1152
+translation_key: news-2026-08-27-introducing-the-omarchy-rangers
 ---
 
 Omarchy has grown so fast that thousands of people are arriving at once, and most of them are arriving from macOS or Windows. That’s a lot of first installations, a lot of “where do I even start”, and a lot of questions that benefit from a real answer from someone who is used to helping others.

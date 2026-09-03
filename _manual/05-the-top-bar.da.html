@@ -1,0 +1,256 @@
+---
+layout: manual
+title: "Den øverste bjælke"
+description: "Striben langs toppen af din skærm er Omarchy-bjælken. Det er ikke en påklistret statuslinje, men en del af Omarchy-skallen, den ene permanent kørende Quickshell-proces..."
+permalink: /manual/the-top-bar/
+manual_slug: the-top-bar
+manual_order: 5
+previous_title: "Navigation"
+previous_url: /manual/navigation/
+next_title: "Temaer"
+next_url: /manual/themes/
+lang: da
+translation_key: manual-05-the-top-bar
+---
+{% raw %}
+<p>Striben langs toppen af din skærm er Omarchy-bjælken. Det er ikke en påklistret statuslinje, men en del af Omarchy-skallen, den ene permanent kørende Quickshell-proces, som også tegner menuen, notifikationerne, OSD-pop op-vinduerne og låseskærmen. Derfor passer dens tema perfekt til alt andet, og derfor åbner et panel med det samme i stedet for at starte en ny app.</p>
+
+<p>Det er også den eneste del af skrivebordet, der altid er synlig på skærmen, så det er værd at vide, hvad alle de små symboler gør.</p>
+
+<h2 id="whats-on-it-by-default">Hvad den indeholder som standard <a class="manual__heading-link" href="#whats-on-it-by-default" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Bjælken har tre sektioner. Til venstre finder du Omarchy-logoet (menustarteren) og arbejdsområdeindikatorerne. I midten får du statusindikatorerne, uret, tastaturlayoutet, vejret og et mærke for Omarchy-opdateringer. Til højre: systembakken, agenter, bluetooth, netværk, lyd, skærm og strøm.</p>
+
+<p>Nogle af dem vises kun, når de har noget at fortælle. Tastaturlayoutet vises kun, hvis du har konfigureret mere end ét layout. Opdateringsmærket vises kun, når en Omarchy-opdatering venter. Og agentikonet vises første gang, Omarchy finder brug af AI-kodningsværktøjer på maskinen (se <a href="../ai/">AI</a>).</p>
+
+<h2 id="clicking-around">Klik dig omkring <a class="manual__heading-link" href="#clicking-around" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Næsten alle widgets gør noget ved venstreklik, højreklik og klik med den midterste museknap, og flere reagerer på rulning. Det er den del, folk overser — mange af de gode funktioner gemmer sig bag højre og midterste museknap.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Widget</th>
+      <th>Venstre</th>
+      <th>Højre</th>
+      <th>Midterste / rulning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Menu</td>
+      <td>Omarchy-menu</td>
+      <td>Ny terminal</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Arbejdsområder</td>
+      <td>Fokusér dette arbejdsområde</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Ur</td>
+      <td>Kalender-pop op-vindue</td>
+      <td>Skift mellem etiketformaterne</td>
+      <td>Midterste: vælg tidszone</td>
+    </tr>
+    <tr>
+      <td>Vejr</td>
+      <td>Pop op-vindue med vejrudsigt</td>
+      <td>Komplet vejrudsigt som notifikation</td>
+      <td>Midterste: opdatér</td>
+    </tr>
+    <tr>
+      <td>Lyd</td>
+      <td>Lydpanel</td>
+      <td>Slå lyden fra</td>
+      <td>Midterste: panel · rulning: lydstyrke</td>
+    </tr>
+    <tr>
+      <td>Mikrofon</td>
+      <td>Slå mikrofonen fra</td>
+      <td>—</td>
+      <td>Midterste: lydpanel · rulning: inputlydstyrke</td>
+    </tr>
+    <tr>
+      <td>Netværk</td>
+      <td>Netværkspanel</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Bluetooth</td>
+      <td>Bluetooth-panel</td>
+      <td>Slå radioen til eller fra</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Skærm</td>
+      <td>Skærmpanel</td>
+      <td>—</td>
+      <td>Rulning: lysstyrke</td>
+    </tr>
+    <tr>
+      <td>Strøm</td>
+      <td>Strømpanel</td>
+      <td>Vis eller skjul batteriprocenten</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Medier</td>
+      <td>Afspil/sæt på pause</td>
+      <td>Pop op-vindue med coverbillede</td>
+      <td>Midterste: næste · rulning: forrige/næste</td>
+    </tr>
+    <tr>
+      <td>Agenter</td>
+      <td>Agentpanel</td>
+      <td>Start din agent</td>
+      <td>Midterste: næste abonnement</td>
+    </tr>
+    <tr>
+      <td>Systembakke</td>
+      <td>Hold markøren over for at åbne skuffen</td>
+      <td>Højreklik på vinkeltegnet for at administrere</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Omarchy-opdatering</td>
+      <td>Kør opdateringen</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ikke alt i tabellen findes på din bjælke fra starten. Mediewidgetten (MPRIS for det, der afspilles nu, med rullende nummer- og kunstnernavn) og mikrofonwidgetten er begge indbygget, men slået fra som standard — tilføj dem, hvis du vil have dem, som beskrevet nedenfor.</p>
+
+<h2 id="the-panels">Panelerne <a class="manual__heading-link" href="#the-panels" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Når du klikker på et ikon på bjælken, åbnes et egentligt panel med skydere, lister og tastaturnavigation i stedet for et værktøjstip. Hvert panel har også en genvejstast, så du aldrig behøver at sigte efter et symbol på 16 pixels:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Panel</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + A</code></td>
+      <td>Lyd</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + W</code></td>
+      <td>Netværk</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + B</code></td>
+      <td>Bluetooth</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + D</code></td>
+      <td>Skærm</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + P</code></td>
+      <td>Strøm</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + D</code></td>
+      <td>Kalender</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + 1-9</code></td>
+      <td>Åbn eller luk det n'te panel i den højre sektion</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Panelerne er ikke bare statusvisninger. Det er her, du rent faktisk udfører handlingerne:</p>
+
+<ul>
+  <li><strong>Lyd</strong> har en skyder til den overordnede lydstyrke, en vælger til outputenhed og en mixer for hver app, så du kan skrue ned for netop den ene browserfane uden at påvirke alt andet.</li>
+  <li><strong>Netværk</strong> søger efter Wi-Fi, viser signalstyrken, opretter forbindelse og lader dig vælge en DNS-udbyder.</li>
+  <li><strong>Bluetooth</strong> viser dine enheder med mulighed for at oprette eller afbryde forbindelsen samt se batteriniveauer.</li>
+  <li><strong>Strøm</strong> viser batteristatistik, skifter mellem strømprofiler (det husker et separat valg for henholdsvis batteri og AC) og viser nogle systemoplysninger.</li>
+  <li><strong>Skærm</strong> indeholder en skyder til lysstyrke, tekststørrelse, forudindstillinger til skærmskalering og — når du har mere end én skærm — indstillinger for hver skærm. Se <a href="../monitors/">skærme</a> for en mere dybdegående gennemgang.</li>
+  <li><strong>Ur</strong> åbner en månedsoversigt med ISO-ugenumre og mulighed for at gå frem og tilbage mellem måneder.</li>
+</ul>
+
+<p>Alle paneler kan betjenes med både tastatur og mus: piletasterne flytter markeringen, Return aktiverer, Tab går til nabopanelet, og Escape lukker.</p>
+
+<p><code>Super + Ctrl + 1-9</code> tæller panelerne fra venstre mod højre i den højre sektion og springer systembakken over, da den ikke har sit eget panel. Nummeret svarer derfor til det ikon, du ellers ville pege på.</p>
+
+<h3 id="tailscale-and-dropbox">Tailscale og Dropbox <a class="manual__heading-link" href="#tailscale-and-dropbox" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Yderligere to widgets vises først på bjælken, når du installerer den tilsvarende tjeneste via <strong>Installér → Tjeneste</strong>. Begge er værd at kende, fordi de kan mere end blot at vise status.</p>
+
+<p><strong>Tailscale</strong>-panelet opretter og afbryder forbindelsen til tailnettet, skifter mellem konti og vælger en exit node (både dine egne maskiner og Mullvad-regioner vises på listen). Det lader dig også gennemse dine maskiner — og når en af dem er valgt, sender <code>s</code> filer til den via Taildrop, hvilket er den hurtigste måde at flytte en fil til din telefon eller en anden bærbar computer. <code>c</code> kopierer maskinens IP-adresse, <code>n</code> dens navn og <code>d</code> dens fulde DNS-navn. Der er også en sendeknap på rækken for hver maskine, hvis du hellere vil klikke. Det samme kan gøres fra terminalen med <code>omarchy tailscale send &lt;machine&gt; [file...]</code>.</p>
+
+<p><strong>Dropbox</strong>-panelet håndterer login, viser, hvor meget lagerplads du har brugt, og oplister de senest synkroniserede filer.</p>
+
+<p>Hvis du fjerner en af tjenesterne, fjernes dens widget også fra bjælken.</p>
+
+<h2 id="indicators">Indikatorer <a class="manual__heading-link" href="#indicators" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Den lille gruppe i midten er indikatorwidgetten. Det er statussymboler for funktioner, du har slået til: forstyr ikke, natlys, en planlagt <a href="../reminders/">påmindelse</a>, en aktiv skærmoptagelse, hold vågen og <a href="../text-extraction-dictation/">diktering</a>. De lyser op, når funktionen er aktiv, og holder sig ellers ude af vejen — hold markøren over midten af bjælken for at se de inaktive. Når du klikker på en indikator, slås den pågældende funktion til eller fra.</p>
+
+<p>Hvis du foretrækker, at de altid er synlige, skal du sætte <code>alwaysShow</code> til <code>true</code> på widgetten. Hvis du kun er interesseret i nogle af dem, kan du angive dem, du vil have, i <code>items</code>: <code>["Dnd", "Reminder", "NightLight"]</code>. Du kan have mere end én indikatorwidget, så forskellige sektioner kan vise forskellige delmængder.</p>
+
+<h2 id="rearranging-the-bar">Omarrangering af bjælken <a class="manual__heading-link" href="#rearranging-the-bar" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Bjælken konfigurerer sig selv. Du behøver ikke åbne en konfigurationsfil for at flytte rundt på tingene.</p>
+
+<p>Tag fat i et tomt område omkring midten af bjælken, og træk det mod en anden skærmkant, så flytter bjælken dertil — venstre, højre, øverst og nederst fungerer alle, og hver widget tilpasser sig (lodrette bjælker skifter til kompakte visninger med kun ikoner). Du kan også klikke og holde nede for at begynde at trække. Dobbeltklik med venstre museknap på det samme tomme område for at slå gennemsigtighed til eller fra. Og træk en hvilken som helst widget for at ændre dens placering eller flytte den til en anden sektion.</p>
+
+<p>Hvis du hellere vil vælge fra en menu, indeholder <strong>Stil → Menulinje</strong> både placering og gennemsigtighed.</p>
+
+<p>De samme funktioner har kommandoer, hvilket er det, du skal bruge til en <a href="../dotfiles/">dotfiles</a>-opsætning:</p>
+
+<pre><code class="language-bash">omarchy bar position bottom
+omarchy bar transparent toggle
+omarchy bar move omarchy.clock --section center --index 0
+omarchy bar set omarchy.clock format "HH:mm"
+omarchy bar defaults          # back to the shipped layout
+</code></pre>
+
+<p>Brug plugin-kommandoerne til at tilføje eller fjerne en widget helt. <code>omarchy plugin list</code> viser alle de widgets, skallen kender, sammen med deres id, og derefter kan du bruge:</p>
+
+<pre><code class="language-bash">omarchy plugin enable omarchy.media --section center
+omarchy plugin disable omarchy.weather
+</code></pre>
+
+<h2 id="hiding-the-bar">Skjul bjælken <a class="manual__heading-link" href="#hiding-the-bar" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><code>Super + Shift + Space</code> skjuler og viser bjælken igen uden at lukke skallen — paneler og genvejstaster fungerer fortsat, og du får blot skærmpladsen tilbage. Funktionen findes også i menuen under <strong>Udløs → Slå til/fra → Menulinje</strong>.</p>
+
+<h2 id="the-config-file">Konfigurationsfilen <a class="manual__heading-link" href="#the-config-file" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Det hele gemmes i <code>~/.config/omarchy/shell.json</code> under nøglen <code>bar</code>. Her er en forkortet version:</p>
+
+<pre><code class="language-json">{
+  "version": 1,
+  "bar": {
+    "position": "top",
+    "transparent": false,
+    "centerAnchor": "omarchy.clock",
+    "layout": {
+      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
+      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
+      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+    }
+  }
+}
+</code></pre>
+
+<p>Hver widget er én post i et af de tre layout-arrays, og dens indstillinger står direkte i posten — der er ingen separat indstillingsfil og intet <code>config</code>-underobjekt. Urets <code>format</code>, <code>formatAlt</code> (det format, som højreklik skifter til) og <code>verticalFormat</code> står alle direkte på <code>{ "id": "omarchy.clock" }</code>.</p>
+
+<p><code>centerAnchor</code> angiver den ene widget i midtersektionen, som fastgøres præcis i midten af skærmen, mens de andre placeres på hver side. På den måde forbliver uret præcis centreret, selv når vejret og opdateringsmærket kommer og går. Sæt værdien til en tom streng, hvis listen i midten i stedet blot skal centreres som én samlet gruppe.</p>
+
+<p>Én regel er værd at huske: <strong>Når du først har din egen <code>shell.json</code>, er den den autoritative version</strong>. Indtil du tilpasser noget, læser skallen Omarchys standardfil. I det øjeblik du trækker en widget, kører <code>omarchy bar</code> eller selv redigerer filen, overtager du ansvaret for den — der foretages ingen dyb sammenfletning, så nye standardwidgets i fremtidige Omarchy-udgivelser vises ikke automatisk på din bjælke. <code>omarchy bar defaults</code> gendanner det medfølgende layout, når du ønsker at begynde på en frisk.</p>
+
+<p>Den samme fil indeholder også dine tidsgrænser for inaktivitet på øverste niveau uden for nøglen <code>bar</code>: <code>idle.screensaver</code> og <code>idle.lock</code>, begge angivet i sekunder, siden du blev inaktiv. Standardskærmskåneren aktiveres derfor efter 150 sekunder, og skærmen låses efter 300.</p>
+{% endraw %}

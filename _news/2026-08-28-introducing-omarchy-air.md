@@ -29,6 +29,7 @@ image:
               width: 768
             - src: /assets/images/news/omarchy-air-artists-in-residence-1152w.webp
               width: 1152
+translation_key: news-2026-08-28-introducing-omarchy-air
 ---
 
 Omarchy insists that a computer should be as beautiful as it is productive. That premise has been carried by the theme makers and other Omarchy artists since day one. Building whole palettes, on their own time, for free, because they wanted their machine to look like something.

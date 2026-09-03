@@ -1,0 +1,84 @@
+---
+layout: manual
+title: "Tastatur, mus, pegefelt"
+description: "Hyprland giver dig mulighed for at konfigurere alle dine inputenheder meget detaljeret. Du kan gøre tastaturets gentagelseshastighed lynhurtig eller få pegefeltet til at bruge naturlig rulning..."
+permalink: /manual/keyboard-mouse-trackpad/
+manual_slug: keyboard-mouse-trackpad
+manual_order: 34
+previous_title: "Skærme"
+previous_url: /manual/monitors/
+next_title: "Netværk"
+next_url: /manual/networking/
+lang: da
+translation_key: manual-34-keyboard-mouse-trackpad
+---
+{% raw %}
+<p>Hyprland giver dig mulighed for at konfigurere alle dine inputenheder meget detaljeret. Du kan gøre tastaturets gentagelseshastighed lynhurtig eller få pegefeltet til at bruge naturlig rulning. Du ændrer det hele i <code>~/.config/hypr/input.lua</code>, som du også kan åbne via <em>Opsætning &gt; Input</em> i Omarchy-menuen (<code>Super + Space</code>). Alt, hvad du angiver dér, erstatter Omarchys standardindstillinger.</p>
+
+<p>Her er et eksempel:</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
+    kb_layout = "us,dk",
+    kb_options = "compose:caps,shift:both_capslock_cancel,grp:alts_toggle",
+
+    -- Change speed of keyboard repeat
+    repeat_rate = 40,
+    repeat_delay = 600,
+
+    -- Increase sensitivity for mouse/trackpad (default: 0)
+    sensitivity = 0.35,
+
+    touchpad = {
+      -- Use natural (inverse) scrolling
+      natural_scroll = true,
+
+      -- Use two-finger clicks for right-click instead of lower-right corner
+      clickfinger_behavior = true,
+
+      -- Control the speed of your scrolling
+      scroll_factor = 0.3,
+    },
+  },
+})
+
+-- Scroll faster in the terminal
+o.window("(Alacritty|kitty|foot)", { scroll_touchpad = 1.5 })
+</code></pre>
+
+<p>Du kan <a href="https://wiki.hypr.land/Configuring/Basics/Variables/#input">se alle inputindstillingerne</a> på Hyprlands wiki om input.</p>
+
+<p>Som standard bruger Omarchy CapsLock som compose-tast til <a href="../hotkeys/#quick-emojis">hurtige emojis</a> og <a href="../hotkeys/#quick-completions">andre fuldførelser</a>. Hvis du hellere vil bruge CapsLock som Caps Lock, kan du flytte compose-tasten et andet sted hen ved at ændre <code>compose:caps</code> i <code>kb_options</code>. Dette eksempel flytter compose-tasten til Right Alt:</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    kb_options = "compose:ralt",
+  },
+})
+</code></pre>
+
+<h3 id="trackpad-gestures">Bevægelser på pegefeltet <a class="manual__heading-link" href="#trackpad-gestures" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du kan også slå <a href="https://wiki.hypr.land/Configuring/Advanced-and-Cool/Gestures/">pegefeltbevægelser</a> til, såsom at stryge med tre fingre for at skifte arbejdsområde:</p>
+
+<pre><code class="language-lua">hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+</code></pre>
+
+<p>På bærbare Dell XPS-computere med et haptisk pegefelt kan du også indstille klikstyrken til lav, mellem eller høj under <em>Udløser &gt; Hardware &gt; Pegefeltshaptik</em>.</p>
+
+<h3 id="typing-in-chinese-japanese-and-other-languages">Indtastning på kinesisk, japansk og andre sprog <a class="manual__heading-link" href="#typing-in-chinese-japanese-and-other-languages" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy kører frameworket til inputmetoder <a href="https://fcitx-im.org/">fcitx5</a> som en del af hver session — det er det, der driver compose-sekvenserne med CapsLock. Det betyder, at infrastrukturen til ikke-latinsk input allerede er på plads: Installer en inputmotor såsom <code>fcitx5-mozc</code> (japansk) eller <code>fcitx5-chinese-addons</code> (kinesisk) med <code>omarchy pkg add</code> samt <code>fcitx5-configtool</code> for at føje motoren til dine inputmetoder og angive den tast, der skifter mellem dem.</p>
+
+<h3 id="use-alt-as-super">Brug ALT som SUPER <a class="manual__heading-link" href="#use-alt-as-super" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>På nogle tastaturer er det ikke praktisk at bruge den primære metatast (Windows-/cmd-tasten) som SUPER. Du kan i stedet ændre den til ALT med denne ændring:</p>
+
+<pre><code class="language-lua">hl.config({
+  input = {
+    kb_options = "compose:caps,shift:both_capslock_cancel,altwin:swap_alt_win",
+  },
+})
+</code></pre>
+{% endraw %}

@@ -1,0 +1,1276 @@
+---
+layout: manual
+title: "Genvejstaster"
+description: "Du kan se alle de vigtigste tastaturgenveje med Super + K (Tmux-genveje med Super + Alt + K og Herdr-genveje med Super + Ctrl + K)."
+permalink: /manual/hotkeys/
+manual_slug: hotkeys
+manual_order: 7
+previous_title: "Temaer"
+previous_url: /manual/themes/
+next_title: "Fælles udklipsholder og historik"
+next_url: /manual/unified-clipboard-history/
+lang: da
+translation_key: manual-07-hotkeys
+---
+{% raw %}
+<p>Du kan se alle de vigtigste tastaturgenveje med <code>Super + K</code> (Tmux-genveje med <code>Super + Alt + K</code> og Herdr-genveje med <code>Super + Ctrl + K</code>).</p>
+
+<h2 id="navigating">Navigation <a class="manual__heading-link" href="#navigating" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Space</code></td>
+      <td>Omarchy-menuen (apps og alt andet)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Space</code></td>
+      <td>Appmenu</td>
+    </tr>
+    <tr>
+      <td><code>Super + Escape</code></td>
+      <td>Systemmenu (slumretilstand, genstart osv.)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + L</code></td>
+      <td>Lås computeren</td>
+    </tr>
+    <tr>
+      <td><code>Super + W</code> eller <code>Super + Q</code></td>
+      <td>Luk vinduet</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Del</code></td>
+      <td>Luk alle vinduer</td>
+    </tr>
+    <tr>
+      <td><code>Super + T</code></td>
+      <td>Skift vinduet mellem flise- og flydende tilstand</td>
+    </tr>
+    <tr>
+      <td><code>Super + J</code></td>
+      <td>Skift vinduets placering (vandret/lodret)</td>
+    </tr>
+    <tr>
+      <td><code>Super + O</code></td>
+      <td>Skift vinduet til eller fra fastgjort og flydende tilstand</td>
+    </tr>
+    <tr>
+      <td><code>Super + L</code></td>
+      <td>Skift mellem dwindle- og rullelayout</td>
+    </tr>
+    <tr>
+      <td><code>Super + P</code></td>
+      <td>Skift pseudovinduesstil (naturlig kontra strakt)</td>
+    </tr>
+    <tr>
+      <td><code>Super + F</code></td>
+      <td>Skift til fuld skærm</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + F</code></td>
+      <td>Skift til fuld bredde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + F</code></td>
+      <td>Skift til fuld skærm inde i vinduet</td>
+    </tr>
+    <tr>
+      <td><code>Super + 1/2/3/4</code></td>
+      <td>Gå til et bestemt arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Tab</code></td>
+      <td>Gå til næste arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Tab</code></td>
+      <td>Gå til forrige arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Tab</code></td>
+      <td>Gå til det senest brugte arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + 1/2/3/4</code></td>
+      <td>Flyt vinduet til et arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + 1/2/3/4</code></td>
+      <td>Flyt vinduet til et arbejdsområde uden at følge med</td>
+    </tr>
+    <tr>
+      <td><code>Super + S</code> / <code>Super + Grave</code></td>
+      <td>Vis/skjul scratchpad</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + S</code> / <code>Super + Shift + Grave</code></td>
+      <td>Flyt vinduet til scratchpad</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + Arrows</code></td>
+      <td>Flyt arbejdsområder til skærmen i pilens retning</td>
+    </tr>
+    <tr>
+      <td><code>Super + Arrow</code></td>
+      <td>Flyt fokus til vinduet i pilens retning</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Arrow</code></td>
+      <td>Byt vinduet med et andet i pilens retning</td>
+    </tr>
+    <tr>
+      <td><code>Super + Minus</code></td>
+      <td>Udvid vinduet mod venstre</td>
+    </tr>
+    <tr>
+      <td><code>Super + Equal</code></td>
+      <td>Formindsk vinduet fra venstre</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Minus</code></td>
+      <td>Formindsk vinduet opad</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Equal</code></td>
+      <td>Udvid vinduet nedad</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Minus/Equal</code></td>
+      <td>Samme størrelsesændring i mindre trin</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Minus/Equal</code></td>
+      <td>Samme størrelsesændring i større trin</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Home</code></td>
+      <td>Gem vinduets bredde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Home</code></td>
+      <td>Gendan den gemte vinduesbredde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Left Mouse</code></td>
+      <td>Træk vinduet rundt</td>
+    </tr>
+    <tr>
+      <td><code>Super + Right Mouse</code></td>
+      <td>Tilpas vinduets størrelse</td>
+    </tr>
+    <tr>
+      <td><code>Super + Scroll Wheel</code></td>
+      <td>Rul gennem arbejdsområder</td>
+    </tr>
+    <tr>
+      <td><code>Super + G</code></td>
+      <td>Slå vinduesgruppering til eller fra</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + G</code></td>
+      <td>Flyt vinduet ud af grupperingen</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Tab</code></td>
+      <td>Skift fremad mellem vinduer i grupperingen</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Shift + Tab</code></td>
+      <td>Skift baglæns mellem vinduer i grupperingen</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + 1/2/3/4/5</code></td>
+      <td>Gå til et bestemt vindue i grupperingen</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Arrow</code></td>
+      <td>Flyt vinduet ind i grupperingen i pilens retning</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Left/Right</code></td>
+      <td>Flyt mellem vinduer i en flisegruppe</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Z</code></td>
+      <td>Zoom ind på skærmen (gentag for at zoome mere)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + Z</code></td>
+      <td>Zoom helt ud fra skærmen</td>
+    </tr>
+    <tr>
+      <td><code>Super + /</code></td>
+      <td>Gå frem gennem indstillingerne for skærmskalering</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + /</code></td>
+      <td>Gå tilbage gennem indstillingerne for skærmskalering</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Tab</code></td>
+      <td>Skift fremad mellem vinduer på det aktive arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + Tab</code></td>
+      <td>Skift baglæns mellem vinduer på det aktive arbejdsområde</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Tab</code></td>
+      <td>Flyt fokus fremad mellem skærme</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Shift + Tab</code></td>
+      <td>Flyt fokus baglæns mellem skærme</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="system-controls">Systemstyring <a class="manual__heading-link" href="#system-controls" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + A</code></td>
+      <td>Lydpanel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + B</code></td>
+      <td>Bluetooth-panel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + W</code></td>
+      <td>Wifi-/netværkspanel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + D</code></td>
+      <td>Skærmpanel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + P</code></td>
+      <td>Strømpanel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + D</code></td>
+      <td>Kalenderpanel</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + 1-9</code></td>
+      <td>Vis/skjul bjælkepanel efter placering</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + S</code></td>
+      <td>Delingsmenu (via LocalSend)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + T</code></td>
+      <td>Aktivitet (btop)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + C</code></td>
+      <td>Optagelsesfunktioner (skærmbillede/skærmoptagelse/farvevælger)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + O</code></td>
+      <td>Til/fra-menu</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + H</code></td>
+      <td>Hardwaremenu</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Q</code></td>
+      <td>Lommeregner</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + E</code></td>
+      <td>Emoji-vælger</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + .</code></td>
+      <td>Transkod medier</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Ctrl + A</code></td>
+      <td>Vælg en AI-agent</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="adjustments">Justeringer <a class="manual__heading-link" href="#adjustments" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Shift + Brightness Up</code></td>
+      <td>Maksimal skærmlysstyrke</td>
+    </tr>
+    <tr>
+      <td><code>Shift + Brightness Down</code></td>
+      <td>Minimal skærmlysstyrke</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Brightness Up/Down</code></td>
+      <td>Præcise ændringer af lysstyrken på 1 %</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Volume Up/Down</code></td>
+      <td>Præcise ændringer af lydstyrken på 1 %</td>
+    </tr>
+    <tr>
+      <td><code>Keyboard Brightness Up/Down</code></td>
+      <td>Gør tastaturets baggrundsbelysning lysere/mørkere</td>
+    </tr>
+    <tr>
+      <td><code>Keyboard Backlight</code></td>
+      <td>Skift mellem niveauerne for tastaturets baggrundsbelysning</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Play</code></td>
+      <td>Næste nummer</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + Play</code></td>
+      <td>Forrige nummer</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="launching-apps">Start af apps <a class="manual__heading-link" href="#launching-apps" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Return</code></td>
+      <td>Terminal</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + Return</code></td>
+      <td>Tmux-terminal</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Return</code></td>
+      <td>Herdr (agentadministrator)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Return</code></td>
+      <td>Browser</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + B</code></td>
+      <td>Browser (privat/inkognito)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + F</code></td>
+      <td>Filhåndtering</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + F</code></td>
+      <td>Filhåndtering i terminalens cwd</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + M</code></td>
+      <td>Musik (Spotify)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + M</code></td>
+      <td>Musik (cliamp)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + /</code></td>
+      <td>Adgangskodeadministrator (1password)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + N</code></td>
+      <td>Editor (Neovim)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + C</code></td>
+      <td>Kalender (<a href="https://hey.com/">HEY</a>)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + E</code></td>
+      <td>E-mail (<a href="https://hey.com/">HEY</a>)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + E</code></td>
+      <td>Ny e-mail (<a href="https://hey.com/">HEY</a>)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + A</code></td>
+      <td>AI (ChatGPT)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + A</code></td>
+      <td>AI (Grok)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + G</code></td>
+      <td>Messenger (Signal)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + P</code></td>
+      <td>Google Photos</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + S</code></td>
+      <td>Google Maps</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + G</code></td>
+      <td>Messenger (WhatsApp)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Ctrl + G</code></td>
+      <td>Messenger (Google)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + D</code></td>
+      <td>Docker (LazyDocker)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + O</code></td>
+      <td>Obsidian</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + W</code></td>
+      <td>Skrivning (Omawrite)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + X</code></td>
+      <td>X</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + X</code></td>
+      <td>X Compose</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Y</code></td>
+      <td>YouTube</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Rediger/tilføj genveje i <code>~/.config/hypr/bindings.lua</code>.</p>
+
+<h2 id="universal-clipboard">Universel udklipsholder <a class="manual__heading-link" href="#universal-clipboard" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + C</code></td>
+      <td>Kopiér</td>
+    </tr>
+    <tr>
+      <td><code>Super + X</code></td>
+      <td>Klip (ikke i terminalen)</td>
+    </tr>
+    <tr>
+      <td><code>Super + V</code></td>
+      <td>Indsæt</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + V</code></td>
+      <td>Udklipsholderadministrator</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>På Linux skal du normalt bruge <code>Ctrl + Shift + C/V</code> til at kopiere og indsætte i terminalen og <code>Ctrl + C/V</code> alle andre steder. Disse fælles Omarchy-genvejstaster til udklipsholderen virker overalt.</p>
+
+<h2 id="capture">Optagelse <a class="manual__heading-link" href="#capture" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + C</code></td>
+      <td>Optagelsesmenu (til tastaturer uden PrintScr-knap)</td>
+    </tr>
+    <tr>
+      <td><code>Print Screen</code></td>
+      <td>Skærmbillede</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Print Screen</code></td>
+      <td>Skærmoptagelse</td>
+    </tr>
+    <tr>
+      <td><code>Super + Print Screen</code></td>
+      <td>Farvevælger</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Print Screen</code></td>
+      <td>Udtræk tekst til udklipsholderen</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + [</code></td>
+      <td>Gør webcam-overlejringen mindre under optagelse</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + ]</code></td>
+      <td>Gør webcam-overlejringen større under optagelse</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + L</code></td>
+      <td>Kopiér den aktuelle URL fra webappen eller Chromium</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + D</code></td>
+      <td>Download videoen på den aktuelle side til <code>~/Videos</code></td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + X</code></td>
+      <td>Start/stop diktering (kræver <em>Installér &gt; AI &gt; Diktering</em>)</td>
+    </tr>
+    <tr>
+      <td><code>F9</code></td>
+      <td>Tryk-for-at-tale-diktering (kræver <em>Installér &gt; AI &gt; Diktering</em>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ved skærmoptagelser spørger genvejstasten først, hvilken lyd du ønsker, og starter derefter optagelsen. Tryk på den igen for at stoppe. Se <a href="../screenshots-recording/">skærmbilleder og optagelse</a> for nærmere oplysninger.</p>
+
+<p>Alle optagelsesmuligheder er også tilgængelige under <em>Udløs &gt; Optagelse</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<h2 id="notifications">Notifikationer <a class="manual__heading-link" href="#notifications" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + ,</code></td>
+      <td>Afvis den seneste notifikation</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + ,</code></td>
+      <td>Afvis alle notifikationer</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + ,</code></td>
+      <td>Slå lydløs tilstand for notifikationer til eller fra</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + ,</code></td>
+      <td>Aktivér den seneste notifikation</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Alt + ,</code></td>
+      <td>Åbn notifikationshistorikken</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="style">Stil <a class="manual__heading-link" href="#style" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + Shift + Space</code></td>
+      <td>Vælg et nyt tema</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Space</code></td>
+      <td>Vælg temabaggrund</td>
+    </tr>
+    <tr>
+      <td><code>Super + Backspace</code></td>
+      <td>Slå gennemsigtighed til eller fra for et vindue</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Backspace</code></td>
+      <td>Slå kvadratisk format til eller fra for et enkelt vindue</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Ekstra baggrundsbilleder ligger i <code>~/.config/omarchy/backgrounds/&lt;theme name&gt;</code>. De er også tilgængelige via <em>Installér &gt; Stil &gt; Baggrund</em> i Omarchy-menuen.</p>
+
+<p>Alle stilindstillinger er også tilgængelige under <em>Stil</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<h2 id="toggles">Til/fra-funktioner <a class="manual__heading-link" href="#toggles" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + I</code></td>
+      <td>Slå låsning ved inaktivitet til eller fra</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + N</code></td>
+      <td>Slå natlysets skærmtemperatur til eller fra</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Delete</code></td>
+      <td>Tænd/sluk den bærbare computers skærm</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + Delete</code></td>
+      <td>Slå skærmspejling for den bærbare computers skærm til eller fra</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Space</code></td>
+      <td>Vis/skjul den øverste bjælke</td>
+    </tr>
+    <tr>
+      <td><code>Shift + Mute</code></td>
+      <td>Skift til næste lydudgang</td>
+    </tr>
+    <tr>
+      <td><code>Shift + Play</code></td>
+      <td>Skift til næste mediekilde</td>
+    </tr>
+    <tr>
+      <td><code>Super + Shift + Backspace</code></td>
+      <td>Slå mellemrum mellem vinduer til eller fra</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="reminders">Påmindelser <a class="manual__heading-link" href="#reminders" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + R</code></td>
+      <td>Opret en påmindelse</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + R</code></td>
+      <td>Se alle påmindelser</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Shift + R</code></td>
+      <td>Ryd alle påmindelser</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="notices">Statusmeddelelser <a class="manual__heading-link" href="#notices" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + Alt + T</code></td>
+      <td>Vis klokkeslættet som en notifikation</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + B</code></td>
+      <td>Vis batteriet som en notifikation</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + W</code></td>
+      <td>Slå vejret som notifikation til eller fra</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="tmux">Tmux <a class="manual__heading-link" href="#tmux" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Præfikstasten er <code>Ctrl + Space</code> (<code>Ctrl + B</code> virker også). Du kan ændre disse genveje i <code>~/.config/tmux/tmux.conf</code>.</p>
+
+<h3 id="panes">Ruder <a class="manual__heading-link" href="#panes" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Prefix + v</code></td>
+      <td>Opdel med en rude ved siden af (lodret)</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + h</code></td>
+      <td>Opdel med en rude nedenunder (vandret)</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + x</code></td>
+      <td>Luk ruden</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + z</code></td>
+      <td>Slå rudezoom til eller fra (fuld skærm)</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Enter</code></td>
+      <td>Opdel med en rude nedenunder (uden præfiks)</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + Enter</code></td>
+      <td>Opdel med en rude ved siden af (uden præfiks)</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Escape</code></td>
+      <td>Luk ruden (uden præfiks)</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Arrows</code></td>
+      <td>Flyt mellem ruder</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Shift + Arrows</code></td>
+      <td>Tilpas rudernes størrelse</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="windows">Vinduer <a class="manual__heading-link" href="#windows" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Prefix + c</code></td>
+      <td>Nyt vindue</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + k</code></td>
+      <td>Luk vinduet</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + r</code></td>
+      <td>Omdøb vinduet</td>
+    </tr>
+    <tr>
+      <td><code>Alt + 1-9</code></td>
+      <td>Gå til et bestemt vindue</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Arrow Left/Right</code></td>
+      <td>Flyt mellem vinduer</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Shift + Arrow Left/Right</code></td>
+      <td>Flyt vinduet til venstre/højre</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="sessions">Sessioner <a class="manual__heading-link" href="#sessions" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Prefix + C</code></td>
+      <td>Ny session</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + K</code></td>
+      <td>Luk sessionen</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + R</code></td>
+      <td>Omdøb sessionen</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + N</code></td>
+      <td>Næste session</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + P</code></td>
+      <td>Forrige session</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Arrow Up/Down</code></td>
+      <td>Flyt mellem sessioner</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + s</code></td>
+      <td>Vis sessioner</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + d</code></td>
+      <td>Frakobl fra sessionen</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="copy-mode-vi-style">Kopieringstilstand (vi-stil) <a class="manual__heading-link" href="#copy-mode-vi-style" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Prefix + [</code></td>
+      <td>Aktivér kopieringstilstand</td>
+    </tr>
+    <tr>
+      <td><code>v</code></td>
+      <td>Start markering (i kopieringstilstand)</td>
+    </tr>
+    <tr>
+      <td><code>y</code></td>
+      <td>Kopiér markeringen (i kopieringstilstand)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="general">Generelt <a class="manual__heading-link" href="#general" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Prefix + q</code></td>
+      <td>Genindlæs konfigurationen</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + ?</code></td>
+      <td>Vis Tmux-tastaturgenveje</td>
+    </tr>
+    <tr>
+      <td><code>Prefix + :</code></td>
+      <td>Kommandoprompt</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="tmux-layout-functions">Tmux-layoutfunktioner <a class="manual__heading-link" href="#tmux-layout-functions" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Disse funktioner skal køres i en Tmux-session.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Kommando</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>tdl &lt;ai&gt; [&lt;second_ai&gt;]</code></td>
+      <td>Opret udviklerlayout med editor, AI og terminal</td>
+    </tr>
+    <tr>
+      <td><code>tdlm &lt;ai&gt; [&lt;second_ai&gt;]</code></td>
+      <td>Opret udviklerlayout for hver undermappe</td>
+    </tr>
+    <tr>
+      <td><code>tsl &lt;count&gt; &lt;command&gt;</code></td>
+      <td>Opret swarm-layout med flere ruder</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="ghostty-terminal">Ghostty-terminal <a class="manual__heading-link" href="#ghostty-terminal" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Ghostty-terminalen installeres via <em>Installér &gt; Terminal</em> i Omarchy-menuen.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Ctrl + Shift + E</code></td>
+      <td>Ny opdeling nedenunder</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Shift + O</code></td>
+      <td>Ny opdeling ved siden af</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Alt + Arrows</code></td>
+      <td>Flyt mellem opdelinger</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Shift + Arrows</code></td>
+      <td>Tilpas opdelingen med 10 linjer</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Shift + Alt + Arrows</code></td>
+      <td>Tilpas opdelingen med 100 linjer</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Shift + T</code></td>
+      <td>Ny fane</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Shift + Arrows</code></td>
+      <td>Flyt mellem faner</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Numbers</code></td>
+      <td>Gå til en bestemt fane</td>
+    </tr>
+    <tr>
+      <td><code>Shift + Pg Up/Down</code></td>
+      <td>Rul gennem historikken</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Left mouse</code></td>
+      <td>Åbn linket i browseren</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="file-manager">Filhåndtering <a class="manual__heading-link" href="#file-manager" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Ctrl + L</code></td>
+      <td>Gå til en sti</td>
+    </tr>
+    <tr>
+      <td><code>Space</code></td>
+      <td>Forhåndsvis filen (naviger med pilene)</td>
+    </tr>
+    <tr>
+      <td><code>Backspace</code></td>
+      <td>Gå én mappe tilbage</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="neovim-w-lazyvim">Neovim (med lazyvim) <a class="manual__heading-link" href="#neovim-w-lazyvim" aria-label="Link til dette afsnit">#</a></h2>
+
+<h3 id="navigation">Navigation <a class="manual__heading-link" href="#navigation" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Space</code></td>
+      <td>Vis kommandomuligheder</td>
+    </tr>
+    <tr>
+      <td><code>Space Space</code></td>
+      <td>Åbn en fil via fuzzy-søgning</td>
+    </tr>
+    <tr>
+      <td><code>Space E</code></td>
+      <td>Vis/skjul sidepanelet</td>
+    </tr>
+    <tr>
+      <td><code>Space G G</code></td>
+      <td>Vis git-funktioner</td>
+    </tr>
+    <tr>
+      <td><code>Space S G</code></td>
+      <td>Søg i filindhold</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + W W</code></td>
+      <td>Skift mellem sidepanelet og editoren</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Left/right arrow</code></td>
+      <td>Tilpas sidepanelets størrelse</td>
+    </tr>
+    <tr>
+      <td><code>Shift + H</code></td>
+      <td>Gå til filfanen til venstre</td>
+    </tr>
+    <tr>
+      <td><code>Shift + L</code></td>
+      <td>Gå til filfanen til højre</td>
+    </tr>
+    <tr>
+      <td><code>Space B D</code></td>
+      <td>Luk filfanen</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="while-in-sidebar">I sidepanelet <a class="manual__heading-link" href="#while-in-sidebar" aria-label="Link til dette afsnit">#</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Funktion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>A</code></td>
+      <td>Tilføj en ny fil i den overordnede mappe</td>
+    </tr>
+    <tr>
+      <td><code>Shift + A</code></td>
+      <td>Tilføj en ny undermappe i den overordnede mappe</td>
+    </tr>
+    <tr>
+      <td><code>D</code></td>
+      <td>Slet den fremhævede fil/mappe</td>
+    </tr>
+    <tr>
+      <td><code>M</code></td>
+      <td>Flyt den fremhævede fil/mappe</td>
+    </tr>
+    <tr>
+      <td><code>R</code></td>
+      <td>Omdøb den fremhævede fil/mappe</td>
+    </tr>
+    <tr>
+      <td><code>?</code></td>
+      <td>Vis hjælp til alle kommandoer</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><a href="https://www.lazyvim.org/keymaps">Se alle de Neovim-genvejstaster, der er konfigureret af LazyVim</a>.</p>
+
+<h2 id="quick-emojis">Hurtige emojis <a class="manual__heading-link" href="#quick-emojis" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Du kan bruge <code>Super + Ctrl + E</code> til at vise en komplet emoji-vælger, som placerer dit valg på udklipsholderen, eller du kan bruge disse hurtige genveje.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Emoji</th>
+      <th>Ledetråd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CapsLock M S</code></td>
+      <td>😄</td>
+      <td>smil</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M C</code></td>
+      <td>😂</td>
+      <td>gråd</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M L</code></td>
+      <td>😍</td>
+      <td>kærlighed</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M V</code></td>
+      <td>✌️</td>
+      <td>sejr</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M H</code></td>
+      <td>❤️</td>
+      <td>hjerte</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M Y</code></td>
+      <td>👍</td>
+      <td>ja</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M N</code></td>
+      <td>👎</td>
+      <td>nej</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M F</code></td>
+      <td>🖕</td>
+      <td>fuck</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M W</code></td>
+      <td>🤞</td>
+      <td>ønske</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M R</code></td>
+      <td>🤘</td>
+      <td>rock</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M K</code></td>
+      <td>😘</td>
+      <td>kys</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M E</code></td>
+      <td>🙄</td>
+      <td>ruller med øjnene</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M I</code></td>
+      <td>😉</td>
+      <td>blink</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M P</code></td>
+      <td>🙏</td>
+      <td>bøn</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M D</code></td>
+      <td>🤤</td>
+      <td>savl</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M M</code></td>
+      <td>💰</td>
+      <td>penge</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M X</code></td>
+      <td>🎉</td>
+      <td>fejring</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M 1</code></td>
+      <td>💯</td>
+      <td>100%</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M T</code></td>
+      <td>🥂</td>
+      <td>skål</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M O</code></td>
+      <td>👌</td>
+      <td>ok</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M G</code></td>
+      <td>👋</td>
+      <td>hilsen</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M A</code></td>
+      <td>💪</td>
+      <td>arm</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock M B</code></td>
+      <td>🤯</td>
+      <td>blæst bagover</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="quick-completions">Hurtige fuldførelser <a class="manual__heading-link" href="#quick-completions" aria-label="Link til dette afsnit">#</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Genvejstast</th>
+      <th>Fuldførelse</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>CapsLock Space Space</code></td>
+      <td>— (lang tankestreg)</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock Space N</code></td>
+      <td>Dit navn (som angivet under opsætningen)</td>
+    </tr>
+    <tr>
+      <td><code>CapsLock Space E</code></td>
+      <td>Din e-mailadresse (som angivet under opsætningen)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Du kan tilføje flere af dine egne ved at redigere <code>~/.XCompose</code> og derefter køre <code>omarchy-restart-xcompose</code> i terminalen, så ændringerne bliver indlæst.</p>
+{% endraw %}

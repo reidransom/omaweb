@@ -1,0 +1,53 @@
+---
+layout: manual
+title: "Kom godt i gang"
+description: "Omarchy installeres ved hjælp af en ISO. Du kan vælge mellem en installation på hele disken, som overtager hele drevet, eller en installation på ledig plads, som placerer..."
+permalink: /manual/getting-started/
+manual_slug: getting-started
+manual_order: 2
+previous_title: "Velkommen til Omarchy!"
+previous_url: /manual/
+next_title: "Hvis du kommer fra Mac eller Windows"
+next_url: /manual/coming-from-mac-or-windows/
+lang: da
+translation_key: manual-02-getting-started
+---
+{% raw %}
+<p>Omarchy installeres ved hjælp af en ISO. Du kan vælge mellem en installation på hele disken, som overtager hele drevet, eller en installation på ledig plads, som placerer Omarchy på den ikke-allokerede plads på et drev — sådan konfigurerer du dual boot sammen med Windows eller et andet operativsystem (se <a href="../dual-boot-install/">dual boot-installation</a> — bemærk, at du først skal slå BitLocker fra i Windows). Uanset hvad er installationen som standard fuldt krypteret, og valget af hele disken sletter det valgte drev, så sørg for at tage en sikkerhedskopi, før du bruger et eksisterende drev!</p>
+
+<p><a href="https://omarchy.org/">Download først Omarchy ISO</a>, læg den på et USB-drev (brug <a href="https://etcher.balena.io/">balenaEtcher</a> på Mac/Windows eller <a href="https://github.com/ifd3f/caligula">caligula</a> på Linux), og start fra USB-drevet.</p>
+
+<p><em>Du skal slå Secure Boot og/eller TPM fra i BIOS. De skal være slået fra, før du kan installere Omarchy. Det er Microsoft-sikkerhedsordninger beregnet til Windows og Microsoft-tilknyttede Linux-distributioner.</em></p>
+
+<p>Besvar derefter konfigurationsspørgsmålene, og bekræft dine valg sådan her:</p>
+
+<p><img src="/manual/images/install-config.webp" alt="Installationskonfiguration"  width="1600" height="1123" loading="lazy" decoding="async" /></p>
+
+<p>Vælg derefter et drev til installationen, læn dig tilbage, og følg med, mens installationen kører. På de hurtigste moderne maskiner kan den klares på under ét minut, men selv på en ældre computer bør den ikke tage mere end 5 minutter.</p>
+
+<p><img src="/manual/images/install-done.webp" alt="Installationen er færdig"  width="1288" height="641" loading="lazy" decoding="async" /></p>
+
+<p>Nu er du klar til at bruge Omarchy!</p>
+
+<h3 id="use-a-wired-or-24ghz-keyboard">Brug et kabeltilsluttet tastatur eller et 2,4 GHz-tastatur! <a class="manual__heading-link" href="#use-a-wired-or-24ghz-keyboard" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Kryptering af hele disken gør, at du ikke kan indtaste adgangskoden med et Bluetooth-tastatur ved opstart. På samme måde kan du heller ikke bruge et Bluetooth-tastatur til at åbne BIOS på en pc. Du skal bruge et tastatur, der enten anvender en 2,4 GHz-dongle eller et kabel (hvilket alligevel er langt bedre med hensyn til forsinkelse!). Personligt er jeg vild med <a href="https://www.lofree.co/products/lofree-flow-the-smoothest-mechanical-keyboard">Lofree Flow84</a>!</p>
+
+<h3 id="installing-for-another-owner">Installation til en anden ejer <a class="manual__heading-link" href="#installing-for-another-owner" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du konfigurerer en maskine til en anden — et familiemedlem, en ny medarbejder eller en køber — bør du ikke besvare de personlige spørgsmål på vedkommendes vegne. Tryk på <code>Ctrl + C</code> på installationsprogrammets allerførste skærmbillede (valg af tastatur), så tilbyder Omarchy i stedet at klargøre maskinen til en anden ejer. Systemet installeres med det samme, men hele den personlige opsætning — tastaturlayout, brugernavn og adgangskode — udskydes, indtil maskinen starter for første gang. Drevet er stadig krypteret som standard, og den adgangskode, som den nye ejer vælger ved den første opstart, bliver også adgangskoden til krypteringen. (En maskine, du allerede har brugt, kan også overdrages uden geninstallation — se <a href="../security/">nulstilling af computeren</a>.)</p>
+
+<h3 id="unattended-installs">Uovervågede installationer <a class="manual__heading-link" href="#unattended-installs" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>ISO’en kan også udføre hele installationen automatisk — uden tastatur og uden guide — når konfigurationen leveres på et andet drev. Sådan bruger du Omarchy som basisafbildning til virtuelle maskiner og maskiner i større flåder. Se <a href="../unattended-installs/">uovervågede installationer</a>.</p>
+
+<h3 id="no-encryption-installations">Installationer uden kryptering <a class="manual__heading-link" href="#no-encryption-installations" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy installeres som standard med kryptering. Det er det sikre og ansvarlige valg for enhver computer, der kan risikere at blive væk eller stjålet. Du ønsker ikke, at nogen med adgang til din hardware også skal kunne få adgang til dine data!</p>
+
+<p>Under særlige omstændigheder, f.eks. ved fjerninstallation af Omarchy på beskyttede computere eller ved midlertidige installationer uden følsomme data, kan du dog ønske at installere uden kryptering. Du kan trykke på <code>Ctrl + C</code> ved bekræftelsen af diskformateringen for at skifte til en installation uden kryptering.</p>
+
+<h3 id="help-if-youre-stuck">Hjælp, hvis du sidder fast <a class="manual__heading-link" href="#help-if-youre-stuck" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du sidder fast, kan du som regel finde nogen, der er villige til at hjælpe, i kanalen <em>#omarchy-help</em> på <a href="/discord/">fællesskabets Discord</a>.</p>
+{% endraw %}

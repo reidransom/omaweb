@@ -38,9 +38,9 @@ layout: default
 
       {% unless page.manual_toc %}
         <nav class="manual-pagination" aria-label="Chapter pagination">
-          {% if page.previous_url %}<a class="manual-pagination__previous" href="{{ page.previous_url | relative_url }}" rel="prev">← {{ page.previous_title | escape }}</a>{% else %}<span></span>{% endif %}
-          <a class="manual-pagination__contents" href="{{ '/manual/toc/' | relative_url }}">Table of contents</a>
-          {% if page.next_url %}<a class="manual-pagination__next" href="{{ page.next_url | relative_url }}" rel="next">{{ page.next_title | escape }} →</a>{% else %}<span></span>{% endif %}
+          {% if page.previous_url %}<a class="manual-pagination__previous" href="{{ page.previous_url | localized_url }}" rel="prev">← {{ page.previous_title | escape }}</a>{% else %}<span></span>{% endif %}
+          <a class="manual-pagination__contents" href="{{ '/manual/toc/' | localized_url }}">Table of contents</a>
+          {% if page.next_url %}<a class="manual-pagination__next" href="{{ page.next_url | localized_url }}" rel="next">{{ page.next_title | escape }} →</a>{% else %}<span></span>{% endif %}
         </nav>
       {% endunless %}
     </div>

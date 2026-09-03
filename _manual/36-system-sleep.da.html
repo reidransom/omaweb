@@ -1,0 +1,33 @@
+---
+layout: manual
+title: "Systemets slumretilstand"
+description: "Omarchy aktiverer som standard hvile- og dvaletilstand, men hvis du oplever problemer med en af dem på din maskine, kan du slå dem fra."
+permalink: /manual/system-sleep/
+manual_slug: system-sleep
+manual_order: 36
+previous_title: "Netværk"
+previous_url: /manual/networking/
+next_title: "Hardwaregodkendelse"
+next_url: /manual/hardware-authentication/
+lang: da
+translation_key: manual-36-system-sleep
+---
+{% raw %}
+<p>Omarchy aktiverer som standard hvile- og dvaletilstand, men hvis du oplever problemer med en af dem på din maskine, kan du slå dem fra.</p>
+
+<h3 id="power-profiles">Strømprofiler <a class="manual__heading-link" href="#power-profiles" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>På en bærbar computer husker Omarchy din strømprofil separat, alt efter om computeren er sluttet til strøm eller kører på batteri, og skifter mellem de to, når du tilslutter eller frakobler strømmen. Som standard betyder det høj ydeevne på netstrøm og en balanceret profil på batteri.</p>
+
+<p>Du kan se, hvilke profiler din maskine tilbyder, med <code>omarchy powerprofiles list</code> og vælge den ønskede profil for den aktuelle strømtilstand med <code>omarchy powerprofiles set autodetect power-saver</code>. Hvis du vil indstille den anden tilstand uden at frakoble noget, skal du angive den direkte: <code>omarchy powerprofiles set battery power-saver</code>. Den profil, du vælger, bliver brugt igen, næste gang du befinder dig i den pågældende tilstand.</p>
+
+<h3 id="toggle-suspend">Slå hviletilstand til eller fra <a class="manual__heading-link" href="#toggle-suspend" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du slår hviletilstand til eller fra ved at køre <code>omarchy toggle suspend</code> i terminalen. Det viser eller skjuler blot indstillingen under <em>System</em> (eller <code>Super + Esc</code>), hvorefter du kan se, om den fungerer stabilt på dit system. Hvis ikke, kan du skjule den igen med den samme kommando.</p>
+
+<h3 id="toggle-hibernation">Slå dvaletilstand til eller fra <a class="manual__heading-link" href="#toggle-hibernation" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du konfigurerer dvaletilstand ved at køre <code>omarchy hibernation setup</code> i terminalen. Dvaletilstand opretter en /swap-underenhed på dit startdrev med samme størrelse som mængden af fysisk RAM, så sørg for, at du har rigeligt med ledig plads. På en maskine med 32GB skal du altid have mindst 32GB ledig plads til denne enhed. Dvaletilstand kræver desuden standardbootloaderen Limine.</p>
+
+<p>Når dvaletilstand er konfigureret, vises indstillingen under <em>System</em> (eller <code>Super + Esc</code>), hvorefter du kan se, om den fungerer stabilt på dit system. Hvis ikke, kan du fjerne den igen ved at køre <code>omarchy hibernation remove</code>.</p>
+{% endraw %}

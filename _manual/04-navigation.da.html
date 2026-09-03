@@ -1,0 +1,84 @@
+---
+layout: manual
+title: "Navigation"
+description: "Alt i Omarchy foregår via tastaturet — ALT! Når systemet starter første gang, kan du bogstaveligt talt ikke gøre noget med musen alene. Men du kan..."
+permalink: /manual/navigation/
+manual_slug: navigation
+manual_order: 4
+previous_title: "Hvis du kommer fra Mac eller Windows"
+previous_url: /manual/coming-from-mac-or-windows/
+next_title: "Topbjælken"
+next_url: /manual/the-top-bar/
+lang: da
+translation_key: manual-04-navigation
+---
+{% raw %}
+<p>Alt i Omarchy foregår via tastaturet — <em>ALT!</em> Når systemet starter første gang, kan du bogstaveligt talt ikke gøre noget med musen alene. Men du kan trykke på <code>Super + Space</code> for at åbne Omarchy-menuen, og herfra kan du gøre stort set alt.</p>
+
+<p>Omarchy-menuen er dog slet ikke tænkt som den primære måde at betjene systemet på det meste af tiden. Vi kan gøre det hurtigere! Alle de vigtigste programmer er knyttet direkte til hver sin tastaturgenvej. Du starter terminalen med <code>Super + Return</code> og en browser med <code>Super + Shift + Return</code>. Prøv at starte dem efter hinanden, så kan du se magien i Hyprlands fliseopdeling i praksis:</p>
+
+<p><img src="/manual/images/navigation-browser-terminal.webp" alt="Browser og terminal side om side"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Derefter kan du trykke på <code>Super + J</code> for at stable dem oven på hinanden i stedet for at placere dem side om side:</p>
+
+<p><img src="/manual/images/navigation-stacked.webp" alt="Vinduer stablet oven på hinanden"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Tryk på <code>Super + J</code> igen for at placere dem side om side igen. Prøv derefter <code>Super + Shift + Arrow Right</code>, mens browseren er aktiv, for at bytte om på vinduerne.</p>
+
+<p>Prøv nu <code>Super + Ctrl + T</code> for at starte Aktivitetsovervågning. Den vises som et flydende vindue. Du kan føje den til fliseopdelingen med <code>Super + T</code> (og trykke igen for at gøre den flydende på ny). Tryk nu på <code>Super + Shift + F</code> for at åbne filhåndteringen. Så har du en fin opdeling i fire:</p>
+
+<p><img src="/manual/images/navigation-fourway-tiling.webp" alt="Fliseopdeling med fire vinduer"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Du navigerer mellem vinduerne med <code>Super + Arrow</code> for at vælge det vindue, der skal være aktivt. Det flytter fokus og placerer markøren midt i det nye program.</p>
+
+<p>Hvis du trykker på <code>Super + Shift + 2</code>, flyttes det aktive program til det andet arbejdsområde. <code>Super + Shift + 1</code> flytter det tilbage. (<code>Super + Shift + Alt + 2</code> flytter det aktive program til det andet arbejdsområde uden at skifte til det).</p>
+
+<p>Hvis du holder <code>Super</code> nede og klikker på et vindue med musen, kan du flytte det. Hvis du holder <code>Super</code> nede og bruger musens højre knap, kan du frit ændre vinduets størrelse.</p>
+
+<p>Du lukker et vindue med <code>Super + W</code> eller <code>Super + Q</code> (og lukker alle vinduer med <code>Ctrl + Alt + Delete</code>).</p>
+
+<p>Du kan også skifte til fuld skærm med <code>Super + F</code>, nøjes med fuld bredde (og beholde topbjælken) med <code>Super + Alt + F</code> eller få fuld skærm inde i et vindue med <code>Super + Ctrl + F</code> (godt til YouTube!).</p>
+
+<h3 id="dwindle-vs-scrolling-layout">Dwindle-layout kontra rullelayout <a class="manual__heading-link" href="#dwindle-vs-scrolling-layout" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchys standardlayout kaldes dwindle. Det holder altid alle de vinduer, du åbner i ét arbejdsområde, synlige, selv hvis de skal gøres mindre.</p>
+
+<p><img src="/manual/images/navigation-dwindle-layout.webp" alt="Dwindle-layout med synlige vinduer"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Du kan dog også vælge at ændre et arbejdsområde til et rullelayout, hvor vinduerne står side om side og fortsætter ud over skærmens synlige kant. Du ændrer et enkelt arbejdsområde til dette layout med <code>Super + L</code>.</p>
+
+<p><img src="/manual/images/navigation-scrolling-layout.webp" alt="Rullelayout med vinduer side om side"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Valget foretages for hvert arbejdsområde og bliver husket. Du kan derfor beholde arbejdsområde 1 i dwindle-layout til browsing og arbejdsområde 2 i rullelayout til kode, og de vender tilbage sådan efter en genstart. (Den samme indstilling findes under <em>Udløs &gt; Slå til/fra &gt; Arbejdsområdelayout</em> i Omarchy-menuen).</p>
+
+<p>Hvis du vil bruge rullelayout som standard, kan du indstille det i <code>~/.config/hypr/looknfeel.lua</code>:</p>
+
+<pre><code class="language-lua">hl.config({
+  general = {
+    layout = "scrolling",
+  },
+})
+</code></pre>
+
+<h3 id="grouping-windows">Gruppering af vinduer <a class="manual__heading-link" href="#grouping-windows" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Vinduer kan grupperes med <code>Super + G</code>. Når du er i en gruppe, føjes alle vinduer, du starter, mens gruppen er aktiv, til den. Du kan skifte mellem de grupperede vinduer med <code>Super + Ctrl + Arrow Left/Right</code> eller gå direkte til et grupperet vindue efter dets placering i rækkefølgen med <code>Super + Alt + 1/2/3/4</code>.</p>
+
+<p>Du kan flytte et vindue ud af gruppen med <code>Super + Alt + G</code> eller opløse hele gruppen ved at trykke på <code>Super + G</code> igen. Endelig kan du flytte vinduer uden for gruppen ind i den med <code>Super + Alt + Arrows</code>.</p>
+
+<h3 id="popping-windows">Frigørelse af vinduer <a class="manual__heading-link" href="#popping-windows" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Du kan frigøre et vindue fra dets placering i arbejdsområdet med <code>Super + O</code>. Det fastgør vinduet som et flydende vindue, der følger med dig, uanset hvilket arbejdsområde du skifter til. Det er perfekt til videoafspillere og lignende.</p>
+
+<p><img src="/manual/images/navigation-popped-window.webp" alt="Frigjort flydende vindue"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<h3 id="scratchpad-workspace">Scratchpad-arbejdsområde <a class="manual__heading-link" href="#scratchpad-workspace" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Endelig findes der et særligt scratchpad-arbejdsområde, som ruller ned over det arbejdsområde, du befinder dig i, omtrent som en Quake-konsol. Slå det til eller fra med <code>Super + Grave</code> eller <code>Super + S</code>, og placer et vindue der med <code>Super + Shift + Grave</code> eller <code>Super + Alt + S</code>.</p>
+
+<p>Det fungerer især godt til en terminal, der kører en agent, eller til betjeningselementer, du hurtigt vil kunne bruge uden at forlade det aktuelle arbejdsområde. Hvis du vil flytte et vindue væk fra scratchpad-arbejdsområdet, kan du sende det direkte til et andet arbejdsområde med eksempelvis <code>Super + Shift + 1</code>.</p>
+
+<h3 id="it-takes-some-getting-used-to">Det kræver lidt tilvænning! <a class="manual__heading-link" href="#it-takes-some-getting-used-to" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Det tager lidt tid at vænne sig til at navigere på skrivebordet på denne måde, men når du først har gjort det, bliver det svært at vende tilbage til den traditionelle, musestyrede skrivebordsoplevelse!</p>
+{% endraw %}

@@ -11,6 +11,7 @@ products:
   items: []
 project_areas:
   items: [foundation, sponsorships]
+translation_key: news-2026-08-21-omacom-foundation-to-be-exclusive-hyprland-sponsor
 ---
 
 What better way to start spending some of the treasure we [just raised for the Omacom Foundation](/news/2026/08/omacom-foundation-launches-with-8-million/) than on the most cracked Linux kid in Poland: [Vaxry](https://x.com/vaxryy)!

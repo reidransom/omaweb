@@ -29,6 +29,7 @@ image:
               width: 768
             - src: /assets/images/news/omarchy-downloads-global-delivery-1152w.webp
               width: 1152
+translation_key: news-2026-08-28-100000-downloads-in-a-week
 ---
 
 One hundred thousand downloads of the Omarchy ISO in the past week! One hundred thousand people who decided that this was the week they’d finally try Linux (or come back to it). What a bunch of bosses!

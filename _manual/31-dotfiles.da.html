@@ -1,0 +1,150 @@
+---
+layout: manual
+title: "Dotfiler"
+description: "Omarchy konfigureres primært via de såkaldte dotfiler, som ligger i ~/.config. De betragtes som dine filer, hvor du foretager dine ændringer. De filer, der ligger..."
+permalink: /manual/dotfiles/
+manual_slug: dotfiles
+manual_order: 31
+previous_title: "Opdateringer"
+previous_url: /manual/updates/
+next_title: "Shell-plugins"
+next_url: /manual/shell-plugins/
+lang: da
+translation_key: manual-31-dotfiles
+---
+{% raw %}
+<p>Omarchy konfigureres primært via de såkaldte dotfiler, som ligger i <code>~/.config</code>. De betragtes som dine filer, hvor du foretager dine ændringer. Filerne i <code>/usr/share/omarchy</code> tilhører selve Omarchy, og dem bør du ikke rode med. Hvis du har brug for at ændre noget i <code>/usr/share/omarchy</code>, bør du i stedet tilsidesætte værdien i <code>~/.config</code>.</p>
+
+<p>De vigtigste konfigurationer kan redigeres direkte fra Omarchy-menuen (<code>Super + Space</code>), f.eks. via <em>Opsætning &gt; Skærme</em>, <em>Opsætning &gt; Tastaturgenveje</em>, <em>Opsætning &gt; Input</em> og <em>Opsætning &gt; Konfiguration &gt; [fil]</em>. Når du gør det på denne måde, bliver alle processer, der skal genstartes efter ændringer i konfigurationen, automatisk genstartet, når du afslutter editoren (Neovim som standard — husk <code>:wq</code>! — men du kan ændre det via <em>Opsætning &gt; Standarder &gt; Editor</em>).</p>
+
+<p>Her er en liste over de vigtigste filer i <code>~/.config</code>, og hvad de styrer:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fil</th>
+      <th>Formål</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.config/hypr/hyprland.lua</code></td>
+      <td>Hyprlands primære konfiguration. Indlæser Omarchys standardindstillinger samt dine tilsidesættelsesfiler nedenfor. <a href="https://wiki.hypr.land/Configuring/">Læs mere om Hyprland-konfigurationer</a>.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/bindings.lua</code></td>
+      <td>Dine egne tastaturgenveje og tilsidesættelser af standardindstillingerne.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/monitors.lua</code></td>
+      <td>Styrer dine skærme, deres opløsning og placering.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/input.lua</code></td>
+      <td>Styrer dit tastaturlayout samt indstillingerne for mus og pegefelt.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/looknfeel.lua</code></td>
+      <td>Styrer mellemrum, kanter, animationer og resten af udseendet.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/autostart.lua</code></td>
+      <td>Styrer ekstra processer, der startes sammen med sessionen.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/omarchy/shell.json</code></td>
+      <td>Styrer Omarchy-shell'en: bjælkens placering, layout og widgets samt pauseskærm, låsning og tidsgrænser for inaktivitet.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/foot/foot.ini</code></td>
+      <td>Styrer din terminal (foot er standarden).</td>
+    </tr>
+    <tr>
+      <td><code>~/.XCompose</code></td>
+      <td>Definerer dine genveje til emoji og autofuldførelse af navn/e-mail. Sørg for at køre <code>omarchy-restart-xcompose</code>, når du har foretaget ændringer.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Hvis du foretager mange ændringer for at finjustere din egen opsætning, er det en god idé at sikkerhedskopiere alle disse dotfiler. <a href="https://www.youtube.com/watch?v=NoFiYOqnC4o">Stow er en fremragende måde at gøre det på</a>.</p>
+
+<h3 id="starting-your-own-apps-with-the-session">Start dine egne apps sammen med sessionen <a class="manual__heading-link" href="#starting-your-own-apps-with-the-session" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du vil have noget til at køre, hver gang du logger ind — en synkroniseringsdæmon, en chatapp eller dit eget script — skal du føje det til <code>~/.config/hypr/autostart.lua</code>:</p>
+
+<pre><code class="language-lua">o.launch_on_start("my-service")
+</code></pre>
+
+<p>Det starter kommandoen som en del af sessionen, så den bliver lukket korrekt ned, når du logger ud igen.</p>
+
+<h3 id="running-scripts-on-system-events">Kør scripts ved systemhændelser <a class="manual__heading-link" href="#running-scripts-on-system-events" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy aktiverer hooks på en række tidspunkter, og du kan knytte dine egne scripts til dem. De ligger i <code>~/.config/omarchy/hooks/&lt;event&gt;.d/</code>, én mappe pr. hændelse, og alle eksekverbare filer deri køres, når hændelsen indtræffer:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hændelse</th>
+      <th>Hvornår den køres</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>post-boot</code></td>
+      <td>Lige efter skrivebordsmiljøet er startet</td>
+    </tr>
+    <tr>
+      <td><code>post-update</code></td>
+      <td>Under <code>omarchy update</code>, efter pakker og migreringer</td>
+    </tr>
+    <tr>
+      <td><code>pre-refresh-pacman</code></td>
+      <td>Før <code>omarchy refresh pacman</code> synkroniserer pakkekonfigurationen igen</td>
+    </tr>
+    <tr>
+      <td><code>theme-set</code></td>
+      <td>Efter et temaskift (temaets navn i <code>$1</code>)</td>
+    </tr>
+    <tr>
+      <td><code>font-set</code></td>
+      <td>Efter et skrifttypeskift (skrifttypens navn i <code>$1</code>)</td>
+    </tr>
+    <tr>
+      <td><code>battery-low</code></td>
+      <td>Når batteriniveauet bliver lavt (procent i <code>$1</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Hver af disse mapper indeholder allerede en <code>.sample</code>-fil, der viser, hvordan et hook skal se ud — fjern <code>.sample</code> fra navnet for at tage det i brug. Hvis du vil installere et script, som du har skrevet et andet sted, skal du bruge <code>omarchy hook install post-boot ~/my-hook</code>, som kopierer det ind og gør det eksekverbart.</p>
+
+<h3 id="adding-your-own-menu-entries">Tilføj dine egne menupunkter <a class="manual__heading-link" href="#adding-your-own-menu-entries" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy-menuen (<code>Super + Space</code>) kan udvides med dine egne rækker ved at redigere <code>~/.config/omarchy/extensions/omarchy-menu.jsonc</code>. Hvert punkt identificeres med et punktsepareret id, og id'et bestemmer dets placering i træet. Derfor vises <code>personal</code> i rodmenuen, mens <code>personal.notes</code> vises inde i den:</p>
+
+<pre><code class="language-jsonc">"personal": {"icon":"","label":"Personal"},
+"personal.notes": {"icon":"󰎞","label":"Notes","action":"omarchy-launch-editor ~/notes"},
+</code></pre>
+
+<p>Hvis du genbruger et eksisterende id, tilsidesætter du den pågældende række i stedet for at tilføje en ny. Filen leveres med kommentarer, der dokumenterer alle tilgængelige felter.</p>
+
+<h3 id="adding-your-own-shell-exports-functions-and-aliases">Tilføj dine egne shell-eksporter, funktioner og aliasser <a class="manual__heading-link" href="#adding-your-own-shell-exports-functions-and-aliases" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy leveres med en række praktiske aliasser og nyttige funktioner, men det er meget almindeligt at ville tilføje sine egne. Du bør tilføje aliasser, funktioner og eksporter i <code>~/.bashrc</code>. Denne fil bliver ikke overskrevet ved opdateringer. Hvis du vil ændre nogle af Omarchys standardindstillinger, kan du også roligt tilføje dem her.</p>
+
+<h3 id="changing-internal-omarchy-files">Rediger interne Omarchy-filer <a class="manual__heading-link" href="#changing-internal-omarchy-files" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hør, det er din computer. Du kan gøre med den, hvad du vil, men jeg vil fraråde at ændre filerne i <code>/usr/share/omarchy</code> direkte. De tilhører Omarchys pacman-pakke, så dine ændringer bliver ganske enkelt overskrevet ved næste opdatering. Det er bedre i stedet at tilsidesætte de standardværdier, du ikke kan lide, i mappen <code>~/.config/*</code>.</p>
+
+<p>På den måde kan du ændre stort set alt, f.eks. standardtastaturgenvejene. Du skal blot redigere <code>~/.config/hypr/bindings.lua</code> for eksempelvis at erstatte <a href="https://obsidian.md/">Obsidian</a> med <a href="https://joplinapp.org/">Joplin</a> (installer med <code>omarchy-pkg-add joplin-bin</code>):</p>
+
+<pre><code>hl.unbind("SUPER + SHIFT + O")
+o.bind("SUPER + SHIFT + O", "Joplin", "joplin-desktop")
+</code></pre>
+
+<p>Hvis du insisterer på at rode med de interne Omarchy-filer, skal du skifte til udviklingskanalen via <em>Opdatering &gt; Kanal &gt; Udvikling</em>. Det forbinder Omarchy med en git-checkout af kildekoden i <code>~/omarchy</code>, som du frit kan ændre efter hjertets lyst. Der er ingen her, der skal fortælle dig, hvad du skal gøre!</p>
+
+<h3 id="resetting-any-changes">Nulstil ændringer <a class="manual__heading-link" href="#resetting-any-changes" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du ender med at lave rod i konfigurationerne, kan du altid gendanne standardindstillingerne via <em>Opdatering &gt; Konfiguration</em> i Omarchy-menuen. Du kan også køre <code>omarchy reinstall configs</code> for at nulstille det hele.</p>
+{% endraw %}

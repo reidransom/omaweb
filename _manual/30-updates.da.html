@@ -1,0 +1,51 @@
+---
+layout: manual
+title: "Opdateringer"
+description: "Omarchy og dine pakker holdes opdateret via Opdatering > Omarchy i Omarchy-menuen (Super + Space)."
+permalink: /manual/updates/
+manual_slug: updates
+manual_order: 30
+previous_title: "Andre pakker"
+previous_url: /manual/other-packages/
+next_title: "Dotfiler"
+next_url: /manual/dotfiles/
+lang: da
+translation_key: manual-30-updates
+---
+{% raw %}
+<p>Omarchy og dine pakker holdes opdateret via <em>Opdatering &gt; Omarchy</em> i Omarchy-menuen (<code>Super + Space</code>).</p>
+
+<p>Omarchy selv installeres som almindelige pacman-pakker fra <a href="https://github.com/omacom-io/omarchy-pkgs">Omarchy-pakkearkivet</a>, så en opdatering installerer <a href="https://github.com/basecamp/omarchy/releases">den seneste Omarchy-udgivelse</a>, kører eventuelle ventende migreringer for at synkronisere dit system med den nyeste version og opdaterer alle systempakker fra <a href="https://github.com/omacom-io/omarchy-mirror">Omarchy Arch-spejlet</a> og <a href="https://aur.archlinux.org/">AUR</a> (hvis du har installeret AUR-pakker).</p>
+
+<p>Når der udkommer nye versioner, vises et ikon med en cirkulær pil til højre for dit ur. Klik på det for at starte opdateringen.</p>
+
+<p><img src="/manual/images/update-available.webp" alt="opdatering tilgængelig"  width="460" height="136" loading="lazy" decoding="async" /></p>
+
+<h3 id="four-channels">Fire kanaler <a class="manual__heading-link" href="#four-channels" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy opdateres via fire kanaler: stable, RC, edge og dev. Nye installationer starter på stable-kanalen, som følger de <a href="https://github.com/basecamp/omarchy/releases/">officielle udgivelser</a> samt det <a href="https://github.com/omacom-io/omarchy-mirror">stabile Omarchy Arch-spejl</a>, der er én måned bagud i forhold til det nyeste. På den måde kan vi opdage eventuelle nye inkompatibiliteter, som kræver konfigurationsændringer, før de skaber problemer for brugerne.</p>
+
+<p>Hvis du gerne vil hjælpe med at opdage disse potentielle problemer, kan du bruge edge-kanalen. Så følger dine Omarchy-pakker de seneste udviklingsversioner, og du kan opdatere til de nyeste Arch-pakker, så snart de er tilgængelige. Det bør du kun gøre, hvis du har erfaring med Linux og ved, hvordan du genopretter et system, der har problemer.</p>
+
+<p>Før hver ny hovedudgivelse foretager vi den endelige validering via RC-kanalen. Hvis du er interesseret i at hjælpe med den sidste finpudsning, kan du kigge forbi #omarchy-release-candidates på Discord.</p>
+
+<p>Endelig er der dev-kanalen, som forbinder Omarchy direkte med en git-checkout af kildekoden i <code>~/omarchy</code> kombineret med edge-pakkerne. Du bør kun bruge denne kanal, hvis du er en erfaren Linux-bruger, arbejder direkte på Omarchy og er villig til at tolerere, at ting går i stykker.</p>
+
+<p>Du kan skifte mellem kanalerne via <em>Opdatering &gt; Kanal</em> i Omarchy-menuen (eller <code>omarchy-channel-set</code> i terminalen).</p>
+
+<h3 id="firmware-updates">Firmwareopdateringer <a class="manual__heading-link" href="#firmware-updates" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Dine pakker er ikke det eneste, der bliver forældet. Mange bærbare computere og eksterne enheder får firmware til BIOS, SSD'er og dockingstationer via Linux Vendor Firmware Service, og <em>Opdatering &gt; Firmware</em> i Omarchy-menuen henter og installerer de opdateringer, der venter til din hardware. Første gang du bruger funktionen, installeres <code>fwupd</code>. Meget firmware kan kun skrives under en genstart, så bliv ikke overrasket, hvis du bliver bedt om at genstarte.</p>
+
+<h3 id="warning-about-direct-pacmanyay-updates">Advarsel om direkte pacman/yay-opdateringer <a class="manual__heading-link" href="#warning-about-direct-pacmanyay-updates" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du allerede kender Arch, kan du være fristet til blot selv at køre <code>pacman -Syu</code> eller <code>yay -Syu</code>, men hvis du gør det, går du glip af det øjebliksbillede samt de migreringer og konfigurationsopdateringer, som Omarchy kører sammen med nye pakker. Derfor stopper Omarchy faktisk en direkte systemopgradering og henviser dig til <code>omarchy update</code> i stedet. (Hvis du virkelig ved, hvad du laver, fortæller beskyttelsesmekanismen dig, hvordan du omgår den for en enkelt transaktion.)</p>
+
+<h3 id="rolling-back-bad-updates">Tilbagerulning af problematiske opdateringer <a class="manual__heading-link" href="#rolling-back-bad-updates" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Hvis du nogensinde oplever et problem efter en opdatering, kan du rulle systemet tilbage til det øjebliksbillede, der blev taget før opdateringen. Genstart blot, og vælg øjebliksbilledet fra før opdateringen i opstartsmenuen.</p>
+
+<p><img src="/manual/images/bootloader.webp" alt="opstartsindlæser"  width="1600" height="1004" loading="lazy" decoding="async" /></p>
+
+<p>Hvis dine konfigurationsfiler på en eller anden måde er blevet beskadiget, kan du også geninstallere Omarchy ved at køre <code>omarchy reinstall</code> i terminalen. Det geninstallerer alle Omarchys standardpakker, skifter dig til stable, nedgraderer eventuelle pakker, der er for nye, og nulstiller alle konfigurationsfiler. Bemærk, at alle dine egne ændringer af Omarchys standardkonfiguration bliver overskrevet, når du gør dette!</p>
+{% endraw %}

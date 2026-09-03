@@ -11,6 +11,7 @@ products:
   items: []
 project_areas:
   items: [foundation, sponsorships]
+translation_key: news-2026-08-25-omacom-foundation-to-be-premier-mise-sponsor
 ---
 
 Third sponsorship out the door! The Omacom Foundation is becoming a premier sponsor of [mise](https://mise.jdx.dev/), and thereby of [jdx](https://x.com/jdxcode), who has spent years building the tool that quietly makes managing different versions of Ruby, Node, Go a joy to manage, and gives all your agent tooling in upgrade channel that can keep up with the pace of shipping.

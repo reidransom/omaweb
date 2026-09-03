@@ -1,0 +1,95 @@
+---
+layout: manual
+title: "Mac-understøttelse"
+description: "Omarchy har indbygget understøttelse af Intel Macs. Der er i øjeblikket et par kendte begrænsninger, men så længe du er opmærksom på dem og kan acceptere dem, kan du..."
+permalink: /manual/mac-support/
+manual_slug: mac-support
+manual_order: 44
+previous_title: "Lav dit eget tema"
+previous_url: /manual/making-your-own-theme/
+next_title: "Fejlfinding"
+next_url: /manual/troubleshooting/
+lang: da
+translation_key: manual-44-mac-support
+---
+{% raw %}
+<p>Omarchy har indbygget understøttelse af <strong>Intel Macs</strong>. Der er i øjeblikket et par kendte begrænsninger, men så længe du er opmærksom på dem og kan acceptere dem, kan du puste nyt liv i dine gamle Macs ved at installere Omarchy.</p>
+
+<p>Bemærk, at installation på en Mac i M-serien ikke understøttes direkte på nuværende tidspunkt. Du kan læse mere om status på dette i #omarchy-on-other på vores <a href="https://discord.gg/tXFUdasqhY">Discord</a>.</p>
+
+<p>I en enkel test opnåede vi en forbedring af ydeevnen på 36 % på en MacBook Pro fra 2019 blot ved at installere Omarchy.</p>
+
+<p><img src="/manual/images/macbook-omarchy.webp" alt="MacBook med Omarchy"  width="909" height="504" loading="lazy" decoding="async" /></p>
+
+<h3 id="installing-omarchy-on-mac">Installation af Omarchy på Mac <a class="manual__heading-link" href="#installing-omarchy-on-mac" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Omarchy understøtter i øjeblikket kun at være det <strong>eneste</strong> installerede operativsystem. Under installationen bliver drevet slettet, og MacOS vil ikke længere kunne startes.</p>
+
+<p>Du kan stadig gendanne det senere via Internet Recovery, hvis du ønsker det.</p>
+
+<p>I dette afsnit går vi ud fra, at du allerede har gennemgået <a href="../getting-started/">Kom godt i gang</a> og har dit USB-drev klar. Hvis ikke, skal du gøre det nu.</p>
+
+<h4 id="disable-secure-boot">Deaktiver Secure Boot <a class="manual__heading-link" href="#disable-secure-boot" aria-label="Link til dette afsnit">#</a></h4>
+
+<p>Det er nødvendigt at deaktivere Apples Secure Boot for at kunne starte fra det bootbare USB-drev og starte operativsystemet. Sådan deaktiverer du det:</p>
+
+<ol>
+  <li>Sluk din Mac</li>
+  <li>Tænd den, og tryk <em>med det samme</em> på Command-R, og hold tasterne nede, indtil indlæsningsskærmen vises</li>
+  <li>Vælg din bruger, og indtast din adgangskode, hvis du bliver bedt om det</li>
+  <li>Vælg <strong>Utilities &gt; Startup Security Utility</strong> på menulinjen, når gendannelsesskærmen vises</li>
+  <li>Indtast din adgangskode, når du bliver bedt om at godkende</li>
+  <li>Vælg “No Security” under indstillingerne for Secure Boot</li>
+  <li>Vælg “Allow booting from external or removable media” under indstillingerne for External Boot</li>
+</ol>
+
+<h4 id="start-the-installation">Start installationen <a class="manual__heading-link" href="#start-the-installation" aria-label="Link til dette afsnit">#</a></h4>
+
+<ol>
+  <li>Tilslut USB-drevet</li>
+  <li>Genstart din Mac, og tryk <em>med det samme</em> på Option, og hold tasten nede, indtil du ser en skærm med startenheder</li>
+  <li>Vælg den orange EFI Boot-enhed</li>
+  <li>Fortsæt med <a href="../getting-started/">installationen som normalt</a></li>
+</ol>
+
+<p>Installationsprogrammet registrerer Mac-hardwaren og anvender automatisk de nødvendige rettelser: Broadcom-drivere og firmware til Wi-Fi, SPI-tastaturdriveren på de MacBook-modeller, der har brug for den, samt en rettelse til NVMe-dvaletilstand på de samme modeller.</p>
+
+<h3 id="known-limitations">Kendte begrænsninger <a class="manual__heading-link" href="#known-limitations" aria-label="Link til dette afsnit">#</a></h3>
+
+<p>Medlemmer af fællesskabet arbejder løbende på løsninger på disse udfordringer. Hvis begrænsningerne giver dig problemer, kan du derfor deltage i #omarchy-on-other på vores <a href="https://discord.gg/tXFUdasqhY">Discord</a> og se, om der findes opdaterede metoder til at løse dem.</p>
+
+<h4 id="devices-with-t1-chip">Enheder med T1-chip <a class="manual__heading-link" href="#devices-with-t1-chip" aria-label="Link til dette afsnit">#</a></h4>
+
+<p>Apple T1-chippen blev introduceret i slutningen af 2016 og blev udelukkende brugt i den første generation af MacBook Pro-modeller med Touch Bar.</p>
+<ul>
+  <li>MacBook Pro 13-inch (2016, to Thunderbolt 3-porte) – Model: A1706</li>
+  <li>MacBook Pro 13-inch (2016, fire Thunderbolt 3-porte) – Model: A1708</li>
+  <li>MacBook Pro 15-inch (2016) – Model: A1707</li>
+</ul>
+
+<h4 id="known-issues">Kendte problemer <a class="manual__heading-link" href="#known-issues" aria-label="Link til dette afsnit">#</a></h4>
+
+<ul>
+  <li>Touch Bar virker ikke</li>
+  <li>Lyden virker ikke</li>
+</ul>
+
+<h4 id="devices-with-t2-chip">Enheder med T2-chip <a class="manual__heading-link" href="#devices-with-t2-chip" aria-label="Link til dette afsnit">#</a></h4>
+
+<p>Apple T2 Security Chip blev introduceret i 2017. T2-chippen udgik i forbindelse med overgangen til Apple silicon (chips i M-serien), som begyndte i 2020.</p>
+
+<ul>
+  <li>iMac Pro (2017) – Model: A1862</li>
+  <li>MacBook Pro 13-inch (2018, fire Thunderbolt 3-porte) – Model: A1989</li>
+  <li>MacBook Pro 15-inch (2018) – Model: A1990</li>
+  <li>MacBook Air (Retina, 13-inch, 2018) – Model: A1932</li>
+  <li>Mac mini (2018) – Model: A1998</li>
+  <li>MacBook Pro 13-inch (2019, to Thunderbolt 3-porte) – Model: A2159</li>
+  <li>MacBook Pro 13-inch (2019, fire Thunderbolt 3-porte) – Model: A2178</li>
+  <li>MacBook Pro 15-inch (2019) – Model: A1990</li>
+  <li>MacBook Pro 13-inch (2020, to Thunderbolt 3-porte) – Model: A2265</li>
+  <li>MacBook Pro 15-inch (2020) – Model: A1990</li>
+</ul>
+
+<p>På disse modeller konfigurerer installationsprogrammet automatisk den patchede <code>linux-t2</code>-kerne, T2-lydkonfigurationen, Apples Broadcom-firmware til Wi-Fi/Bluetooth og blæserstyring via <code>t2fanrd</code>. Touch Bar bruger kernens indbyggede understøttelse i Boot Camp-stil.</p>
+{% endraw %}

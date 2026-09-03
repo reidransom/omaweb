@@ -1,0 +1,52 @@
+---
+layout: manual
+title: "Browsere"
+description: "Omarchy leveres med Chromium som standardbrowser. Det er den almindelige open source-version, tilpasset med et tema, der matcher resten af dit system, og det er den, Super + Shift +..."
+permalink: /manual/browsers/
+manual_slug: browsers
+manual_order: 23
+previous_title: "Grafiske brugerflader"
+previous_url: /manual/guis/
+next_title: "Kommercielle apps/tjenester"
+next_url: /manual/commercial-apps-services/
+lang: da
+translation_key: manual-23-browsers
+---
+{% raw %}
+<p>Omarchy leveres med <a href="https://www.chromium.org/">Chromium</a> som standardbrowser. Det er den almindelige open source-version, tilpasset med et tema, der matcher resten af dit system, og det er den, <code>Super + Shift + Return</code> åbner, og som alle <a href="../web-apps/">webapps</a> kører i.</p>
+
+<p>Hvis Chromium ikke falder i din smag, er du ikke bundet til den. Under <em>Install &gt; Browser</em> i Omarchy-menuen finder du Chrome, Edge, Brave, Brave Origin, Firefox og <a href="https://zen-browser.app/">Zen</a>. Vælg en af dem, så installerer Omarchy den, konfigurerer dens mappe til politikker og anvender dit nuværende tema på den.</p>
+
+<h2 id="making-one-the-default">Gør en browser til standard <a class="manual__heading-link" href="#making-one-the-default" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>En browser bliver ikke din standardbrowser, bare fordi du installerer den. Når den er installeret på maskinen, skal du gå til <em>Setup &gt; Defaults &gt; Browser</em> og vælge den — menuen viser kun de browsere, du rent faktisk har installeret, og markerer den nuværende standardbrowser med et flueben.</p>
+
+<p>Fra terminalen gør du sådan:</p>
+
+<pre><code class="language-bash">omarchy default browser firefox
+</code></pre>
+
+<p>Kør kommandoen uden et argument for at få vist den nuværende standardbrowser. Dette indstiller XDG-håndteringen, så det ikke kun er Omarchys tastaturgenveje, der følger med — alt, der åbner et link, fra en chatapp til en terminalkommando, bruger den browser, du har valgt.</p>
+
+<h2 id="copy-url-and-download-video">Copy URL og Download Video <a class="manual__heading-link" href="#copy-url-and-download-video" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Browserne i Chromium-familien (Chromium selv, Chrome, Edge og Brave) leveres med to Omarchy-udvidelser, der forbinder browseren med resten af dit system.</p>
+
+<p><strong>Copy URL</strong> kopierer den aktuelle fanes adresse til din udklipsholder med <code>Alt + Shift + L</code>. Det er hurtigere end at klikke i adresselinjen og kopiere, og fordi udvidelsen bruger systemets udklipsholder frem for browserens, får du en Omarchy-notifikation som bekræftelse, og URL'en er med det samme tilgængelig i <a href="../unified-clipboard-history/">udklipsholderhistorikken</a> og alle andre apps. Der er også en knap på værktøjslinjen, hvis du foretrækker at klikke.</p>
+
+<p><strong>Download Video</strong> downloader den video, der afspilles på den side, du ser på, med <code>Alt + Shift + D</code>. Udvidelsen sender URL'en til <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a>, så den fungerer på langt mere end blot YouTube, og den downloadede fil placeres i <code>~/Videos</code>. Status vises i den samme skærmvisning, som bruges til lydstyrke og lysstyrke, og opdateres på stedet i stedet for at ophobe notifikationer. Indstil <code>OMARCHY_YTDLP_DIR</code>, hvis du foretrækker, at filerne placeres et andet sted — se <a href="../faq/">ofte stillede spørgsmål</a> for at finde ud af, hvor miljøvariabler skal angives.</p>
+
+<p>Begge udvidelser kommunikerer med Omarchy gennem en lille native messaging-vært, som installeres for dig sammen med browseren. Det er denne komponent, der gør det muligt for en video fra en webside at ende i din hjemmemappe og en URL at ende i din udklipsholderhåndtering — noget, en almindelig udvidelse ikke kan klare på egen hånd.</p>
+
+<p>Disse udvidelser er kun til Chromium-familien. Firefox og Zen får dem ikke.</p>
+
+<h2 id="firefox-and-zen">Firefox og Zen <a class="manual__heading-link" href="#firefox-and-zen" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Firefox og Zen tilhører en anden browserfamilie og behandles derfor anderledes: Omarchy installerer en politikfil med fornuftige standardindstillinger og skifter dem til indbygget Wayland-tilstand, hvilket er ønskeligt for fraktioneret skalering og jævn rulning med pegefeltet.</p>
+
+<p>De får ikke Chromium-udvidelserne ovenfor, og Omarchy anvender ikke temaer på dem, så disse dele af oplevelsen skal du selv konfigurere.</p>
+
+<h2 id="removing-one-again">Fjern en browser igen <a class="manual__heading-link" href="#removing-one-again" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Alt, hvad du har installeret her, kan fjernes igen under <em>Remove &gt; Browser</em>. Chromium findes ikke på denne liste — den er en del af basissystemet.</p>
+{% endraw %}

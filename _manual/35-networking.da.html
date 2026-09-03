@@ -1,0 +1,59 @@
+---
+layout: manual
+title: "Netværk"
+description: "Netværk i Omarchy håndteres af NetworkManager, og du styrer det via netværksikonet i topbjælken eller med Super + Ctrl + W."
+permalink: /manual/networking/
+manual_slug: networking
+manual_order: 35
+previous_title: "Tastatur, mus og pegefelt"
+previous_url: /manual/keyboard-mouse-trackpad/
+next_title: "Systemdvale"
+next_url: /manual/system-sleep/
+lang: da
+translation_key: manual-35-networking
+---
+{% raw %}
+<p>Netværk i Omarchy håndteres af NetworkManager, og du styrer det via netværksikonet i <a href="../the-top-bar/">topbjælken</a> eller med <code>Super + Ctrl + W</code>.</p>
+
+<p>Panelet søger efter Wi-Fi-netværk, viser signalstyrken og opretter forbindelse. Ethernet kræver ingen opsætning overhovedet — sæt kablet i, så virker det. Hvis du foretrækker at blive i terminalen, giver <code>nmtui</code> dig de samme funktioner, og der findes også en <code>omarchy network</code>-kommandogruppe.</p>
+
+<h2 id="sharing-your-wi-fi">Del dit Wi-Fi <a class="manual__heading-link" href="#sharing-your-wi-fi" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>I stedet for at læse en lang adgangskode højt kan du vælge <em>Opsætning &gt; Netværk &gt; QR-kode</em>, mens du er forbundet til Wi-Fi. Så vises en QR-kode på skærmen, som ethvert telefonkamera kan scanne for at oprette forbindelse. Det er en af de funktioner, du kommer til at bruge oftere, end du skulle tro, når først du ved, at den findes.</p>
+
+<p>Hvis du har brug for selve adgangskoden, udskriver <code>omarchy network password &lt;interface&gt;</code> den.</p>
+
+<h2 id="dns">DNS <a class="manual__heading-link" href="#dns" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Omarchy bruger den DNS, som dit netværk tildeler via DHCP. Du kan tilsidesætte den for hele computeren under <em>Opsætning &gt; Netværk &gt; DNS</em>, hvor Cloudflare og Google kan vælges med ét klik. Vælg <em>Brugerdefineret</em> for at indtaste dine egne servere.</p>
+
+<p>Fra terminalen viser <code>omarchy dns</code> den aktuelle udbyder, og <code>omarchy dns Cloudflare</code> vælger en.</p>
+
+<h2 id="pinning-the-wi-fi-band">Lås Wi-Fi-båndet <a class="manual__heading-link" href="#pinning-the-wi-fi-band" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Hvis din router bruger det samme netværksnavn til 2,4 GHz, 5 GHz og 6 GHz, vil din bærbare computer nogle gange klamre sig til det langsomme bånd. <code>omarchy network band</code> viser, hvilket bånd du bruger, og <code>omarchy network band 5</code> låser forbindelsen til 5 GHz. Brug <code>auto</code> for at lade den vælge igen.</p>
+
+<p>Dette låser båndet frem for et bestemt adgangspunkt, så du fortsat kan skifte mellem adgangspunkter som normalt.</p>
+
+<h2 id="how-fast-is-it">Hvor hurtigt er det? <a class="manual__heading-link" href="#how-fast-is-it" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><em>Udløs &gt; Hastighedstest &gt; Netværkshastighedstest</em> måler din faktiske upload- og downloadhastighed med to målere. Fra terminalen bruger du <code>omarchy network speedtest down</code> eller <code>up</code>. (Der findes også en test af diskhastigheden ved siden af i den samme menu, hvis du vil måle den anden flaskehals.)</p>
+
+<h2 id="the-firewall">Firewallen <a class="manual__heading-link" href="#the-firewall" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Firewallen er som standard slået til og blokerer al indgående trafik med én undtagelse: port 53317, så <a href="../guis/">LocalSend</a> virker med det samme.</p>
+
+<p>SSH er slået fra, indtil du aktiverer det med <em>Opsætning &gt; Sikkerhed &gt; SSHD</em>. Det starter dæmonen, åbner port 22 med hastighedsbegrænsning mod brute force-angreb og godkender en nøgle. Docker er også låst ned, så containere ikke ved et uheld kan eksponere sig selv for omverdenen. Se <a href="../security/">sikkerhed</a> for det fulde overblik.</p>
+
+<h2 id="tailscale">Tailscale <a class="manual__heading-link" href="#tailscale" aria-label="Link til dette afsnit">#</a></h2>
+
+<p><a href="https://tailscale.com/">Tailscale</a> er en mesh-VPN, der gør det nemt og sikkert at få adgang til alle dine computere og servere via internettet. Installer den med <em>Installer &gt; Tjeneste &gt; Tailscale</em>.</p>
+
+<p>Det giver dig et Tailscale-panel i bjælken, hvor du kan oprette og afbryde forbindelsen til tailnettet, skifte konto og vælge en udgangsnode — både dine egne maskiner og Mullvad-regioner vises på listen. Du kan også gennemse dine maskiner, og det er her, Taildrop findes: Vælg en maskine, og tryk på <code>s</code> for at sende filer til den eller på <code>c</code>, <code>n</code> eller <code>d</code> for at kopiere dens IP-adresse, navn eller fulde DNS-navn. Terminalens tilsvarende kommando er <code>omarchy tailscale send &lt;machine&gt; [file...]</code>, og filer, der sendes til dig, gemmes automatisk i <code>~/Downloads</code>. Notifikationen om en ny fil bliver stående, indtil du klikker for at åbne eller afvise den, så en fil, der ankommer, mens du er væk fra maskinen, stadig venter på dig, når du kommer tilbage.</p>
+
+<p>Installationen tilføjer også en webapp til Tailscale-administrationskonsollen.</p>
+
+<h2 id="when-it-stops-working">Når det holder op med at virke <a class="manual__heading-link" href="#when-it-stops-working" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Før du genstarter computeren, kan du prøve kun at genstarte den komponent, der driller. Under <em>Opdatering &gt; Hardware</em> finder du Wi-Fi, Bluetooth, Lyd og Pegefelt, og genindlæsning af en af dem løser de fleste situationer af typen »det virkede for fem minutter siden«. Se <a href="../troubleshooting/">fejlfinding</a>.</p>
+{% endraw %}

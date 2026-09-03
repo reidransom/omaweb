@@ -1,0 +1,47 @@
+---
+layout: manual
+title: "Sikkerhed"
+description: "Omarchy tager sikkerhed yderst alvorligt. Det er tænkt som et operativsystem, du kan bruge til rigtigt arbejde i den virkelige verden. Et system, hvor en mistet..."
+permalink: /manual/security/
+manual_slug: security
+manual_order: 48
+previous_title: "System-snapshots"
+previous_url: /manual/system-snapshots/
+next_title: "Omarchy på..."
+next_url: /manual/omarchy-on/
+lang: da
+translation_key: manual-48-security
+---
+{% raw %}
+<p>Omarchy tager sikkerhed yderst alvorligt. Det er tænkt som et operativsystem, du kan bruge til at udføre <em>rigtigt arbejde</em> i den <em>virkelige verden</em>. Det skal ikke kunne udløse en sikkerhedskrise, hvis du mister din bærbare computer. Derfor gør vi følgende:</p>
+
+<ol>
+  <li><em>Fuld diskkryptering er obligatorisk</em>: Det er det vigtigste skridt til at sikre dine data mod fysisk adgang. Hvis din computer bliver væk eller stjålet, er dataene fuldt krypterede med standarden LUKS (Linux Unified Key Setup).</li>
+  <li><em>Firewallen er aktiveret som standard</em>: Al indgående trafik blokeres som standard med undtagelse af port 53317 til <a href="https://localsend.org/">LocalSend</a>. Selv ssh er slået fra, indtil du aktiverer det via <em>Opsætning &gt; Sikkerhed &gt; SSHD</em>, hvilket åbner port 22 som en del af opsætningen og begrænser antallet af forbindelsesforsøg for at beskytte mod brute force-angreb. Vi begrænser endda adgangen til Docker ved hjælp af <a href="https://github.com/chaifeng/ufw-docker">ufw-docker</a>-opsætningen, så dine containere ikke ved et uheld bliver eksponeret for omverdenen.</li>
+  <li><em>Arch har altid de seneste opdateringer</em>: Arch, den underliggende distribution, som Omarchy er bygget på, er en rullende distribution. Det betyder, at rettelser til enhver sikkerhedssårbarhed, der opdages og bliver løst i en pakke, hurtigt kan installeres med <code>omarchy-update</code>. På den måde kører du altid de nyeste og sikreste versioner af alt.</li>
+  <li><em>Omarchy vedligeholder sine egne pakker og sin egen spejlserver</em>: Som standard er Omarchy kun afhængig af pakker fra Archs egne core/extra/multilib-repositorier og sit eget Omarchy Package Repository. Du kan installere software direkte fra AUR, men det gør basisinstallationen ikke — kun nogle få valgfrie installationer, såsom tredjepartsbrowsere, henter pakker fra AUR.</li>
+  <li><em>Cloudflare beskytter os mod DDoS</em>: Hele Omarchys distributionsinfrastruktur — ISO-filerne, Omarchy-pakkerne og Arch-spejlserveren — er beskyttet af Cloudflares effektive DDoS-skjold og hostet på deres CDN. Det giver fremragende tilgængelighed.</li>
+</ol>
+
+<h2 id="changing-your-passwords">Ændring af dine adgangskoder <a class="manual__heading-link" href="#changing-your-passwords" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>På en krypteret installation har du to adgangskoder: den, der låser drevet op ved opstart, og den, du logger ind og bruger <code>sudo</code> med. Begge kan ændres under <em>Opdatering &gt; Adgangskode</em> i Omarchy-menuen — <em>Drevkryptering</em> for den første og <em>Bruger</em> for den anden. Når du ændrer adgangskoden til drevet, bliver du først bedt om den nuværende, så sørg for at have den ved hånden.</p>
+
+<h2 id="passing-on-a-machine-youve-already-used">Videregivelse af en maskine, du allerede har brugt <a class="manual__heading-link" href="#passing-on-a-machine-youve-already-used" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Hvis du giver din maskine videre til en anden, behøver du ikke at geninstallere den. Kør <em>Opsætning &gt; Nulstil computer</em> i Omarchy-menuen, skriv <code>reset</code> for at bekræfte, og genstart. Det fjerner alle brugerkonti og alt i <code>/home</code>, kasserer alle pakker og systemændringer, du har foretaget siden installationen, og rydder maskinens identitet — netværksforbindelser, værtsnøgler og det hele. Efter genstart vises opsætningsguiden fra den første opstart, så den nye ejer kan indtaste sit eget navn, sin egen adgangskode og sin egen krypteringsadgangskode.</p>
+
+<p>Det fungerer ved at gendanne det oprindelige snapshot, som installationsprogrammet opretter, så funktionen er kun tilgængelig på maskiner, der er installeret fra Omarchy-ISO'en. På et drev uden kryptering sletter en nulstilling desuden blot dataene frem for at foretage en sikker sletning, så hvis dataene var følsomme, bør du i stedet foretage en ny installation.</p>
+
+<h2 id="passwordless-sudo">sudo uden adgangskode <a class="manual__heading-link" href="#passwordless-sudo" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Nogle gange vil du have <code>sudo</code> til at holde op med at spørge efter adgangskoden, oftest når en AI-agent udfører længerevarende systemarbejde for dig. <em>Opsætning &gt; Sikkerhed &gt; sudo uden adgangskode</em> slår adgangskodekravet fra i 15 minutter og aktiverer det derefter automatisk igen. Kør funktionen igen, inden tiden udløber, for at afslutte perioden før tid, og angiv selv antallet af minutter med <code>omarchy-sudo-passwordless 30</code>, hvis 15 ikke er nok.</p>
+
+<p>Vær helt klar over konsekvensen: Mens funktionen er slået til, kan alt, der kører som din bruger, gøre hvad som helst som root uden at blive spurgt. Det er hele formålet, og det er samtidig hele risikoen.</p>
+
+<h2 id="signing-keys">Signeringsnøgler <a class="manual__heading-link" href="#signing-keys" aria-label="Link til dette afsnit">#</a></h2>
+
+<p>Den offentlige nøgle til alle ISO-signaturer og pakker i Omarchy-repositoriet er <code>40DFB630FF42BCFFB047046CF0134EE680CAC571</code> (<a href="https://keys.openpgp.org/search?q=pkgs%40omarchy.org">bekræft på openpgp.org</a>). Pakken <code>omarchy/omarchy-keyring</code> indeholder også denne nøgle og vil blive brugt til problemfrit at udrulle eventuelle opdateringer.</p>
+
+<p>Du kan finde signaturen til enhver ISO-udgivelse ved at føje .sig til URL'en. For eksempel https://iso.omarchy.org/omarchy-x.x.x.iso.sig.</p>
+{% endraw %}

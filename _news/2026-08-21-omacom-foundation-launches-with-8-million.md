@@ -11,6 +11,7 @@ products:
   items: []
 project_areas:
   items: [foundation, patrons]
+translation_key: news-2026-08-21-omacom-foundation-launches-with-8-million
 ---
 
 It’s time to dream big. Omarchy Quattro has given people a chance to experience what the malleable computer of the future looks like, and they like it (a lot!). It now feels like a moral obligation to make this future more broadly available and fundamentally change how people relate to their computers for the first time in what seems like forever.
