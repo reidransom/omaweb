@@ -1,7 +1,7 @@
 # Update asset policy and image workflows
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 01
 
 ## Context
@@ -34,3 +34,7 @@ Do not edit build scripts, assets, templates, content, `_plans/`, or resolved `.
 - Skip project-wide builds and browser tests; integration verification belongs to ticket 03.
 
 ## Answer
+
+Cherry-picked `08deae00642af086aca91bd6d61f49f767c17fa7` as `63a0121`, updating `README.md`, the News image skill, and its evaluations to remove asset-manifest workflow requirements.
+
+Validation status: not run, per this ticket's instruction to leave integration verification to ticket 03.
