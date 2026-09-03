@@ -1,0 +1,48 @@
+navigation:
+  announcement: Announcement
+  primary: Primary navigation
+  menu: Menu
+  all: All navigation
+  exploratory: Exploratory
+  mobile: Mobile navigation
+  close: Close
+  footer: Footer sitemap
+language:
+  selector: Language
+seo:
+  social_image_alt: Omarchy wordmark on a dark background
+footer:
+  home: Home
+  support: Omacom Foundation supports Omarchy.
+  trademark: Omarchy is a pending trademark.
+  contact: Contact via
+  build: Build
+  website_by: Website by
+link:
+  external: external
+status:
+  exploratory: Exploratory
+people:
+  roster: roster
+workstations:
+  gallery: Community workstation gallery
+home:
+  featured_videos: Featured videos
+  watch: Watch
+  by: by
+  on_youtube: on YouTube
+  view_all: View all
+  scroll: Scroll
+  open: Open
+  explore: Explore
+  hardware_title: A good desktop needs a place to live.
+  server_apps_title: More places for an opinionated base.
+  cloud_mobile_title: Computing should travel without becoming generic.
+  partnerships_label: Omarchy partnerships and trademark
+  partner_prompt: Looking to become a partner or patron of Omarchy? Write
+  incubated_at: Incubated at
+  makers_of: (makers of
+  and: and
+  sponsored_hosting: Sponsored hosting by
+  desktop_image_alt: Omarchy displayed on a laptop
+  desktop_actions: Desktop actions

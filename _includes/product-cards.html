@@ -14,7 +14,7 @@
       {% assign cta_prefix = include.destination_cta_prefix %}
     {% endif %}
     {% capture card_content %}
-      <h3>{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> (Exploratory)</span>{% endif %}</h3>
+      <h3>{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> ({{ 'status.exploratory' | translate | escape }})</span>{% endif %}</h3>
       <p>{{ description | escape }}</p>
       <span aria-hidden="true">{% if cta_prefix %}{{ cta_prefix | escape }} {% endif %}{{ product.label | escape }}{% if destination.external or product.external %}{% include link-indicator.html destination=product.destination external=true %}{% else %} →{% endif %}</span>
     {% endcapture %}

@@ -1,12 +1,12 @@
 {% assign navigation = site.data.navigation %}
-<dialog class="mobile-drawer" id="mobile-drawer" data-drawer aria-label="Mobile navigation">
+<dialog class="mobile-drawer" id="mobile-drawer" data-drawer aria-label="{{ 'navigation.mobile' | translate | escape }}">
   <div class="mobile-drawer__inner">
     <div class="mobile-drawer__heading">
-      <a class="mobile-drawer__brand" href="{{ '/' | relative_url }}">Omarchy</a>
-      <button type="button" data-drawer-close>Close</button>
+      <a class="mobile-drawer__brand" href="{{ '/' | localized_url }}">Omarchy</a>
+      <button type="button" data-drawer-close>{{ 'navigation.close' | translate | escape }}</button>
     </div>
 
-    <nav aria-label="Mobile navigation">
+    <nav aria-label="{{ 'navigation.mobile' | translate | escape }}">
       {% for section in navigation.sections %}
         <section class="mobile-drawer__group">
           <h2>
@@ -20,7 +20,7 @@
             {% endfor %}
           </ul>
           {% if section.exploratory %}
-            <span class="u-visually-hidden" id="mobile-drawer-exploratory-status">Exploratory</span>
+            <span class="u-visually-hidden" id="mobile-drawer-exploratory-status">{{ 'navigation.exploratory' | translate | escape }}</span>
           {% endif %}
         </section>
       {% endfor %}

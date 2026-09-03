@@ -3,6 +3,8 @@ layout: content
 title: New Releases
 description: A place that may later highlight releases. There is nothing to announce here.
 permalink: /new-releases/
+lang: en
+translation_key: new-releases
 nav_group: shop
 archetype: project
 status: exploratory

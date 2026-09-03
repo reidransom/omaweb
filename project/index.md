@@ -3,6 +3,8 @@ layout: landing
 title: Project
 description: Follow Omarchy through current community, news, foundation work, and exploratory Labs.
 permalink: /project/
+lang: en
+translation_key: project
 nav_group: project
 archetype: landing
 markdown: false

@@ -1,0 +1,9 @@
+{% if page.translations.size > 0 %}
+<nav class="language-selector" aria-label="{{ 'language.selector' | translate | escape }}">
+  <ul role="list">
+    {% for translation in page.translations %}
+      <li><a href="{{ translation.url | escape }}" lang="{{ translation.language.tag | escape }}" hreflang="{{ translation.language.tag | escape }}">{{ translation.language.label | escape }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
+{% endif %}

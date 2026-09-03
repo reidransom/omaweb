@@ -3,6 +3,8 @@ layout: landing
 title: Hardware
 description: See current community workstations and exploratory questions about desktops, laptops, and accessories.
 permalink: /hardware/
+lang: en
+translation_key: hardware
 nav_group: hardware
 archetype: landing
 markdown: false

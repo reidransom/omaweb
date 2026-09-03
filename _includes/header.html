@@ -26,18 +26,18 @@
 {% endfor %}
 
 {% if active_announcement %}
-  <aside class="announcement" aria-label="Announcement">
+  <aside class="announcement" aria-label="{{ 'navigation.announcement' | translate | escape }}">
     <div class="announcement__inner">
-      <a href="{{ active_announcement.url | relative_url }}">{{ active_announcement.label | escape }}</a>
+      <a href="{% if active_announcement.language %}{{ active_announcement.url | relative_url }}{% else %}{{ active_announcement.url | localized_url }}{% endif %}">{{ active_announcement.label | escape }}</a>
     </div>
   </aside>
 {% endif %}
 
 <header class="site-header" data-header-state="opaque">
   <div class="site-header__inner">
-    <a class="site-header__brand" href="{{ '/' | relative_url }}"><img class="site-header__mark" src="{{ '/assets/images/favicon.png' | relative_url }}" width="300" height="300" alt="Omarchy"></a>
+    <a class="site-header__brand" href="{{ '/' | localized_url }}"><img class="site-header__mark" src="{{ '/assets/images/favicon.png' | relative_url }}" width="300" height="300" alt="Omarchy"></a>
 
-    <nav class="site-header__nav" aria-label="Primary navigation">
+    <nav class="site-header__nav" aria-label="{{ 'navigation.primary' | translate | escape }}">
       <ul class="site-header__groups" role="list">
         {% for section in navigation.sections %}
           <li class="site-header__group">
@@ -47,13 +47,19 @@
       </ul>
     </nav>
 
-    {% include authoritative-link.html link=navigation.search class='site-header__search' spotlight_open=true shortcut='/' %}
+    {% include language-selector.html %}
 
-    <button class="site-header__drawer-open site-header__menu" type="button" data-drawer-open data-quake-toggle hidden aria-expanded="false" aria-controls="quake-navigation">Menu <span class="site-header__shortcut">Ctl+`</span></button>
+    {% if navigation.search.spotlight == false %}
+      {% include authoritative-link.html link=navigation.search class='site-header__search' shortcut='/' %}
+    {% else %}
+      {% include authoritative-link.html link=navigation.search class='site-header__search' spotlight_open=true shortcut='/' %}
+    {% endif %}
+
+    <button class="site-header__drawer-open site-header__menu" type="button" data-drawer-open data-quake-toggle hidden aria-expanded="false" aria-controls="quake-navigation">{{ 'navigation.menu' | translate | escape }} <span class="site-header__shortcut">Ctl+`</span></button>
 
     <details class="quake-navigation" id="quake-navigation" data-drawer-fallback data-quake-fallback>
-      <summary>Menu <span class="u-visually-hidden">(Ctl+`)</span></summary>
-      <nav aria-label="All navigation">
+      <summary>{{ 'navigation.menu' | translate | escape }} <span class="u-visually-hidden">(Ctl+`)</span></summary>
+      <nav aria-label="{{ 'navigation.all' | translate | escape }}">
         {% for section in navigation.sections %}
           <section class="quake-navigation__section">
             <h2>
@@ -67,7 +73,7 @@
               {% endfor %}
             </ul>
             {% if section.exploratory %}
-              <span class="u-visually-hidden" id="header-exploratory-status">Exploratory</span>
+              <span class="u-visually-hidden" id="header-exploratory-status">{{ 'navigation.exploratory' | translate | escape }}</span>
             {% endif %}
           </section>
         {% endfor %}

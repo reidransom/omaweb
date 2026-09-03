@@ -1,6 +1,6 @@
 {% assign team = include.team %}
 {% if team and team.people %}
-<ul class="people-roster" aria-label="{{ team.label | escape }} roster">
+<ul class="people-roster" aria-label="{{ team.label | escape }} {{ 'people.roster' | translate | escape }}">
   {% for person in team.people %}
   <li class="person-card">
     {% if person.image %}<img class="person-card__image" src="{{ person.image | relative_url }}" alt="{{ person.name | escape }}" width="240" height="240" loading="lazy" decoding="async">{% endif %}

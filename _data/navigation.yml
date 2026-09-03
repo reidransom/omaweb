@@ -7,6 +7,8 @@ search:
   label: Search
   url: /search/
   external: false
+  language: en
+  spotlight: true
 
 sections:
   - label: Foundation
@@ -75,23 +77,29 @@ sections:
   - label: News
     url: /news/
     external: false
+    language: en
     links:
       items:
         - label: Product
           url: /news/categories/product/
           external: false
+          language: en
         - label: Releases
           url: /news/categories/releases/
           external: false
+          language: en
         - label: Events
           url: /news/categories/events/
           external: false
+          language: en
         - label: Editorial
           url: /news/categories/editorial/
           external: false
+          language: en
         - label: Atom feed
           url: /news/feed.xml
           external: false
+          language: en
 
   - label: Community
     url: /community/

@@ -3,6 +3,8 @@ layout: content
 title: Omarchy Rangers
 description: The people helping others find their way in Omarchy.
 permalink: /teams/rangers/
+lang: en
+translation_key: rangers-team
 nav_group: project
 archetype: project
 ---

@@ -3,6 +3,8 @@ layout: content
 title: Omarchy Core
 description: The people setting the direction for Omarchy.
 permalink: /teams/core/
+lang: en
+translation_key: core-team
 nav_group: project
 archetype: project
 ---

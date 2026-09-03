@@ -56,7 +56,7 @@
       </div>
 
       <aside class="home-hero__media" aria-labelledby="home-hero-media-title" data-home-hero-media>
-        <h2 id="home-hero-media-title" class="u-visually-hidden">Featured videos</h2>
+        <h2 id="home-hero-media-title" class="u-visually-hidden">{{ 'home.featured_videos' | translate | escape }}</h2>
         <div class="home-hero__column" data-home-hero-column="1">
           {% for video in site.data.featured_videos.items %}
             {% case forloop.index %}
@@ -70,13 +70,13 @@
             <a
               class="home-hero__poster"
               href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
-              aria-label="Watch {{ video.title | escape }} by {{ video.creator | escape }} on YouTube"
+              aria-label="{{ 'home.watch' | translate | escape }} {{ video.title | escape }} {{ 'home.by' | translate | escape }} {{ video.creator | escape }} {{ 'home.on_youtube' | translate | escape }}"
               data-home-hero-poster>
               <img
                 src="{{ video.thumbnail | relative_url }}"
                 width="1280"
                 height="720"
-                alt="{{ video.title | escape }} by {{ video.creator | escape }}"
+                alt="{{ video.title | escape }} {{ 'home.by' | translate | escape }} {{ video.creator | escape }}"
                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                 decoding="async">
               <span class="video__play" aria-hidden="true">
@@ -89,14 +89,19 @@
             </a>
           {% endfor %}
         </div>
-        <a class="button button--secondary home-hero__view-all" href="{{ '/community/featured-videos/' | relative_url }}" data-home-hero-view-all>View all</a>
+        <a class="button button--secondary home-hero__view-all" href="{{ '/community/featured-videos/' | localized_url }}" data-home-hero-view-all>{{ 'home.view_all' | translate | escape }}</a>
       </aside>
     </div>
-    <a class="home-scroll-cue" href="#home-news">
+    {% if site.news.size > 0 %}
+      {% assign home_scroll_target = '#home-news' %}
+    {% else %}
+      {% assign home_scroll_target = '#home-desktop' %}
+    {% endif %}
+    <a class="home-scroll-cue" href="{{ home_scroll_target }}">
       <svg aria-hidden="true" viewBox="0 0 24 24">
         <path d="m6 8 6 6 6-6m-12 6 6 6 6-6" />
       </svg>
-      <span>Scroll</span>
+      <span>{{ 'home.scroll' | translate | escape }}</span>
     </a>
     <span data-header-sentinel aria-hidden="true"></span>
   </div>

@@ -3,6 +3,8 @@ layout: landing
 title: Software
 description: Explore Omarchy's current community Plugins alongside exploratory Apps and Cloud ideas.
 permalink: /software/
+lang: en
+translation_key: software
 nav_group: software
 archetype: landing
 markdown: false

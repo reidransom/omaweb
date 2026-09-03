@@ -1,0 +1,55 @@
+items:
+- name: pleum
+  caption: Fotografi af pleum, delt med det officielle Workstations-galleri.
+  media:
+    src: /assets/images/workstations/pleum-p1554011-1600w.webp
+    width: 1600
+    height: 900
+    alt: En sort kat ligger ved siden af et mekanisk tastatur foran Omarchy-navnet på en skærm; hovedtelefoner
+      og en skrivebordslampe indrammer arbejdspladsen.
+    loading: lazy
+    decoding: async
+    sizes: '(min-width: 40rem) 58vw, 100vw'
+    sources:
+      items:
+      - type: image/webp
+        srcset:
+          items:
+          - src: /assets/images/workstations/pleum-p1554011-480w.webp
+            width: 480
+          - src: /assets/images/workstations/pleum-p1554011-768w.webp
+            width: 768
+          - src: /assets/images/workstations/pleum-p1554011-1200w.webp
+            width: 1200
+          - src: /assets/images/workstations/pleum-p1554011-1600w.webp
+            width: 1600
+- name: sspaeti
+  caption: Fotografi af sspaeti, delt med det officielle Workstations-galleri.
+  media:
+    src: /assets/images/workstations/sspaeti-office-setup-1600w.webp
+    width: 1600
+    height: 900
+    alt: Et hvidt skrivebord med en mikrofon, et mekanisk tastatur, bærbare computere og en stor skærm
+      med flere åbne vinduer.
+    loading: lazy
+    decoding: async
+    sizes: '(min-width: 40rem) 42vw, 100vw'
+    sources:
+      items:
+      - type: image/webp
+        srcset:
+          items:
+          - src: /assets/images/workstations/sspaeti-office-setup-480w.webp
+            width: 480
+          - src: /assets/images/workstations/sspaeti-office-setup-768w.webp
+            width: 768
+          - src: /assets/images/workstations/sspaeti-office-setup-1200w.webp
+            width: 1200
+          - src: /assets/images/workstations/sspaeti-office-setup-1600w.webp
+            width: 1600
+empty_state:
+  title: Fællesskabets arbejdsstationer venter på godkendte fotografier.
+  body: Vi har endnu ikke et lokalt, godkendt fotografi af en arbejdsstation fra fællesskabet, som vi
+    kan udgive. Send holdet et foto på Discord med tilladelse til at vise det her; siden skal vokse med
+    rigtige skriveborde, ikke arkivbilleder.
+  action_label: Del en arbejdsstation på Discord

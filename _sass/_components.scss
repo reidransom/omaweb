@@ -246,7 +246,7 @@ a:hover .media__image {
 
 .site-header__inner {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
   gap: var(--omarchy-space-medium);
   min-block-size: var(--omarchy-control-height);
@@ -265,6 +265,22 @@ a:hover .media__image {
   inline-size: 2rem;
   block-size: 2rem;
 }
+.language-selector ul {
+  display: flex;
+  align-items: center;
+  gap: var(--omarchy-space-small);
+  padding: 0;
+  list-style: none;
+}
+
+.language-selector a {
+  color: var(--omarchy-cyan);
+  font-size: var(--omarchy-font-small);
+  font-weight: 700;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
 
 .site-header__nav {
   display: none;
@@ -482,7 +498,7 @@ a:hover .media__image {
 
 @media (min-width: breakpoints.$medium) {
   .site-header__inner {
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
   }
 
   .site-footer__inner {
@@ -496,7 +512,7 @@ a:hover .media__image {
 
 @media (min-width: breakpoints.$large) {
   .site-header__inner {
-    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-columns: auto minmax(0, 1fr) auto auto auto;
   }
 
   .site-header__nav {

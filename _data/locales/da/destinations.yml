@@ -1,0 +1,54 @@
+items:
+- slug: manual
+  label: Manual (engelsk)
+  url: /manual/
+  external: false
+  button_treatment: secondary
+  language: en
+- slug: manual-getting-started
+  label: Kom godt i gang
+  url: /manual/getting-started/
+  external: false
+  language: en
+- slug: manual-hotkeys
+  label: Genvejstaster
+  url: /manual/hotkeys/
+  external: false
+  language: en
+- slug: manual-cli
+  label: Omarchy CLI
+  url: /manual/omarchy-cli/
+  external: false
+  language: en
+- slug: manual-troubleshooting
+  label: Fejlfinding
+  url: /manual/troubleshooting/
+  external: false
+  language: en
+- slug: manual-faq
+  label: FAQ
+  url: /manual/faq/
+  external: false
+  language: en
+- slug: iso
+  label: ISO
+  url: https://iso.omarchy.org/omarchy-4.0.1.iso
+  external: true
+  button_treatment: primary
+- slug: plugins
+  label: Plugins
+  url: https://omarchyplugins.com/
+  external: true
+- slug: code
+  label: Kode
+  url: https://github.com/omacom/omarchy
+  external: true
+- slug: discord
+  label: Discord
+  url: /discord/
+  external: false
+  language: en
+- slug: merch
+  label: Merch
+  url: https://supply.37signals.com/collections/omarchy
+  external: true

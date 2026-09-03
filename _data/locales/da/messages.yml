@@ -1,0 +1,48 @@
+navigation:
+  announcement: Meddelelse
+  primary: Primær navigation
+  menu: Menu
+  all: Al navigation
+  exploratory: Udforskende
+  mobile: Mobilnavigation
+  close: Luk
+  footer: Links i sidefoden
+language:
+  selector: Sprog
+seo:
+  social_image_alt: Omarchy-ordmærke på en mørk baggrund
+footer:
+  home: Forside
+  support: Omacom Foundation støtter Omarchy.
+  trademark: Omarchy er et varemærke under registrering.
+  contact: Kontakt via
+  build: Build
+  website_by: Website af
+link:
+  external: eksternt
+status:
+  exploratory: Udforskende
+people:
+  roster: hold
+workstations:
+  gallery: Galleri med arbejdsstationer fra fællesskabet
+home:
+  featured_videos: Udvalgte videoer
+  watch: Se
+  by: af
+  on_youtube: på YouTube
+  view_all: Se alle
+  scroll: Rul
+  open: Åbn
+  explore: Udforsk
+  hardware_title: En god desktop skal have et sted at bo.
+  server_apps_title: Flere steder til et holdningsstærkt fundament.
+  cloud_mobile_title: Computeren skal kunne rejse med uden at blive generisk.
+  partnerships_label: Omarchy-partnerskaber og varemærke
+  partner_prompt: Vil du være partner eller mæcen for Omarchy? Skriv til
+  incubated_at: Udviklet hos
+  makers_of: (skaberne af
+  and: og
+  sponsored_hosting: Hosting sponsoreret af
+  desktop_image_alt: Omarchy vist på en bærbar computer
+  desktop_actions: Handlinger til desktoppen

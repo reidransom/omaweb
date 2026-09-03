@@ -3,6 +3,8 @@ layout: landing
 title: Platforms
 description: Omarchy is available today as a Linux desktop system; Server and Mobile are exploratory ideas, not release promises.
 permalink: /platforms/
+lang: en
+translation_key: platforms
 nav_group: platforms
 archetype: landing
 markdown: false

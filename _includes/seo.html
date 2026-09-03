@@ -2,7 +2,11 @@
 {% assign document_description = page.description | default: site.description | strip_html | normalize_whitespace %}
 {% assign document_url = page.url | default: '/' | absolute_url %}
 {% assign social_image = page.image.src | default: site.social_image %}
-{% assign social_image_alt = page.image.alt | default: site.social_image_alt %}
+{% if page.image.alt %}
+  {% assign social_image_alt = page.image.alt %}
+{% else %}
+  {% assign social_image_alt = 'seo.social_image_alt' | translate %}
+{% endif %}
 {% assign social_image_prefix = social_image | slice: 0, 8 %}
 {% if social_image_prefix == '/assets/' %}
   {% assign social_image_url = social_image | absolute_url %}
@@ -15,8 +19,12 @@
 
 <title>{% if document_title == site.title %}{{ site.title | escape }}{% else %}{{ document_title | escape }} | {{ site.title | escape }}{% endif %}</title>
 <link rel="canonical" href="{{ document_url }}">
+{% for alternate in page.alternates %}
+<link rel="alternate" hreflang="{{ alternate.tag | escape }}" href="{{ alternate.url | escape }}">
+  {% if alternate.x_default %}<link rel="alternate" hreflang="x-default" href="{{ alternate.url | escape }}">{% endif %}
+{% endfor %}
 <meta name="description" content="{{ document_description | escape }}">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="{{ page.language.tag | default: page.lang | default: site.lang | default: 'en' | replace: '-', '_' | escape }}">
 <meta property="og:type" content="{{ open_graph_type }}">
 <meta property="og:site_name" content="{{ site.title | escape }}">
 <meta property="og:title" content="{{ document_title | escape }}">

@@ -3,6 +3,8 @@ layout: content
 title: Community
 description: Find Omarchy people, meetups, workstations, Rangers, plugins, news, and ways to contribute.
 permalink: /community/
+lang: en
+translation_key: community
 nav_group: project
 archetype: project
 ---

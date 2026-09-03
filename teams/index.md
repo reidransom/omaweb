@@ -3,6 +3,8 @@ layout: content
 title: The Teams
 description: The teams guiding Omarchy.
 permalink: /teams/
+lang: en
+translation_key: teams
 nav_group: project
 archetype: project
 ---

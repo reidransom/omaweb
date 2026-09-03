@@ -1,5 +1,6 @@
 {% assign articles = site.news | sort: 'date' | reverse %}
 {% assign latest_articles = articles | where_exp: 'article', 'article.slug != site.data.news.featured_slug' %}
+{% if latest_articles.size > 0 %}
 <section id="home-news" class="home-section home-section--reading home-section--storm home-news" aria-labelledby="home-news-title">
   <div class="home-section__inner home-news__inner">
     <div class="news-section-heading">
@@ -13,3 +14,4 @@
     </div>
   </div>
 </section>
+{% endif %}

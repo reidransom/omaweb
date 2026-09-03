@@ -3,27 +3,33 @@ items:
     label: Manual
     url: /manual/
     external: false
+    language: en
     button_treatment: secondary
   - slug: manual-getting-started
     label: Getting Started
     url: /manual/getting-started/
     external: false
+    language: en
   - slug: manual-hotkeys
     label: Hotkeys
     url: /manual/hotkeys/
     external: false
+    language: en
   - slug: manual-cli
     label: Omarchy CLI
     url: /manual/omarchy-cli/
     external: false
+    language: en
   - slug: manual-troubleshooting
     label: Troubleshooting
     url: /manual/troubleshooting/
     external: false
+    language: en
   - slug: manual-faq
     label: FAQ
     url: /manual/faq/
     external: false
+    language: en
   - slug: iso
     label: ISO
     url: https://iso.omarchy.org/omarchy-4.0.1.iso
@@ -41,6 +47,7 @@ items:
     label: Discord
     url: /discord/
     external: false
+    language: en
   - slug: merch
     label: Merch
     url: https://supply.37signals.com/collections/omarchy

@@ -73,7 +73,7 @@
 </style>
 
 <section class="workstation-gallery" aria-labelledby="workstation-gallery-title">
-  <h2 id="workstation-gallery-title" class="u-visually-hidden">Community workstation gallery</h2>
+  <h2 id="workstation-gallery-title" class="u-visually-hidden">{{ 'workstations.gallery' | translate | escape }}</h2>
 {% if workstations and workstations.size > 0 %}
 {% for workstation in workstations %}
 {% if workstation.media and workstation.media.src and workstation.media.width and workstation.media.height and workstation.media.alt and workstation.media.sources %}
