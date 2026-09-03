@@ -933,6 +933,69 @@ async function requireStaticLayout(
   }
 }
 
+async function verifyScopedSearch(session) {
+  const browser = await loadPage(session, "/search/", 1440, 900);
+  try {
+    const selected = await evaluate(
+      browser,
+      `(() => {
+        const surface = document.querySelector(".content-shell--search");
+        surface.querySelector('[data-search-menu-select][data-search-menu-section="shop"]').click();
+        return {
+          query: surface.querySelector('input[name="q"]').value,
+          rootHidden: surface.querySelector("[data-search-menu-root]").hidden,
+          shopPanelVisible: !surface.querySelector('[data-search-menu-panel][data-search-menu-section="shop"]').hidden,
+          url: location.search
+        };
+      })()`,
+    );
+    require(selected.query === "", "Choosing a section must clear the search query.");
+    require(selected.rootHidden && selected.shopPanelVisible, "Choosing Shop must show only its submenu.");
+    require(selected.url === "?section=shop", "Choosing a section must update the standalone search URL.");
+
+    const scopedDestination = await evaluate(
+      browser,
+      `(() => {
+        const surface = document.querySelector(".content-shell--search");
+        const input = surface.querySelector('input[name="q"]');
+        input.value = "Desktop";
+        input.dispatchEvent(new Event("input", {bubbles: true}));
+        return {
+          results: [...surface.querySelectorAll("[data-search-result]")].map(link => new URL(link.href).pathname),
+          url: location.search
+        };
+      })()`,
+    );
+    require(
+      JSON.stringify(scopedDestination.results) === JSON.stringify(["/desktop/"]),
+      "Shop search must only render Shop navigation destinations while loading page results.",
+    );
+    require(
+      scopedDestination.url === "?section=shop&q=Desktop",
+      "Search query edits must preserve the selected section in the standalone URL.",
+    );
+
+    const restored = await evaluate(
+      browser,
+      `new Promise(resolve => {
+        addEventListener("popstate", () => requestAnimationFrame(() => {
+          const surface = document.querySelector(".content-shell--search");
+          resolve({
+            query: surface.querySelector('input[name="q"]').value,
+            rootVisible: !surface.querySelector("[data-search-menu-root]").hidden,
+            activePanels: [...surface.querySelectorAll("[data-search-menu-panel]")].filter(panel => !panel.hidden).length
+          });
+        }), {once: true});
+        history.back();
+      })`,
+    );
+    require(restored.query === "", "Back must restore the prior empty search query.");
+    require(restored.rootVisible && restored.activePanels === 0, "Back must restore All sections.");
+  } finally {
+    await browser.close();
+  }
+}
+
 async function verifySearchDefaultSelection(session) {
   const browser = await loadPage(session, "/search/", 1440, 900);
   try {
@@ -983,6 +1046,7 @@ async function run() {
     await session.open();
 
     const featuredContract = await readFeaturedContract(session);
+    await verifyScopedSearch(session);
     await verifySearchDefaultSelection(session);
     await verifyNormalChoreography(session, 1440, 900, featuredContract);
     await verifyNormalChoreography(session, 768, 1024, featuredContract);

@@ -4,8 +4,6 @@ const minimumQueryLength = 2;
 const debounceDuration = 150;
 const destinationLimit = 5;
 const pagefindLimit = 8;
-const MANUAL_PAGEFIND_FILTERS = { section: "manual" };
-
 
 function conciseText(value) {
   const documentFragment = new DOMParser().parseFromString(value ?? "", "text/html");
@@ -15,55 +13,64 @@ function conciseText(value) {
   return text.length > limit ? `${text.slice(0, limit - 1).trimEnd()}…` : text;
 }
 
-function navigationDestinations() {
+function searchData() {
   const navigationData = document.querySelector("[data-search-navigation]");
   const destinationData = document.querySelector("[data-search-destinations]");
   const productData = document.querySelector("[data-search-products]");
 
-  if (!navigationData || !destinationData || !productData) return [];
+  if (!navigationData || !destinationData || !productData) return null;
 
   try {
-    const navigation = JSON.parse(navigationData.textContent);
-    const destinations = JSON.parse(destinationData.textContent).items;
-    const products = JSON.parse(productData.textContent).items;
-    const seenUrls = new Set();
-
-    return navigation.section_order.flatMap((sectionKey) => {
-      const section = navigation.sections[sectionKey];
-      const entries = [
-        section,
-        ...section.links.map((linkKey) => navigation.links[linkKey]),
-      ];
-
-      return entries.flatMap((entry) => {
-        const product = entry.product ? products[entry.product] : null;
-        const destinationKey = entry.destination ?? product?.destination;
-        const destination = destinationKey ? destinations[destinationKey] : null;
-        const url = destination?.url ?? product?.url ?? entry.url;
-        const label = entry.label ?? product?.label ?? destination?.label;
-        const external =
-          destination?.external ?? product?.external ?? entry.external ?? false;
-
-        if (!url || !label || seenUrls.has(url)) return [];
-        seenUrls.add(url);
-
-        return [{ title: label, url, external, section: section.label }];
-      });
-    });
+    return {
+      navigation: JSON.parse(navigationData.textContent),
+      destinations: JSON.parse(destinationData.textContent).items,
+      products: JSON.parse(productData.textContent).items,
+    };
   } catch {
-    return [];
+    return null;
   }
 }
 
-function matchingDestinations(destinations, term) {
+function navigationDestinations(data) {
+  if (!data) return [];
+
+  const { navigation, destinations, products } = data;
+  const seenUrls = new Set();
+
+  return navigation.section_order.flatMap((sectionKey) => {
+    const section = navigation.sections[sectionKey];
+    const entries = [section, ...section.links.map((linkKey) => navigation.links[linkKey])];
+
+    return entries.flatMap((entry) => {
+      const product = entry.product ? products[entry.product] : null;
+      const destinationKey = entry.destination ?? product?.destination;
+      const destination = destinationKey ? destinations[destinationKey] : null;
+      const url = destination?.url ?? product?.url ?? entry.url;
+      const title = entry.label ?? product?.label ?? destination?.label;
+      const external = destination?.external ?? product?.external ?? entry.external ?? false;
+
+      if (!url || !title || seenUrls.has(url)) return [];
+      seenUrls.add(url);
+
+      return [{ title, url, external, sectionKey }];
+    });
+  });
+}
+
+function matchingDestinations(destinations, term, sectionKey) {
   const normalizedTerm = term.toLocaleLowerCase();
 
   return destinations
-    .filter(({ title }) => title.toLocaleLowerCase().includes(normalizedTerm))
+    .filter(
+      (destination) =>
+        (!sectionKey || destination.sectionKey === sectionKey) &&
+        (!sectionKey || !destination.external) &&
+        destination.title.toLocaleLowerCase().includes(normalizedTerm),
+    )
     .slice(0, destinationLimit);
 }
 
-function resultLink({ url, title, excerpt, external = false, section }, index) {
+function resultLink({ url, title, excerpt, external = false }, index) {
   const item = document.createElement("li");
   const link = document.createElement("a");
   const heading = document.createElement("h3");
@@ -74,13 +81,6 @@ function resultLink({ url, title, excerpt, external = false, section }, index) {
   link.textContent = title;
   heading.append(link);
   item.append(heading);
-
-  if (section) {
-    const location = document.createElement("p");
-    location.className = "site-search__result-context";
-    location.textContent = section;
-    item.append(location);
-  }
 
   if (excerpt) {
     const summary = document.createElement("p");
@@ -123,6 +123,12 @@ function pagefindResult(documentResult) {
   };
 }
 
+function sectionFromSearchParams(searchParams, sectionKeys) {
+  const section = searchParams.get("section");
+
+  return sectionKeys.has(section) ? section : null;
+}
+
 export function initSiteSearch({ quake } = {}) {
   const surfaces = [...document.querySelectorAll("[data-site-search]")].map((root) => ({
     root,
@@ -134,11 +140,12 @@ export function initSiteSearch({ quake } = {}) {
     menu: root.querySelector("[data-search-menu]"),
     staticMenu: root.querySelector("[data-search-menu-static]"),
     isSpotlight: root.closest("dialog") !== null,
-    scope: root.dataset.searchScope,
+    section: null,
+    debounceTimer: null,
+    requestIdentity: 0,
   }));
   const dialog = document.querySelector("[data-spotlight]");
   const searchTriggers = [...document.querySelectorAll("[data-spotlight-open]")];
-  const isManualScope = surfaces.some(({ scope }) => scope === "manual");
 
   if (
     surfaces.length === 0 ||
@@ -154,14 +161,20 @@ export function initSiteSearch({ quake } = {}) {
     if (staticMenu) staticMenu.hidden = true;
   });
 
-  const destinations = navigationDestinations();
+  const data = searchData();
+  const destinations = navigationDestinations(data);
+  const sectionLabels = new Map(
+    (data?.navigation.section_order ?? []).map((sectionKey) => [
+      sectionKey,
+      data.navigation.sections[sectionKey].label,
+    ]),
+  );
+  const sectionKeys = new Set(sectionLabels.keys());
   const pagefindUrl = surfaces.find(({ form }) => form)?.form.dataset.pagefindUrl;
   let pagefindPromise;
-  let requestIdentity = 0;
-  let debounceTimer;
-  const surfaceResults = new Map();
   let searchTrigger = searchTriggers[0] ?? null;
   let scrollLock = null;
+  const surfaceResults = new Map();
 
   const lockDocumentScroll = () => {
     if (scrollLock) return;
@@ -204,88 +217,164 @@ export function initSiteSearch({ quake } = {}) {
     });
   };
 
-  const afterMenuAnimation = (element, callback) => {
-    const animations = element.getAnimations();
-
-    if (animations.length === 0) {
-      callback();
-      return;
-    }
-
-    Promise.allSettled(animations.map((animation) => animation.finished)).then(callback);
-  };
-
-  const resetMenu = (surface, { animate = false, restoreFocus = false } = {}) => {
-    if (!surface?.menu) return;
-
-    const menuRoot = surface.menu.querySelector("[data-search-menu-root]");
-    const activePanel = surface.menu.querySelector("[data-search-menu-panel]:not([hidden])");
-    const activeSectionId = activePanel?.dataset.searchMenuSection;
-    const activeOpener = [...surface.menu.querySelectorAll("[data-search-menu-open]")].find(
-      (opener) => opener.dataset.searchMenuSection === activeSectionId,
-    );
-
-    surface.menu.querySelectorAll("[data-search-menu-open]").forEach((opener) => {
-      opener.setAttribute("aria-expanded", "false");
-    });
-    menuRoot.hidden = false;
-    menuRoot.inert = false;
-
-    if (animate && activePanel) {
-      activePanel.inert = true;
-      surface.menu.dataset.searchMenuDirection = "back";
-      if (restoreFocus) activeOpener?.focus();
-
-      afterMenuAnimation(activePanel, () => {
-        if (surface.menu.dataset.searchMenuDirection !== "back") return;
-
-        activePanel.hidden = true;
-        delete surface.menu.dataset.searchMenuDirection;
-        delete surface.menu.dataset.searchMenuSection;
-      });
-      return;
-    }
-
-    delete surface.menu.dataset.searchMenuDirection;
-    delete surface.menu.dataset.searchMenuSection;
-    surface.menu.querySelectorAll("[data-search-menu-panel]").forEach((panel) => {
-      panel.hidden = true;
-      panel.inert = true;
-    });
-    if (restoreFocus) activeOpener?.focus();
-  };
-
-  const openMenuPanel = (surface, opener) => {
+  const showMenu = (surface) => {
     if (!surface.menu) return;
 
     const menuRoot = surface.menu.querySelector("[data-search-menu-root]");
-    const sectionId = opener.dataset.searchMenuSection;
-    const panel = [...surface.menu.querySelectorAll("[data-search-menu-panel]")].find(
-      (candidate) => candidate.dataset.searchMenuSection === sectionId,
+    menuRoot.hidden = surface.section !== null;
+    menuRoot.inert = surface.section !== null;
+
+    surface.menu.querySelectorAll("[data-search-menu-panel]").forEach((panel) => {
+      const active = panel.dataset.searchMenuSection === surface.section;
+      panel.hidden = !active;
+      panel.inert = !active;
+    });
+    surface.menu.querySelectorAll("[data-search-menu-select]").forEach((button) => {
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.searchMenuSection === surface.section),
+      );
+    });
+  };
+
+  const updateSearchUrl = (surface, mode = "replace") => {
+    if (surface.isSpotlight) return;
+
+    const url = new URL(window.location.href);
+    const query = surface.input.value.trim();
+
+    if (surface.section) {
+      url.searchParams.set("section", surface.section);
+    } else {
+      url.searchParams.delete("section");
+    }
+    if (query) {
+      url.searchParams.set("q", query);
+    } else {
+      url.searchParams.delete("q");
+    }
+
+    window.history[mode === "push" ? "pushState" : "replaceState"](null, "", url);
+  };
+
+  const render = (surface, { state, term = "", destinationResults = [], pageResults = [] }) => {
+    const fragment = document.createDocumentFragment();
+    const index = { next: 0 };
+    const destinationGroup = resultGroup("Destinations", destinationResults, index);
+    const pageGroup = resultGroup(
+      surface.section ? sectionLabels.get(surface.section) : "Pages & News",
+      pageResults,
+      index,
     );
-    if (!panel) return;
 
-    menuRoot.hidden = false;
-    menuRoot.inert = true;
-    surface.menu.dataset.searchMenuSection = sectionId;
-    surface.menu.dataset.searchMenuDirection = "forward";
-    surface.menu.querySelectorAll("[data-search-menu-panel]").forEach((candidate) => {
-      candidate.hidden = candidate !== panel;
-      candidate.inert = candidate !== panel;
-    });
-    surface.menu.querySelectorAll("[data-search-menu-open]").forEach((candidate) => {
-      candidate.setAttribute("aria-expanded", candidate === opener ? "true" : "false");
-    });
+    if (destinationGroup) fragment.append(destinationGroup);
+    if (pageGroup) fragment.append(pageGroup);
+    surface.results.replaceChildren(fragment);
+    surface.status.textContent =
+      state === "loading"
+        ? "Searching…"
+        : state === "empty"
+          ? surface.section
+            ? `No results in ${sectionLabels.get(surface.section)} for “${term}”.`
+            : `No results for “${term}”.`
+          : state === "error"
+            ? "Search is unavailable."
+            : state === "results"
+              ? `${destinationResults.length + pageResults.length} result${destinationResults.length + pageResults.length === 1 ? "" : "s"} for “${term}”.`
+              : "";
 
-    afterMenuAnimation(panel, () => {
-      if (
-        surface.menu.dataset.searchMenuDirection === "forward" &&
-        surface.menu.dataset.searchMenuSection === sectionId
-      ) {
-        menuRoot.hidden = true;
-      }
+    if (state === "idle") showMenu(surface);
+    if (surface.fallback) surface.fallback.hidden = state !== "idle" && state !== "error";
+
+    const links = [...surface.results.querySelectorAll("[data-search-result]")];
+    const resultState = { links, selectedIndex: -1 };
+    surfaceResults.set(surface, resultState);
+    setSelection(surface, 0);
+    links.forEach((link, index) => {
+      link.addEventListener("pointermove", () => setSelection(surface, index));
+      link.addEventListener("focus", () => setSelection(surface, index));
+      link.addEventListener("click", () => {
+        if (surface.isSpotlight && dialog.open) dialog.close();
+      });
     });
+  };
+
+  const clearSearch = (surface) => {
+    window.clearTimeout(surface.debounceTimer);
+    surface.requestIdentity += 1;
+    render(surface, { state: "idle" });
+  };
+
+  const selectSection = (surface, section, { history = "push" } = {}) => {
+    surface.section = section;
+    surface.input.value = "";
+    clearSearch(surface);
+    updateSearchUrl(surface, history);
     surface.input.focus({ preventScroll: true });
+  };
+
+  const clearSection = (surface, { history = "push", focusMenu = false } = {}) => {
+    surface.section = null;
+    surface.input.value = "";
+    clearSearch(surface);
+    updateSearchUrl(surface, history);
+
+    if (focusMenu) surface.menu?.querySelector("[data-search-menu-select]")?.focus();
+  };
+
+  const runSearch = async (surface, term, identity) => {
+    if (identity !== surface.requestIdentity) return;
+
+    const destinationResults = matchingDestinations(destinations, term, surface.section);
+    render(surface, { state: "loading" });
+
+    try {
+      pagefindPromise ??= import(pagefindUrl);
+      const pagefind = await pagefindPromise;
+      const response = await pagefind.search(
+        term,
+        surface.section ? { filters: { section: surface.section } } : undefined,
+      );
+      const documents = await Promise.all(
+        response.results.slice(0, pagefindLimit).map((result) => result.data()),
+      );
+
+      if (identity !== surface.requestIdentity) return;
+
+      const pageResults = documents.map(pagefindResult);
+      render(surface, {
+        state: destinationResults.length + pageResults.length === 0 ? "empty" : "results",
+        term,
+        destinationResults,
+        pageResults,
+      });
+    } catch {
+      if (identity !== surface.requestIdentity) return;
+      render(surface, { state: "error", term, destinationResults });
+    }
+  };
+
+  const scheduleSearch = (surface, value, { updateUrl = true } = {}) => {
+    const term = value.trim();
+    surface.input.value = value;
+    if (updateUrl) updateSearchUrl(surface);
+
+    if (term.length < minimumQueryLength) {
+      clearSearch(surface);
+      return;
+    }
+
+    window.clearTimeout(surface.debounceTimer);
+    const identity = ++surface.requestIdentity;
+    render(surface, {
+      state: "loading",
+      term,
+      destinationResults: matchingDestinations(destinations, term, surface.section),
+    });
+    surface.debounceTimer = window.setTimeout(
+      () => runSearch(surface, term, identity),
+      debounceDuration,
+    );
   };
 
   const moveMenuFocus = (surface, event) => {
@@ -300,18 +389,20 @@ export function initSiteSearch({ quake } = {}) {
     const activeElement = document.activeElement;
     const topLevelItems = [
       ...surface.fallback.querySelectorAll(
-        "[data-search-menu-root] > li > a[href], [data-search-menu-root] > li > [data-search-menu-open]",
+        "[data-search-menu-root] > li > a[href], [data-search-menu-root] > li > [data-search-menu-select]",
       ),
     ];
-    const panel = activeElement?.closest("[data-search-menu-panel]");
+    const visiblePanel = surface.fallback.querySelector("[data-search-menu-panel]:not([hidden])");
+    const panel = activeElement?.closest("[data-search-menu-panel]") ?? visiblePanel;
     const items =
-      activeElement === surface.input || topLevelItems.includes(activeElement)
-        ? topLevelItems
-        : [...(panel?.querySelectorAll("a[href]") ?? [])];
+      activeElement === surface.input
+        ? [...(panel?.querySelectorAll("a[href]") ?? topLevelItems)]
+        : topLevelItems.includes(activeElement)
+          ? topLevelItems
+          : [...(panel?.querySelectorAll("a[href]") ?? [])];
     if (items.length === 0) return false;
 
     const currentIndex = items.indexOf(activeElement);
-
     event.preventDefault();
     const direction = event.key === "ArrowDown" ? 1 : -1;
     const nextIndex =
@@ -322,107 +413,6 @@ export function initSiteSearch({ quake } = {}) {
         : (currentIndex + direction + items.length) % items.length;
     items[nextIndex].focus();
     return true;
-  };
-
-
-  const render = ({ state, term = "", destinationResults = [], pageResults = [] }) => {
-    surfaces.forEach((surface) => {
-      const fragment = document.createDocumentFragment();
-      const index = { next: 0 };
-      const destinationGroup = resultGroup("Destinations", destinationResults, index);
-      const pageGroup = resultGroup(isManualScope ? "Manual" : "Pages & News", pageResults, index);
-
-      if (destinationGroup) fragment.append(destinationGroup);
-      if (pageGroup) fragment.append(pageGroup);
-      surface.results.replaceChildren(fragment);
-      surface.status.textContent =
-        state === "loading"
-          ? "Searching…"
-          : state === "empty"
-            ? `No results for “${term}”.`
-            : state === "error"
-              ? "Search is unavailable."
-              : state === "results"
-                ? `${destinationResults.length + pageResults.length} result${destinationResults.length + pageResults.length === 1 ? "" : "s"} for “${term}”.`
-                : "";
-
-      if (state === "idle" || state === "loading") resetMenu(surface);
-
-      if (surface.fallback) {
-        surface.fallback.hidden = state !== "idle" && state !== "error";
-      }
-      const links = [...surface.results.querySelectorAll("[data-search-result]")];
-      const resultState = { links, selectedIndex: -1 };
-      surfaceResults.set(surface, resultState);
-      setSelection(surface, 0);
-      links.forEach((link, index) => {
-        link.addEventListener("pointermove", () => setSelection(surface, index));
-        link.addEventListener("focus", () => setSelection(surface, index));
-        link.addEventListener("click", () => {
-          if (surface.isSpotlight && dialog.open) dialog.close();
-        });
-      });
-    });
-  };
-
-  const clearSearch = () => {
-    window.clearTimeout(debounceTimer);
-    requestIdentity += 1;
-    render({ state: "idle" });
-  };
-
-  const runSearch = async (term, identity) => {
-    if (identity !== requestIdentity) return;
-
-    const destinationResults = isManualScope ? [] : matchingDestinations(destinations, term);
-    render({ state: "loading" });
-
-    try {
-      pagefindPromise ??= import(pagefindUrl);
-      const pagefind = await pagefindPromise;
-      const response = await pagefind.search(
-        term,
-        isManualScope ? { filters: MANUAL_PAGEFIND_FILTERS } : undefined,
-      );
-      const documents = await Promise.all(
-        response.results.slice(0, pagefindLimit).map((result) => result.data()),
-      );
-
-      if (identity !== requestIdentity) return;
-
-      const pageResults = documents.map(pagefindResult);
-      render({
-        state: destinationResults.length + pageResults.length === 0 ? "empty" : "results",
-        term,
-        destinationResults,
-        pageResults,
-      });
-    } catch {
-      if (identity !== requestIdentity) return;
-      render({ state: "error", term, destinationResults });
-    }
-  };
-
-  const scheduleSearch = (value) => {
-    const term = value.trim();
-
-    surfaces.forEach((surface) => {
-      if (surface.input.value !== value) surface.input.value = value;
-    });
-
-    if (term.length < minimumQueryLength) {
-      clearSearch();
-      return;
-    }
-
-    window.clearTimeout(debounceTimer);
-    const identity = ++requestIdentity;
-    render({
-      state: "loading",
-      term,
-      destinationResults: isManualScope ? [] : matchingDestinations(destinations, term),
-    });
-    debounceTimer = window.setTimeout(() => runSearch(term, identity), debounceDuration);
   };
 
   const closeSpotlight = () => {
@@ -439,26 +429,37 @@ export function initSiteSearch({ quake } = {}) {
     }
 
     const spotlightSurface = surfaces.find(({ isSpotlight }) => isSpotlight);
-    resetMenu(spotlightSurface);
-
+    clearSection(spotlightSurface, { history: "replace" });
     dialog.showModal();
     lockDocumentScroll();
     dialog.querySelector("input[name='q']")?.focus();
   };
 
+  const restoreStandaloneSearch = (surface) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    surface.section = sectionFromSearchParams(searchParams, sectionKeys);
+    surface.input.value = searchParams.get("q") ?? "";
+
+    if (surface.input.value.trim().length < minimumQueryLength) {
+      clearSearch(surface);
+    } else {
+      scheduleSearch(surface, surface.input.value, { updateUrl: false });
+    }
+  };
+
   surfaces.forEach((surface) => {
-    surface.input.addEventListener("input", () => scheduleSearch(surface.input.value));
+    surface.input.addEventListener("input", () => scheduleSearch(surface, surface.input.value));
     surface.form.addEventListener("submit", (event) => {
       event.preventDefault();
-      scheduleSearch(surface.input.value);
+      scheduleSearch(surface, surface.input.value);
     });
-    surface.menu?.querySelectorAll("[data-search-menu-open]").forEach((opener) => {
-      opener.addEventListener("click", () => openMenuPanel(surface, opener));
-    });
-    surface.menu?.querySelectorAll("[data-search-menu-back]").forEach((back) => {
-      back.addEventListener("click", () => {
-        resetMenu(surface, { animate: true, restoreFocus: true });
+    surface.menu?.querySelectorAll("[data-search-menu-select]").forEach((button) => {
+      button.addEventListener("click", () => {
+        selectSection(surface, button.dataset.searchMenuSection);
       });
+    });
+    surface.menu?.querySelectorAll("[data-search-menu-clear]").forEach((button) => {
+      button.addEventListener("click", () => clearSection(surface, { focusMenu: true }));
     });
     surface.fallback?.addEventListener("keydown", (event) => {
       if (
@@ -466,7 +467,7 @@ export function initSiteSearch({ quake } = {}) {
         document.activeElement?.closest("[data-search-menu-panel]")
       ) {
         event.preventDefault();
-        resetMenu(surface, { animate: true, restoreFocus: true });
+        clearSection(surface, { focusMenu: true });
         return;
       }
 
@@ -520,6 +521,8 @@ export function initSiteSearch({ quake } = {}) {
     }
   });
   dialog.addEventListener("close", () => {
+    const spotlightSurface = surfaces.find(({ isSpotlight }) => isSpotlight);
+    clearSection(spotlightSurface, { history: "replace" });
     unlockDocumentScroll();
     window.requestAnimationFrame(() => searchTrigger?.focus());
   });
@@ -543,11 +546,12 @@ export function initSiteSearch({ quake } = {}) {
       openSpotlight(searchTriggers[0]);
     }
   });
+  window.addEventListener("popstate", () => {
+    surfaces.filter(({ isSpotlight }) => !isSpotlight).forEach(restoreStandaloneSearch);
+  });
 
-  render({ state: "idle" });
-
-  const initialQuery = new URLSearchParams(window.location.search).get("q");
-  if (initialQuery) scheduleSearch(initialQuery);
+  surfaces.filter(({ isSpotlight }) => isSpotlight).forEach((surface) => render(surface, { state: "idle" }));
+  surfaces.filter(({ isSpotlight }) => !isSpotlight).forEach(restoreStandaloneSearch);
 
   return { close: closeSpotlight, open: openSpotlight };
 }

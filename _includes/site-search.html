@@ -1,15 +1,14 @@
 {% assign navigation = site.data.navigation %}
 {% assign is_spotlight = include.spotlight | default: false %}
-{% assign manual_search_scope = page.collection == 'manual' %}
 {% if is_spotlight %}
 <dialog class="spotlight" data-spotlight aria-labelledby="spotlight-title">
-  <div class="spotlight__inner" data-site-search data-search-scope="{% if manual_search_scope %}manual{% else %}site{% endif %}">
+  <div class="spotlight__inner" data-site-search>
     <div class="spotlight__heading">
-      <h2 id="spotlight-title">{% if manual_search_scope %}Search the Manual{% else %}Search Omarchy{% endif %}</h2>
+      <h2 id="spotlight-title">Search Omarchy</h2>
       <button type="button" data-spotlight-close>Close <span class="site-search__shortcut" aria-hidden="true">Esc</span></button>
     </div>
     <form class="site-search__form" data-site-search-form data-pagefind-url="{{ '/pagefind/pagefind.js' | relative_url }}" action="{{ '/search/' | relative_url }}" method="get">
-      <input id="spotlight-query" name="q" type="search" autocomplete="off" enterkeyhint="search" aria-label="{% if manual_search_scope %}Search the Manual{% else %}Search Omarchy{% endif %}">
+      <input id="spotlight-query" name="q" type="search" autocomplete="off" enterkeyhint="search" aria-label="Search Omarchy">
     </form>
     <div class="site-search__status" data-site-search-status aria-live="polite"></div>
     <div class="site-search__results" data-site-search-results></div>

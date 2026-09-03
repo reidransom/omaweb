@@ -29,18 +29,17 @@
       {% for section_key in navigation.section_order %}
         {% assign section = navigation.sections[section_key] %}
         <li>
-          <button type="button" data-search-menu-open data-search-menu-section="{{ forloop.index0 }}" aria-expanded="false">
+          <button type="button" data-search-menu-select data-search-menu-section="{{ section_key }}" aria-pressed="false">
             <span>{{ section.label | escape }}</span>
-            <span class="site-search__menu-caret" aria-hidden="true">›</span>
           </button>
         </li>
       {% endfor %}
     </ul>
     {% for section_key in navigation.section_order %}
       {% assign section = navigation.sections[section_key] %}
-      <div class="site-search__menu-panel" data-search-menu-panel data-search-menu-section="{{ forloop.index0 }}" aria-label="{{ section.label | escape }}" hidden>
+      <div class="site-search__menu-panel" data-search-menu-panel data-search-menu-section="{{ section_key }}" aria-label="{{ section.label | escape }}" hidden>
         <div class="site-search__menu-heading">
-          <button type="button" data-search-menu-back>
+          <button type="button" data-search-menu-clear>
             <span aria-hidden="true">‹</span>
             All sections
           </button>

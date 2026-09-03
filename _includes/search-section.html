@@ -1,0 +1,28 @@
+{%- assign page_search_section = "" -%}
+{%- for section_key in site.data.navigation.section_order -%}
+  {%- assign section = site.data.navigation.sections[section_key] -%}
+  {%- if section.destination -%}
+    {%- assign section_url = site.data.destinations.items[section.destination].url -%}
+  {%- elsif section.product -%}
+    {%- assign section_url = site.data.products.items[section.product].url -%}
+  {%- else -%}
+    {%- assign section_url = section.url -%}
+  {%- endif -%}
+  {%- if page.url == section_url or page.url contains section_url -%}
+    {%- assign page_search_section = section_key -%}
+  {%- endif -%}
+  {%- for link_key in section.links -%}
+    {%- assign link = site.data.navigation.links[link_key] -%}
+    {%- if link.destination -%}
+      {%- assign link_url = site.data.destinations.items[link.destination].url -%}
+    {%- elsif link.product -%}
+      {%- assign link_url = site.data.products.items[link.product].url -%}
+    {%- else -%}
+      {%- assign link_url = link.url -%}
+    {%- endif -%}
+    {%- if page.url == link_url or page.url contains link_url -%}
+      {%- assign page_search_section = section_key -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{{- page_search_section -}}
