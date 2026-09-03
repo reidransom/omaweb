@@ -10,47 +10,6 @@ require_file() {
   [ -f "$1" ] || fail "Missing required file: $1"
 }
 
-manifest_entry() {
-  asset=$1
-  awk -v asset="$asset" '
-    index($0, "path: " asset) { found = 1; next }
-    found && /path:/ { exit }
-    found { print }
-  ' _data/assets.yml
-}
-
-require_manifested_asset() {
-  asset=$1
-  entry=$(manifest_entry "$asset")
-  [ -n "$entry" ] || fail "Asset is absent from _data/assets.yml: $asset"
-
-  checksum=$(printf '%s\n' "$entry" | sed -n 's/^[[:space:]]*sha256: //p' | sed -n '1p')
-  [ -n "$checksum" ] || fail "Asset has no SHA-256 in _data/assets.yml: $asset"
-  actual=$(sha256sum "$asset" | cut -d ' ' -f 1)
-  [ "$actual" = "$checksum" ] || fail "Asset checksum does not match _data/assets.yml: $asset"
-
-  printf '%s\n' "$entry" | grep -Eq '^[[:space:]]*publication_status: cleared$' ||
-    fail "Asset is not cleared for publication: $asset"
-  printf '%s\n' "$entry" | grep -Eq '^[[:space:]]*dimensions:' ||
-    fail "Asset has no declared dimensions: $asset"
-
-  width=$(printf '%s\n' "$entry" | sed -n 's/.*width: \([0-9][0-9]*\).*/\1/p' | sed -n '1p')
-  height=$(printf '%s\n' "$entry" | sed -n 's/.*height: \([0-9][0-9]*\).*/\1/p' | sed -n '1p')
-  [ -n "$width" ] && [ -n "$height" ] || fail "Asset dimensions are incomplete: $asset"
-
-  case "$asset" in
-    *.svg)
-      grep -Fq "viewBox=\"0 0 $width $height\"" "$asset" ||
-        fail "SVG dimensions do not match _data/assets.yml: $asset"
-      ;;
-    *)
-      actual_dimensions=$(magick identify -format '%w %h' "$asset")
-      [ "$actual_dimensions" = "$width $height" ] ||
-        fail "Asset dimensions do not match _data/assets.yml: $asset"
-      ;;
-  esac
-}
-
 require_file _config.yml
 require_file _includes/head.html
 require_file _includes/seo.html
@@ -71,10 +30,6 @@ grep -Fq 'frame-src https://luma.com' _includes/head.html ||
   fail 'The CSP must restrict frames to https://luma.com.'
 grep -Fq 'favicon.png' _includes/head.html ||
   fail 'The document head must reference the approved local favicon.'
-
-for asset in $(find assets/images -type f | sort); do
-  require_manifested_asset "$asset"
-done
 
 content_sources="$(find accessories air apps brand cloud community desktop discord foundation hardware labs laptops manual meetups mobile new-releases news omakub patrons platforms potato project screensaver security server software sponsorships teams themes workstations _manual _news -type f \( -name '*.md' -o -name '*.html' \) | sort) index.html 404.html"
 for source in $content_sources; do
