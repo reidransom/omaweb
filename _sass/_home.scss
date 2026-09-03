@@ -684,6 +684,7 @@ html.wordmark-pending .wordmark[data-wordmark-enhanced="true"] .wordmark__fallba
 
   .home-hero[data-home-hero-enhanced] .home-hero__panel--primary {
     z-index: 2;
+    padding: var(--omarchy-space-large);
     will-change: transform, opacity;
   }
 

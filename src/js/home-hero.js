@@ -303,28 +303,42 @@ export function initHomeHero() {
     });
   };
 
-  const setup = () => {
+  const resetEnhancement = () => {
     disposeEnhancement();
     disposeEnhancement = () => {};
-    if (!enhancementQuery.matches) return;
+  };
+
+  const setup = () => {
+    const isEnhanced = root.hasAttribute("data-home-hero-enhanced");
+
+    if (!enhancementQuery.matches) {
+      if (isEnhanced) resetEnhancement();
+      return;
+    }
+
+    if (isEnhanced) {
+      if (primary.scrollHeight > primary.clientHeight) resetEnhancement();
+      return;
+    }
 
     try {
       startEnhancement();
+      if (primary.scrollHeight > primary.clientHeight) resetEnhancement();
     } catch {
-      disposeEnhancement();
-      disposeEnhancement = () => {};
+      resetEnhancement();
     }
   };
 
   const dispose = () => {
     enhancementQuery.removeEventListener("change", setup);
-    disposeEnhancement();
-    disposeEnhancement = () => {};
+    window.removeEventListener("resize", setup);
+    resetEnhancement();
     if (disposeActiveHero === dispose) disposeActiveHero = undefined;
   };
 
   disposeActiveHero = dispose;
   enhancementQuery.addEventListener("change", setup);
+  window.addEventListener("resize", setup);
   setup();
 
   return dispose;
