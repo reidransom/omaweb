@@ -660,11 +660,16 @@ a:hover .media__image {
 
 .team-directory {
   display: grid;
+  inline-size: 100%;
+  max-inline-size: calc(52em - var(--omarchy-page-padding) - var(--omarchy-page-padding));
+  margin-inline: auto;
   gap: var(--omarchy-space-large);
 }
 
 .team-directory__section {
   margin-block-start: 0;
+  inline-size: 100%;
+  max-inline-size: none;
   text-align: center;
 }
 
@@ -674,6 +679,18 @@ a:hover .media__image {
 
 .team-directory__section .person-card {
   padding: 0;
+}
+
+.team-directory .people-roster {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: var(--omarchy-space-medium);
+  justify-content: center;
+  margin-block-start: 1rem;
+}
+
+.team-directory .people-roster > * {
+  flex: 0 0 calc((100% - var(--omarchy-space-medium)) / 2);
 }
 
 .people-roster {
@@ -717,6 +734,12 @@ a:hover .media__image {
 @media (min-width: breakpoints.$small) {
   .people-roster {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: breakpoints.$medium) {
+  .team-directory .people-roster > * {
+    flex-basis: calc((100% - var(--omarchy-space-medium) - var(--omarchy-space-medium)) / 3);
   }
 }
 
