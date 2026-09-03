@@ -680,6 +680,7 @@ html.wordmark-pending .wordmark[data-wordmark-enhanced="true"] .wordmark__fallba
   .home-hero[data-home-hero-enhanced] .home-hero__media {
     position: absolute;
     inset: 0;
+    inset-inline: var(--omarchy-page-padding);
   }
 
   .home-hero[data-home-hero-enhanced] .home-hero__panel--primary {
