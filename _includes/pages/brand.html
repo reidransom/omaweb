@@ -1,0 +1,30 @@
+{% assign copy = site.data.page_content.brand %}
+<div class="brand-assets">
+  <section class="brand-asset" aria-labelledby="brand-wordmark-title">
+    <h2 id="brand-wordmark-title">{{ copy.wordmark.title | escape }}</h2>
+    <figure class="brand-asset__preview">
+      <img src="/brand/omarchy-wordmark.svg" alt="{{ copy.wordmark.alt | escape }}" width="4131" height="950">
+    </figure>
+    <ul class="brand-asset__files">
+      <li><a href="/brand/omarchy-wordmark.svg" download>omarchy-wordmark.svg</a> <span class="brand-asset__hint">{{ copy.vector_hint | escape }}</span></li>
+      <li><a href="/brand/omarchy-wordmark.png" download>omarchy-wordmark.png</a> <span class="brand-asset__hint">{{ copy.raster_hint | escape }}</span></li>
+    </ul>
+  </section>
+
+  <section class="brand-asset" aria-labelledby="brand-logo-title">
+    <h2 id="brand-logo-title">{{ copy.logo.title | escape }}</h2>
+    <figure class="brand-asset__preview">
+      <img src="/brand/omarchy-logo.svg" alt="{{ copy.logo.alt | escape }}" width="1200" height="1200">
+    </figure>
+    <ul class="brand-asset__files">
+      <li><a href="/brand/omarchy-logo.svg" download>omarchy-logo.svg</a> <span class="brand-asset__hint">{{ copy.vector_hint | escape }}</span></li>
+      <li><a href="/brand/omarchy-logo.png" download>omarchy-logo.png</a> <span class="brand-asset__hint">{{ copy.raster_hint | escape }}</span></li>
+    </ul>
+  </section>
+
+  <section class="brand-asset prose" aria-labelledby="brand-trademark-title">
+    <h2 id="brand-trademark-title">{{ copy.trademark.title | escape }}</h2>
+    <p>{{ copy.trademark.notice | escape }}</p>
+    <p>{{ copy.trademark.contact_before | escape }} <a href="mailto:david@omarchy.org">david@omarchy.org</a>{{ copy.trademark.contact_suffix | escape }}</p>
+  </section>
+</div>
