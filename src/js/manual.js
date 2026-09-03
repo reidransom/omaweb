@@ -72,13 +72,6 @@ const preview = (text, pattern) => {
   return highlight(snippet, pattern);
 };
 
-const isPlainShortcut = (event, key) =>
-  event.key === key &&
-  !event.metaKey &&
-  !event.ctrlKey &&
-  !event.altKey &&
-  !event.shiftKey &&
-  !event.target.closest("input, textarea, select, [contenteditable]");
 
 export function initManual() {
   const manual = document.querySelector("[data-manual]");
@@ -218,14 +211,6 @@ export function initManual() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (isPlainShortcut(event, "/") && input.offsetParent) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      input.focus();
-      input.select();
-      return;
-    }
-
     if (
       !event.defaultPrevented &&
       !event.metaKey &&
