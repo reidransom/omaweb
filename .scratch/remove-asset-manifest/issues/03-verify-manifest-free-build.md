@@ -1,7 +1,7 @@
 # Verify the manifest-free production build
 
 Type: task
-Status: ready-for-agent
+Status: claimed
 Blocked by: 01, 02
 
 ## Context
