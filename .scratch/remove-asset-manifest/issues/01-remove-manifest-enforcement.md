@@ -1,7 +1,7 @@
 # Remove asset-manifest enforcement
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by:
 
 ## Context
@@ -34,3 +34,7 @@ Do not edit assets, templates, content, `scripts/build-assets`, contributor docu
 - Skip the complete production build; integration verification belongs to ticket 03.
 
 ## Answer
+
+Merged implementation commit `72353d09ce6f315ab93c7f5d0f83aecc6a0075d6` cleanly as `a183f8f`.
+
+Scoped checks completed before merge: `sh -n scripts/check-content scripts/verify-production` exited successfully, and the two scripts had no matches for `_data/assets.yml`, manifest, publication-status, provenance, rights, permission, or clearance enforcement.
