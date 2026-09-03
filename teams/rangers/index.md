@@ -8,7 +8,7 @@ translation_key: rangers-team
 nav_group: project
 archetype: project
 ---
-{% assign team = site.data.people.rangers %}
+{% assign team = site.data.people.teams.rangers %}
 
 <section class="prose" aria-labelledby="rangers-remit-title">
   <h2 id="rangers-remit-title">{{ team.remit }}</h2>

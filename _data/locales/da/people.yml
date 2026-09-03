@@ -1,92 +1,27 @@
-core:
-  label: Omarchy Core
-  remit: Sætter retningen
-  people:
-  - name: DHH
+teams:
+  core:
+    remit: Sætter retningen
     role: Kerneteam
+  security:
+    label: Omarchy-sikkerhed
+    remit: Holder dit system sikkert
+    role: Sikkerhed
+  rangers:
+    remit: Hjælper andre med at finde vej
+    role: Vejviser
+
+people:
+  dhh:
     location: USA/Danmark
-    profile: https://dhh.dk
-    image: /assets/images/team/dhh.webp
-  - name: Ryan Hughes
-    role: Kerneteam
-    location: USA
-    profile: https://x.com/ryanrhughes
-    image: /assets/images/team/ryan-hughes.webp
-  - name: Tobi Lütke
-    role: Kerneteam
-    location: Canada
-    profile: https://x.com/tobi
-    image: /assets/images/team/tobi-lutke.webp
-  - name: Bjarne Øverli
-    role: Kerneteam
+  bjarne-overli:
     location: Norge
-    profile: https://x.com/iamdothash
-    image: /assets/images/team/bjarne-overli.webp
-  - name: HANCORE
-    role: Kerneteam
+  hancore:
     location: Tyskland
-    profile: https://github.com/HANCORE-linux
-    image: /assets/images/team/hancore.webp
-  - name: Spencer Bull
-    role: Kerneteam
-    location: USA
-    profile: https://x.com/SpencerGBull
-    image: /assets/images/team/spencer-bull.webp
-security:
-  label: Omarchy-sikkerhed
-  remit: Holder dit system sikkert
-  people:
-  - name: Adrian Rangel
-    role: Sikkerhed
-    location: Mexico
-    profile: https://x.com/acrogenesis
-    image: /assets/images/team/adrian-rangel.webp
-  - name: Mehmet İnce
-    role: Sikkerhed
+  mehmet-ince:
     location: Storbritannien
-    profile: https://x.com/mdisec
-    image: /assets/images/team/mehmet-ince.webp
-  - name: Erik Melton
-    role: Sikkerhed
+  erik-melton:
     location: Norge
-    profile: https://x.com/meltonaerik
-    image: /assets/images/team/erik-melton.webp
-  - name: Sayem Chowdhury
-    role: Sikkerhed
-    location: Bangladesh
-    profile: https://x.com/Sayem314
-    image: /assets/images/team/sayem-chowdhury.webp
-  - name: Sebastian Stange
-    role: Sikkerhed
+  sebastian-stange:
     location: Tyskland
-    profile: https://x.com/bastidotnet
-    image: /assets/images/team/sebastian-stange.webp
-  - name: Ryan Hughes
-    role: Sikkerhed
-    location: USA
-    profile: https://x.com/ryanrhughes
-    image: /assets/images/team/ryan-hughes.webp
-  - name: DHH
-    role: Sikkerhed
-    location: USA/Danmark
-    profile: https://dhh.dk
-    image: /assets/images/team/dhh.webp
-rangers:
-  label: Omarchy Rangers
-  remit: Hjælper andre med at finde vej
-  people:
-  - name: Mihai
-    role: Vejviser
+  mihai:
     location: Rumænien
-    profile: https://x.com/SandorhaziM
-    image: /assets/images/team/mihai.webp
-  - name: Mateo Vaz
-    role: Vejviser
-    location: Uruguay
-    profile: https://x.com/Mateo_VX
-    image: /assets/images/team/mateo-vaz.webp
-  - name: Nira
-    role: Vejviser
-    location: Nepal
-    profile: https://x.com/niraletter
-    image: /assets/images/team/nira.webp
