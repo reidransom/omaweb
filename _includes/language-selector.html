@@ -1,9 +1,16 @@
 {% if page.translations.size > 0 %}
+{% assign current_language_code = page.language.tag | default: page.lang | default: site.lang | split: '-' | first | upcase %}
 <nav class="language-selector" aria-label="{{ 'language.selector' | translate | escape }}">
-  <ul role="list">
-    {% for translation in page.translations %}
-      <li><a href="{{ translation.url | escape }}" lang="{{ translation.language.tag | escape }}" hreflang="{{ translation.language.tag | escape }}">{{ translation.language.label | escape }}</a></li>
-    {% endfor %}
-  </ul>
+  <details data-language-selector>
+    <summary class="language-selector__toggle" aria-label="{{ 'language.selector' | translate | escape }}: {{ page.language.label | escape }}">
+      <span aria-hidden="true">{{ current_language_code | escape }}</span>
+      <svg class="language-selector__chevron" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg>
+    </summary>
+    <ul class="language-selector__options" role="list">
+      {% for translation in page.translations %}
+        <li><a href="{{ translation.url | escape }}" lang="{{ translation.language.tag | escape }}" hreflang="{{ translation.language.tag | escape }}">{{ translation.language.label | escape }}</a></li>
+      {% endfor %}
+    </ul>
+  </details>
 </nav>
 {% endif %}

@@ -265,20 +265,68 @@ a:hover .media__image {
   inline-size: 2rem;
   block-size: 2rem;
 }
-.language-selector ul {
-  display: flex;
-  align-items: center;
-  gap: var(--omarchy-space-small);
-  padding: 0;
+.language-selector {
+  position: relative;
+}
+
+.language-selector__toggle {
+  gap: 0.75em;
+  cursor: pointer;
   list-style: none;
 }
 
-.language-selector a {
-  color: var(--omarchy-cyan);
+.language-selector__toggle::-webkit-details-marker {
+  display: none;
+}
+
+.language-selector__chevron {
+  inline-size: 0.625em;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-width: 1.5;
+  transition: transform var(--omarchy-transition);
+}
+
+.language-selector details[open] .language-selector__chevron {
+  transform: rotate(180deg);
+}
+
+.language-selector__options {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: calc(100% + var(--omarchy-space-small));
+  inset-inline-end: 0;
+  min-inline-size: 10rem;
+  margin: 0;
+  padding: var(--omarchy-space-small);
+  border: 1px solid var(--omarchy-terminal-black);
+  border-radius: var(--omarchy-radius);
+  background: var(--omarchy-storm);
+  box-shadow: 0 0.75em 2em rgb(0 0 0 / 0.35);
+  list-style: none;
+}
+
+.language-selector__options a {
+  display: block;
+  padding: 0.75em 1em;
+  border-radius: var(--omarchy-radius);
+  color: var(--omarchy-terminal-white);
   font-size: var(--omarchy-font-small);
   font-weight: 700;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.language-selector__options a:hover,
+.language-selector__options a:focus-visible {
+  background: var(--omarchy-terminal-black);
+  color: var(--omarchy-turquoise);
+}
+
+.language-selector__options a:focus-visible {
+  outline-offset: -0.2em;
 }
 
 
@@ -288,6 +336,7 @@ a:hover .media__image {
 
 .site-header__search,
 .site-header__menu,
+.language-selector__toggle,
 .mobile-drawer [data-drawer-close] {
   display: inline-flex;
   align-items: center;
@@ -302,7 +351,8 @@ a:hover .media__image {
   text-decoration: none;
 }
 
-.site-header__menu {
+.site-header__menu,
+.language-selector__toggle {
   cursor: pointer;
 }
 
