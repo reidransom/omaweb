@@ -1,0 +1,14 @@
+items:
+  pleum:
+    caption: Photo de pleum, partagée avec la galerie officielle Workstations.
+    media:
+      alt: Un chat noir repose près d’un clavier mécanique, devant un écran affichant le nom Omarchy ; un casque et une lampe de bureau encadrent le poste de travail.
+  sspaeti:
+    caption: Photo de sspaeti, partagée avec la galerie officielle Workstations.
+    media:
+      alt: Un bureau blanc avec un microphone, un clavier mécanique, des ordinateurs portables et un grand écran affichant plusieurs fenêtres ouvertes.
+
+empty_state:
+  title: Les postes de travail de la communauté attendent des photos approuvées.
+  body: Nous ne disposons pas encore d’une photo locale et approuvée d’un poste de travail de la communauté à publier. Envoyez une photo à l’équipe sur Discord en l’autorisant à l’afficher ici ; cette page doit grandir avec de vrais bureaux, pas des images de stock.
+  action_label: Partager un poste de travail sur Discord

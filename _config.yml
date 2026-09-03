@@ -17,6 +17,11 @@ localization:
       label: Dansk
       weight: 2
       fallbacks: [en]
+    fr:
+      tag: fr-FR
+      label: Français
+      weight: 3
+      fallbacks: [en]
 permalink: pretty
 social_image: /assets/images/opengraph.png
 social_image_alt: Omarchy wordmark on a dark background

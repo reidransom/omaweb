@@ -1,0 +1,134 @@
+accessories:
+  status:
+    title: Intet tilbehør at anbefale endnu.
+    body: Omarchy har ingen anbefalinger af tilbehør. Denne side kan senere dokumentere hardware fra tredjeparter, som er blevet evalueret, men den annoncerer hverken produkter eller planer om at fremstille tilbehør.
+  evaluation:
+    title: Tilbehør fra tredjeparter kræver dokumenteret evaluering.
+    body: Enhver fremtidig anbefaling skal angive, hvad der blev evalueret, hvad der blev observeret, og hvilke kompromiser der følger med. Det er det arbejde, der kræves, før tilbehør fra en tredjepart fortjener en plads her.
+
+desktops:
+  question:
+    title: Det ville Omarchy teste, før desktop-hardware blev anbefalet
+    paragraphs:
+    - Omarchy undersøger, hvad der skal til for at stå inde for en anbefaling af desktop-hardware. En brugbar standard skal tage højde for den maskine, folk rent faktisk bruger, vedligeholder og er afhængige af ved deres skrivebord.
+    - Dette arbejde begynder med spørgsmål, ikke en liste over hardware.
+  evidence:
+    title: Desktop-hardware kræver test, der kan gentages.
+    items:
+    - Hvilke dele af en desktop-opsætning kræver direkte test, der kan gentages, før nogen kan give en nyttig anbefaling?
+    - Hvad skal en ærlig evaluering sige om de miljøer og kompromiser, den har observeret?
+    - Hvordan kan en anbefaling forblive nyttig, når læseren har et andet skrivebord, et andet budget eller andre behov?
+  standard:
+    title: Der annonceres ikke noget desktop-produkt.
+    body: Enhver fremtidig evaluering skal tydeligt angive, hvad den har observeret, og hvad den ikke har. Sådan forbliver en anbefaling nyttig, uden at et undersøgende område bliver til et produktløfte.
+    link_prefix: Vil du se eksempler på, hvordan folk bruger Omarchy på den hardware, de allerede ejer, så besøg
+    link_label: Workstations
+
+laptops:
+  question:
+    title: En anbefaling skal betyde noget.
+    paragraphs:
+    - "Omarchy undersøger, hvad der skal til for at stå inde for en anbefaling af en laptop. Et logo på låget ville være billigt. En brugbar standard skal beskrive oplevelsen af at leve med en maskine: at åbne den, reparere den og bruge de dele, der får en computer til at føles som en computer."
+    - Det arbejde begynder med spørgsmål, ikke en liste over maskiner.
+  evidence:
+    title: Hvilken dokumentation skal gøre sig fortjent til navnet?
+    items:
+    - Hvordan ser reparerbarhed ud, når man selv skal kunne forstå og vedligeholde sin maskine?
+    - Hvilke dele af hardwareoplevelsen kræver direkte test, der kan gentages, før nogen kan give en nyttig anbefaling?
+    - Hvad skal en ærlig anbefaling sige, når den ikke kan gå ud fra, at alle læsere kan få den samme maskine?
+  standard:
+    title: Standarden betyder mere end mærket.
+    body: Enhver fremtidig evaluering skal tydeligt angive, hvad den har observeret, og hvad den ikke har. Sådan forbliver en anbefaling nyttig, når læseren har andre behov, et andet skrivebord eller mod på at åbne bagpanelet.
+    link_prefix: Vil du se aktuelle eksempler på, hvordan folk former Omarchy omkring den hardware, de allerede bruger, så besøg
+    link_label: Workstations
+
+server:
+  question:
+    title: En server skal lade operatøren beholde kontrollen.
+    paragraphs:
+    - Omarchy undersøger, hvad en holdningsstærk tilgang til servere kan betyde for mennesker, der driver deres egne tjenester og bærer ansvaret for arbejdet bag dem. Det svære er ikke at sætte endnu et kontrolpanel foran en maskine. Det er at afgøre, hvilke valg der fortjener et klart standardvalg, og hvilke der tydeligt skal forblive dine.
+    - Dette er et sæt spørgsmål, ikke et serverprodukt.
+  workloads:
+    title: Hvad skal et fokuseret fundament gøre lettere at gennemskue?
+    items:
+    - Hvilke selvhostede tjenester og produktionsworkloads har gavn af et holdningsstærkt udgangspunkt?
+    - Hvordan kan fjernadministration forblive gennemskuelig, når maskinen befinder sig et andet sted?
+    - Hvor kan agenter hjælpe med infrastrukturarbejde uden at skjule kommandoer, filer eller beslutninger for operatøren?
+  defaults:
+    title: Sikkerhed og opdateringer er designspørgsmål.
+    body: Standardvalg kan mindske gentagelser. De kan også skjule et valg, der fortjener at blive undersøgt. Enhver undersøgelse her skal spørge, hvordan en ansvarlig sikkerhedstilgang ser ud, hvilke beslutninger om opdateringer der skal være synlige, og hvordan en operatør kan forstå et system, før det ændres.
+    link_prefix: Begynd med
+    iso_label: ISO
+    link_join: og
+    manual_label: manualen på engelsk
+    link_suffix: " for det nuværende system."
+
+mobile:
+  question:
+    title: En telefon skal udvide dit miljø, ikke konkurrere med det.
+    paragraphs:
+    - Omarchy undersøger grænsen mellem en ledsager til et eksisterende system og et mere fuldgyldigt mobilt miljø. Den grænse er vigtig. En mindre skærm ændrer opmærksomhed, input, privatliv og de øjeblikke, hvor en computer kan være nyttig.
+    - Spørgsmålet er ikke, hvordan et eksisterende system krympes ned til en telefon. Det handler om, hvilken sammenhæng der er værd at bevare mellem dem.
+  continuity:
+    title: Hvilke dele af en arbejdsdag skal følge med dig?
+    items:
+    - Hvornår skal en notifikation fra din desktop nå en ledsagerenhed, og hvornår skal den blive, hvor den er?
+    - Hvad skal der til, for at en delt udklipsholder og overførsel af filer føles bevidst frem for magisk?
+    - Hvilke fjernkommandoer fortjener en grænseflade til en lille skærm, og hvilke hører hjemme i terminalen?
+  trust:
+    title: Kontinuitet afhænger af tillid.
+    body: Godkendelse og synkronisering af enheder er ikke baggrundsdetaljer. De afgør, hvem der kan handle, hvad der flyttes mellem enheder, og hvad der forbliver lokalt. Det er de spørgsmål, der er værd at besvare, før man beslutter, hvilken form et eventuelt mobilt initiativ skal have.
+    link_prefix: Begynd med
+    iso_label: ISO
+    link_join: og
+    manual_label: manualen på engelsk
+    link_suffix: " for det nuværende system."
+
+cloud:
+  question:
+    title: En workstation et andet sted skal stadig føles som din.
+    paragraphs:
+    - Omarchy undersøger, hvad en hostet workstation skal bevare, før den fortjener navnet. En fjernmaskine kan ændre, hvor arbejdet kører, men den må ikke gøre det uklart, hvem der ejer miljøet, hvem der kan undersøge det, eller hvad der sker med det arbejde, der efterlades i det.
+    - Det er et spørgsmål om grænser, ikke en genvej uden om dem.
+  continuity:
+    title: Hvad skal bestå, når skærmen skifter?
+    items:
+    - Hvad skal forblive i et miljø mellem sessioner, og hvad skal kun forblive hos den person, der skabte det?
+    - Hvordan kan synkronisering forblive forståelig, når filer, konfiguration og agentarbejde flyttes mellem maskiner?
+    - Hvilke former for databehandling hører hjemme i et hostet miljø, og hvordan skal det valg forblive synligt for den person, der bruger det?
+  ownership:
+    title: Sikkerhed og ejerskab må ikke være fodnoter.
+    body: Enhver seriøs undersøgelse skal begynde med adgang, datagrænser og evnen til at forstå, hvad der sker med dit arbejde. Bekvemmelighed er nyttig. Kontrol er pointen.
+    link_prefix: Begynd med
+    iso_label: ISO
+    link_join: og
+    manual_label: manualen på engelsk
+    link_suffix: " for det nuværende lokale system."
+
+apps:
+  question:
+    title: En førstepartsapp skal gøre sig fortjent til sin plads.
+    paragraphs:
+    - Omarchy undersøger, hvilke applikationer der hører tæt til systemet, og hvilke idéer der bedre overlades til fællesskabet. Forskellen handler ikke om ejerskab for ejerskabets skyld. Den handler om, hvorvidt en applikation kan udtrykke et klart synspunkt på, hvordan computeren skal føles og fungere.
+    - Derfor kommer principperne først. Et katalog kan vente.
+  principles:
+    title: Hvad skal applikationerne have til fælles?
+    items:
+    - Hvilke visuelle valg får et værktøj til at føle sig hjemme uden at udviske dets formål?
+    - Hvilke tastaturkonventioner mindsker behovet for at lære på ny uden at gøre enhver interaktion til en regel?
+    - Hvor skal konfigurationen forblive synlig, flytbar og forståelig for den person, der ændrer den?
+    - Hvad skal der til, for at opdateringer er gennemskuelige frem for overraskende?
+  community:
+    title: Plugins er en anden slags bidrag.
+    body: Fællesskabets Plugins giver allerede folk et sted at dele tilføjelser og eksperimenter. De behøver ikke efterligne idéen om en førstepartsapplikation for at være værdifulde. Det nuværende katalog er det rette sted, når du vil se, hvad fællesskabet skaber.
+    link_label: Besøg kataloget over Plugins
+
+labs:
+  purpose:
+    title: Offentlige eksperimenter, ikke produktannonceringer.
+    body: Labs er Omarchys sted for offentlige eksperimenter. Her annonceres ingen aktive eksperimenter.
+  air:
+    title: Artists in Residence har sit eget arbejde.
+    body: Omacom Foundation driver Artists in Residence som et seks måneders kunstnerophold for kunstnere, der arbejder med temaer, plugins og andet, som gør Omarchy smukt. Deltagerne vælger selv arbejdet uden en fastlagt køreplan eller opgavekø.
+    link_prefix: Labs gør ikke arbejdet fra dette kunstnerophold til en produktudgivelse. Læs om det aktuelle
+    link_suffix: "-program."

@@ -1,0 +1,70 @@
+home:
+  label: Accueil
+
+search:
+  label: Rechercher en anglais
+  spotlight: false
+
+sections:
+  foundation:
+    label: La fondation
+  manual:
+    label: Manuel en anglais
+  shop:
+    label: Boutique
+  news:
+    label: Actualités en anglais
+  community:
+    label: Communauté
+
+links:
+  patrons:
+    label: Mécènes
+    description: Les personnes qui financent la mission d’Omacom Foundation.
+  sponsorships:
+    label: Parrainages
+    description: Le soutien actuel de la fondation à Hyprland, Quickshell et mise.
+  artists-in-residence:
+    description: Une résidence de six mois pour les artistes travaillant sur les thèmes, les Plugins et l’art visuel d’Omarchy.
+  security:
+    label: Sécurité
+    description: Comment signaler en privé une vulnérabilité dans Omarchy.
+  download-iso:
+    label: Télécharger l’ISO
+  laptops:
+    description: Les questions auxquelles Omarchy répondrait avant de recommander un ordinateur portable.
+  desktop:
+    description: Les tests requis avant qu’Omarchy ne recommande du matériel de bureau.
+  mobile:
+    description: Comment un téléphone pourrait prolonger un environnement Omarchy.
+  merch:
+    description: La collection officielle Omarchy chez 37signals Supply.
+  accessories:
+    description: Comment Omarchy évaluerait du matériel tiers avant de le recommander.
+  news-product:
+    label: Produit
+  news-releases:
+    label: Versions
+  news-events:
+    label: Événements
+  news-editorial:
+    label: Éditorial
+  atom-feed:
+    label: Flux Atom
+  teams:
+    label: Équipes
+    description: Les personnes qui définissent la direction d’Omarchy et veillent sur sa sécurité et sa communauté.
+  discord:
+    description: Questions, correctifs, notes de compilation et conversation vivante de la communauté.
+  meetups:
+    label: Rencontres
+    description: Les rencontres Omarchy et les règles pour en organiser une.
+  workstations:
+    description: Des photos approuvées et les histoires de véritables bureaux Omarchy.
+  featured-videos:
+    label: Vidéos à la une
+    description: La présentation officielle et quatre regards choisis dans la communauté.
+  plugins:
+    description: Le catalogue public des extensions créées autour d’Omarchy.
+  code:
+    description: Le dépôt GitHub public d’Omarchy.

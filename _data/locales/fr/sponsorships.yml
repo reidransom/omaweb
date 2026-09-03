@@ -1,0 +1,10 @@
+items:
+  hyprland:
+    level: Exclusif
+    summary: Le compositeur Wayland en mosaïque au cœur d’Omarchy et l’une de ses trois technologies fondamentales.
+    term: Trois ans, avec une option pour deux années supplémentaires.
+  quickshell:
+    summary: La boîte à outils de bureau utilisée pour l’interface Omarchy, notamment la barre, les menus, les notifications, les OSD et l’écran de verrouillage.
+    term: Trois ans.
+  mise:
+    summary: L’outil qu’Omarchy utilise pour gérer les environnements de langages et distribuer les CLI d’agents de code sous forme de stubs chargés à la demande.

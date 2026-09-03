@@ -1,0 +1,10 @@
+{% assign copy = site.data.page_content.accessories %}
+<section class="prose" aria-labelledby="accessories-status-title">
+  <h2 id="accessories-status-title">{{ copy.status.title | escape }}</h2>
+  <p>{{ copy.status.body | escape }}</p>
+</section>
+
+<section class="prose" aria-labelledby="accessories-evaluation-title">
+  <h2 id="accessories-evaluation-title">{{ copy.evaluation.title | escape }}</h2>
+  <p>{{ copy.evaluation.body | escape }}</p>
+</section>

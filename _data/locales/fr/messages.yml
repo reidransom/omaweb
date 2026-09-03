@@ -1,0 +1,48 @@
+navigation:
+  announcement: Annonce
+  primary: Navigation principale
+  menu: Menu
+  all: Toute la navigation
+  exploratory: Exploration
+  mobile: Navigation mobile
+  close: Fermer
+  footer: Liens du pied de page
+language:
+  selector: Langue
+seo:
+  social_image_alt: Logotype Omarchy sur fond sombre
+footer:
+  home: Accueil
+  support: Omacom Foundation soutient Omarchy.
+  trademark: Omarchy est une marque en cours d’enregistrement.
+  contact: Contact via
+  build: Version
+  website_by: Site web par
+link:
+  external: externe
+status:
+  exploratory: Exploration
+people:
+  roster: équipe
+workstations:
+  gallery: Galerie des postes de travail de la communauté
+home:
+  featured_videos: Vidéos à la une
+  watch: Regarder
+  by: par
+  on_youtube: sur YouTube
+  view_all: Tout voir
+  scroll: Défiler
+  open: Ouvrir
+  explore: Explorer
+  hardware_title: Un bon ordinateur de bureau a besoin d’un endroit où vivre.
+  server_apps_title: D’autres terrains pour des fondations assumées.
+  cloud_mobile_title: L’ordinateur doit pouvoir voyager sans devenir générique.
+  partnerships_label: Partenariats et marque Omarchy
+  partner_prompt: Vous souhaitez devenir partenaire ou mécène d’Omarchy ? Écrivez à
+  incubated_at: Développé chez
+  makers_of: (les créateurs de
+  and: et
+  sponsored_hosting: Hébergement offert par
+  desktop_image_alt: Omarchy affiché sur un ordinateur portable
+  desktop_actions: Actions pour le bureau
