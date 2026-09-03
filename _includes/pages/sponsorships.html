@@ -1,0 +1,18 @@
+{% assign copy = site.data.page_content.sponsorships %}
+{% assign sponsorship_order = site.data.sponsorships.order %}
+{% assign sponsorships = site.data.sponsorships.items %}
+
+<section class="prose" aria-labelledby="sponsorships-intro-title">
+  <h2 id="sponsorships-intro-title">{{ copy.intro.title }}</h2>
+  <p>{{ copy.intro.body }}</p>
+</section>
+
+{% for sponsorship_key in sponsorship_order %}
+{% assign sponsorship = sponsorships[sponsorship_key] %}
+<section class="prose" aria-labelledby="sponsorship-{{ sponsorship_key }}">
+  <h2 id="sponsorship-{{ sponsorship_key }}"><a href="{{ sponsorship.url }}" rel="noreferrer">{{ sponsorship.label }}</a></h2>
+  <p><strong>{{ copy.level_prefix }}{{ sponsorship.level }}{{ copy.level_suffix }}</strong> {{ sponsorship.summary }}</p>
+  {% if sponsorship.term %}<p>{{ sponsorship.term }}{% if sponsorship.starts_at %} {{ copy.starts_prefix }} {{ sponsorship.starts_at | date: copy.date_format }}.{% endif %}</p>{% endif %}
+  <p>{{ copy.maintained_by }} <a href="{{ sponsorship.maintainer_url }}" rel="noreferrer">{{ sponsorship.maintainer }}</a>. <a href="{{ sponsorship.announcement_url | relative_url }}">{{ copy.announcement_label }}</a>.</p>
+</section>
+{% endfor %}

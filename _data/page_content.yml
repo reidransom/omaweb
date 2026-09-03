@@ -132,3 +132,48 @@ labs:
     body: The Omacom Foundation runs Artists in Residence as a six-month residency for artists working on themes, plugins, and other work that makes Omarchy beautiful. Residents choose the work, without a prescribed roadmap or ticket queue.
     link_prefix: Labs does not turn that residency work into a product release. Read about the current
     link_suffix: " program."
+
+featured_videos:
+  heading: Videos about Omarchy
+  watch: Watch
+  by: by
+  on_youtube: on YouTube
+
+patrons:
+  heading: The Omacom Foundation
+  contact_separator: ":"
+
+security_credits:
+  disclosure:
+    title: Responsible disclosure
+    body: They found it, told us privately, and waited for the patch.
+  report:
+    prompt: Found something?
+    link_label: Report it privately
+    conclusion: The first reporter of a confirmed vulnerability is credited here.
+
+brand:
+  wordmark:
+    title: Wordmark
+    alt: OMARCHY wordmark
+  logo:
+    title: Logo
+    alt: Omarchy logo
+  vector_hint: vector
+  raster_hint: 4096 px
+  trademark:
+    title: Trademark
+    notice: Omarchy is a pending trademark. All rights reserved.
+    contact_before: Write
+    contact_suffix: " for partnerships."
+
+sponsorships:
+  intro:
+    title: Support the parts Omarchy stands on
+    body: The Omacom Foundation sponsors the open-source projects Omarchy depends on. Each entry names the project, its maintainer, the sponsorship level, and the public announcement.
+  level_prefix: ""
+  level_suffix: " sponsorship."
+  starts_prefix: Starts
+  date_format: "%B %-d, %Y"
+  maintained_by: Maintained by
+  announcement_label: Read the announcement

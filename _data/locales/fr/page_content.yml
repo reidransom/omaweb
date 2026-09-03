@@ -132,3 +132,48 @@ labs:
     body: Omacom Foundation organise Artists in Residence, une résidence de six mois pour les artistes travaillant sur les thèmes, les Plugins et tout ce qui rend Omarchy beau. Les résidents choisissent leur travail, sans feuille de route imposée ni file de tâches.
     link_prefix: Labs ne transforme pas le travail de cette résidence en sortie produit. Découvrez le programme actuel
     link_suffix: "."
+
+featured_videos:
+  heading: Vidéos sur Omarchy
+  watch: Regarder
+  by: par
+  on_youtube: sur YouTube
+
+patrons:
+  heading: Omacom Foundation
+  contact_separator: " :"
+
+security_credits:
+  disclosure:
+    title: Signalement responsable
+    body: Ils l’ont trouvée, nous l’ont signalée en privé et ont attendu le correctif.
+  report:
+    prompt: Vous avez trouvé quelque chose ?
+    link_label: Signalez-le en privé
+    conclusion: La première personne à signaler une vulnérabilité confirmée sera créditée ici.
+
+brand:
+  wordmark:
+    title: Logotype
+    alt: Logotype OMARCHY
+  logo:
+    title: Logo
+    alt: Logo Omarchy
+  vector_hint: vectoriel
+  raster_hint: 4 096 px
+  trademark:
+    title: Marque
+    notice: Omarchy est une marque déposée. Tous droits réservés.
+    contact_before: Pour les partenariats, écrivez à
+    contact_suffix: "."
+
+sponsorships:
+  intro:
+    title: Soutenir ce sur quoi Omarchy repose
+    body: Omacom Foundation parraine les projets open source dont dépend Omarchy. Chaque entrée indique le projet, son mainteneur, le niveau de parrainage et l’annonce publique.
+  level_prefix: "Niveau de parrainage : "
+  level_suffix: "."
+  starts_prefix: Début le
+  date_format: "%d/%m/%Y"
+  maintained_by: Maintenu par
+  announcement_label: Lire l’annonce en anglais

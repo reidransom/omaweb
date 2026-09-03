@@ -8,3 +8,4 @@ assets/js/site.js
 mise.local.toml
 .env
 .envrc
+.jigyll*

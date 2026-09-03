@@ -132,3 +132,48 @@ labs:
     body: Omacom Foundation driver Artists in Residence som et seks måneders kunstnerophold for kunstnere, der arbejder med temaer, plugins og andet, som gør Omarchy smukt. Deltagerne vælger selv arbejdet uden en fastlagt køreplan eller opgavekø.
     link_prefix: Labs gør ikke arbejdet fra dette kunstnerophold til en produktudgivelse. Læs om det aktuelle
     link_suffix: "-program."
+
+featured_videos:
+  heading: Videoer om Omarchy
+  watch: Se
+  by: af
+  on_youtube: på YouTube
+
+patrons:
+  heading: Omacom Foundation
+  contact_separator: ":"
+
+security_credits:
+  disclosure:
+    title: Ansvarlig rapportering
+    body: De fandt den, fortalte os om den privat og ventede på rettelsen.
+  report:
+    prompt: Har du fundet noget?
+    link_label: Rapportér det privat
+    conclusion: Den første, der rapporterer en bekræftet sårbarhed, bliver anerkendt her.
+
+brand:
+  wordmark:
+    title: Ordmærke
+    alt: OMARCHY-ordmærke
+  logo:
+    title: Logo
+    alt: Omarchy-logo
+  vector_hint: vektor
+  raster_hint: 4096 px
+  trademark:
+    title: Varemærke
+    notice: Omarchy er et anmeldt varemærke. Alle rettigheder forbeholdes.
+    contact_before: Skriv til
+    contact_suffix: " om partnerskaber."
+
+sponsorships:
+  intro:
+    title: Støt det, Omarchy bygger på
+    body: Omacom Foundation sponsorerer de open source-projekter, som Omarchy afhænger af. Hver post angiver projektet, dets vedligeholder, sponsorniveauet og den offentlige meddelelse.
+  level_prefix: "Sponsorniveau: "
+  level_suffix: "."
+  starts_prefix: Starter
+  date_format: "%d.%m.%Y"
+  maintained_by: Vedligeholdes af
+  announcement_label: Læs meddelelsen på engelsk

@@ -1,0 +1,34 @@
+{% assign copy = site.data.page_content.security_credits %}
+<section class="prose" aria-labelledby="responsible-disclosure-title">
+  <h2 id="responsible-disclosure-title">{{ copy.disclosure.title | escape }}</h2>
+  <p>{{ copy.disclosure.body | escape }}</p>
+</section>
+
+<div class="security-credits">
+  <article class="security-credit">
+    <img src="/security/credits/images/roger-pinol.webp" width="240" height="240" alt="Roger Piñol" loading="lazy" decoding="async">
+    <h2><a href="https://x.com/RogerKernel">Roger Piñol</a></h2>
+  </article>
+  <article class="security-credit">
+    <img src="/security/credits/images/ruben-lopes.webp" width="240" height="240" alt="Ruben Lopes" loading="lazy" decoding="async">
+    <h2><a href="https://x.com/LopesR1993">Ruben Lopes</a></h2>
+  </article>
+  <article class="security-credit">
+    <img src="/security/credits/images/afonso-oliveira.webp" width="240" height="240" alt="Afonso Oliveira" loading="lazy" decoding="async">
+    <h2><a href="https://www.linkedin.com/in/afoliveira2/">Afonso Oliveira</a></h2>
+  </article>
+  <article class="security-credit">
+    <img src="/security/credits/images/sick.webp" width="240" height="240" alt="_Sick // afflicted.sh" loading="lazy" decoding="async">
+    <h2><a href="https://x.com/encrypted_past">_SiCk</a></h2>
+  </article>
+  <article class="security-credit">
+    <img src="/security/credits/images/erik-hunstad.webp" width="240" height="240" alt="Erik Hunstad" loading="lazy" decoding="async">
+    <h2><a href="https://x.com/badsectorlabs">Erik Hunstad</a></h2>
+  </article>
+  <article class="security-credit">
+    <img src="/security/credits/images/teles.webp" width="240" height="240" alt="Teles" loading="lazy" decoding="async">
+    <h2><a href="https://x.com/teles_dev">Teles</a></h2>
+  </article>
+</div>
+
+<p class="prose">{{ copy.report.prompt | escape }} <a href="{{ '/security/' | localized_url }}">{{ copy.report.link_label | escape }}</a>. {{ copy.report.conclusion | escape }}</p>
