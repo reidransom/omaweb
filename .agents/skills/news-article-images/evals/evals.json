@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "We just added a News article announcing that Omarchy crossed two million installations. Describe the exact project workflow you would use to generate its editorial image with nanobanana and publish it responsively. Do not modify files or call the image API; return an execution plan with files, commands, metadata, and verification.",
-      "expected_output": "A story-derived, project-specific workflow covering brand and article grounding, two nanobanana candidates, secure key mapping, semantic source placement, three responsive derivatives, provenance, illustrative frontmatter, browser verification, and cleanup.",
+      "expected_output": "A story-derived, project-specific workflow covering brand and article grounding, two nanobanana candidates, secure key mapping, semantic source placement, three responsive derivatives, illustrative frontmatter, browser verification, and cleanup.",
       "expectations": [
         "Derives a distinct visual mechanism from the article and Omarchy brand rather than proposing generic technology art.",
         "Generates two nanobanana composition candidates while mapping NANOBANANA_API_KEY to GEMINI_API_KEY without exposing the secret.",
-        "Preserves a semantic source under ../omaweb-docs/images/lg/wide/news and measures its actual format, dimensions, and SHA-256.",
+        "Preserves a semantic source under ../omaweb-docs/images/lg/wide/news and uses its actual format for the destination extension.",
         "Uses automatic lg/wide source discovery to produce 480x270, 768x432, and 1152x648 WebP derivatives without retaining unrelated derivative rewrites.",
-        "Adds complete _data/assets.yml provenance and article image frontmatter with useful alt text and illustrative: true.",
+        "Adds article image frontmatter with useful alt text and illustrative: true.",
         "Verifies desktop card, mobile 480w selection, article disclosure, no overflow, content checks, build, and scratch cleanup."
       ],
       "files": []
@@ -18,13 +18,13 @@
     {
       "id": 2,
       "prompt": "Make matching images for three new homepage news cards about a maintainer grant, a worldwide meetup weekend, and a terminal theme contest. Before doing the work, give me the concrete repeatable procedure you will follow for each story. Do not generate images or edit the repository in this response.",
-      "expected_output": "A repeatable multi-story procedure that gives each article a distinct visual mechanism while preserving a coherent Omarchy palette, generates and selects two candidates per story, integrates responsive assets and provenance, verifies cards and articles, and removes drafts without changing unrelated derivatives.",
+      "expected_output": "A repeatable multi-story procedure that gives each article a distinct visual mechanism while preserving a coherent Omarchy palette, generates and selects two candidates per story, integrates responsive assets, verifies cards and articles, and removes drafts without changing unrelated derivatives.",
       "expectations": [
         "Defines a different story-derived visual mechanism for the grant, meetup, and theme contest while keeping one Omarchy palette and editorial style.",
         "Creates isolated scratch workspaces and generates two composition candidates per story.",
-        "Selects each image for card-size recognition, clean geometry, distinctness from sibling cards, and absence of glyphs, logos, and fake evidence.",
+        "Selects each image for card-size recognition, clean geometry, distinctness from sibling cards, and absence of glyphs, watermarks, and fake evidence.",
         "Places each source in the lg/wide News tree so scripts/build-assets discovers its three responsive derivatives while preserving unrelated derivatives.",
-        "Records measured provenance and responsive frontmatter for each story rather than copying placeholders.",
+        "Adds responsive article image frontmatter with useful alt text and illustrative: true for each story.",
         "Verifies every homepage card and article at desktop and mobile sizes, then removes rejected candidates and scratch directories."
       ],
       "files": []
@@ -32,13 +32,13 @@
     {
       "id": 3,
       "prompt": "The Introducing Omarchy Guides article still shows the generic NEWS fallback. Explain how you would replace it with an original illustration, including what makes a candidate acceptable at card size and how you prevent the asset generator from touching unrelated committed images. Planning only—no API calls or edits.",
-      "expected_output": "A project-specific plan emphasizing visual selection at card size, non-misleading illustration constraints, semantic source naming, the preservation wrapper around scripts/build-assets, measured hashes, article disclosure, responsive checks, and exact failure reporting.",
+      "expected_output": "A project-specific plan emphasizing visual selection at card size, non-misleading illustration constraints, semantic source naming, the preservation wrapper around scripts/build-assets, article disclosure, responsive checks, and exact failure reporting.",
       "expectations": [
         "Grounds the illustration in the Guides article and names a concrete visual mechanism before prompting.",
-        "Requires two nanobanana candidates and rejects candidates that fail card-size recognition, geometry, distinctness, or mark-free constraints.",
+        "Requires two nanobanana candidates and rejects candidates that fail card-size recognition, geometry, distinctness, glyph, watermark, or fake-evidence checks.",
         "Uses a semantic source path in the lg/wide News tree, which automatically supplies the three News derivative widths.",
         "Uses the bundled render-news-family preservation wrapper or an equivalently safe snapshot-and-restore process for unrelated derivatives.",
-        "Records exact source/output hashes and complete cleared editorial-illustration provenance.",
+        "Adds responsive article image frontmatter with useful alt text and illustrative: true.",
         "Verifies the replacement on the News card and article, including mobile 480w selection, alt text, disclosure, and cleanup."
       ],
       "files": []

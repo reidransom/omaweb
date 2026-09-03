@@ -24,7 +24,7 @@ mise run build         # compile, render, and manually refresh the development P
 scripts/build          # build and verify a fresh production artifact
 ```
 
-`scripts/build` checks source content and asset clearance, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, replaces the copied development index with a fresh `_site/pagefind` production index, and validates the rendered routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
+`scripts/build` checks source content, verifies deterministic image derivatives, builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, replaces the copied development index with a fresh `_site/pagefind` production index, and validates the rendered routes, metadata, landmarks, local links, network policy, and compressed CSS/JavaScript budgets.
 
 `mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
@@ -32,11 +32,11 @@ scripts/build          # build and verify a fresh production artifact
 
 To upgrade Jigyll or Sass, change its exact entry in `mise.toml`, refresh `mise.lock` with `mise lock`, run `mise install`, and exercise the production-equivalent acceptance path.
 
-Every file below `assets/images/` must have a checksum, intrinsic dimensions, provenance, and `publication_status: cleared` in `_data/assets.yml`. Do not add a remote media, font, script, or frame dependency. The sole frame exception is the disclosed Luma calendar on `/meetups/`, constrained by the document CSP to `https://luma.com`.
+Asset sources are discovered from the supported source trees and `npm run assets` generates their committed derivatives; `npm run assets:check` verifies the complete generated inventory byte-for-byte. Do not add a remote media, font, script, or frame dependency. The sole frame exception is the disclosed Luma calendar on `/meetups/`, constrained by the document CSP to `https://luma.com`.
 
-The local favicon and OpenGraph artwork are approved first-party assets published on omarchy.org and recorded in the asset manifest. The OpenGraph artwork is the site-wide OpenGraph and Twitter fallback; individual page images may replace it only with another cleared local asset.
+The local favicon and OpenGraph artwork are required local assets. The OpenGraph artwork is the site-wide OpenGraph and Twitter fallback; individual page images may replace it only with another local asset.
 
-The release gate requires the configured Plugin Competition Winners feature to retain its cleared, real local Radio Atlas lead image and truthful alternative text.
+The release gate requires the configured Plugin Competition Winners feature to retain its real local Radio Atlas lead image and truthful alternative text.
 
 ## Deployment
 

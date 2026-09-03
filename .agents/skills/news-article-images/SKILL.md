@@ -6,7 +6,7 @@ compatibility: Requires mise with the project-locked toolchain installed via `mi
 
 # Omarchy News article images
 
-Create story-specific editorial illustrations that remain legible in the homepage card grid and hold up as full-width article media. Complete the source, derivatives, provenance, frontmatter, and rendered verification in one pass.
+Create story-specific editorial illustrations that remain legible in the homepage card grid and hold up as full-width article media. Complete the source, derivatives, frontmatter, and rendered verification in one pass.
 
 ## 1. Ground the story
 
@@ -15,7 +15,7 @@ Read these before constructing a prompt:
 - `../omaweb-docs/BRAND.md` for palette, visual character, and editorial claims.
 - The target file under `_news/` for the concrete actor, event, mechanism, and outcome.
 - `_includes/media.html`, `_layouts/article.html`, and one illustrated `_news/` file for the current image schema.
-- `_data/assets.yml` and `scripts/build-assets` for provenance and derivative conventions.
+- `scripts/build-assets` for derivative conventions.
 
 Turn the article into a **visual mechanism**, not a generic technology scene. Examples of mechanisms: distribution becomes luminous routes across a globe; guidance becomes three people handing light toward newcomers; artistic residency becomes two workstations shaping one shared canvas.
 
@@ -29,7 +29,7 @@ Use a wide 16:9 composition with a strong central read at card size. Build the p
 2. One concrete scene that expresses it.
 3. Omarchy’s Night and Storm background palette with Terminal Blue, Cyan, Green, and restrained purple accents.
 4. An original, non-photographic geometric editorial style with crisp detail and dark negative space.
-5. Content boundaries: keep the image free of words, letters, numerals, logos, company marks, flags, money, identifiable real people, and fake product evidence.
+5. Content boundaries: keep the image free of words, letters, numerals, flags, money, identifiable real people, and fake product evidence.
 
 Treat people as anonymous geometric figures. Keep community images warm rather than corporate or militaristic. An illustration may suggest the article’s facts; it must not masquerade as an event photograph, analytics screenshot, or product proof.
 
@@ -42,8 +42,8 @@ Wide 16:9 editorial illustration for [specific Omarchy News story].
 Original non-photographic geometric composition, sophisticated, crisp detail,
 dramatic depth, generous dark negative space, Omarchy Night and Storm background
 palette with Terminal Blue, Cyan, Green, and restrained purple accents.
-Keep the image free of words, letters, numerals, logos, brand marks, company marks,
-identifiable real people, and photorealistic evidence.
+Keep the image free of words, letters, numerals, flags, money, identifiable real people,
+and photorealistic evidence.
 ```
 
 ## 3. Generate and select
@@ -67,11 +67,11 @@ Open both candidates. Select for:
 - A clean silhouette and focal point.
 - Meaningful distinction from existing homepage story art.
 - Clean anatomy and geometry.
-- Absence of accidental glyphs, logos, watermarks, and misleading UI.
+- Absence of accidental glyphs, watermarks, and misleading UI.
 
 Regenerate when neither candidate passes every check. Selection—not the first successful API response—is the completion criterion.
 
-## 4. Preserve the approved source
+## 4. Preserve the selected source
 
 Copy the selected candidate to:
 
@@ -81,7 +81,7 @@ Copy the selected candidate to:
 
 Use a semantic basename describing the mechanism, such as `omarchy-rangers-community-guides`; avoid dates and generic names such as `news-image`.
 
-`nanobanana` may report a `.png` filename while writing JPEG bytes. Run `identify` and use the actual format for the destination extension. Record the source dimensions and SHA-256.
+`nanobanana` may report a `.png` filename while writing JPEG bytes. Run `identify` and use the actual format for the destination extension.
 
 ## 5. Render derivatives
 
@@ -93,19 +93,9 @@ News sources live under the `lg/wide` size and crop convention, so `scripts/buil
 
 The wrapper invokes the project’s sole derivative generator, captures the new News family, and restores every unrelated committed derivative. This matters because a local ImageMagick/WebP version can rewrite existing files byte-for-byte even when their pixels are unchanged.
 
-Confirm the outputs are exactly 480×270, 768×432, and 1152×648. Record each SHA-256.
+Confirm the outputs are exactly 480×270, 768×432, and 1152×648.
 
-## 6. Register provenance and attach the story
-
-Add one source record and three output records to `_data/assets.yml`, adjacent to the other News artwork. Use:
-
-- `asset_type: image`
-- `role: editorial-illustration`
-- Provenance naming Google Gemini via nanobanana and the target announcement.
-- `rights_owner: Omacom`
-- `publication_status: cleared`
-- `third_party_marks.present: false`
-- The measured hashes and dimensions; never placeholders.
+## 6. Attach the generated artwork to the story
 
 Add this image structure to the article frontmatter:
 
@@ -148,10 +138,10 @@ Use the browser against the running `servd` site and verify:
 - At 390px, the card selects the 480w derivative, stays 16:9, and causes no horizontal overflow.
 - At 390px, the article image stays 16:9, its alt text and disclosure remain present, and the page causes no horizontal overflow.
 
-Run `scripts/build-assets --check` when the repository’s existing derivative set permits it. If an unrelated family fails first, report the exact path; do not rewrite its manifest or suppress the failure as part of this task.
+Run `scripts/build-assets --check` when the repository’s existing derivative set permits it. If an unrelated family fails first, report the exact path; do not rewrite unrelated derivatives or suppress the failure as part of this task.
 
 After the smoke test passes, delete the `.scratch/nanobanana-<story-slug>` directory and all rejected candidates.
 
 ## Completion contract
 
-The work is complete only when the selected source is in the `lg/wide/news` source tree, its three responsive derivatives, provenance records, article frontmatter, illustration disclosure, desktop card, mobile card, and article page are all present and verified. Never leave generated drafts or unrelated derivative changes behind.
+The work is complete only when the selected source is in the `lg/wide/news` source tree, its three responsive derivatives, article frontmatter, illustration disclosure, desktop card, mobile card, and article page are all present and verified. Never leave generated drafts or unrelated derivative changes behind.
