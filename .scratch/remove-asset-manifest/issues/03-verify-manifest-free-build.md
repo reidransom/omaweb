@@ -1,7 +1,7 @@
 # Verify the manifest-free production build
 
 Type: task
-Status: claimed
+Status: resolved
 Blocked by: 01, 02
 
 ## Context
@@ -33,3 +33,10 @@ Do not change assets or weaken deterministic generation, WTE integrity pins, loc
 6. Record exact command outcomes and any intentionally retained historical references under `## Answer`.
 
 ## Answer
+
+- Active implementation, `README.md`, and `.agents/skills/news-article-images/` had no live `_data/assets.yml`, `site.data.assets`, `publication_status`, provenance, or clearance dependency. Retained hits are historical `.scratch` records only; no `_plans/` directory exists.
+- `sh scripts/check-content` exited 0: `Content, asset, clean-room, and local-network checks passed.`
+- In the fresh verification worktree, `npm run assets:check` first exited 1 because `subset-font` was absent; after `npm ci`, it exited 0: `Asset derivatives are byte-identical.`
+- `scripts/build` exited 0 and completed production and rendered Chromium checks; the local server emitted nonfatal `BrokenPipe` traces.
+- `git diff --name-only 0556ed27c1ab6bb32a29f4e9b131c324af340654...HEAD -- assets/images assets/fonts assets/js/wte` produced no output: no protected asset-path changes.
+- The verification worktree was clean; no source fix or implementation commit was required.
