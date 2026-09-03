@@ -241,7 +241,7 @@ for route in /server/ /mobile/ /laptops/ /apps/ /cloud/ /labs/; do
   grep -Fq 'Exploratory' "_site${route}index.html" || fail "Exploratory label is missing: $route"
 done
 
-[ -x scripts/verify-rendered-site ] || fail 'Missing required rendered-site Chromium verifier: scripts/verify-rendered-site'
-scripts/verify-rendered-site
+[ -f scripts/verify-rendered-site.mjs ] || fail 'Missing required rendered-site Chromium verifier: scripts/verify-rendered-site.mjs'
+node scripts/verify-rendered-site.mjs
 
 printf '%s\n' 'Production output, route, metadata, asset, network, budget, landmark, and Chromium checks passed.'

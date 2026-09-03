@@ -31,6 +31,7 @@ require_env CLOUDFLARE_API_TOKEN
 require_env CLOUDFLARE_ACCOUNT_ID
 
 command -v mise >/dev/null 2>&1 || fail 'Missing required command: mise'
+command -v node >/dev/null 2>&1 || fail 'Missing required command: node (used for rendered-site browser verification)'
 command -v npm >/dev/null 2>&1 || fail 'Missing required command: npm (used for the locked browser toolchain)'
 command -v npx >/dev/null 2>&1 || fail 'Missing required command: npx (used to run Wrangler)'
 
