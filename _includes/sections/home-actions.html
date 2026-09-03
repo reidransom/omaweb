@@ -5,7 +5,7 @@
     <p class="home-prose home-section__intro">{{ actions.intro | escape }}</p>
     <ul class="home-card-grid" role="list">
       {% for action in actions.items %}
-        {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+        {% assign destination = site.data.destinations.items[action.destination] %}
         {% if destination %}
           {% capture action_icon %}
             {% case action.destination %}

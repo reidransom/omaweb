@@ -42,7 +42,7 @@ markdown: false
           <span aria-hidden="true">Mød Omacom Foundation →</span>
         </a>
       </li>
-      {% assign labs = site.data.products.items | where: "slug", "labs" %}
+      {% assign labs = site.data.products.groups.project %}
       {% include product-cards.html products=labs description='summary' cta_prefix='Udforsk' %}
     </ul>
   </div>

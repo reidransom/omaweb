@@ -21,7 +21,7 @@ markdown: false
   <div class="home-section__inner">
     <h2 id="software-options-title">Udvid det eksisterende. Sæt spørgsmålstegn ved det næste.</h2>
     <ul class="home-card-grid home-card-grid--three" role="list">
-      {% assign products = site.data.products.items | where: "group", "software" %}
+      {% assign products = site.data.products.groups.software %}
       {% include product-cards.html products=products description='summary' cta_prefix='Udforsk' destination_cta_prefix='Besøg' %}
     </ul>
   </div>

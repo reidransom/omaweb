@@ -21,7 +21,7 @@ markdown: false
   <div class="home-section__inner">
     <h2 id="hardware-options-title">Se først det eksisterende, dernæst spørgsmålene</h2>
     <ul class="home-card-grid" role="list">
-      {% assign products = site.data.products.items | where: "group", "hardware" %}
+      {% assign products = site.data.products.groups.hardware %}
       {% include product-cards.html products=products description='summary' cta_prefix='Udforsk' %}
     </ul>
   </div>

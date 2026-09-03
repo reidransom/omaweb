@@ -1,9 +1,3 @@
 items:
-- id: foundation-launch
-  label: Omacom Foundation lanceres med 8 millioner USD. (på engelsk)
-  url: /news/2026/08/omacom-foundation-launches-with-8-million/
-  selected: true
-  starts_at: 2026-08-21T00:00:00Z
-  ends_at: null
-  order: 10
-  language: en
+  foundation-launch:
+    label: Omacom Foundation lanceres med 8 millioner USD. (på engelsk)

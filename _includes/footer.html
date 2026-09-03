@@ -1,5 +1,5 @@
 {% assign navigation = site.data.navigation %}
-{% assign discord = site.data.destinations.items | where: 'slug', 'discord' | first %}
+{% assign discord = site.data.destinations.items.discord %}
 {% assign revision = site.env.OMARCHY_REVISION | default: 'local' %}
 {% assign build_date = site.env.OMARCHY_BUILD_DATE | default: site.time | date: '%Y-%m-%dT%H:%M:%SZ' %}
 <footer class="site-footer">
@@ -15,13 +15,15 @@
     </div>
 
     <nav class="site-footer__sitemap" aria-label="{{ 'navigation.footer' | translate | escape }}">
-      {% for section in navigation.sections %}
+      {% for section_key in navigation.section_order %}
+        {% assign section = navigation.sections[section_key] %}
         <section>
           <h2>
             {% include authoritative-link.html link=section exploratory_description_id='footer-exploratory-status' %}
           </h2>
           <ul role="list">
-            {% for link in section.links.items %}
+            {% for link_key in section.links %}
+              {% assign link = navigation.links[link_key] %}
               <li>
                 {% include authoritative-link.html link=link exploratory_description_id='footer-exploratory-status' %}
               </li>

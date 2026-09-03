@@ -1,30 +1,10 @@
 items:
-- slug: hyprland
-  label: Hyprland
-  level: Eksklusiv
-  url: https://hypr.land/
-  maintainer: Vaxry
-  maintainer_url: https://x.com/vaxryy
-  announcement_url: /news/2026/08/omacom-foundation-to-be-exclusive-hyprland-sponsor/
-  summary: Den fliseopdelende Wayland-compositor i hjertet af Omarchy og en af dets tre kerneteknologier.
-  term: Tre år med mulighed for yderligere to.
-  starts_at: 2026-10-10
-- slug: quickshell
-  label: Quickshell
-  level: Premier
-  url: https://quickshell.org/
-  maintainer: outfoxxed
-  maintainer_url: https://x.com/outfoxxedd
-  announcement_url: /news/2026/08/omacom-foundation-to-be-premier-quickshell-sponsor/
-  summary: Værktøjssættet til skrivebordet, som bruges til Omarchy-skallen, herunder bjælken, menuer,
-    notifikationer, OSD'er og låseskærmen.
-  term: Tre år.
-- slug: mise
-  label: mise
-  level: Premier
-  url: https://mise.jdx.dev/
-  maintainer: jdx
-  maintainer_url: https://x.com/jdxcode
-  announcement_url: /news/2026/08/omacom-foundation-to-be-premier-mise-sponsor/
-  summary: Værktøjet, Omarchy bruger til at håndtere sprog-runtimes og distribuere CLI'er til kodeagenter
-    som stubs, der indlæses efter behov.
+  hyprland:
+    level: Eksklusiv
+    summary: Den fliseopdelende Wayland-compositor i hjertet af Omarchy og en af dets tre kerneteknologier.
+    term: Tre år med mulighed for yderligere to.
+  quickshell:
+    summary: Værktøjssættet til skrivebordet, som bruges til Omarchy-skallen, herunder bjælken, menuer, notifikationer, OSD'er og låseskærmen.
+    term: Tre år.
+  mise:
+    summary: Værktøjet, Omarchy bruger til at håndtere sprog-runtimes og distribuere CLI'er til kodeagenter som stubs, der indlæses efter behov.

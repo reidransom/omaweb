@@ -1,77 +1,104 @@
+tier_order:
+  - founding
+  - distinguished
+
 tiers:
-  items:
-    - slug: founding
-      label: Founding Patrons
-      contribution: $1,000,000
-      description: Each Founding Patron contributed $1,000,000 to the Foundation's mission.
-      people:
-        items:
-          - name: Tobi Lütke
-            image: /assets/images/patrons/tobi-lutke.webp
-            organization: Shopify
-            profile: https://x.com/tobi
-            organization_url: https://www.shopify.com/
-          - name: Patrick Collison
-            image: /assets/images/patrons/patrick-collison.webp
-            organization: Stripe
-            profile: https://x.com/patrickc
-            organization_url: https://stripe.com/
-          - name: Michael Dell
-            image: /assets/images/patrons/michael-dell.webp
-            organization: Dell Technologies
-            profile: https://x.com/MichaelDell
-            organization_url: https://www.dell.com/
-          - name: Jack Dorsey
-            image: /assets/images/patrons/jack-dorsey.webp
-            organization: Block
-            profile: https://x.com/jack
-            organization_url: https://block.xyz/
-          - name: Matthew Prince
-            image: /assets/images/patrons/matthew-prince.webp
-            organization: Cloudflare
-            profile: https://x.com/eastdakota
-            organization_url: https://www.cloudflare.com/
-          - name: Brendan Iribe
-            image: /assets/images/patrons/brendan-iribe.webp
-            organization: Sesame
-            profile: https://x.com/brendaniribe
-            organization_url: https://www.sesame.com/
-          - name: Jason Fried
-            image: /assets/images/patrons/jason-fried.webp
-            organization: 37signals
-            profile: https://x.com/jasonfried
-            organization_url: https://37signals.com/
-          - name: Drew Houston
-            image: /assets/images/patrons/drew-houston.webp
-            organization: Dropbox
-            profile: https://x.com/drewhouston
-            organization_url: https://www.dropbox.com/
-          - name: Peter Steinberger
-            image: /assets/images/patrons/peter-steinberger.webp
-            organization: OpenClaw
-            profile: https://x.com/steipete
-            organization_url: https://openclaw.ai/
-          - name: Brian Armstrong
-            image: /assets/images/patrons/brian-armstrong.webp
-            organization: Coinbase
-            profile: https://x.com/brian_armstrong
-            organization_url: https://www.coinbase.com/
-          - name: Yunjie Dai
-            image: /assets/images/patrons/yunjie-dai.webp
-            organization: TapTap
-            profile: https://x.com/xdanger
-            organization_url: https://www.taptap.io/
-          - name: DHH
-            image: /assets/images/patrons/dhh.webp
-            organization: 37signals
-            profile: https://dhh.dk/
-            organization_url: https://37signals.com/
-    - slug: distinguished
-      label: Distinguished Patrons
-      contribution: $100,000
-      description: Distinguished Patron support is $100,000 for the Foundation's mission.
-      contact_label: Get in touch with the Foundation
-      contact_url: mailto:david@omarchy.org
-      contact: david@omarchy.org
-      people:
-        items: []
+  founding:
+    label: Founding Patrons
+    contribution: $1,000,000
+    description: Each Founding Patron contributed $1,000,000 to the Foundation's mission.
+    people:
+      - tobi-lutke
+      - patrick-collison
+      - michael-dell
+      - jack-dorsey
+      - matthew-prince
+      - brendan-iribe
+      - jason-fried
+      - drew-houston
+      - peter-steinberger
+      - brian-armstrong
+      - yunjie-dai
+      - dhh
+  distinguished:
+    label: Distinguished Patrons
+    contribution: $100,000
+    description: Distinguished Patron support is $100,000 for the Foundation's mission.
+    contact_label: Get in touch with the Foundation
+    contact_url: mailto:david@omarchy.org
+    contact: david@omarchy.org
+    people: []
+
+people:
+  tobi-lutke:
+    name: Tobi Lütke
+    image: /assets/images/patrons/tobi-lutke.webp
+    organization: Shopify
+    profile: https://x.com/tobi
+    organization_url: https://www.shopify.com/
+  patrick-collison:
+    name: Patrick Collison
+    image: /assets/images/patrons/patrick-collison.webp
+    organization: Stripe
+    profile: https://x.com/patrickc
+    organization_url: https://stripe.com/
+  michael-dell:
+    name: Michael Dell
+    image: /assets/images/patrons/michael-dell.webp
+    organization: Dell Technologies
+    profile: https://x.com/MichaelDell
+    organization_url: https://www.dell.com/
+  jack-dorsey:
+    name: Jack Dorsey
+    image: /assets/images/patrons/jack-dorsey.webp
+    organization: Block
+    profile: https://x.com/jack
+    organization_url: https://block.xyz/
+  matthew-prince:
+    name: Matthew Prince
+    image: /assets/images/patrons/matthew-prince.webp
+    organization: Cloudflare
+    profile: https://x.com/eastdakota
+    organization_url: https://www.cloudflare.com/
+  brendan-iribe:
+    name: Brendan Iribe
+    image: /assets/images/patrons/brendan-iribe.webp
+    organization: Sesame
+    profile: https://x.com/brendaniribe
+    organization_url: https://www.sesame.com/
+  jason-fried:
+    name: Jason Fried
+    image: /assets/images/patrons/jason-fried.webp
+    organization: 37signals
+    profile: https://x.com/jasonfried
+    organization_url: https://37signals.com/
+  drew-houston:
+    name: Drew Houston
+    image: /assets/images/patrons/drew-houston.webp
+    organization: Dropbox
+    profile: https://x.com/drewhouston
+    organization_url: https://www.dropbox.com/
+  peter-steinberger:
+    name: Peter Steinberger
+    image: /assets/images/patrons/peter-steinberger.webp
+    organization: OpenClaw
+    profile: https://x.com/steipete
+    organization_url: https://openclaw.ai/
+  brian-armstrong:
+    name: Brian Armstrong
+    image: /assets/images/patrons/brian-armstrong.webp
+    organization: Coinbase
+    profile: https://x.com/brian_armstrong
+    organization_url: https://www.coinbase.com/
+  yunjie-dai:
+    name: Yunjie Dai
+    image: /assets/images/patrons/yunjie-dai.webp
+    organization: TapTap
+    profile: https://x.com/xdanger
+    organization_url: https://www.taptap.io/
+  dhh:
+    name: DHH
+    image: /assets/images/patrons/dhh.webp
+    organization: 37signals
+    profile: https://dhh.dk/
+    organization_url: https://37signals.com/

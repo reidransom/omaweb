@@ -7,13 +7,15 @@
     </div>
 
     <nav aria-label="{{ 'navigation.mobile' | translate | escape }}">
-      {% for section in navigation.sections %}
+      {% for section_key in navigation.section_order %}
+        {% assign section = navigation.sections[section_key] %}
         <section class="mobile-drawer__group">
           <h2>
             {% include authoritative-link.html link=section exploratory_description_id='mobile-drawer-exploratory-status' %}
           </h2>
           <ul>
-            {% for link in section.links.items %}
+            {% for link_key in section.links %}
+              {% assign link = navigation.links[link_key] %}
               <li>
                 {% include authoritative-link.html link=link exploratory_description_id='mobile-drawer-exploratory-status' %}
               </li>

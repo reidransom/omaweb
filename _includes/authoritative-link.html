@@ -1,11 +1,11 @@
 {% assign link = include.link %}
 {% assign destination_slug = include.destination | default: link.destination %}
 {% assign product_slug = include.product | default: link.product %}
-{% assign product = site.data.products.items | where: 'slug', product_slug | first %}
+{% assign product = site.data.products.items[product_slug] %}
 {% if destination_slug == nil and product %}
   {% assign destination_slug = product.destination %}
 {% endif %}
-{% assign destination = site.data.destinations.items | where: 'slug', destination_slug | first %}
+{% assign destination = site.data.destinations.items[destination_slug] %}
 {% assign label = include.label | default: link.label | default: product.label | default: destination.label %}
 {% assign language = include.language | default: link.language | default: product.language | default: destination.language %}
 {% assign href = nil %}

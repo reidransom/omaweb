@@ -1,5 +1,6 @@
+{% assign workstation_order = site.data.workstations.order %}
 {% assign workstations = site.data.workstations.items %}
-{% assign discord = site.data.destinations.items | where: "slug", "discord" | first %}
+{% assign discord = site.data.destinations.items.discord %}
 
 <style>
   .workstation-gallery {
@@ -74,8 +75,9 @@
 
 <section class="workstation-gallery" aria-labelledby="workstation-gallery-title">
   <h2 id="workstation-gallery-title" class="u-visually-hidden">{{ 'workstations.gallery' | translate | escape }}</h2>
-{% if workstations and workstations.size > 0 %}
-{% for workstation in workstations %}
+{% if workstation_order and workstation_order.size > 0 %}
+{% for workstation_key in workstation_order %}
+{% assign workstation = workstations[workstation_key] %}
 {% if workstation.media and workstation.media.src and workstation.media.width and workstation.media.height and workstation.media.alt and workstation.media.sources %}
 <figure class="workstation-gallery__item">
 <div class="workstation-gallery__image">

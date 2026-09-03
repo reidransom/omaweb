@@ -1,7 +1,12 @@
 # Each item is an authorized contributor photograph with a cleared local source,
 # deterministic responsive derivatives, and an asset-manifest record.
+order:
+  - pleum
+  - sspaeti
+
 items:
-  - name: pleum
+  pleum:
+    name: pleum
     caption: Photograph by pleum, shared for the official Workstations gallery.
     media:
       src: /assets/images/workstations/pleum-p1554011-1600w.webp
@@ -24,7 +29,8 @@ items:
                   width: 1200
                 - src: /assets/images/workstations/pleum-p1554011-1600w.webp
                   width: 1600
-  - name: sspaeti
+  sspaeti:
+    name: sspaeti
     caption: Photograph by sspaeti, shared for the official Workstations gallery.
     media:
       src: /assets/images/workstations/sspaeti-office-setup-1600w.webp

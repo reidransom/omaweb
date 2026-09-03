@@ -1,125 +1,70 @@
 home:
   label: Forside
-  url: /
-  external: false
+
 search:
   label: Søg på engelsk
-  url: /search/
-  external: false
-  language: en
   spotlight: false
+
 sections:
-- label: Fonden
-  url: /foundation/
-  external: false
-  links:
-    items:
-    - label: Mæcener
-      description: Menneskene, der finansierer Omacom Foundations mission.
-      url: /patrons/
-      external: false
-    - label: Sponsorater
-      description: Fondens aktuelle støtte til Hyprland, Quickshell og mise.
-      url: /sponsorships/
-      external: false
-    - label: Artists in Residence
-      description: Et seks måneders ophold for kunstnere, der arbejder med Omarchy-temaer, Plugins og
-        billedkunst.
-      url: /air/
-      external: false
-    - label: Sikkerhed
-      description: Vejledning til privat rapportering af en sårbarhed i Omarchy.
-      url: /security/
-      external: false
-- label: Manual på engelsk
-  destination: manual
-  links:
-    items:
-    - label: Hent ISO
-      destination: iso
-    - destination: manual-getting-started
-    - destination: manual-hotkeys
-    - destination: manual-cli
-    - destination: manual-troubleshooting
-    - destination: manual-faq
-- label: Butik
-  url: /new-releases/
-  external: false
-  exploratory: true
-  links:
-    items:
-    - label: Laptops
-      description: Spørgsmål, Omarchy ville besvare, før en bærbar computer blev anbefalet.
-      url: /laptops/
-      external: false
-      exploratory: true
-    - label: Desktops
-      description: De test, der kræves, før Omarchy anbefaler stationær hardware.
-      url: /desktop/
-      external: false
-      exploratory: true
-    - label: Mobile
-      description: Hvordan en telefon kan udvide et Omarchy-miljø.
-      url: /mobile/
-      external: false
-      exploratory: true
-    - destination: merch
-      description: Den officielle Omarchy-kollektion hos 37signals Supply.
-    - label: Accessories
-      description: Hvordan Omarchy ville vurdere hardware fra tredjeparter, før det blev anbefalet.
-      url: /accessories/
-      external: false
-      exploratory: true
-- label: Nyheder på engelsk
-  url: /news/
-  external: false
-  links:
-    items:
-    - label: Produkt
-      url: /news/categories/product/
-      external: false
-      language: en
-    - label: Udgivelser
-      url: /news/categories/releases/
-      external: false
-      language: en
-    - label: Arrangementer
-      url: /news/categories/events/
-      external: false
-      language: en
-    - label: Redaktionelt
-      url: /news/categories/editorial/
-      external: false
-      language: en
-    - label: Atom-feed
-      url: /news/feed.xml
-      external: false
-      language: en
-  language: en
-- label: Fællesskab
-  url: /community/
-  external: false
-  links:
-    items:
-    - label: Hold
-      description: Menneskene, der sætter kursen for Omarchy og tager sig af sikkerheden og fællesskabet.
-      url: /teams/
-      external: false
-    - destination: discord
-      description: Spørgsmål, rettelser, byggenoter og den levende samtale i fællesskabet.
-    - label: Træf
-      description: Omarchy-træf og reglerne for at afholde et.
-      url: /meetups/
-      external: false
-    - label: Workstations
-      description: Godkendte fotografier og historier fra rigtige Omarchy-skriveborde.
-      url: /workstations/
-      external: false
-    - label: Udvalgte videoer
-      description: Den officielle introduktion og fire udvalgte perspektiver fra fællesskabet.
-      url: /community/featured-videos/
-      external: false
-    - destination: plugins
-      description: Det offentlige katalog over udvidelser skabt omkring Omarchy.
-    - destination: code
-      description: Omarchys offentlige GitHub-repository.
+  foundation:
+    label: Fonden
+  manual:
+    label: Manual på engelsk
+  shop:
+    label: Butik
+  news:
+    label: Nyheder på engelsk
+  community:
+    label: Fællesskab
+
+links:
+  patrons:
+    label: Mæcener
+    description: Menneskene, der finansierer Omacom Foundations mission.
+  sponsorships:
+    label: Sponsorater
+    description: Fondens aktuelle støtte til Hyprland, Quickshell og mise.
+  artists-in-residence:
+    description: Et seks måneders ophold for kunstnere, der arbejder med Omarchy-temaer, Plugins og billedkunst.
+  security:
+    label: Sikkerhed
+    description: Vejledning til privat rapportering af en sårbarhed i Omarchy.
+  download-iso:
+    label: Hent ISO
+  laptops:
+    description: Spørgsmål, Omarchy ville besvare, før en bærbar computer blev anbefalet.
+  desktop:
+    description: De test, der kræves, før Omarchy anbefaler stationær hardware.
+  mobile:
+    description: Hvordan en telefon kan udvide et Omarchy-miljø.
+  merch:
+    description: Den officielle Omarchy-kollektion hos 37signals Supply.
+  accessories:
+    description: Hvordan Omarchy ville vurdere hardware fra tredjeparter, før det blev anbefalet.
+  news-product:
+    label: Produkt
+  news-releases:
+    label: Udgivelser
+  news-events:
+    label: Arrangementer
+  news-editorial:
+    label: Redaktionelt
+  atom-feed:
+    label: Atom-feed
+  teams:
+    label: Hold
+    description: Menneskene, der sætter kursen for Omarchy og tager sig af sikkerheden og fællesskabet.
+  discord:
+    description: Spørgsmål, rettelser, byggenoter og den levende samtale i fællesskabet.
+  meetups:
+    label: Træf
+    description: Omarchy-træf og reglerne for at afholde et.
+  workstations:
+    description: Godkendte fotografier og historier fra rigtige Omarchy-skriveborde.
+  featured-videos:
+    label: Udvalgte videoer
+    description: Den officielle introduktion og fire udvalgte perspektiver fra fællesskabet.
+  plugins:
+    description: Det offentlige katalog over udvidelser skabt omkring Omarchy.
+  code:
+    description: Omarchys offentlige GitHub-repository.

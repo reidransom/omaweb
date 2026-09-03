@@ -1,67 +1,95 @@
+order:
+  - desktop
+  - server
+  - mobile
+  - laptops
+  - accessories
+  - workstations
+  - apps
+  - plugins
+  - cloud
+  - labs
+
+groups:
+  hardware:
+    - desktop
+    - laptops
+    - accessories
+    - workstations
+  platforms:
+    - server
+    - mobile
+  software:
+    - apps
+    - plugins
+    - cloud
+  project:
+    - labs
+
 items:
-  - slug: desktop
+  desktop:
     label: Desktops
     group: hardware
     url: /desktop/
     status: exploratory
     external: false
     summary: Questions about desktop hardware and what an Omarchy recommendation should require.
-  - slug: server
+  server:
     label: Server
     group: platforms
     url: /server/
     status: exploratory
     external: false
     summary: Questions about an opinionated base for self-hosting, workloads, and remote administration.
-  - slug: mobile
+  mobile:
     label: Mobile
     group: platforms
     url: /mobile/
     status: exploratory
     external: false
     summary: Questions about a companion and a fuller mobile environment for Omarchy.
-  - slug: laptops
+  laptops:
     label: Laptops
     group: hardware
     url: /laptops/
     status: exploratory
     external: false
     summary: Questions about certification, repairability, tested hardware, and availability.
-  - slug: accessories
+  accessories:
     label: Accessories
     group: hardware
     url: /accessories/
     status: exploratory
     external: false
     summary: Possible future third-party hardware recommendations, with none to recommend yet.
-  - slug: workstations
+  workstations:
     label: Workstations
     group: hardware
     url: /workstations/
     status: current
     external: false
     summary: Current community setups that show how many forms a working setup can take.
-  - slug: apps
+  apps:
     label: Apps
     group: software
     url: /apps/
     status: exploratory
     external: false
     summary: Questions about first-party applications with shared visual and keyboard conventions.
-  - slug: plugins
+  plugins:
     label: Plugins
     group: software
     destination: plugins
     status: current
     summary: Community additions collected in their own authoritative directory.
-  - slug: cloud
+  cloud:
     label: Cloud
     group: software
     url: /cloud/
     status: exploratory
     external: false
     summary: Questions about hosted workstations, synchronization, compute, security, and ownership.
-  - slug: labs
+  labs:
     label: Labs
     group: project
     url: /labs/

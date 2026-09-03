@@ -21,7 +21,7 @@ markdown: false
   <div class="home-section__inner">
     <h2 id="software-options-title">Extend what exists. Question what comes next.</h2>
     <ul class="home-card-grid home-card-grid--three" role="list">
-      {% assign products = site.data.products.items | where: "group", "software" %}
+      {% assign products = site.data.products.groups.software %}
       {% include product-cards.html products=products description='summary' cta_prefix='Explore' destination_cta_prefix='Visit' %}
     </ul>
   </div>

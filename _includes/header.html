@@ -1,8 +1,10 @@
 {% assign navigation = site.data.navigation %}
 {% assign build_epoch = site.time | date: '%s' %}
 {% assign active_announcement = nil %}
-{% assign announcements = site.data.announcements.items | sort: 'order' %}
-{% for announcement in announcements %}
+{% assign announcement_order = site.data.announcements.order %}
+{% assign announcements = site.data.announcements.items %}
+{% for announcement_key in announcement_order %}
+  {% assign announcement = announcements[announcement_key] %}
   {% if announcement.selected %}
     {% assign announcement_started = true %}
     {% if announcement.starts_at %}
@@ -39,7 +41,8 @@
 
     <nav class="site-header__nav" aria-label="{{ 'navigation.primary' | translate | escape }}">
       <ul class="site-header__groups" role="list">
-        {% for section in navigation.sections %}
+        {% for section_key in navigation.section_order %}
+          {% assign section = navigation.sections[section_key] %}
           <li class="site-header__group">
             {% include authoritative-link.html link=section class='site-header__section-link' exploratory_description_id='header-exploratory-status' %}
           </li>
@@ -60,13 +63,15 @@
     <details class="quake-navigation" id="quake-navigation" data-drawer-fallback data-quake-fallback>
       <summary>{{ 'navigation.menu' | translate | escape }} <span class="u-visually-hidden">(Ctl+`)</span></summary>
       <nav aria-label="{{ 'navigation.all' | translate | escape }}">
-        {% for section in navigation.sections %}
+        {% for section_key in navigation.section_order %}
+          {% assign section = navigation.sections[section_key] %}
           <section class="quake-navigation__section">
             <h2>
               {% include authoritative-link.html link=section class='quake-navigation__section-link' exploratory_description_id='header-exploratory-status' %}
             </h2>
             <ul role="list">
-              {% for link in section.links.items %}
+              {% for link_key in section.links %}
+                {% assign link = navigation.links[link_key] %}
                 <li>
                   {% include authoritative-link.html link=link class='quake-navigation__link' exploratory_description_id='header-exploratory-status' %}
                 </li>

@@ -1,71 +1,21 @@
 items:
-- slug: desktop
-  label: Desktops
-  group: hardware
-  url: /desktop/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om stationær hardware, og hvad en anbefaling fra Omarchy bør kræve.
-- slug: server
-  label: Server
-  group: platforms
-  url: /server/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om et holdningsstærkt fundament til selvhosting, arbejdsbelastninger og fjernadministration.
-- slug: mobile
-  label: Mobile
-  group: platforms
-  url: /mobile/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om en ledsager og et mere komplet mobilmiljø til Omarchy.
-- slug: laptops
-  label: Laptops
-  group: hardware
-  url: /laptops/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om certificering, reparerbarhed, testet hardware og tilgængelighed.
-- slug: accessories
-  label: Accessories
-  group: hardware
-  url: /accessories/
-  status: exploratory
-  external: false
-  summary: Mulige fremtidige anbefalinger af hardware fra tredjeparter, men endnu er der intet at anbefale.
-- slug: workstations
-  label: Workstations
-  group: hardware
-  url: /workstations/
-  status: current
-  external: false
-  summary: Aktuelle opsætninger fra fællesskabet, der viser, hvor mange former en fungerende opsætning
-    kan have.
-- slug: apps
-  label: Apps
-  group: software
-  url: /apps/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om egne programmer med fælles visuelle konventioner og tastaturgenveje.
-- slug: plugins
-  label: Plugins
-  group: software
-  destination: plugins
-  status: current
-  summary: Tilføjelser fra fællesskabet samlet i deres eget autoritative katalog.
-- slug: cloud
-  label: Cloud
-  group: software
-  url: /cloud/
-  status: exploratory
-  external: false
-  summary: Spørgsmål om hostede arbejdsstationer, synkronisering, computerkraft, sikkerhed og ejerskab.
-- slug: labs
-  label: Labs
-  group: project
-  url: /labs/
-  status: exploratory
-  external: false
-  summary: Offentlige eksperimenter, der ikke er produkter.
+  desktop:
+    summary: Spørgsmål om stationær hardware, og hvad en anbefaling fra Omarchy bør kræve.
+  server:
+    summary: Spørgsmål om et holdningsstærkt fundament til selvhosting, arbejdsbelastninger og fjernadministration.
+  mobile:
+    summary: Spørgsmål om en ledsager og et mere komplet mobilmiljø til Omarchy.
+  laptops:
+    summary: Spørgsmål om certificering, reparerbarhed, testet hardware og tilgængelighed.
+  accessories:
+    summary: Mulige fremtidige anbefalinger af hardware fra tredjeparter, men endnu er der intet at anbefale.
+  workstations:
+    summary: Aktuelle opsætninger fra fællesskabet, der viser, hvor mange former en fungerende opsætning kan have.
+  apps:
+    summary: Spørgsmål om egne programmer med fælles visuelle konventioner og tastaturgenveje.
+  plugins:
+    summary: Tilføjelser fra fællesskabet samlet i deres eget autoritative katalog.
+  cloud:
+    summary: Spørgsmål om hostede arbejdsstationer, synkronisering, computerkraft, sikkerhed og ejerskab.
+  labs:
+    summary: Offentlige eksperimenter, der ikke er produkter.

@@ -10,7 +10,7 @@
           <p class="home-hero__detail">{{ home.hero.detail | escape }}</p>
           <div class="home-hero__action-list home-hero__action-list--primary">
             {% for action in home.hero.actions.items %}
-              {% assign destination = site.data.destinations.items | where: 'slug', action.destination | first %}
+              {% assign destination = site.data.destinations.items[action.destination] %}
               {% assign action_button_class = 'button' %}
               {% if destination.button_treatment == 'secondary' %}
                 {% assign action_button_class = 'button button--secondary' %}

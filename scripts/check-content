@@ -60,7 +60,7 @@ require_file _data/project_areas.yml
 require_file _data/products.yml
 
 for product in $(awk '/^[[:space:]]+product: / { print $2 }' _data/project_areas.yml); do
-  matches=$(awk -v product="$product" '$1 == "-" && $2 == "slug:" && $3 == product { count++ } END { print count + 0 }' _data/products.yml)
+  matches=$(awk -v product="$product" '$0 == "  " product ":" { count++ } END { print count + 0 }' _data/products.yml)
   [ "$matches" -eq 1 ] || fail "Project area product must resolve exactly once to a canonical product: $product"
 done
 

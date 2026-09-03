@@ -10,121 +10,172 @@ search:
   language: en
   spotlight: true
 
+section_order:
+  - foundation
+  - manual
+  - shop
+  - news
+  - community
+
 sections:
-  - label: Foundation
+  foundation:
+    label: Foundation
     url: /foundation/
     external: false
     links:
-      items:
-        - label: Patrons
-          description: The people funding the Omacom Foundation's mission.
-          url: /patrons/
-          external: false
-        - label: Sponsorships
-          description: Current Foundation support for Hyprland, Quickshell, and mise.
-          url: /sponsorships/
-          external: false
-        - label: Artists in Residence
-          description: A six-month residency for artists working on Omarchy themes, plugins, and visual art.
-          url: /air/
-          external: false
-        - label: Security
-          description: Private reporting instructions for an Omarchy vulnerability.
-          url: /security/
-          external: false
-
-  - label: Manual
+      - patrons
+      - sponsorships
+      - artists-in-residence
+      - security
+  manual:
+    label: Manual
     destination: manual
     links:
-      items:
-        - label: Download ISO
-          destination: iso
-        - destination: manual-getting-started
-        - destination: manual-hotkeys
-        - destination: manual-cli
-        - destination: manual-troubleshooting
-        - destination: manual-faq
-
-  - label: Shop
+      - download-iso
+      - manual-getting-started
+      - manual-hotkeys
+      - manual-cli
+      - manual-troubleshooting
+      - manual-faq
+  shop:
+    label: Shop
     url: /new-releases/
     external: false
     exploratory: true
     links:
-      items:
-        - label: Laptops
-          description: Questions Omarchy would answer before recommending a laptop.
-          url: /laptops/
-          external: false
-          exploratory: true
-        - label: Desktops
-          description: The tests required before Omarchy recommends desktop hardware.
-          url: /desktop/
-          external: false
-          exploratory: true
-        - label: Mobile
-          description: How a phone might extend an Omarchy environment.
-          url: /mobile/
-          external: false
-          exploratory: true
-        - destination: merch
-          description: The official Omarchy collection at 37signals Supply.
-        - label: Accessories
-          description: How Omarchy would evaluate third-party hardware before recommending it.
-          url: /accessories/
-          external: false
-          exploratory: true
-
-  - label: News
+      - laptops
+      - desktop
+      - mobile
+      - merch
+      - accessories
+  news:
+    label: News
     url: /news/
     external: false
     language: en
     links:
-      items:
-        - label: Product
-          url: /news/categories/product/
-          external: false
-          language: en
-        - label: Releases
-          url: /news/categories/releases/
-          external: false
-          language: en
-        - label: Events
-          url: /news/categories/events/
-          external: false
-          language: en
-        - label: Editorial
-          url: /news/categories/editorial/
-          external: false
-          language: en
-        - label: Atom feed
-          url: /news/feed.xml
-          external: false
-          language: en
-
-  - label: Community
+      - news-product
+      - news-releases
+      - news-events
+      - news-editorial
+      - atom-feed
+  community:
+    label: Community
     url: /community/
     external: false
     links:
-      items:
-        - label: Teams
-          description: The people guiding Omarchy and caring for its security and community.
-          url: /teams/
-          external: false
-        - destination: discord
-          description: Questions, fixes, build notes, and the live community conversation.
-        - label: Meetups
-          description: Omarchy gatherings and the rules for running one.
-          url: /meetups/
-          external: false
-        - label: Workstations
-          description: Cleared photographs and stories from real Omarchy desks.
-          url: /workstations/
-          external: false
-        - label: Featured videos
-          description: The official introduction and four selected community takes.
-          url: /community/featured-videos/
-          external: false
-        - destination: plugins
-          description: The public catalog of extensions made around Omarchy.
-        - destination: code
-          description: The public GitHub repository for Omarchy.
+      - teams
+      - discord
+      - meetups
+      - workstations
+      - featured-videos
+      - plugins
+      - code
+
+links:
+  patrons:
+    label: Patrons
+    description: The people funding the Omacom Foundation's mission.
+    url: /patrons/
+    external: false
+  sponsorships:
+    label: Sponsorships
+    description: Current Foundation support for Hyprland, Quickshell, and mise.
+    url: /sponsorships/
+    external: false
+  artists-in-residence:
+    label: Artists in Residence
+    description: A six-month residency for artists working on Omarchy themes, plugins, and visual art.
+    url: /air/
+    external: false
+  security:
+    label: Security
+    description: Private reporting instructions for an Omarchy vulnerability.
+    url: /security/
+    external: false
+  download-iso:
+    label: Download ISO
+    destination: iso
+  manual-getting-started:
+    destination: manual-getting-started
+  manual-hotkeys:
+    destination: manual-hotkeys
+  manual-cli:
+    destination: manual-cli
+  manual-troubleshooting:
+    destination: manual-troubleshooting
+  manual-faq:
+    destination: manual-faq
+  laptops:
+    product: laptops
+    description: Questions Omarchy would answer before recommending a laptop.
+    exploratory: true
+  desktop:
+    product: desktop
+    description: The tests required before Omarchy recommends desktop hardware.
+    exploratory: true
+  mobile:
+    product: mobile
+    description: How a phone might extend an Omarchy environment.
+    exploratory: true
+  merch:
+    destination: merch
+    description: The official Omarchy collection at 37signals Supply.
+  accessories:
+    product: accessories
+    description: How Omarchy would evaluate third-party hardware before recommending it.
+    exploratory: true
+  news-product:
+    label: Product
+    url: /news/categories/product/
+    external: false
+    language: en
+  news-releases:
+    label: Releases
+    url: /news/categories/releases/
+    external: false
+    language: en
+  news-events:
+    label: Events
+    url: /news/categories/events/
+    external: false
+    language: en
+  news-editorial:
+    label: Editorial
+    url: /news/categories/editorial/
+    external: false
+    language: en
+  atom-feed:
+    label: Atom feed
+    url: /news/feed.xml
+    external: false
+    language: en
+  teams:
+    label: Teams
+    description: The people guiding Omarchy and caring for its security and community.
+    url: /teams/
+    external: false
+  discord:
+    destination: discord
+    description: Questions, fixes, build notes, and the live community conversation.
+  meetups:
+    label: Meetups
+    description: Omarchy gatherings and the rules for running one.
+    url: /meetups/
+    external: false
+  workstations:
+    label: Workstations
+    description: Cleared photographs and stories from real Omarchy desks.
+    url: /workstations/
+    external: false
+  featured-videos:
+    label: Featured videos
+    description: The official introduction and four selected community takes.
+    url: /community/featured-videos/
+    external: false
+  plugins:
+    destination: plugins
+    description: The public catalog of extensions made around Omarchy.
+  code:
+    destination: code
+    description: The public GitHub repository for Omarchy.

@@ -1,5 +1,5 @@
 {% assign labs = site.data.home.labs %}
-{% assign product = site.data.products.items | where: 'slug', labs.product | first %}
+{% assign product = site.data.products.items[labs.product] %}
 <section class="home-section home-section--reading home-section--storm" aria-labelledby="labs-title">
   <div class="home-section__inner home-section__inner--narrow">
     <h2 id="labs-title">{{ product.label | escape }}{% if product.status == 'exploratory' %}<sup class="home-heading__marker" aria-hidden="true">*</sup><span class="u-visually-hidden"> ({{ 'status.exploratory' | translate | escape }})</span>{% endif %}</h2>
