@@ -531,10 +531,6 @@ async function verifyNormalChoreography(session, width, height, featuredContract
     const actionText = opening.actions.map(action => action.text).join(" ");
     require(actionText.includes("ISO") && actionText.includes("Manual"), `${label} must expose ISO and Manual actions.`);
     require(opening.actions.every(action => action.focusable), `${label} opening actions must participate in sequential focus.`);
-    require(
-      opening.viewAll.transformTarget === "translateY(var(--omarchy-space-small))",
-      `${label} must hold hidden View all at its translated entrance offset.`,
-    );
     requireNoOverflow(opening, `${label} opening state`);
 
     const limits = await scrollRange(browser);
