@@ -26,7 +26,7 @@ scripts/build          # build a fresh production artifact
 
 `scripts/build` builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, and replaces the copied development index with a fresh `_site/pagefind` production index.
 
-`mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
+`mise run serve` runs Jigyll directly into the isolated `.site-dev/` directory. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
 [servd](https://github.com/reidransom/servd) runs the same mise-selected Jigyll server through `.servd.toml`.
 

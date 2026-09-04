@@ -4,7 +4,7 @@
 
 [tasks.serve]
 description = "Watch and serve the site with Jigyll"
-run = "jigyll serve -s . -w --unpublished"
+run = "jigyll serve -s . -w --unpublished -d .site-dev"
 
 [tasks.build]
 description = "Build JavaScript, rendered pages, and Pagefind"

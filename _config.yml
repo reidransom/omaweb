@@ -65,6 +65,7 @@ exclude:
   - _docs
   - _plans
   - _site
+  - .site-dev
   - _site.jigyll-localized-backup
   - node_modules
   - package.json

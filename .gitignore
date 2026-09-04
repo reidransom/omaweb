@@ -1,4 +1,5 @@
 _site/
+.site-dev/
 __*
 node_modules/
 _plans/

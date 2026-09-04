@@ -1,1 +1,1 @@
-cmd = "mise exec -- jigyll serve -s . -w --unpublished -H {host} -P {port}"
+cmd = "mise exec -- jigyll serve -s . -w --unpublished -d .site-dev -H {host} -P {port}"
