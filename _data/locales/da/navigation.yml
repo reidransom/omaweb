@@ -2,18 +2,18 @@ home:
   label: Forside
 
 search:
-  label: Søg på engelsk
+  label: Søg
   spotlight: false
 
 sections:
   foundation:
     label: Fonden
   manual:
-    label: Manual på engelsk
+    label: Manual
   shop:
     label: Butik
   news:
-    label: Nyheder på engelsk
+    label: Nyheder
   community:
     label: Fællesskab
 

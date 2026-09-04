@@ -3,33 +3,27 @@ items:
     label: Manual
     url: /manual/
     external: false
-    language: en
     button_treatment: secondary
   manual-getting-started:
     label: Getting Started
     url: /manual/getting-started/
     external: false
-    language: en
   manual-hotkeys:
     label: Hotkeys
     url: /manual/hotkeys/
     external: false
-    language: en
   manual-cli:
     label: Omarchy CLI
     url: /manual/omarchy-cli/
     external: false
-    language: en
   manual-troubleshooting:
     label: Troubleshooting
     url: /manual/troubleshooting/
     external: false
-    language: en
   manual-faq:
     label: FAQ
     url: /manual/faq/
     external: false
-    language: en
   iso:
     label: ISO
     url: https://iso.omarchy.org/omarchy-4.0.1.iso

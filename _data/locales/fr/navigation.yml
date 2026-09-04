@@ -2,18 +2,18 @@ home:
   label: Accueil
 
 search:
-  label: Rechercher en anglais
+  label: Rechercher
   spotlight: false
 
 sections:
   foundation:
     label: La fondation
   manual:
-    label: Manuel en anglais
+    label: Manuel
   shop:
     label: Boutique
   news:
-    label: Actualités en anglais
+    label: Actualités
   community:
     label: Communauté
 
