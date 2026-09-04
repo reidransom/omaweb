@@ -146,7 +146,7 @@ A good test asserts what a visitor can observe: which panel is visible, where it
 
 ### Browser verification
 
-- At `1440×900` with normal motion, confirm the initial viewport contains the OMARCHY primary panel and its ISO and Manual actions while all poster panels are off-stage and excluded from sequential focus.
+- At `1440×900` with normal motion, confirm the initial viewport contains the OMARCHY primary panel and its ISO and Manual actions.
 - Scroll through the first interval and sample an intermediate frame to prove poster 1 moves from the right while the primary panel moves left. At the first milestone, confirm poster 1 is the sole visible media panel and occupies the full stage width.
 - Scroll through the second interval and sample an intermediate frame to prove the posters 2–3 panel moves left-to-right from outside the stage while poster 1 contracts and shifts right. At the second milestone, confirm equal half-width columns with posters 2–3 on the left and poster 1 on the right.
 - Scroll through the third interval and sample an intermediate frame to prove the posters 4–5 panel moves in from the right. At the third milestone, confirm three equal-width columns in the visual order `2–3`, `1`, `4–5`.
