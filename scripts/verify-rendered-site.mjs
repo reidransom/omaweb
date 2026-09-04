@@ -652,6 +652,13 @@ async function verifyNormalChoreography(session, width, height, featuredContract
         frames[progress].posters[0].objectPosition === "50% 50%",
         `${label} must keep poster 1's centered crop stable through compression.`,
       );
+      require(
+        frames[progress].posters[0].imageRect.width >=
+            frames[progress].posters[0].rect.width - 2 &&
+          frames[progress].posters[0].imageRect.height >=
+            frames[progress].posters[0].rect.height - 2,
+        `${label} poster 1 thumbnail must cover its panel through compression.`,
+      );
     }
 
     const thirdLateStart = await snapshotAt(browser, limits, 0.8);

@@ -261,6 +261,11 @@
   pointer-events: none;
 }
 
+.home-hero__poster .media {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 .home-hero__poster img {
   display: block;
   inline-size: 100%;
