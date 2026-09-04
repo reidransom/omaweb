@@ -1,0 +1,69 @@
+---
+layout: manual
+title: "Identité visuelle"
+description: "Omarchy vous permet de définir le logo de votre entreprise ou une image personnelle pour le déverrouillage au démarrage, l’économiseur d’écran et l’écran À propos."
+permalink: /manual/branding/
+manual_slug: branding
+manual_order: 41
+previous_title: "Invite"
+previous_url: /manual/prompt/
+next_title: "Ajustements courants"
+next_url: /manual/common-tweaks/
+translation_key: manual-41-branding
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy vous permet de définir le logo de votre entreprise ou une image personnelle pour le déverrouillage au démarrage, l’économiseur d’écran et l’écran À propos.</p>
+
+<h3 id="boot-unlock">Déverrouillage au démarrage <a class="manual__heading-link" href="#boot-unlock" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez utiliser <code>omarchy plymouth preview</code> pour prévisualiser votre logo et vos couleurs personnalisés. La commande accepte une couleur d’arrière-plan, une couleur de texte, un logo au format PNG et un chemin pour l’image d’aperçu :</p>
+
+<pre><code>omarchy plymouth preview '#1d2021' '#ebdbb2' logo.png preview.png
+</code></pre>
+
+<p>Appliquez ensuite la configuration avec <code>omarchy plymouth set '#1d2021' '#ebdbb2' logo.png</code>, ce qui donnera également les mêmes couleurs et le même logo à l’écran de connexion SDDM. Pour revenir à la configuration d’origine, vous pouvez utiliser <code>omarchy plymouth reset</code>.</p>
+
+<p><img src="/manual/images/branding-plymouth-shopify.webp" alt="Personnalisation de Plymouth avec le logo Shopify"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<h3 id="screensaver">Économiseur d’écran <a class="manual__heading-link" href="#screensaver" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez modifier le logo utilisé par l’économiseur d’écran dans <em>Style &gt; Économiseur d’écran</em>. Il s’agit d’un logo en ASCII : vous pouvez donc modifier directement le texte, mais vous pouvez aussi lui fournir une image PNG ou SVG, que nous convertirons en ASCII. Le résultat est plutôt réussi.</p>
+
+<p><img src="/manual/images/branding-screensaver.webp" alt="Personnalisation de l’économiseur d’écran"  width="1200" height="676" loading="lazy" decoding="async" /></p>
+
+<p>Ce menu comporte trois options :</p>
+
+<ul>
+  <li><strong>Modifier le texte</strong> ouvre <code>~/.config/omarchy/branding/screensaver.txt</code> dans votre éditeur. Saisissez ou collez ce que vous voulez — de l’art ASCII, votre nom, un gros mot. Enregistrez et quittez : l’économiseur d’écran se lance immédiatement pour vous permettre de voir le résultat.</li>
+  <li><strong>Définir à partir d’une image</strong> ouvre un sélecteur de fichiers pour choisir une image PNG ou SVG, la convertit en ASCII et vous montre le résultat. Les logos présentant une silhouette nette donnent de bien meilleurs résultats que les photos.</li>
+  <li><strong>Restaurer les valeurs par défaut</strong> rétablit le logo Omarchy.</li>
+</ul>
+
+<h3 id="about-screen">Écran À propos <a class="manual__heading-link" href="#about-screen" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Les trois mêmes options se trouvent dans <em>Style &gt; À propos</em> pour l’écran <em>À propos</em> accessible depuis le menu Omarchy, et elles fonctionnent de la même manière : le fichier est <code>~/.config/omarchy/branding/about.txt</code> et la fenêtre À propos s’affiche après chaque modification. L’illustration de l’écran À propos est convertie dans un format plus petit que celle de l’économiseur d’écran, car elle doit tenir dans une fenêtre au lieu d’occuper tout l’affichage.</p>
+
+<p>Tant que la fenêtre est ouverte, un reflet vert traverse l’illustration en biais toutes les quelques secondes, puis celle-ci redevient immobile. Vos propres illustrations bénéficient également de cet effet, à condition que chacun de leurs caractères n’occupe qu’une seule colonne — c’est le cas de tout ce que produit <em>Définir à partir d’une image</em>. Les illustrations composées d’émojis ou de caractères à double largeur restent en revanche immobiles, tout comme l’écran si vous conservez votre propre configuration fastfetch. Dans ces cas, si le logo reste fixe, c’est parce que l’animation s’efface volontairement, et non parce qu’elle ne fonctionne pas : faire glisser un reflet sur ces éléments décalerait le reste de la ligne.</p>
+
+<p><img src="/manual/images/branding-about.webp" alt="Personnalisation de l’écran À propos"  width="1600" height="955" loading="lazy" decoding="async" /></p>
+
+<h3 id="converting-images-yourself">Convertir vous-même des images <a class="manual__heading-link" href="#converting-images-yourself" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Les deux options <em>Définir à partir d’une image</em> ne font qu’appeler <code>omarchy transcode ascii</code>, que vous pouvez exécuter directement si vous souhaitez contrôler la conversion :</p>
+
+<pre><code>omarchy transcode ascii ~/logo.svg ~/.config/omarchy/branding/screensaver.txt --width 100
+</code></pre>
+
+<p>La commande accepte <code>--width</code> et <code>--height</code> pour définir respectivement le nombre de colonnes et de lignes du terminal, un <code>--mode</code> pouvant être <code>braille</code> (la valeur par défaut, qui offre beaucoup plus de finesse) ou <code>block</code>, un pourcentage <code>--threshold</code> permettant de déterminer quels pixels font partie du logo, ainsi que <code>--invert</code> lorsque votre logo est clair sur un arrière-plan sombre. Si la conversion produit une masse informe, le seuil est généralement le paramètre à ajuster.</p>
+
+<h3 id="words-instead-of-a-logo">Des mots à la place d’un logo <a class="manual__heading-link" href="#words-instead-of-a-logo" aria-label="Lien vers cette section">#</a></h3>
+
+<p><code>omarchy ascii</code> dessine du texte avec Delta Corps Priest 1, la police FIGlet utilisée pour le logotype Omarchy lui-même. Un économiseur d’écran peut ainsi afficher un message plutôt qu’une image :</p>
+
+<pre><code>omarchy ascii "Back in five" &gt; ~/.config/omarchy/branding/screensaver.txt
+</code></pre>
+
+<p>La commande accepte le texte sous forme d’arguments ou, si aucun argument n’est fourni, le lit depuis un tube. La police ne contient que des lettres et des espaces — elle a été conçue sans chiffres ni signes de ponctuation — si bien que tout autre caractère est supprimé et signalé sur stderr plutôt qu’ignoré silencieusement.</p>
+{% endraw %}

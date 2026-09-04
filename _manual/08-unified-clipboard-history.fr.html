@@ -1,0 +1,59 @@
+---
+layout: manual
+title: "Presse-papiers unifié et historique"
+description: "Habituellement, sous Linux, vous devez utiliser Ctrl + Maj + C/V pour copier-coller dans le terminal et Ctrl + C/V partout ailleurs. Il est difficile de s’y habituer..."
+permalink: /manual/unified-clipboard-history/
+manual_slug: unified-clipboard-history
+manual_order: 8
+previous_title: "Raccourcis clavier"
+previous_url: /manual/hotkeys/
+next_title: "Rappels"
+next_url: /manual/reminders/
+translation_key: manual-08-unified-clipboard-history
+lang: fr
+
+---
+{% raw %}
+<p>Habituellement, sous Linux, vous devez utiliser <code>Ctrl + Maj + C/V</code> pour copier-coller dans le terminal et <code>Ctrl + C/V</code> partout ailleurs. Il est difficile de s’y habituer quand on n’a pas toujours utilisé Linux ! Il en va de même pour le passage de super à ctrl si vous venez du Mac.</p>
+
+<p>Omarchy résout ces deux problèmes grâce à des raccourcis unifiés pour le presse-papiers, qui fonctionnent (presque) partout. Les voici :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Raccourci clavier</th>
+      <th>Commande</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Super + C</td>
+      <td>Copier</td>
+    </tr>
+    <tr>
+      <td>Super + X</td>
+      <td>Couper</td>
+    </tr>
+    <tr>
+      <td>Super + V</td>
+      <td>Coller</td>
+    </tr>
+    <tr>
+      <td>Super + Ctrl + V</td>
+      <td>Historique du presse-papiers</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Notez que la plupart des environnements d’agents utilisent <code>Ctrl + V</code> pour coller des images, mais <code>Super + V</code> pour coller du texte.</em></p>
+
+<h3 id="clipboard-history">Historique du presse-papiers <a class="manual__heading-link" href="#clipboard-history" aria-label="Lien vers cette section">#</a></h3>
+
+<p>L’historique du presse-papiers est fourni par le shell Omarchy et fonctionne aussi bien avec le texte qu’avec les images. Ouvrez-le avec <code>Super + Ctrl + V</code>, sélectionnez l’élément souhaité avec la touche Entrée : il sera alors placé dans le presse-papiers et prêt à être collé avec <code>Super + V</code>.</p>
+
+<p><img src="/manual/images/clipboard-history.webp" alt="historique du presse-papiers"  width="1600" height="1132" loading="lazy" decoding="async" /></p>
+
+<p>Vous pouvez également effectuer une recherche dans l’historique simplement en commençant à saisir du texte :</p>
+
+<p><img src="/manual/images/clipboard-history-search.webp" alt="recherche dans l’historique du presse-papiers"  width="1600" height="1132" loading="lazy" decoding="async" /></p>
+{% endraw %}

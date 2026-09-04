@@ -7,7 +7,6 @@ search:
   label: Search
   url: /search/
   external: false
-  language: en
   spotlight: true
 
 section_order:
@@ -53,7 +52,6 @@ sections:
     label: News
     url: /news/
     external: false
-    language: en
     links:
       - news-product
       - news-releases

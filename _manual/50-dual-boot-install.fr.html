@@ -1,0 +1,59 @@
+---
+layout: manual
+title: "Installation en double démarrage"
+description: "Vous pouvez installer Omarchy sur une seule partition, aux côtés de Windows ou d’autres installations."
+permalink: /manual/dual-boot-install/
+manual_slug: dual-boot-install
+manual_order: 50
+previous_title: "Omarchy sur..."
+previous_url: /manual/omarchy-on/
+next_title: "Installations sans assistance"
+next_url: /manual/unattended-installs/
+translation_key: manual-50-dual-boot-install
+lang: fr
+
+---
+{% raw %}
+<p>Vous pouvez installer Omarchy sur une seule partition, aux côtés de Windows ou d’autres installations.</p>
+
+<p>Cette méthode d’installation chiffre toujours la partition avec LUKS par défaut. Elle ne diffère donc pratiquement pas d’une installation sur l’intégralité du disque et nécessite simplement que de l’espace libre soit disponible sur celui-ci.</p>
+
+<h2 id="making-space-on-windows">Libérer de l’espace sous Windows <a class="manual__heading-link" href="#making-space-on-windows" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Pour effectuer l’installation aux côtés de Windows, saisissez <code>disk management</code> dans le menu Démarrer et sélectionnez l’option <strong>Créer et formater des partitions de disque dur</strong>.</p>
+
+<p><img src="/manual/images/dual-boot-1.webp" alt="dual-boot-1"  width="1600" height="1000" loading="lazy" decoding="async" /></p>
+
+<p>Repérez la partition appropriée, faites un clic droit dessus, puis choisissez <strong>Réduire le volume</strong>.</p>
+
+<p><img src="/manual/images/dual-boot-2.webp" alt="dual-boot-2"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<p>Saisissez la quantité d’espace dont vous souhaitez réduire le volume. Notez qu’elle correspondra à la taille de votre future installation d’Omarchy, partition de démarrage comprise.</p>
+
+<p><img src="/manual/images/dual-boot-3.webp" alt="dual-boot-3"  width="1600" height="1002" loading="lazy" decoding="async" /></p>
+
+<p>Lorsque vous avez terminé, vous devriez voir quelque chose comme ceci. Dans cet exemple, la section de 50 Go est celle sur laquelle nous installerons Omarchy.</p>
+
+<p><img src="/manual/images/dual-boot-4.webp" alt="dual-boot-4"  width="1600" height="1003" loading="lazy" decoding="async" /></p>
+
+<h2 id="installing-omarchy">Installer Omarchy <a class="manual__heading-link" href="#installing-omarchy" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Le processus d’installation d’Omarchy est pratiquement identique au processus habituel. Après avoir sélectionné votre disque, l’option <strong>Installation dans l’espace libre</strong> vous sera proposée. Sélectionnez-la pour éviter d’effacer l’intégralité du disque.</p>
+
+<p><img src="/manual/images/dual-boot-5.webp" alt="dual-boot-5"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<p>Vérifiez que tout semble correct et attendez que l’installation se termine normalement. Comme pour une installation sur l’intégralité du disque, vous pouvez également choisir ici d’effectuer une installation sans chiffrement (déconseillé).
+ <img src="/manual/images/dual-boot-6.webp" alt="dual-boot-6"  width="1600" height="997" loading="lazy" decoding="async" /></p>
+
+<h2 id="adding-other-installs-to-the-bootloader">Ajouter d’autres installations au chargeur d’amorçage <a class="manual__heading-link" href="#adding-other-installs-to-the-bootloader" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Une fois l’installation d’Omarchy terminée, vous remarquerez que Limine est désormais le chargeur d’amorçage par défaut. Vous pouvez également y ajouter des options pour vos autres installations, comme Windows.</p>
+
+<p>Pour ce faire, exécutez <code>limine-scan</code> et suivez les instructions afin d’ajouter les éléments de votre choix à la configuration de Limine. Au démarrage, vous verrez alors les options habituelles d’Omarchy, ainsi que le Gestionnaire de démarrage Windows ou d’autres systèmes.</p>
+
+<h2 id="bitlocker">BitLocker <a class="manual__heading-link" href="#bitlocker" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Il est important de noter que cette méthode d’installation n’est pas compatible avec BitLocker, car celui-ci chiffre l’intégralité du disque, et pas seulement la partition. Si un message d’erreur indique que BitLocker est activé, démarrez Windows, accédez à <strong>Paramètres -&gt; Confidentialité et sécurité -&gt; Chiffrement de l’appareil</strong>, puis désactivez BitLocker. Le déchiffrement du disque peut prendre un certain temps.</p>
+
+<p><img src="/manual/images/dual-boot-7.webp" alt="dual-boot-7"  width="1600" height="1001" loading="lazy" decoding="async" /></p>
+{% endraw %}

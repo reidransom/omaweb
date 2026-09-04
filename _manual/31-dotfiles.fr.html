@@ -1,0 +1,151 @@
+---
+layout: manual
+title: "Fichiers de configuration"
+description: "Omarchy se configure principalement à l’aide de ce que l’on appelle les dotfiles, situés dans ~/.config. Ces fichiers sont destinés à vos modifications. Les fichiers situés..."
+permalink: /manual/dotfiles/
+manual_slug: dotfiles
+manual_order: 31
+previous_title: "Mises à jour"
+previous_url: /manual/updates/
+next_title: "Extensions du shell"
+next_url: /manual/shell-plugins/
+translation_key: manual-31-dotfiles
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy se configure principalement à l’aide de ce que l’on appelle les dotfiles, situés dans <code>~/.config</code>. Ces fichiers sont les vôtres et vous pouvez les modifier. Les fichiers situés dans <code>/usr/share/omarchy</code> appartiennent à Omarchy lui-même et vous ne devriez pas y toucher. Si vous devez modifier quoi que ce soit dans <code>/usr/share/omarchy</code>, redéfinissez plutôt la valeur correspondante dans <code>~/.config</code>.</p>
+
+<p>Les principales configurations peuvent être modifiées directement depuis le menu Omarchy (<code>Super + Space</code>), par exemple via <em>Configuration &gt; Écrans</em>, <em>Configuration &gt; Raccourcis clavier</em>, <em>Configuration &gt; Périphériques d’entrée</em> et <em>Configuration &gt; Config &gt; [fichier]</em>. En procédant ainsi, tout processus devant être redémarré après la modification d’une configuration le sera automatiquement lorsque vous quitterez l’éditeur (Neovim par défaut — <code>:wq</code>, souvenez-vous-en ! — mais vous pouvez changer cela via <em>Configuration &gt; Valeurs par défaut &gt; Éditeur</em>).</p>
+
+<p>Voici une liste des principaux fichiers de <code>~/.config</code> et de ce qu’ils contrôlent :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Fichier</th>
+      <th>Rôle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>~/.config/hypr/hyprland.lua</code></td>
+      <td>La configuration principale de Hyprland. Elle charge les valeurs par défaut d’Omarchy ainsi que vos fichiers de remplacement ci-dessous. <a href="https://wiki.hypr.land/Configuring/">En savoir plus sur les configurations de Hyprland</a>.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/bindings.lua</code></td>
+      <td>Vos propres raccourcis clavier et vos remplacements des valeurs par défaut.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/monitors.lua</code></td>
+      <td>Contrôle vos écrans, leur résolution et leur position.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/input.lua</code></td>
+      <td>Contrôle la disposition de votre clavier ainsi que les paramètres de votre souris et de votre pavé tactile.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/looknfeel.lua</code></td>
+      <td>Contrôle les espacements, les bordures, les animations et le reste de l’apparence.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/hypr/autostart.lua</code></td>
+      <td>Contrôle les processus supplémentaires lancés avec la session.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/omarchy/shell.json</code></td>
+      <td>Contrôle le shell d’Omarchy : position de la barre, disposition et widgets, ainsi que les délais de l’économiseur d’écran, du verrouillage et de l’inactivité.</td>
+    </tr>
+    <tr>
+      <td><code>~/.config/foot/foot.ini</code></td>
+      <td>Contrôle votre terminal (foot est utilisé par défaut).</td>
+    </tr>
+    <tr>
+      <td><code>~/.XCompose</code></td>
+      <td>Définit vos emoji en accès rapide et la saisie semi-automatique de votre nom et de votre adresse e-mail. Veillez à exécuter <code>omarchy-restart-xcompose</code> après toute modification.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Si vous finissez par apporter de nombreuses modifications pour personnaliser votre configuration, il est recommandé de sauvegarder tous ces dotfiles. <a href="https://www.youtube.com/watch?v=NoFiYOqnC4o">Stow est un excellent moyen de le faire</a>.</p>
+
+<h3 id="starting-your-own-apps-with-the-session">Lancer vos propres applications avec la session <a class="manual__heading-link" href="#starting-your-own-apps-with-the-session" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous souhaitez lancer quelque chose à chaque connexion — un démon de synchronisation, une application de discussion ou votre propre script — ajoutez-le dans <code>~/.config/hypr/autostart.lua</code> :</p>
+
+<pre><code class="language-lua">o.launch_on_start("my-service")
+</code></pre>
+
+<p>La commande est ainsi lancée dans le cadre de la session et sera donc correctement arrêtée lorsque vous vous déconnecterez.</p>
+
+<h3 id="running-scripts-on-system-events">Exécuter des scripts lors d’événements système <a class="manual__heading-link" href="#running-scripts-on-system-events" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy déclenche des hooks à différents moments, auxquels vous pouvez rattacher vos propres scripts. Ils se trouvent dans <code>~/.config/omarchy/hooks/&lt;event&gt;.d/</code>, avec un répertoire par événement, et chaque fichier exécutable qui s’y trouve est lancé lorsque l’événement se produit :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Événement</th>
+      <th>Moment de l’exécution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>post-boot</code></td>
+      <td>Juste après le démarrage du bureau</td>
+    </tr>
+    <tr>
+      <td><code>post-update</code></td>
+      <td>Pendant <code>omarchy update</code>, après les paquets et les migrations</td>
+    </tr>
+    <tr>
+      <td><code>pre-refresh-pacman</code></td>
+      <td>Avant que <code>omarchy refresh pacman</code> resynchronise la configuration des paquets</td>
+    </tr>
+    <tr>
+      <td><code>theme-set</code></td>
+      <td>Après un changement de thème (nom du thème dans <code>$1</code>)</td>
+    </tr>
+    <tr>
+      <td><code>font-set</code></td>
+      <td>Après un changement de police (nom de la police dans <code>$1</code>)</td>
+    </tr>
+    <tr>
+      <td><code>battery-low</code></td>
+      <td>Lorsque le niveau de la batterie devient faible (pourcentage dans <code>$1</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Chacun de ces répertoires contient déjà un fichier <code>.sample</code> illustrant la structure d’un hook : retirez <code>.sample</code> de son nom pour l’activer. Pour installer un script que vous avez écrit ailleurs, utilisez <code>omarchy hook install post-boot ~/my-hook</code>, ce qui le copie dans le répertoire et le rend exécutable.</p>
+
+<h3 id="adding-your-own-menu-entries">Ajouter vos propres entrées de menu <a class="manual__heading-link" href="#adding-your-own-menu-entries" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez ajouter vos propres lignes au menu Omarchy (<code>Super + Space</code>) en modifiant <code>~/.config/omarchy/extensions/omarchy-menu.jsonc</code>. Les entrées sont identifiées par un identifiant utilisant des points, et c’est cet identifiant qui détermine leur emplacement dans l’arborescence. Ainsi, <code>personal</code> apparaît dans le menu racine et <code>personal.notes</code> apparaît à l’intérieur :</p>
+
+<pre><code class="language-jsonc">"personal": {"icon":"","label":"Personal"},
+"personal.notes": {"icon":"󰎞","label":"Notes","action":"omarchy-launch-editor ~/notes"},
+</code></pre>
+
+<p>Si vous réutilisez un identifiant existant, vous remplacez la ligne correspondante au lieu d’en ajouter une nouvelle. Tous les champs disponibles sont documentés sous forme de commentaires dans le fichier fourni.</p>
+
+<h3 id="adding-your-own-shell-exports-functions-and-aliases">Ajouter vos propres exportations, fonctions et alias de shell <a class="manual__heading-link" href="#adding-your-own-shell-exports-functions-and-aliases" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy est fourni avec de nombreux alias pratiques et fonctions utiles, mais il est très courant de vouloir ajouter les vôtres. Ajoutez vos alias, fonctions et exportations dans <code>~/.bashrc</code>. Ce fichier ne sera pas écrasé lors des mises à jour. Si vous souhaitez modifier l’une des valeurs par défaut d’Omarchy, vous pouvez également la redéfinir ici en toute sécurité.</p>
+
+<h3 id="changing-internal-omarchy-files">Modifier les fichiers internes d’Omarchy <a class="manual__heading-link" href="#changing-internal-omarchy-files" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Après tout, c’est votre ordinateur. Vous pouvez en faire ce que vous voulez, mais je vous déconseille de modifier directement les fichiers de <code>/usr/share/omarchy</code>. Ils appartiennent au paquet pacman d’Omarchy : vos modifications seront donc tout simplement écrasées lors de la prochaine mise à jour. Mieux vaut plutôt redéfinir les valeurs par défaut qui ne vous conviennent pas dans le dossier <code>~/.config/*</code>.</p>
+
+<p>Vous pouvez ainsi modifier presque tout, notamment les raccourcis clavier par défaut. Il suffit de modifier <code>~/.config/hypr/bindings.lua</code> pour, par exemple, remplacer <a href="https://obsidian.md/">Obsidian</a> par <a href="https://joplinapp.org/">Joplin</a> (à installer avec <code>omarchy-pkg-add joplin-bin</code>) :</p>
+
+<pre><code>hl.unbind("SUPER + SHIFT + O")
+o.bind("SUPER + SHIFT + O", "Joplin", "joplin-desktop")
+</code></pre>
+
+<p>Si vous tenez absolument à bidouiller les fichiers internes d’Omarchy, passez sur le canal de développement via <em>Mise à jour &gt; Canal &gt; Dev</em>. Omarchy sera alors lié à une copie de travail git du code source dans <code>~/omarchy</code>, que vous pourrez modifier à votre guise. Personne n’est là pour vous dire quoi faire !</p>
+
+<h3 id="resetting-any-changes">Annuler toutes les modifications <a class="manual__heading-link" href="#resetting-any-changes" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous finissez par mettre le désordre dans les configurations, vous pouvez toujours rétablir les valeurs par défaut via <em>Mise à jour &gt; Configuration</em> dans le menu Omarchy. Vous pouvez également exécuter <code>omarchy reinstall configs</code> pour tout réinitialiser.</p>
+{% endraw %}

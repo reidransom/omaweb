@@ -1,0 +1,50 @@
+---
+layout: manual
+title: "Ajustements courants"
+description: "Voici une collection d’ajustements courants de la configuration d’Omarchy. Sachez que les mises à jour du système peuvent parfois devoir restaurer certaines configurations..."
+permalink: /manual/common-tweaks/
+manual_slug: common-tweaks
+manual_order: 42
+previous_title: "Image de marque"
+previous_url: /manual/branding/
+next_title: "Créer votre propre thème"
+next_url: /manual/making-your-own-theme/
+translation_key: manual-42-common-tweaks
+lang: fr
+
+---
+{% raw %}
+<p>Voici une collection d’ajustements courants de la configuration d’Omarchy. Sachez que les mises à jour du système peuvent parfois devoir restaurer certaines configurations à leur état d’origine. Si cela se produit, vos modifications ne seront pas perdues, mais placées dans un fichier <code>.bak</code> situé dans le même répertoire.</p>
+
+<p>Si vous faites une mauvaise manipulation, vous pouvez rétablir individuellement les configurations d’origine via <em>Mise à jour &gt; Configuration</em> dans le menu Omarchy. Si vous mettez <em>vraiment</em> tout en vrac, vous pouvez réinitialiser toutes les configurations avec <code>omarchy-reinstall</code>.</p>
+
+<h3 id="reveal-all-tray-icons-all-the-time">Toujours afficher toutes les icônes de la zone de notification <a class="manual__heading-link" href="#reveal-all-tray-icons-all-the-time" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Par défaut, les icônes de la zone de notification, comme celles de Dropbox, 1password ou Steam, sont masquées derrière la flèche d’extension, qui les affiche lorsque vous la survolez. Si vous souhaitez qu’elles restent visibles en permanence, faites un clic droit sur la flèche d’extension pour ouvrir le gestionnaire des icônes de la zone de notification, puis épinglez les icônes que vous voulez garder visibles (vous pouvez également masquer celles que vous ne voulez jamais voir).</p>
+
+<h3 id="rounded-window-corners">Coins de fenêtre arrondis <a class="manual__heading-link" href="#rounded-window-corners" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Le design par défaut d’Omarchy utilise des coins carrés, mais si vous souhaitez l’adoucir un peu, vous pouvez modifier <code>~/.config/hypr/looknfeel.lua</code> afin que l’arrondi ne soit plus commenté :</p>
+
+<pre><code>hl.config({
+  decoration = {
+    -- Use round window corners.
+    rounding = 8,
+  },
+})
+</code></pre>
+
+<h3 id="remove-window-gaps">Supprimer les espaces entre les fenêtres <a class="manual__heading-link" href="#remove-window-gaps" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Sur les écrans d’ordinateur portable, certaines personnes préfèrent ne gaspiller aucun pixel avec des espaces entre les fenêtres (ni même avec une barre supérieure, que vous pouvez masquer avec <code>Super + Shift + Space</code>). Vous pouvez désactiver tous les espaces et toutes les bordures avec <code>Super + Shift + Backspace</code>, ou les supprimer définitivement en décommentant cette section de <code>~/.config/hypr/looknfeel.lua</code> :</p>
+
+<pre><code>hl.config({
+  general = {
+    -- No gaps between windows or borders.
+    gaps_in = 0,
+    gaps_out = 0,
+    border_size = 0,
+  },
+})
+</code></pre>
+{% endraw %}

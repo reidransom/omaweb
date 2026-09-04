@@ -1,0 +1,85 @@
+---
+layout: manual
+title: "Navigation"
+description: "Dans Omarchy, tout se fait au clavier — absolument TOUT ! Au premier démarrage du système, vous ne pouvez littéralement rien faire avec la souris seule. Mais vous pouvez..."
+permalink: /manual/navigation/
+manual_slug: navigation
+manual_order: 4
+previous_title: "Vous venez de Mac ou Windows"
+previous_url: /manual/coming-from-mac-or-windows/
+next_title: "La barre supérieure"
+next_url: /manual/the-top-bar/
+translation_key: manual-04-navigation
+lang: fr
+
+---
+{% raw %}
+<p>Dans Omarchy, tout se fait au clavier — <em>absolument TOUT !</em> Au premier démarrage du système, vous ne pouvez littéralement rien faire avec la souris seule. Mais vous pouvez appuyer sur <code>Super + Space</code> pour afficher le menu Omarchy, depuis lequel vous pouvez faire à peu près tout.</p>
+
+<p>Mais le menu Omarchy n’est même pas destiné à être le principal moyen d’utiliser le système la plupart du temps. On peut faire plus rapide ! Toutes les applications les plus importantes sont directement associées à des raccourcis clavier dédiés. Vous lancez le terminal avec <code>Super + Return</code> et un navigateur avec <code>Super + Shift + Return</code>. Essayez de les lancer l’un après l’autre et vous verrez la magie de la disposition en mosaïque de Hyprland à l’œuvre :</p>
+
+<p><img src="/manual/images/navigation-browser-terminal.webp" alt="Navigateur et terminal côte à côte"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Vous pouvez ensuite appuyer sur <code>Super + J</code> pour les empiler l’un au-dessus de l’autre plutôt que côte à côte :</p>
+
+<p><img src="/manual/images/navigation-stacked.webp" alt="Navigateur et terminal empilés"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Appuyez de nouveau sur <code>Super + J</code> pour les remettre côte à côte. Puis, depuis le navigateur, essayez <code>Super + Shift + Arrow Right</code> pour intervertir les fenêtres.</p>
+
+<p>Essayez maintenant <code>Super + Ctrl + T</code> pour lancer le moniteur d’activité. Il s’affichera dans une fenêtre flottante. Vous pouvez l’intégrer à la mosaïque avec <code>Super + T</code> (et appuyer de nouveau sur ce raccourci pour la rendre à nouveau flottante). Appuyez maintenant sur <code>Super + Shift + F</code> pour ouvrir le gestionnaire de fichiers. Vous obtiendrez une jolie disposition en quatre fenêtres :</p>
+
+<p><img src="/manual/images/navigation-fourway-tiling.webp" alt="Disposition en mosaïque de quatre fenêtres"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Vous passez d’une fenêtre à l’autre pour choisir celle qui doit être active avec <code>Super + Arrow</code>. Cela déplace le focus ainsi que le curseur au centre de la nouvelle application.</p>
+
+<p>Si vous appuyez sur <code>Super + Shift + 2</code>, l’application actuellement active sera déplacée vers le deuxième espace de travail. <code>Super + Shift + 1</code> la ramène au premier. (Et <code>Super + Shift + Alt + 2</code> déplace l’application actuellement active vers le deuxième espace de travail sans basculer vers celui-ci).</p>
+
+<p>Si vous maintenez <code>Super</code> enfoncé et cliquez sur une fenêtre avec la souris, vous pourrez la repositionner. Si vous maintenez <code>Super</code> enfoncé et utilisez le bouton droit de la souris, vous pouvez redimensionner librement la fenêtre.</p>
+
+<p>Vous fermez une fenêtre avec <code>Super + W</code> ou <code>Super + Q</code> (et toutes les fenêtres avec <code>Ctrl + Alt + Delete</code>).</p>
+
+<p>Vous pouvez également passer en plein écran avec <code>Super + F</code>, occuper uniquement toute la largeur (en conservant la barre supérieure) avec <code>Super + Alt + F</code>, ou passer en plein écran à l’intérieur d’une fenêtre avec <code>Super + Ctrl + F</code> (pratique pour YouTube !).</p>
+
+<h3 id="dwindle-vs-scrolling-layout">Disposition Dwindle ou défilante <a class="manual__heading-link" href="#dwindle-vs-scrolling-layout" aria-label="Lien vers cette section">#</a></h3>
+
+<p>La disposition par défaut d’Omarchy s’appelle Dwindle. Elle garde visibles en permanence toutes les fenêtres ouvertes dans un même espace de travail, même si elle doit pour cela les réduire.</p>
+
+<p><img src="/manual/images/navigation-dwindle-layout.webp" alt="Disposition Dwindle"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Mais vous pouvez également choisir de faire passer un espace de travail à la disposition défilante, dans laquelle les fenêtres sont alignées côte à côte au-delà du bord visible de l’écran. Pour appliquer cette disposition à un espace de travail, utilisez <code>Super + L</code>.</p>
+
+<p><img src="/manual/images/navigation-scrolling-layout.webp" alt="Disposition défilante"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<p>Ce choix s’effectue pour chaque espace de travail et reste mémorisé. Vous pouvez donc conserver l’espace de travail 1 en mode Dwindle pour naviguer sur le Web et l’espace de travail 2 en mode défilant pour coder ; ils retrouveront ces dispositions après un redémarrage. (La même option se trouve sous <em>Déclencher &gt; Basculer &gt; Disposition de l’espace de travail</em> dans le menu Omarchy).</p>
+
+<p>Si vous souhaitez utiliser la disposition défilante par défaut, vous pouvez la définir dans <code>~/.config/hypr/looknfeel.lua</code> :</p>
+
+<pre><code class="language-lua">hl.config({
+  general = {
+    layout = "scrolling",
+  },
+})
+</code></pre>
+
+<h3 id="grouping-windows">Regrouper des fenêtres <a class="manual__heading-link" href="#grouping-windows" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Les fenêtres peuvent être regroupées avec <code>Super + G</code>. Une fois dans un groupe, chaque fenêtre que vous lancez pendant que celui-ci est actif en fera partie. Vous pouvez passer d’une fenêtre groupée à l’autre avec <code>Super + Ctrl + Arrow Left/Right</code>, ou utiliser <code>Super + Alt + 1/2/3/4</code> pour accéder directement à une fenêtre du groupe selon sa position.</p>
+
+<p>Vous pouvez retirer une fenêtre du groupe avec <code>Super + Alt + G</code>, ou dissocier tout le groupe en appuyant de nouveau sur <code>Super + G</code>. Enfin, vous pouvez intégrer au groupe des fenêtres qui se trouvent en dehors de celui-ci avec <code>Super + Alt + Arrows</code>.</p>
+
+<h3 id="popping-windows">Détacher des fenêtres <a class="manual__heading-link" href="#popping-windows" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous pouvez détacher une fenêtre de l’emplacement qui lui est attribué dans son espace de travail avec <code>Super + O</code>. Elle sera alors épinglée sous forme de fenêtre flottante et vous suivra dans tous les espaces de travail. Idéal pour les lecteurs vidéo et autres applications similaires.</p>
+
+<p><img src="/manual/images/navigation-popped-window.webp" alt="Fenêtre détachée et flottante"  width="1600" height="900" loading="lazy" decoding="async" /></p>
+
+<h3 id="scratchpad-workspace">Espace de travail scratchpad <a class="manual__heading-link" href="#scratchpad-workspace" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Enfin, il existe un espace de travail scratchpad spécial qui se déroule par-dessus l’espace de travail actuel, un peu comme une console Quake. Affichez-le ou masquez-le avec <code>Super + Grave</code> ou <code>Super + S</code>, et placez-y une fenêtre avec <code>Super + Shift + Grave</code> ou <code>Super + Alt + S</code>.</p>
+
+<p>Il est particulièrement pratique pour un terminal exécutant un agent, ou pour des commandes auxquelles vous souhaitez accéder rapidement sans quitter l’espace de travail actuel. Pour retirer une fenêtre du scratchpad, envoyez-la directement vers un autre espace de travail avec un raccourci tel que <code>Super + Shift + 1</code>.</p>
+
+<h3 id="it-takes-some-getting-used-to">Il faut un peu de temps pour s’y habituer ! <a class="manual__heading-link" href="#it-takes-some-getting-used-to" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Il faut un peu de temps pour s’habituer à naviguer ainsi sur son bureau, mais une fois le pli pris, il sera difficile de revenir à une expérience de bureau traditionnelle pilotée à la souris !</p>
+{% endraw %}

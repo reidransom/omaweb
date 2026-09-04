@@ -1,0 +1,153 @@
+---
+layout: manual
+title: "Captures d’écran et enregistrement"
+description: "Tout ce que vous pouvez capturer à l’écran est accessible depuis la touche Impr. écran. Cette touche seule prend une capture, tandis que les modificateurs lancent un enregistrement, prélèvent une couleur ou..."
+permalink: /manual/screenshots-recording/
+manual_slug: screenshots-recording
+manual_order: 12
+previous_title: "Extraction de texte et dictée"
+previous_url: /manual/text-extraction-dictation/
+next_title: "Réglages à bascule, inactivité et économiseur d’écran"
+next_url: /manual/toggles-idle-screensaver/
+translation_key: manual-12-screenshots-recording
+lang: fr
+
+---
+{% raw %}
+<p>Tout ce que vous pouvez capturer à l’écran est accessible depuis la touche Impr. écran. Cette touche seule prend une capture, tandis que les modificateurs lancent un enregistrement, prélèvent une couleur ou récupèrent le texte contenu dans une zone. Si votre clavier ne possède pas du tout de touche Impr. écran, <code>Super + Ctrl + C</code> ouvre les mêmes options sous forme de menu.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Raccourci</th>
+      <th>Fonction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Print Screen</code></td>
+      <td>Capture d’écran</td>
+    </tr>
+    <tr>
+      <td><code>Alt + Print Screen</code></td>
+      <td>Enregistrement de l’écran (ou arrêt de celui en cours)</td>
+    </tr>
+    <tr>
+      <td><code>Super + Print Screen</code></td>
+      <td>Sélecteur de couleur</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Print Screen</code></td>
+      <td>Extraire le texte d’une zone</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + C</code></td>
+      <td>Menu de capture</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + .</code></td>
+      <td>Transcoder une image ou une vidéo</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="screenshots">Captures d’écran <a class="manual__heading-link" href="#screenshots" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Appuyez sur <code>Print Screen</code> et l’écran se fige afin que rien ne bouge pendant que vous visez. Faites glisser le pointeur pour délimiter librement une zone, ou cliquez simplement une fois pour que la capture corresponde au rectangle sur lequel vous avez cliqué — une fenêtre si vous avez cliqué sur l’une d’elles, l’écran entier si vous avez cliqué sur la barre ou dans un espace vide. Vous avez changé d’avis ? Appuyez de nouveau sur <code>Print Screen</code> pour fermer le sélecteur.</p>
+
+<p>Le résultat est envoyé à deux endroits à la fois : un fichier PNG dans votre dossier d’images et le presse-papiers, afin que vous puissiez le coller directement dans une fenêtre de discussion avec <code>Super + V</code>. Une notification apparaît avec une miniature. Cliquez dessus (ou appuyez sur <code>Super + Alt + ,</code> pour afficher la dernière notification) et la capture s’ouvre dans Tensaku, l’éditeur d’annotations, où vous pouvez y dessiner des flèches et des rectangles avant de l’envoyer.</p>
+
+<p>Par défaut, les fichiers sont placés dans <code>~/Pictures</code> et nommés <code>screenshot-2026-08-13_14-22-05.png</code>. Si vous préférez les conserver dans leur propre dossier, définissez <code>OMARCHY_SCREENSHOT_DIR</code> — consultez <a href="../faq/">la FAQ</a> pour savoir où placer les variables d’environnement de session. Omarchy crée le dossier pour vous s’il n’existe pas. Vous pouvez également changer d’éditeur avec <code>OMARCHY_SCREENSHOT_EDITOR</code>.</p>
+
+<p>Depuis le terminal, <code>omarchy screenshot</code> prend la même capture, et vous pouvez préciser le mode souhaité : <code>omarchy capture screenshot region</code> pour une zone libre uniquement, <code>windows</code> pour ajuster la capture aux rectangles des fenêtres et des écrans, ou <code>fullscreen</code> pour ignorer complètement le sélecteur et capturer l’écran actif. Avec <code>copy</code> comme second argument, la capture est placée uniquement dans le presse-papiers, tandis que <code>save</code> l’enregistre uniquement sur le disque.</p>
+
+<h3 id="driving-the-picker-from-the-keyboard">Contrôler le sélecteur au clavier <a class="manual__heading-link" href="#driving-the-picker-from-the-keyboard" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Tant que la sélection est affichée, vous pouvez vous passer entièrement de la souris :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Touche</th>
+      <th>Fonction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Return</code></td>
+      <td>Capturer la fenêtre en surbrillance</td>
+    </tr>
+    <tr>
+      <td><code>Ctrl + Return</code></td>
+      <td>Capturer tout l’écran</td>
+    </tr>
+    <tr>
+      <td><code>Tab</code> / <code>Ctrl + Tab</code></td>
+      <td>Mettre en surbrillance la fenêtre suivante / précédente</td>
+    </tr>
+    <tr>
+      <td>Touches fléchées</td>
+      <td>Mettre en surbrillance la fenêtre située dans cette direction</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Les touches fléchées et Tab déplacent le curseur vers la fenêtre sélectionnée, de sorte que la surbrillance le suive et que vous puissiez voir ce que vous êtes sur le point de capturer. Ces raccourcis n’existent que lorsqu’une sélection est affichée à l’écran ; ils ne peuvent donc entrer en conflit avec aucun élément de votre propre configuration.</p>
+
+<h2 id="screen-recording">Enregistrement de l’écran <a class="manual__heading-link" href="#screen-recording" aria-label="Lien vers cette section">#</a></h2>
+
+<p><code>Alt + Print Screen</code> ouvre <em>Déclencher &gt; Capturer &gt; Enregistrer l’écran</em>, qui vous demande ce que vous souhaitez inclure dans la bande-son : aucun son, le son du bureau, le son du bureau avec le microphone, ou le son du bureau avec le microphone et la webcam. Cette dernière option n’apparaît que si une caméra est effectivement branchée. Choisissez une option et vous obtenez le même sélecteur que pour une capture d’écran : délimitez une zone ou cliquez sur une fenêtre ou un écran.</p>
+
+<p>L’enregistrement repose sur gpu-screen-recorder, qui encode sur le GPU à 60 fps et se rabat sur le processeur si nécessaire. Le résultat est un fichier MP4 placé dans <code>~/Videos</code> et nommé <code>screenrecording-2026-08-13_14-22-05.mp4</code>. Définissez <code>OMARCHY_SCREENRECORD_DIR</code> pour changer ce dossier — mais notez que, contrairement au dossier des captures d’écran, celui-ci doit déjà exister, faute de quoi l’enregistrement refusera de démarrer.</p>
+
+<p>Pendant l’enregistrement, un petit indicateur apparaît dans la barre. Cliquez dessus pour arrêter. Vous pouvez également arrêter en appuyant de nouveau sur <code>Alt + Print Screen</code>, ou en utilisant l’entrée <em>Arrêter l’enregistrement de l’écran</em> sous <em>Déclencher &gt; Capturer &gt; Enregistrer l’écran</em>, qui n’apparaît que lorsqu’un enregistrement est effectivement en cours.</p>
+
+<p>L’arrêt effectue un peu de nettoyage avant de vous remettre le fichier : la première image est supprimée et, s’il y a du son, celui-ci est normalisé à -14 LUFS, tandis que le claquement produit par la capture PipeWire au tout début est rendu silencieux. Une notification apparaît ensuite avec une miniature extraite de l’enregistrement. Cliquez dessus pour lire le fichier dans mpv.</p>
+
+<h3 id="the-webcam-overlay">L’incrustation de la webcam <a class="manual__heading-link" href="#the-webcam-overlay" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Lorsque vous enregistrez avec une webcam, l’image de la caméra apparaît sous forme de fenêtre épinglée, recadrée au format portrait, dans l’angle inférieur droit de la zone enregistrée. Si elle recouvre quelque chose dont vous avez besoin, redimensionnez-la à la volée :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Raccourci</th>
+      <th>Fonction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Alt + [</code></td>
+      <td>Réduire l’incrustation de la webcam</td>
+    </tr>
+    <tr>
+      <td><code>Super + Alt + ]</code></td>
+      <td>Agrandir l’incrustation de la webcam</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Il existe trois tailles — petite, moyenne et grande — et les raccourcis permettent de passer de l’une à l’autre. La taille moyenne est utilisée par défaut. Leurs dimensions sont proportionnelles à celles de l’enregistrement, de sorte que la caméra occupe la même part de l’image, que vous enregistriez un écran 1080p ou 6K. Et si vous avez enregistré une zone plutôt qu’un écran entier, l’incrustation s’ancre dans l’angle de cette zone plutôt que dans celui de l’écran, afin de rester à l’intérieur de la capture.</p>
+
+<p>Vous pouvez également l’appeler directement avec <code>omarchy-capture-webcam-resize small</code>, ou utiliser <code>reset</code> pour revenir à la taille moyenne.</p>
+
+<h2 id="text-qr-codes-and-colours">Texte, codes QR et couleurs <a class="manual__heading-link" href="#text-qr-codes-and-colours" aria-label="Lien vers cette section">#</a></h2>
+
+<p><code>Super + Ctrl + Print Screen</code> permet de sélectionner une zone, d’y effectuer une reconnaissance OCR et d’en placer le texte dans le presse-papiers. Ce sujet est traité en détail dans <a href="../text-extraction-dictation/">Extraction de texte et dictée</a>.</p>
+
+<p><em>Déclencher &gt; Capturer &gt; Code QR</em> fait de même pour les codes QR. Sélectionnez la zone contenant le code et la valeur décodée est placée dans le presse-papiers. Cette fonction recherche uniquement les codes QR — sans cela, le contenu dense d’un écran a tendance à être détecté à tort comme un code-barres. Point important : la valeur décodée est envoyée dans le presse-papiers et nulle part ailleurs. Elle n’est ni affichée, ni incluse dans la notification, et elle est marquée comme sensible afin de ne pas rester dans <a href="../unified-clipboard-history/">l’historique du presse-papiers</a>. Les codes QR contiennent régulièrement des secrets — par exemple, l’URI <code>otpauth://</code> associé à un code de configuration de l’authentification à deux facteurs — et vous ne voulez pas que cela se retrouve dans un journal. Le collage fonctionne tout de même normalement.</p>
+
+<p><code>Super + Print Screen</code> (ou <em>Déclencher &gt; Capturer &gt; Couleur</em>) transforme le curseur en pipette. Cliquez n’importe où à l’écran et la couleur est placée dans le presse-papiers. Appuyez de nouveau sur le raccourci pour annuler sans sélectionner de couleur.</p>
+
+<h2 id="transcoding-before-you-share">Transcoder avant de partager <a class="manual__heading-link" href="#transcoding-before-you-share" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Un enregistrement d’écran 4K ou un fichier HEIC brut provenant de votre téléphone est souvent trop volumineux pour être envoyé tel quel. <code>Super + Ctrl + .</code> (ou <em>Déclencher &gt; Transcoder</em>) résout ce problème. Cette commande propose un sélecteur de fichiers avec recherche approximative dans <code>~/Pictures</code> et <code>~/Videos</code>, puis vous demande de choisir un format et une taille.</p>
+
+<p>Les images sont converties en jpg ou png avec une qualité élevée, moyenne ou faible, ce qui limite leur largeur à respectivement 3160, 2160 et 1080 pixels. Les vidéos sont converties en mp4 ou en gif animé, en 4k, 1080p ou 720p. Le fichier converti est enregistré à côté de l’original, avec la résolution dans son nom — <code>demo-1080p.mp4</code> — et son chemin est copié dans le presse-papiers sous forme d’URI de fichier, afin que vous puissiez le coller directement dans une application acceptant le dépôt de fichiers.</p>
+
+<p>Cela fonctionne également depuis le terminal si vous savez déjà ce que vous voulez : <code>omarchy transcode ~/Videos/demo.mov mp4 1080p</code>. Il existe aussi <code>omarchy transcode ascii</code>, qui transforme une image en art ASCII — cette option sert principalement à <a href="../branding/">l’identité visuelle</a>.</p>
+
+<h2 id="sending-it-somewhere">L’envoyer ailleurs <a class="manual__heading-link" href="#sending-it-somewhere" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Une fois le fichier obtenu, <code>Super + Ctrl + S</code> ouvre le menu Partager et l’envoie vers un autre appareil de votre réseau via LocalSend. Consultez <a href="../guis/">Interfaces graphiques</a> à ce sujet.</p>
+{% endraw %}

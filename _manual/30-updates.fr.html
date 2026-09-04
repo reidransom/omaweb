@@ -1,0 +1,52 @@
+---
+layout: manual
+title: "Mises à jour"
+description: "Omarchy et vos paquets sont mis à jour via Mise à jour > Omarchy dans le menu Omarchy (Super + Espace)."
+permalink: /manual/updates/
+manual_slug: updates
+manual_order: 30
+previous_title: "Autres paquets"
+previous_url: /manual/other-packages/
+next_title: "Fichiers de configuration"
+next_url: /manual/dotfiles/
+translation_key: manual-30-updates
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy et vos paquets sont mis à jour via <em>Mise à jour &gt; Omarchy</em> dans le menu Omarchy (<code>Super + Space</code>).</p>
+
+<p>Omarchy est lui-même installé sous forme de paquets pacman classiques provenant du <a href="https://github.com/omacom-io/omarchy-pkgs">dépôt de paquets Omarchy</a>. Une mise à jour installe donc <a href="https://github.com/basecamp/omarchy/releases">la dernière version d’Omarchy</a>, exécute toutes les migrations en attente pour synchroniser votre système avec celle-ci, et met à jour tous les paquets système depuis le <a href="https://github.com/omacom-io/omarchy-mirror">miroir Arch d’Omarchy</a> et <a href="https://aur.archlinux.org/">AUR</a> (si vous avez installé des paquets AUR).</p>
+
+<p>Lorsqu’une nouvelle version est publiée, une icône en forme de flèche circulaire apparaît à droite de l’horloge. Cliquez dessus pour lancer le processus de mise à jour.</p>
+
+<p><img src="/manual/images/update-available.webp" alt="mise à jour disponible"  width="460" height="136" loading="lazy" decoding="async" /></p>
+
+<h3 id="four-channels">Quatre canaux <a class="manual__heading-link" href="#four-channels" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy est mis à jour selon quatre canaux : stable, RC, edge et dev. Les nouvelles installations utilisent par défaut le canal stable, qui suit les <a href="https://github.com/basecamp/omarchy/releases/">versions officielles</a>, ainsi que le <a href="https://github.com/omacom-io/omarchy-mirror">miroir Arch stable d’Omarchy</a>, décalé d’un mois par rapport à la toute dernière version. Cela nous permet de détecter les nouvelles incompatibilités nécessitant des modifications de configuration avant qu’elles ne posent problème aux utilisateurs.</p>
+
+<p>Si vous souhaitez toutefois nous aider à repérer ces problèmes potentiels, vous pouvez utiliser le canal edge. Vos paquets Omarchy suivront alors les toutes dernières versions de développement et vous pourrez mettre à jour les paquets Arch dès leur publication. Vous ne devriez le faire que si vous avez de l’expérience avec Linux et savez comment restaurer un système qui rencontre des problèmes.</p>
+
+<p>Avant chaque nouvelle version majeure, nous effectuerons une validation finale à l’aide du canal RC. Si vous souhaitez nous aider à apporter les dernières finitions, rejoignez-nous sur le canal #omarchy-release-candidates de Discord.</p>
+
+<p>Enfin, le canal dev relie directement Omarchy à une copie de travail git du code source dans <code>~/omarchy</code>, associée aux paquets edge. Vous ne devriez utiliser ce canal que si vous êtes un utilisateur Linux expérimenté, que vous travaillez directement sur Omarchy et que vous êtes prêt à accepter d’éventuels dysfonctionnements.</p>
+
+<p>Vous pouvez changer de canal via <em>Mise à jour &gt; Canal</em> dans le menu Omarchy (ou avec <code>omarchy-channel-set</code> dans le terminal).</p>
+
+<h3 id="firmware-updates">Mises à jour des micrologiciels <a class="manual__heading-link" href="#firmware-updates" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vos paquets ne sont pas les seuls éléments qui deviennent obsolètes. De nombreux ordinateurs portables et périphériques distribuent les micrologiciels du BIOS, du SSD et de la station d’accueil par l’intermédiaire du Linux Vendor Firmware Service. L’option <em>Mise à jour &gt; Micrologiciels</em> du menu Omarchy récupère et installe toutes les mises à jour disponibles pour votre matériel. Elle installe <code>fwupd</code> lors de sa première exécution. De nombreux micrologiciels ne peuvent être installés qu’au cours d’un redémarrage ; ne soyez donc pas surpris si l’on vous demande de redémarrer.</p>
+
+<h3 id="warning-about-direct-pacmanyay-updates">Avertissement concernant les mises à jour directes avec pacman/yay <a class="manual__heading-link" href="#warning-about-direct-pacmanyay-updates" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous connaissez déjà Arch, vous pourriez être tenté d’exécuter simplement <code>pacman -Syu</code> ou <code>yay -Syu</code> vous-même. Mais vous passeriez alors à côté de l’instantané, des migrations et des mises à jour de configuration qu’Omarchy effectue avec les nouveaux paquets. C’est pourquoi Omarchy bloque toute mise à niveau directe du système et vous invite à utiliser plutôt <code>omarchy update</code>. (Si vous savez vraiment ce que vous faites, le mécanisme de protection vous indiquera comment le contourner pour une seule opération.)</p>
+
+<h3 id="rolling-back-bad-updates">Revenir en arrière après une mise à jour défectueuse <a class="manual__heading-link" href="#rolling-back-bad-updates" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous rencontrez un problème après une mise à jour, vous pouvez restaurer votre système à partir de l’instantané créé avant celle-ci. Redémarrez simplement l’ordinateur et sélectionnez, dans le menu de démarrage, l’instantané créé avant le lancement de la mise à jour.</p>
+
+<p><img src="/manual/images/bootloader.webp" alt="chargeur de démarrage"  width="1600" height="1004" loading="lazy" decoding="async" /></p>
+
+<p>Si vos fichiers de configuration ont été corrompus d’une manière ou d’une autre, vous pouvez également réinstaller Omarchy en exécutant <code>omarchy reinstall</code> dans le terminal. Cette commande réinstallera tous les paquets Omarchy par défaut, vous replacera sur le canal stable, rétrogradera les paquets trop récents et réinitialisera tous les fichiers de configuration. Notez que toutes les modifications que vous avez apportées à la configuration par défaut d’Omarchy seront alors écrasées !</p>
+{% endraw %}

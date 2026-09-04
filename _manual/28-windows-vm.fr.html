@@ -1,0 +1,63 @@
+---
+layout: manual
+title: "Machine virtuelle Windows"
+description: "Omarchy permet d’exécuter facilement Windows dans une machine virtuelle Docker. Vous pouvez l’installer via Installer > Windows dans le menu Omarchy (Super + Espace)."
+permalink: /manual/windows-vm/
+manual_slug: windows-vm
+manual_order: 28
+previous_title: "Remplir des PDF"
+previous_url: /manual/filling-out-pdfs/
+next_title: "Autres paquets"
+next_url: /manual/other-packages/
+translation_key: manual-28-windows-vm
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy permet d’exécuter facilement Windows dans une machine virtuelle Docker. Vous pouvez l’installer via <em>Installer &gt; Windows</em> dans le menu Omarchy (<code>Super + Space</code>).</p>
+
+<p>Pour cela, votre machine doit prendre en charge la virtualisation KVM, ce qui est le cas de la plupart d’entre elles — mais elle est parfois désactivée dans le BIOS, et le programme d’installation vous l’indiquera si c’est le cas. Il vous faudra également suffisamment d’espace disque : celui que vous allouez à Windows, plus environ 10 Go pour l’image elle-même.</p>
+
+<p>Le programme d’installation vous demande la quantité de RAM, le nombre de cœurs de processeur et l’espace disque à allouer (64 Go ou plus constituent un minimum raisonnable), puis un nom d’utilisateur et un mot de passe Windows. Si vous laissez ces champs vides, vous obtiendrez <code>docker</code> / <code>admin</code>. Le téléchargement prend un certain temps — 10 à 15 minutes sont tout à fait normales — et vous pouvez suivre sa progression dans le navigateur à l’adresse <code>http://127.0.0.1:8006</code>. Avant d’ouvrir la console, le navigateur demande le même nom d’utilisateur et le même mot de passe.</p>
+
+<p><img src="/manual/images/windows-vm.webp" alt="machine virtuelle Windows"  width="1600" height="1067" loading="lazy" decoding="async" /></p>
+
+<h2 id="using-it">Utilisation <a class="manual__heading-link" href="#using-it" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Une fois l’installation terminée, lancez <em>Windows</em> depuis le lanceur d’applications. La machine virtuelle démarre alors si elle ne fonctionne pas déjà, puis vous y êtes connecté en plein écran via RDP. Comptez 15 à 30 secondes pour un démarrage à froid.</p>
+
+<p>La session RDP transmet le son et votre microphone, et propose un presse-papiers partagé : vous pouvez donc copier du texte entre Linux et Windows sans aucune manipulation particulière. La résolution s’adapte à votre fenêtre et Omarchy transmet le facteur d’échelle de votre écran, ce qui évite un affichage flou sur un écran HiDPI.</p>
+
+<p>Lorsque vous fermez la fenêtre RDP, la machine virtuelle s’arrête automatiquement. Si vous préférez la laisser fonctionner — par exemple parce qu’une tâche y est en cours — lancez-la plutôt avec <code>omarchy windows vm launch --keep-alive</code>.</p>
+
+<p>Les autres commandes disponibles sont les suivantes :</p>
+
+<pre><code class="language-bash">omarchy windows vm status    # is it running?
+omarchy windows vm stop      # shut it down
+omarchy windows vm launch    # start and connect
+</code></pre>
+
+<h2 id="sharing-files">Partage de fichiers <a class="manual__heading-link" href="#sharing-files" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Le répertoire <code>~/Windows</code> de votre dossier personnel est automatiquement partagé avec la machine virtuelle. Placez-y les fichiers auxquels vous souhaitez accéder depuis Windows. La machine virtuelle n’a accès à aucune autre partie de votre système de fichiers, ce qui vous protège de tout élément malveillant côté Windows. Son propre disque virtuel se trouve dans <code>~/.windows</code>.</p>
+
+<p>Ces chemins habituels du dossier personnel restent sur leurs propres systèmes de fichiers. Ils peuvent également être des liens symboliques vers des répertoires qui vous appartiennent, ce qui s’avère utile lorsque le disque virtuel se trouve sur un lecteur de plus grande capacité. Le programme d’installation mesure l’espace libre du système de fichiers qui contient réellement <code>~/.windows</code>, et pas nécessairement celui qui contient votre dossier personnel.</p>
+
+<p>Conservez le chemin du disque et le chemin partagé dans des répertoires distincts qui ne se chevauchent pas. La suppression vide volontairement le répertoire du disque, mais préserve le répertoire partagé. Juste avant la suppression, Omarchy effectue une vérification de confinement à durée limitée et refuse toute suppression si cette vérification expire ou ne peut pas établir que les deux arborescences sont distinctes.</p>
+
+<p>Avant le démarrage de la machine virtuelle, Omarchy ouvre et épingle ces deux répertoires, puis effectue un montage lié des inœuds exacts de ces répertoires sur des points d’ancrage privés propres à chaque utilisateur sous <code>/var/lib/omarchy/windows/mounts</code>. Docker ne voit que ces points d’ancrage protégés par root. Cela permet de conserver des emplacements de disque personnalisés tout en empêchant un autre processus exécuté sous votre compte de substituer un chemin vérifié avant que le conteneur privilégié ne l’utilise. Lors de la migration, les permissions des répertoires de disque et de partage existants sont restreintes au mode <code>0700</code>, afin que les autres comptes locaux ne puissent pas parcourir leur contenu.</p>
+
+<p>Les ports de la machine virtuelle sont liés uniquement à localhost : aucun appareil de votre réseau ne peut donc accéder à la machine Windows. La console web exige également le nom d’utilisateur et le mot de passe Windows configurés, ce qui empêche un autre compte local de contrôler la machine virtuelle via le port 8006.</p>
+
+<h2 id="limits-and-licensing">Limites et licence <a class="manual__heading-link" href="#limits-and-licensing" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Cette configuration ne prend pas en charge l’accès direct au GPU ; elle ne convient donc ni aux jeux vidéo ni au montage vidéo. Elle constitue en revanche un excellent moyen d’utiliser Microsoft Office ou tout autre logiciel dont vous avez absolument besoin.</p>
+
+<p>La version installée est Windows 11 Pro, non activée. Vous aurez besoin de votre propre clé de licence pour utiliser les fonctionnalités nécessitant une activation.</p>
+
+<p>Si Windows était préinstallé sur cet ordinateur, la clé OEM est toujours présente dans le micrologiciel, même après l’installation d’Omarchy. Affichez-la avec <code>omarchy windows key</code>. Cette clé est liée à cette machine : elle permettra d’activer Windows s’il est réinstallé sur ce matériel, mais elle n’activera généralement pas la machine virtuelle.</p>
+
+<p>Vous pouvez modifier ultérieurement l’allocation des ressources en relançant <code>omarchy-windows-vm install</code>, qui réécrit la configuration de la machine virtuelle à partir de vos réponses. Le fichier Compose se trouve désormais dans <code>/var/lib/omarchy/windows/docker-compose.yml</code> et appartient à root — c’est intentionnel, afin qu’un processus exécuté sous votre compte ne puisse pas le réécrire et amener le processus de démarrage privilégié à monter l’intégralité de votre disque dans le conteneur. Si vous devez le modifier manuellement (par exemple pour monter un périphérique USB), éditez-le avec <code>sudo</code> et consultez toutes les options sur <a href="https://github.com/dockur/windows">le projet Dockur Windows</a>.</p>
+
+<p>Pour tout supprimer, utilisez <em>Supprimer &gt; Windows</em> dans le menu Omarchy. Cela supprime le disque de la machine virtuelle et toutes ses données ; assurez-vous donc d’abord de retirer de <code>~/Windows</code> tout ce que vous souhaitez conserver.</p>
+{% endraw %}

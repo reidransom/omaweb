@@ -1,0 +1,38 @@
+---
+layout: default
+title: Économiseur d’écran
+description: Le logotype Omarchy animé par des effets de texte aléatoires dans le terminal.
+permalink: /screensaver/
+archetype: project
+translation_key: page-screensaver-index
+lang: fr
+
+---
+<article class="screensaver-page">
+  <header class="screensaver-page__header">
+    <p class="manual-hero__eyebrow">Utilitaire Omarchy</p>
+    <h1>Économiseur d’écran</h1>
+    <p class="manual-hero__lede">Le logotype Omarchy animé par des effets de texte aléatoires dans le terminal. Appuyez sur <kbd>F</kbd> ou utilisez le bouton pour passer en plein écran.</p>
+  </header>
+
+  <section class="screensaver-demo" data-screensaver aria-label="Aperçu animé de l’économiseur d’écran Omarchy">
+    <div class="screensaver-demo__controls">
+      <button class="screensaver-demo__button" type="button" data-screensaver-fullscreen>Passer en plein écran</button>
+    </div>
+    <canvas class="screensaver-demo__canvas" id="screensaver" aria-hidden="true"></canvas>
+    <pre class="screensaver-demo__art" id="screensaver-art" aria-hidden="true">
+                 ▄▄▄
+ ▄█████▄    ▄███████████▄    ▄███████   ▄███████   ▄███████   ▄█   █▄    ▄█   █▄
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   █▀   ███   ███  ███   ███
+███   ███  ███   ███   ███ ▄███▄▄▄███ ▄███▄▄▄██▀  ███       ▄███▄▄▄███▄ ███▄▄▄███
+███   ███  ███   ███   ███ ▀███▀▀▀███ ▀███▀▀▀▀    ███      ▀▀███▀▀▀███  ▀▀▀▀▀▀███
+███   ███  ███   ███   ███  ███   ███ ██████████  ███   █▄   ███   ███  ▄██   ███
+███   ███  ███   ███   ███  ███   ███  ███   ███  ███   ███  ███   ███  ███   ███
+ ▀█████▀    ▀█   ███   █▀   ███   █▀   ███   ███  ███████▀   ███   █▀    ▀█████▀
+                                       ███   █▀
+</pre>
+  </section>
+</article>
+<script type="module" src="/assets/js/screensaver.js"></script>
+<noscript><style>.screensaver-demo__canvas,.screensaver-demo__controls{display:none}.screensaver-demo__art{display:grid!important}</style></noscript>

@@ -1,0 +1,162 @@
+---
+layout: manual
+title: "Options à bascule, inactivité et économiseur d’écran"
+description: "Une grande partie de ce que vous modifiez au quotidien n’est pas vraiment un réglage. Il s’agit plutôt d’un mode que vous activez pendant une heure, puis désactivez : l’éclairage nocturne quand vous travaillez tard, le mode Ne pas..."
+permalink: /manual/toggles-idle-screensaver/
+manual_slug: toggles-idle-screensaver
+manual_order: 13
+previous_title: "Captures d’écran et enregistrement"
+previous_url: /manual/screenshots-recording/
+next_title: "CLI d’Omarchy"
+next_url: /manual/omarchy-cli/
+translation_key: manual-13-toggles-idle-screensaver
+lang: fr
+
+---
+{% raw %}
+<p>Une grande partie de ce que vous modifiez au quotidien n’est pas vraiment un réglage. Il s’agit plutôt d’un mode que vous activez pendant une heure, puis désactivez : l’éclairage nocturne quand vous travaillez tard, le mode Ne pas déranger pendant une présentation, le maintien en éveil lorsque vous regardez quelque chose. Omarchy appelle cela des options à bascule, qui fonctionnent toutes de la même manière — un raccourci clavier, une entrée de menu et une commande qui actionnent tous le même commutateur.</p>
+
+<h3 id="the-toggle-menu">Le menu Basculer <a class="manual__heading-link" href="#the-toggle-menu" aria-label="Lien vers cette section">#</a></h3>
+
+<p><code>Super + Ctrl + O</code> ouvre directement <em>Déclencher &gt; Basculer</em>. Vous pouvez également y accéder depuis le menu Omarchy (<code>Super + Space</code>). Tout ce qui figure dans cette liste est un commutateur que vous pouvez actionner sans avoir à vous demander où son état est stocké.</p>
+
+<p>Dans le terminal, ces mêmes commutateurs prennent la forme <code>omarchy toggle &lt;thing&gt;</code>. Exécutez simplement <code>omarchy toggle</code> pour afficher tout le groupe.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Raccourci clavier</th>
+      <th>Commande</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Éclairage nocturne</td>
+      <td><code>Super + Ctrl + N</code></td>
+      <td><code>omarchy toggle nightlight</code></td>
+    </tr>
+    <tr>
+      <td>Mettre les notifications en sourdine</td>
+      <td><code>Super + Ctrl + ,</code></td>
+      <td><code>omarchy toggle notification silencing</code></td>
+    </tr>
+    <tr>
+      <td>Maintenir en éveil (aucun verrouillage en cas d’inactivité)</td>
+      <td><code>Super + Ctrl + I</code></td>
+      <td><code>omarchy toggle idle</code></td>
+    </tr>
+    <tr>
+      <td>Capture des plantages</td>
+      <td>—</td>
+      <td><code>omarchy toggle crash-capture</code></td>
+    </tr>
+    <tr>
+      <td>Économiseur d’écran</td>
+      <td>—</td>
+      <td><code>omarchy toggle screensaver</code></td>
+    </tr>
+    <tr>
+      <td>Barre de menus</td>
+      <td><code>Super + Shift + Space</code></td>
+      <td><code>omarchy toggle bar</code></td>
+    </tr>
+    <tr>
+      <td>Pavé tactile</td>
+      <td><code>XF86TouchpadToggle</code></td>
+      <td><code>omarchy toggle touchpad</code></td>
+    </tr>
+    <tr>
+      <td>Écran tactile</td>
+      <td>—</td>
+      <td><code>omarchy toggle touchscreen</code></td>
+    </tr>
+    <tr>
+      <td>Mise en veille</td>
+      <td>—</td>
+      <td><code>omarchy toggle suspend</code></td>
+    </tr>
+    <tr>
+      <td>GPU hybride</td>
+      <td>—</td>
+      <td><code>omarchy toggle hybrid gpu</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Les commutateurs du pavé tactile, de l’écran tactile et du GPU hybride se trouvent sous <em>Déclencher &gt; Matériel</em> (<code>Super + Ctrl + H</code>) plutôt que sous Basculer, puisqu’ils ne s’affichent que si vous disposez réellement du matériel correspondant. Les réglages du pavé tactile et de l’écran tactile sont conservés après un rechargement d’Hyprland — le nom du périphérique désactivé est enregistré dans un petit fichier d’état qu’Hyprland lit au démarrage afin de le désactiver de nouveau.</p>
+
+<p>Le menu Basculer contient également quelques éléments qui ne sont pas des commandes <code>omarchy toggle</code>, mais qui se comportent de la même manière : le pourcentage de batterie dans la barre, la disposition des espaces de travail (<code>Super + L</code>), l’espacement entre les fenêtres (<code>Super + Shift + Backspace</code>) et le format carré pour une seule fenêtre (<code>Super + Ctrl + Backspace</code>).</p>
+
+<p>La plupart ne sont que des fichiers indicateurs sous <code>~/.local/state/omarchy/toggles/</code>. Si vous souhaitez tester l’un de ces états dans un script, <code>omarchy-toggle-enabled</code> vous fournit un code de sortie au lieu de vous obliger à rechercher le fichier :</p>
+
+<pre><code class="language-bash">omarchy-toggle-enabled screensaver-off &amp;&amp; echo "screensaver is off"
+</code></pre>
+
+<p>Les indicateurs portent le nom de l’état désactivé — <code>screensaver-off</code>, <code>suspend-off</code>, <code>bar-off</code> — leur présence signifie donc que la fonctionnalité est désactivée.</p>
+
+<h3 id="indicators-in-the-bar">Indicateurs dans la barre <a class="manual__heading-link" href="#indicators-in-the-bar" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Lorsqu’un mode est activé, un petit glyphe apparaît au milieu de la barre supérieure, à côté de l’horloge. Il s’agit du widget des indicateurs, qui regroupe la dictée, l’enregistrement de l’écran, les rappels en attente, l’éclairage nocturne, le mode Ne pas déranger et le maintien en éveil.</p>
+
+<p>Les indicateurs inactifs sont masqués. Survolez la zone qui les entoure pour les faire apparaître en grisé ; vous pouvez alors cliquer sur l’un d’eux pour l’activer sans connaître son raccourci clavier. Cliquer sur un indicateur actif le désactive. Si vous préférez tous les voir en permanence, définissez <code>alwaysShow</code> sur <code>true</code> dans l’entrée <code>omarchy.indicators</code> de <code>~/.config/omarchy/shell.json</code> — consultez <a href="../the-top-bar/">la barre supérieure</a> pour savoir comment configurer ses widgets.</p>
+
+<h3 id="night-light">Éclairage nocturne <a class="manual__heading-link" href="#night-light" aria-label="Lien vers cette section">#</a></h3>
+
+<p><code>Super + Ctrl + N</code> réchauffe les couleurs de l’écran à 4000K ; appuyez de nouveau pour les ramener à 6500K. Cette fonction repose sur hyprsunset, que le commutateur démarre automatiquement s’il n’est pas déjà en cours d’exécution.</p>
+
+<p>Par défaut, hyprsunset ne modifie absolument pas votre écran. <code>~/.config/hypr/hyprsunset.conf</code> est fourni avec un profil neutre, précisément pour que l’affichage reste inchangé jusqu’à ce que vous demandiez des couleurs plus chaudes. Si vous préférez que le changement se fasse selon l’heure, remplacez-le par un profil horaire :</p>
+
+<pre><code>profile {
+    time = 20:00
+    temperature = 4000
+}
+</code></pre>
+
+<p>Démarrez ensuite hyprsunset à la connexion en ajoutant <code>o.launch_on_start("hyprsunset")</code> à <code>~/.config/hypr/autostart.lua</code>. La paire 4000K/6500K utilisée par le commutateur est fixe ; modifiez donc le fichier de configuration si vous souhaitez une autre température.</p>
+
+<h3 id="do-not-disturb">Ne pas déranger <a class="manual__heading-link" href="#do-not-disturb" aria-label="Lien vers cette section">#</a></h3>
+
+<p><code>Super + Ctrl + ,</code> met les notifications en sourdine. Aucune bannière de notification ne s’affiche tant que ce mode est activé, et l’indicateur en forme de cloche barrée reste dans la barre pour vous rappeler pourquoi le bureau est devenu silencieux.</p>
+
+<p>Rien n’est perdu pour autant. Une notification mise en sourdine est directement enregistrée dans votre historique des notifications, ce qui est exactement ce qu’il vous faut lorsque vous revenez et vous demandez ce que vous avez manqué. Ouvrez-le avec <code>Super + Shift + Alt + ,</code>. Consultez <a href="../notices/">les notifications</a> pour en savoir plus sur leur fonctionnement.</p>
+
+<p>Deux types de messages passent malgré tout : les propres notifications de confirmation d’Omarchy pour une action que vous venez d’effectuer (« Thème modifié », « Capture d’écran enregistrée »), ainsi que les alertes critiques envoyées depuis la ligne de commande. Les applications de messagerie qui marquent tout comme critique pour s’imposer au premier plan ne sont pas concernées.</p>
+
+<h3 id="idle">Inactivité <a class="manual__heading-link" href="#idle" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Le shell Omarchy gère le comportement en cas d’inactivité, et les délais sont définis dans un bloc <code>idle</code> de premier niveau dans <code>~/.config/omarchy/shell.json</code> :</p>
+
+<pre><code class="language-json">{
+  "version": 1,
+  "idle": {
+    "screensaver": 150,
+    "lock": 300
+  }
+}
+</code></pre>
+
+<p>Ces deux nombres correspondent à des secondes comptées à partir du moment où débute votre inactivité — et non l’un à partir de l’autre. Avec les valeurs par défaut, l’économiseur d’écran apparaît donc après deux minutes et demie, puis l’écran de verrouillage prend le relais après cinq minutes, que l’économiseur d’écran se soit lancé ou non. Enregistrez le fichier et le shell applique immédiatement les nouveaux délais.</p>
+
+<p>Si vous quittez l’économiseur d’écran avant l’expiration du délai de verrouillage, cela compte comme une activité et le verrouillage en attente est annulé. Votre ordinateur ne se verrouille donc pas simplement parce que vous y avez jeté un coup d’œil.</p>
+
+<p>Pour empêcher entièrement le verrouillage en cas d’inactivité, <code>Super + Ctrl + I</code> — ou <code>omarchy toggle idle</code> — active le maintien en éveil, et l’indicateur en forme de tasse de café apparaît dans la barre. C’est le mode à activer avant une longue présentation ou une compilation que vous souhaitez surveiller. Activez-le de nouveau pour revenir au fonctionnement normal. <code>omarchy toggle idle status</code> affiche l’état actuel au format JSON si vous devez l’utiliser dans un script.</p>
+
+<p>Il s’agit ici du verrouillage et de l’économiseur d’écran, pas de la gestion de l’alimentation. La mise en veille et l’hibernation disposent de leur propre configuration dans <a href="../system-sleep/">la mise en veille du système</a>.</p>
+
+<h3 id="the-screensaver">L’économiseur d’écran <a class="manual__heading-link" href="#the-screensaver" aria-label="Lien vers cette section">#</a></h3>
+
+<p>L’économiseur d’écran d’Omarchy affiche une illustration ASCII avec des effets de texte aléatoires, à raison d’une instance par moniteur. Une touche ou un mouvement de souris suffit à le quitter.</p>
+
+<p>Vous pouvez le lancer manuellement depuis <em>Système &gt; Économiseur d’écran</em> (<code>Super + Esc</code>), ce qui force son affichage même si vous avez désactivé l’économiseur d’écran en cas d’inactivité. Aucun raccourci clavier ne lui est attribué par défaut.</p>
+
+<p><code>omarchy toggle screensaver</code> permet de désactiver celui qui se lance en cas d’inactivité, si vous préférez passer directement du travail à l’écran verrouillé. Cette fonction nécessite un terminal qu’elle sait configurer — Alacritty, Foot, Ghostty ou Kitty — et vous avertira si votre terminal par défaut est différent.</p>
+
+<p>Vous pouvez modifier le logo affiché sous <em>Style &gt; Économiseur d’écran</em>. Importez un fichier png ou svg et Omarchy le convertira en ASCII. Consultez <a href="../branding/">la personnalisation de l’image de marque</a>.</p>
+
+<h3 id="the-lock-screen">L’écran de verrouillage <a class="manual__heading-link" href="#the-lock-screen" aria-label="Lien vers cette section">#</a></h3>
+
+<p><code>Super + Ctrl + L</code> verrouille l’ordinateur. Cette action lance l’écran de verrouillage du shell Omarchy, éteint l’affichage, réinitialise votre disposition de clavier sur la première afin que vous ne saisissiez pas votre mot de passe avec le mauvais alphabet et — si l’application est en cours d’exécution — verrouille 1Password au passage.</p>
+
+<p>L’écran de verrouillage accepte un mot de passe, ainsi qu’une empreinte digitale une fois celle-ci configurée. Cette méthode et les autres moyens de vous authentifier sont présentés dans <a href="../hardware-authentication/">l’authentification matérielle</a>.</p>
+{% endraw %}

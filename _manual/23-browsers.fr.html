@@ -1,0 +1,53 @@
+---
+layout: manual
+title: "Navigateurs"
+description: "Omarchy est livré avec Chromium comme navigateur par défaut. Il s’agit de la version open source standard, dont le thème est assorti au reste de votre système, et c’est ce que Super + Shift +..."
+permalink: /manual/browsers/
+manual_slug: browsers
+manual_order: 23
+previous_title: "Interfaces graphiques"
+previous_url: /manual/guis/
+next_title: "Applications/services commerciaux"
+next_url: /manual/commercial-apps-services/
+translation_key: manual-23-browsers
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy est livré avec <a href="https://www.chromium.org/">Chromium</a> comme navigateur par défaut. Il s’agit de la version open source standard, dont le thème est assorti au reste de votre système. C’est le navigateur qui s’ouvre avec <code>Super + Shift + Return</code> et dans lequel s’exécute chaque <a href="../web-apps/">application web</a>.</p>
+
+<p>Si Chromium ne vous convient pas, vous n’êtes pas obligé de le conserver. Dans le menu Omarchy, sous <em>Installer &gt; Navigateur</em>, vous trouverez Chrome, Edge, Brave, Brave Origin, Firefox et <a href="https://zen-browser.app/">Zen</a>. Choisissez-en un : Omarchy l’installe, configure son répertoire de stratégies et lui applique votre thème actuel.</p>
+
+<h2 id="making-one-the-default">Définir un navigateur par défaut <a class="manual__heading-link" href="#making-one-the-default" aria-label="Lien vers cette section">#</a></h2>
+
+<p>L’installation d’un navigateur ne suffit pas à en faire le navigateur par défaut. Une fois qu’il est installé sur la machine, accédez à <em>Configuration &gt; Applications par défaut &gt; Navigateur</em> et sélectionnez-le. Le menu ne répertorie que les navigateurs effectivement installés et indique le navigateur par défaut actuel par une coche.</p>
+
+<p>Depuis le terminal, utilisez :</p>
+
+<pre><code class="language-bash">omarchy default browser firefox
+</code></pre>
+
+<p>Exécutez cette commande sans argument pour connaître le navigateur par défaut actuel. Elle configure le gestionnaire XDG : les raccourcis clavier d’Omarchy ne sont donc pas les seuls à prendre ce choix en compte. Tout ce qui ouvre un lien, d’une application de messagerie à une commande de terminal, utilise le navigateur que vous avez choisi.</p>
+
+<h2 id="copy-url-and-download-video">Copy URL et Download Video <a class="manual__heading-link" href="#copy-url-and-download-video" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Les navigateurs de la famille Chromium (Chromium lui-même, Chrome, Edge et Brave) sont fournis avec deux extensions Omarchy qui communiquent avec le reste de votre système depuis le navigateur.</p>
+
+<p><strong>Copy URL</strong> place l’adresse de l’onglet actuel dans votre presse-papiers avec <code>Alt + Shift + L</code>. C’est plus rapide que de cliquer dans la barre d’adresse puis de copier. Comme l’extension passe par le presse-papiers du système plutôt que par celui du navigateur, une notification Omarchy confirme l’opération et l’URL est immédiatement disponible dans l’<a href="../unified-clipboard-history/">historique du presse-papiers</a> ainsi que dans toutes les autres applications. Un bouton est également disponible dans la barre d’outils si vous préférez cliquer.</p>
+
+<p><strong>Download Video</strong> récupère la vidéo en cours de lecture sur la page affichée avec <code>Alt + Shift + D</code>. L’extension transmet l’URL à <a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> : elle fonctionne donc sur bien d’autres sites que YouTube, et le téléchargement est enregistré dans <code>~/Videos</code>. La progression s’affiche dans la même interface à l’écran que le volume et la luminosité. Elle est actualisée sur place au lieu d’empiler les notifications. Définissez <code>OMARCHY_YTDLP_DIR</code> si vous préférez enregistrer les fichiers ailleurs. Consultez la <a href="../faq/">FAQ</a> pour savoir où placer les variables d’environnement.</p>
+
+<p>Les deux extensions communiquent avec Omarchy par l’intermédiaire d’un petit hôte de messagerie native, qui est installé automatiquement avec le navigateur. C’est ce composant qui permet à une vidéo présente sur une page web d’être enregistrée dans votre répertoire personnel et à une URL d’arriver dans votre gestionnaire de presse-papiers, ce qu’une extension classique ne peut pas faire seule.</p>
+
+<p>Ces extensions sont réservées aux navigateurs de la famille Chromium. Firefox et Zen n’en bénéficient pas.</p>
+
+<h2 id="firefox-and-zen">Firefox et Zen <a class="manual__heading-link" href="#firefox-and-zen" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Firefox et Zen appartiennent à une autre famille et bénéficient donc d’une configuration différente : Omarchy installe un fichier de stratégies offrant des réglages par défaut raisonnables et active leur mode Wayland natif, indispensable pour la mise à l’échelle fractionnaire et le défilement fluide au pavé tactile.</p>
+
+<p>Ils ne bénéficient pas des extensions Chromium mentionnées ci-dessus et Omarchy ne personnalise pas leur thème. Il vous appartient donc de configurer ces aspects.</p>
+
+<h2 id="removing-one-again">Désinstaller un navigateur <a class="manual__heading-link" href="#removing-one-again" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Tout navigateur installé ici peut ensuite être désinstallé sous <em>Supprimer &gt; Navigateur</em>. Chromium ne figure pas dans cette liste, car il fait partie du système de base.</p>
+{% endraw %}

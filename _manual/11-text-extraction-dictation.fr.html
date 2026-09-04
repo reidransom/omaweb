@@ -1,0 +1,30 @@
+---
+layout: manual
+title: "Extraction de texte et dictée"
+description: "Appuyez sur Super + Ctrl + PrtScr pour sélectionner une zone de l’écran et en extraire le texte. Le modèle OCR open source Tesseract convertira alors rapidement cette sélection..."
+permalink: /manual/text-extraction-dictation/
+manual_slug: text-extraction-dictation
+manual_order: 11
+previous_title: "Avis"
+previous_url: /manual/notices/
+next_title: "Captures d’écran et enregistrement"
+next_url: /manual/screenshots-recording/
+translation_key: manual-11-text-extraction-dictation
+lang: fr
+
+---
+{% raw %}
+<h3 id="text-extraction">Extraction de texte <a class="manual__heading-link" href="#text-extraction" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Appuyez sur <code>Super + Ctrl + PrtScr</code> pour sélectionner une zone de l’écran et en extraire le texte. Le modèle OCR open source Tesseract convertira alors rapidement cette sélection en texte et la placera dans le presse-papiers. Il vous suffira ensuite d’appuyer sur <code>Super + V</code> pour la coller.</p>
+
+<p>Cette fonctionnalité est très utile pour récupérer des adresses figurant au bas d’images ou des numéros de téléphone intégrés dans les titres de sites web.</p>
+
+<p><img src="/manual/images/text-extraction.webp" alt="extraction de texte"  width="918" height="168" loading="lazy" decoding="async" /></p>
+
+<h3 id="dictation">Dictée <a class="manual__heading-link" href="#dictation" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy propose la dictée assistée par IA via <a href="https://voxtype.io/">Voxtype</a>. Vous pouvez l’installer depuis le menu Omarchy via <em>Installer &gt; IA &gt; Dictée</em>. Par défaut, un modèle anglais de base occupant 150 Mo sera chargé. Vous pouvez toutefois choisir le modèle à utiliser en exécutant <code>voxtype setup model</code> dans le terminal. Vous pouvez également modifier tous les paramètres dans <code>~/.config/voxtype/config.toml</code>.</p>
+
+<p>Une fois l’installation terminée, vous pouvez dicter en maintenant <code>F9</code> enfoncée ou en activant la dictée avec <code>Super + Ctrl + X</code>. Le texte dicté apparaîtra alors dans la zone de saisie active.</p>
+{% endraw %}

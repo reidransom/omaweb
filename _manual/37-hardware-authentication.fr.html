@@ -1,0 +1,32 @@
+---
+layout: manual
+title: "Authentification matérielle"
+description: "De nombreux ordinateurs portables sont équipés d’un capteur d’empreintes digitales pour l’authentification. Vous pouvez l’utiliser avec Omarchy en accédant à Configuration > Sécurité > Empreinte digitale dans le menu Omarchy..."
+permalink: /manual/hardware-authentication/
+manual_slug: hardware-authentication
+manual_order: 37
+previous_title: "Mise en veille du système"
+previous_url: /manual/system-sleep/
+next_title: "Polices"
+next_url: /manual/fonts/
+translation_key: manual-37-hardware-authentication
+lang: fr
+
+---
+{% raw %}
+<h3 id="fingerprint-authentication">Authentification par empreinte digitale <a class="manual__heading-link" href="#fingerprint-authentication" aria-label="Lien vers cette section">#</a></h3>
+
+<p>De nombreux ordinateurs portables sont équipés d’un capteur d’empreintes digitales pour l’authentification. Vous pouvez l’utiliser avec Omarchy en sélectionnant <em>Configuration &gt; Sécurité &gt; Empreinte digitale</em> dans le menu Omarchy (<code>Super + Space</code>).</p>
+
+<p>Cela installera le paquet de gestion des empreintes digitales, enregistrera et vérifiera votre empreinte, puis tout sera prêt pour vous permettre d’utiliser votre empreinte afin de déverrouiller l’ordinateur depuis l’écran de verrouillage (que vous pouvez afficher avec <code>Super + Ctrl + L</code>), de passer en mode sudo et d’autoriser les demandes du système.</p>
+
+<p>Lorsque le couvercle de votre ordinateur portable est fermé, la demande d’empreinte digitale est automatiquement ignorée afin de passer directement à la demande de mot de passe, plutôt que d’attendre la réponse d’un capteur auquel vous ne pouvez pas accéder. Si vous devez utiliser un clavier externe dépourvu de capteur, appuyez simplement sur <code>CTRL + C</code> lorsque votre empreinte digitale vous est demandée pendant l’utilisation de <code>sudo</code>.</p>
+
+<p>Vous pouvez supprimer l’authentification par empreinte digitale en sélectionnant <em>Supprimer &gt; Sécurité &gt; Empreinte digitale</em> dans le menu Omarchy.</p>
+
+<h3 id="fido2-authentication">Authentification Fido2 <a class="manual__heading-link" href="#fido2-authentication" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous utilisez un appareil Fido2, vous pouvez le configurer pour l’authentification avec <code>sudo</code> en sélectionnant <em>Configuration &gt; Sécurité &gt; Fido2</em> dans le menu Omarchy (<code>Super + Space</code>). Cela couvre l’utilisation de <code>sudo</code> et les demandes d’autorisation du système, mais pas le déverrouillage de votre ordinateur.</p>
+
+<p>Vous pouvez supprimer l’authentification Fido2 en sélectionnant <em>Supprimer &gt; Sécurité &gt; Fido2</em> dans le menu Omarchy.</p>
+{% endraw %}

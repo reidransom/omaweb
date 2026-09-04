@@ -1,0 +1,60 @@
+---
+layout: manual
+title: "Réseau"
+description: "Dans Omarchy, le réseau est géré par NetworkManager, que vous contrôlez depuis l’icône réseau de la barre supérieure ou avec Super + Ctrl + W."
+permalink: /manual/networking/
+manual_slug: networking
+manual_order: 35
+previous_title: "Clavier, souris, pavé tactile"
+previous_url: /manual/keyboard-mouse-trackpad/
+next_title: "Mise en veille du système"
+next_url: /manual/system-sleep/
+translation_key: manual-35-networking
+lang: fr
+
+---
+{% raw %}
+<p>Dans Omarchy, le réseau est géré par NetworkManager, que vous contrôlez depuis l’icône réseau de la <a href="../the-top-bar/">barre supérieure</a> ou avec <code>Super + Ctrl + W</code>.</p>
+
+<p>Ce panneau recherche les réseaux Wi-Fi, affiche la puissance du signal et permet de s’y connecter. Pour Ethernet, vous n’avez rien à faire : branchez le câble et cela fonctionne. Si vous préférez rester dans le terminal, <code>nmtui</code> offre les mêmes commandes, et il existe également un groupe de commandes <code>omarchy network</code>.</p>
+
+<h2 id="sharing-your-wi-fi">Partager votre Wi-Fi <a class="manual__heading-link" href="#sharing-your-wi-fi" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Plutôt que de lire un long mot de passe à voix haute, lancez <em>Configuration &gt; Réseau &gt; Code QR</em> lorsque vous êtes connecté au Wi-Fi. Un code QR s’affiche alors à l’écran : il suffit de le scanner avec l’appareil photo d’un téléphone pour rejoindre le réseau. C’est l’une de ces fonctions que vous utiliserez plus souvent que prévu une fois que vous saurez qu’elle existe.</p>
+
+<p>Si vous avez vraiment besoin du mot de passe lui-même, <code>omarchy network password &lt;interface&gt;</code> l’affiche.</p>
+
+<h2 id="dns">DNS <a class="manual__heading-link" href="#dns" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Omarchy utilise les serveurs DNS fournis par votre réseau via DHCP. Vous pouvez les remplacer pour l’ensemble de la machine dans <em>Configuration &gt; Réseau &gt; DNS</em>, où Cloudflare et Google sont accessibles en un clic. Choisissez <em>Personnalisé</em> pour saisir vos propres serveurs.</p>
+
+<p>Depuis le terminal, <code>omarchy dns</code> affiche le fournisseur actuel et <code>omarchy dns Cloudflare</code> en définit un.</p>
+
+<h2 id="pinning-the-wi-fi-band">Verrouiller la bande Wi-Fi <a class="manual__heading-link" href="#pinning-the-wi-fi-band" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Si votre routeur utilise le même nom de réseau pour les bandes 2,4 GHz, 5 GHz et 6 GHz, votre ordinateur portable peut parfois rester accroché à la plus lente. <code>omarchy network band</code> indique la bande utilisée, et <code>omarchy network band 5</code> la verrouille. Utilisez <code>auto</code> pour le laisser choisir à nouveau.</p>
+
+<p>Cette commande verrouille la bande plutôt qu’un point d’accès particulier, ce qui vous permet de continuer à basculer normalement entre les points d’accès.</p>
+
+<h2 id="how-fast-is-it">Quelle est la vitesse ? <a class="manual__heading-link" href="#how-fast-is-it" aria-label="Lien vers cette section">#</a></h2>
+
+<p><em>Déclencher &gt; Test de vitesse &gt; Test de vitesse du réseau</em> mesure vos débits réels montant et descendant à l’aide de deux cadrans. Depuis le terminal, utilisez <code>omarchy network speedtest down</code> ou <code>up</code>. (Un test de vitesse du disque se trouve juste à côté dans ce menu, si vous souhaitez mesurer les performances de cet autre goulot d’étranglement.)</p>
+
+<h2 id="the-firewall">Le pare-feu <a class="manual__heading-link" href="#the-firewall" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Le pare-feu est activé par défaut et bloque tout le trafic entrant, à une exception près : le port 53317, afin que <a href="../guis/">LocalSend</a> fonctionne immédiatement.</p>
+
+<p>SSH reste désactivé jusqu’à ce que vous l’activiez avec <em>Configuration &gt; Sécurité &gt; SSHD</em>. Cette opération démarre le démon, ouvre le port 22 en limitant le débit pour contrer les attaques par force brute et autorise une clé. Docker est également verrouillé, afin que les conteneurs ne puissent pas s’exposer accidentellement au monde entier. Consultez la section sur la <a href="../security/">sécurité</a> pour en savoir plus.</p>
+
+<h2 id="tailscale">Tailscale <a class="manual__heading-link" href="#tailscale" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://tailscale.com/">Tailscale</a> est un VPN maillé qui permet d’accéder simplement et en toute sécurité à tous vos ordinateurs et serveurs via Internet. Installez-le avec <em>Installer &gt; Service &gt; Tailscale</em>.</p>
+
+<p>Vous obtenez alors un panneau Tailscale dans la barre, qui permet de se connecter au tailnet ou de s’en déconnecter, de changer de compte et de choisir un nœud de sortie — vos propres machines et les régions Mullvad apparaissent toutes deux dans la liste. Il permet également de parcourir vos machines, et c’est là que se trouve Taildrop : sélectionnez une machine et appuyez sur <code>s</code> pour lui envoyer des fichiers, ou sur <code>c</code>, <code>n</code> et <code>d</code> pour copier respectivement son adresse IP, son nom ou son nom DNS complet. La commande équivalente dans le terminal est <code>omarchy tailscale send &lt;machine&gt; [file...]</code>, et les fichiers qui vous sont envoyés sont automatiquement enregistrés dans <code>~/Downloads</code>. La notification signalant leur arrivée reste affichée jusqu’à ce que vous cliquiez dessus pour les ouvrir ou que vous la fermiez. Ainsi, si un fichier arrive pendant votre absence, la notification sera toujours là à votre retour.</p>
+
+<p>L’installation ajoute également une application web donnant accès à la console d’administration de Tailscale.</p>
+
+<h2 id="when-it-stops-working">Quand cela ne fonctionne plus <a class="manual__heading-link" href="#when-it-stops-working" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Avant de redémarrer, essayez de relancer uniquement le composant en cause. <em>Mise à jour &gt; Matériel</em> propose des options pour le Wi-Fi, le Bluetooth, l’audio et le pavé tactile ; recharger l’un de ces composants résout la plupart des situations où « cela fonctionnait encore il y a cinq minutes ». Consultez la section <a href="../troubleshooting/">dépannage</a>.</p>
+{% endraw %}

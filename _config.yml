@@ -22,7 +22,7 @@ localization:
       label: Français
       weight: 3
       fallbacks: [en]
-  required_translations: [da]
+  required_translations: [da, fr]
 permalink: pretty
 social_image: /assets/images/opengraph.png
 social_image_alt: Omarchy wordmark on a dark background

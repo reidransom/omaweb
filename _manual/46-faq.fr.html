@@ -1,0 +1,97 @@
+---
+layout: manual
+title: "FAQ"
+description: "Modifiez votre fichier ~/.config/hypr/input.lua et ajoutez ceci pour basculer entre les dispositions avec Alt gauche + Alt droite :"
+permalink: /manual/faq/
+manual_slug: faq
+manual_order: 46
+previous_title: "Dépannage"
+previous_url: /manual/troubleshooting/
+next_title: "Instantanés système"
+next_url: /manual/system-snapshots/
+translation_key: manual-46-faq
+lang: fr
+
+---
+{% raw %}
+<h3 id="how-do-i-switch-between-keyboard-layouts">Comment basculer entre les dispositions de clavier ? <a class="manual__heading-link" href="#how-do-i-switch-between-keyboard-layouts" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Modifiez votre fichier <code>~/.config/hypr/input.lua</code> et ajoutez ceci pour basculer entre les dispositions avec <code>Left Alt + Right Alt</code> :</p>
+
+<pre><code>hl.config({
+  input = {
+    -- Use multiple keyboard layouts and switch between them with Left Alt + Right Alt
+    kb_layout = "us,fr",
+    kb_options = "compose:caps,shift:both_capslock_cancel,grp:alts_toggle",
+  },
+})
+</code></pre>
+
+<p>La barre affichera automatiquement votre disposition de clavier actuelle dès que vous en aurez configuré plusieurs (et vous pourrez également cliquer dessus pour en changer).</p>
+
+<h3 id="how-do-i-change-the-clock-format-to-12-hour">Comment passer l’horloge au format 12 heures ? <a class="manual__heading-link" href="#how-do-i-change-the-clock-format-to-12-hour" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Faites un clic droit sur l’horloge dans la barre pour parcourir les formats courants, y compris ceux sur 12 heures. Vous pouvez également définir directement le format :</p>
+
+<pre><code>omarchy bar set omarchy.clock format "dddd h:mm AP"
+</code></pre>
+
+<p>Cela affichera Sunday 10:55 AM.</p>
+
+<h3 id="how-do-i-change-my-timezone">Comment changer de fuseau horaire ? <a class="manual__heading-link" href="#how-do-i-change-my-timezone" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Exécutez <em>Mise à jour &gt; Fuseau horaire</em> dans le menu Omarchy et faites votre choix dans la liste. Si le fuseau horaire est correct, mais que l’horloge s’est décalée, <em>Mise à jour &gt; Heure</em> redémarre la synchronisation de l’heure pour vous.</p>
+
+<h3 id="how-do-i-change-my-dns-share-my-wi-fi-or-check-my-connection-speed">Comment changer de DNS, partager ma connexion Wi-Fi ou vérifier la vitesse de ma connexion ? <a class="manual__heading-link" href="#how-do-i-change-my-dns-share-my-wi-fi-or-check-my-connection-speed" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Tout cela se trouve dans la section <a href="../networking/">réseau</a>.</p>
+
+<h3 id="how-do-i-check-how-fast-my-disk-is">Comment vérifier la vitesse de mon disque ? <a class="manual__heading-link" href="#how-do-i-check-how-fast-my-disk-is" aria-label="Lien vers cette section">#</a></h3>
+
+<p><em>Déclencher &gt; Test de vitesse &gt; Test de vitesse du disque</em> mesure en temps réel les vitesses de lecture et d’écriture de votre disque. Vous pouvez également exécuter <code>omarchy disk speedtest</code> depuis le terminal.</p>
+
+<h3 id="why-cant-i-sign-into-my-google-account-in-chromium">Pourquoi ne puis-je pas me connecter à mon compte Google dans Chromium ? <a class="manual__heading-link" href="#why-cant-i-sign-into-my-google-account-in-chromium" aria-label="Lien vers cette section">#</a></h3>
+
+<p>La version open source standard de Chromium n’inclut pas les identifiants OAuth requis par Google pour se connecter à un compte. Exécutez <em>Installer &gt; Service &gt; Compte Chromium</em> dans le menu Omarchy pour les ajouter, redémarrez le navigateur et la connexion fonctionnera.</p>
+
+<h3 id="how-do-i-add-a-printer">Comment ajouter une imprimante ? <a class="manual__heading-link" href="#how-do-i-add-a-printer" aria-label="Lien vers cette section">#</a></h3>
+
+<p>L’impression est configurée et opérationnelle dès le départ, et vous pouvez ajouter vous-même chaque imprimante depuis <em>Paramètres d’impression</em> dans le lanceur d’applications (<code>Super + Space</code>).</p>
+
+<p>Choisissez <em>Ajouter</em>, puis patientez un instant pendant la recherche : une imprimante connectée en USB, ainsi que la plupart des imprimantes réseau, seront détectées automatiquement. Si la vôtre ne figure pas dans la liste, choisissez <em>Imprimante réseau &gt; Internet Printing Protocol (ipp)</em> et saisissez son adresse — l’écran de l’imprimante ou sa page web vous l’indiquera. Il s’agit généralement d’une adresse comme <code>192.168.1.50</code> avec une file d’attente <code>ipp/print</code>. <em>Suivant</em> vous proposera ensuite un pilote : une imprimante moderne fonctionnera mieux avec le profil sans pilote <em>IPP Everywhere</em>, tandis qu’un modèle plus ancien nécessitera son propre pilote.</p>
+
+<p>Faites un clic droit sur une imprimante et choisissez <em>Définir par défaut</em> pour indiquer celle que vos applications doivent utiliser en priorité, et <em>Propriétés</em> pour définir le format du papier, l’impression recto verso et la qualité.</p>
+
+<p>La détection automatique, qui permet aux imprimantes du réseau d’apparaître sans avoir à les ajouter, est temporairement désactivée pendant sa refonte. C’est pourquoi vous devez effectuer vous-même la première étape ci-dessus. L’impression dans un fichier PDF fonctionne sans aucune imprimante.</p>
+
+<h3 id="how-do-i-change-where-screenshots-or-screenrecordings-are-saved">Comment changer l’emplacement d’enregistrement des captures d’écran ou des enregistrements d’écran ? <a class="manual__heading-link" href="#how-do-i-change-where-screenshots-or-screenrecordings-are-saved" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous souhaitez enregistrer les captures d’écran dans <code>~/Pictures/Screenshots</code> plutôt que directement dans <code>~/Pictures</code>, vous pouvez ajouter ceci à un fichier situé dans <code>~/.config/uwsm/env.d/</code> (par exemple <code>~/.config/uwsm/env.d/capture</code>) :</p>
+
+<pre><code>export OMARCHY_SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
+</code></pre>
+
+<p>Vous pouvez faire de même pour les enregistrements d’écran avec <code>OMARCHY_SCREENRECORD_DIR</code>.</p>
+
+<p>N’oubliez pas de créer le répertoire dans lequel vous souhaitez enregistrer les fichiers et de redémarrer Omarchy pour que cette modification prenne effet.</p>
+
+<h3 id="how-do-i-get-the-speakers--webcam-working-on-my-apple-studio-display">Comment faire fonctionner les haut-parleurs et la webcam de mon Apple Studio Display ? <a class="manual__heading-link" href="#how-do-i-get-the-speakers--webcam-working-on-my-apple-studio-display" aria-label="Lien vers cette section">#</a></h3>
+
+<p>On pourrait penser qu’il suffit de brancher l’USB-C pour que tout fonctionne, mais ce n’est malheureusement pas le cas. La solution que j’ai trouvée pour obtenir un fonctionnement fiable consiste à utiliser <a href="https://www.amazon.com/WJESOG-DisplayPort-Adapter-Converter-Thunderbolt/dp/B0BNX7MS6N/">le câble WJESOG DisplayPort + USB-A =&gt; USB-C</a>. Les haut-parleurs et la webcam fonctionnent alors à merveille.</p>
+
+<p>N’oubliez pas qu’Omarchy intègre le contrôle de la luminosité des écrans Apple (Studio et XDR) à l’aide des touches habituelles de réglage de la luminosité du clavier.</p>
+
+<h3 id="how-do-i-get-rid-of-all-the-extra-software">Comment supprimer tous les logiciels supplémentaires ? <a class="manual__heading-link" href="#how-do-i-get-rid-of-all-the-extra-software" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous ne voulez pas de programmes comme Obsidian, LibreOffice ou de tout autre logiciel préinstallé, vous pouvez les supprimer très facilement.</p>
+
+<p>Exécutez <em>Supprimer &gt; Paquet</em> pour afficher tous les paquets installés. Vous pouvez ensuite sélectionner avec Tab les paquets que vous souhaitez supprimer, puis lancer la suppression de tous les éléments sélectionnés avec Entrée.</p>
+
+<p>Vous pouvez également utiliser <em>Supprimer &gt; Application web</em> depuis le menu Omarchy pour supprimer les applications web préinstallées dont vous ne voulez pas.</p>
+
+<p>Vous pouvez aussi exécuter <em>Supprimer &gt; Préinstallations</em> pour supprimer d’un seul coup tous les éléments supplémentaires préinstallés — applications web, interfaces utilisateur en mode texte et applications facultatives. Les raccourcis clavier qui permettaient de les lancer sont également supprimés, vous laissant ainsi un ensemble vierge de raccourcis que vous pourrez personnaliser dans <code>~/.config/hypr/bindings.lua</code>.</p>
+
+<hr />
+
+<p>Pour les erreurs et les éléments défectueux, consultez <a href="../troubleshooting/">la section Dépannage</a>.</p>
+{% endraw %}

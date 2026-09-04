@@ -1,0 +1,54 @@
+---
+layout: manual
+title: "Bien démarrer"
+description: "Omarchy s’installe à l’aide d’une image ISO. Vous pouvez choisir entre une installation sur le disque entier, qui utilise l’intégralité du disque, ou une installation dans l’espace libre, qui place..."
+permalink: /manual/getting-started/
+manual_slug: getting-started
+manual_order: 2
+previous_title: "Bienvenue dans Omarchy !"
+previous_url: /manual/
+next_title: "Vous venez de Mac ou Windows"
+next_url: /manual/coming-from-mac-or-windows/
+translation_key: manual-02-getting-started
+lang: fr
+
+---
+{% raw %}
+<p>Omarchy s’installe à l’aide d’une image ISO. Vous pouvez choisir entre une installation sur le disque entier, qui utilise l’intégralité du disque, ou une installation dans l’espace libre, qui place Omarchy dans l’espace non alloué d’un disque — c’est ainsi que vous pouvez configurer un double démarrage aux côtés de Windows ou d’un autre système d’exploitation (consultez <a href="../dual-boot-install/">l’installation en double démarrage</a> — notez que vous devrez d’abord désactiver BitLocker dans Windows). Dans les deux cas, l’installation utilise par défaut un chiffrement intégral, et l’option d’installation sur le disque entier effacera le disque sélectionné : veillez donc à effectuer une sauvegarde avant d’utiliser un disque existant !</p>
+
+<p>Commencez par <a href="https://omarchy.org/">télécharger l’image ISO d’Omarchy</a>, placez-la sur une clé USB (utilisez <a href="https://etcher.balena.io/">balenaEtcher</a> sur Mac/Windows ou <a href="https://github.com/ifd3f/caligula">caligula</a> sous Linux), puis démarrez depuis la clé.</p>
+
+<p><em>Vous devez désactiver le démarrage sécurisé (Secure Boot) et/ou le TPM dans le BIOS. Vous devez les désactiver pour pouvoir installer Omarchy. Il s’agit de dispositifs de sécurité Microsoft destinés à Windows et aux distributions Linux affiliées à Microsoft.</em></p>
+
+<p>Répondez ensuite aux questions de configuration, puis confirmez vos choix comme ceci :</p>
+
+<p><img src="/manual/images/install-config.webp" alt="configuration de l’installation"  width="1600" height="1123" loading="lazy" decoding="async" /></p>
+
+<p>Sélectionnez ensuite un disque pour l’installation, puis détendez-vous et regardez l’installation se dérouler. Elle peut s’effectuer en moins d’une minute sur les machines modernes les plus rapides, mais ne devrait pas prendre plus de 5 minutes, même sur un ordinateur plus ancien.</p>
+
+<p><img src="/manual/images/install-done.webp" alt="installation terminée"  width="1288" height="641" loading="lazy" decoding="async" /></p>
+
+<p>Vous voilà prêt à utiliser Omarchy !</p>
+
+<h3 id="use-a-wired-or-24ghz-keyboard">Utilisez un clavier filaire ou 2,4 GHz ! <a class="manual__heading-link" href="#use-a-wired-or-24ghz-keyboard" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Le chiffrement intégral du disque ne vous permettra pas de saisir le mot de passe avec un clavier Bluetooth au démarrage. De la même manière, vous ne pouvez pas utiliser un clavier Bluetooth pour accéder au BIOS d’un PC. Vous aurez besoin d’un clavier utilisant soit un dongle 2,4 GHz, soit un câble (ce qui est de toute façon bien mieux en matière de latence !). Personnellement, j’adore le <a href="https://www.lofree.co/products/lofree-flow-the-smoothest-mechanical-keyboard">Lofree Flow84</a> !</p>
+
+<h3 id="installing-for-another-owner">Installation pour un autre propriétaire <a class="manual__heading-link" href="#installing-for-another-owner" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous configurez une machine pour quelqu’un d’autre — un membre de votre famille, un nouvel employé, un acheteur — vous ne devez pas répondre aux questions personnelles à sa place. Appuyez sur <code>Ctrl + C</code> dès le tout premier écran du programme d’installation (celui du choix du clavier), et Omarchy vous proposera plutôt de préparer la machine pour un autre propriétaire. Le système s’installe immédiatement, mais toute la configuration personnelle — disposition du clavier, nom d’utilisateur, mot de passe — est reportée jusqu’au premier démarrage de la machine. Le disque reste chiffré par défaut, et le mot de passe choisi par le nouveau propriétaire lors de ce premier démarrage devient également le mot de passe de chiffrement. (Une machine que vous avez déjà utilisée peut également être cédée sans réinstallation — consultez <a href="../security/">la réinitialisation de l’ordinateur</a>.)</p>
+
+<h3 id="unattended-installs">Installations sans assistance <a class="manual__heading-link" href="#unattended-installs" aria-label="Lien vers cette section">#</a></h3>
+
+<p>L’image ISO peut également effectuer l’installation de manière entièrement autonome — sans clavier ni assistant — lorsque sa configuration lui est fournie sur un second disque. C’est la méthode à employer pour utiliser Omarchy comme image de base pour des machines virtuelles et des machines gérées en parc. Consultez <a href="../unattended-installs/">les installations sans assistance</a>.</p>
+
+<h3 id="no-encryption-installations">Installations sans chiffrement <a class="manual__heading-link" href="#no-encryption-installations" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy est installé avec le chiffrement activé par défaut. C’est le choix sûr et responsable pour tout ordinateur susceptible d’être perdu ou volé. Vous ne voulez pas qu’une personne ayant accès à votre matériel puisse accéder à vos données !</p>
+
+<p>Toutefois, dans certaines circonstances particulières, par exemple pour des installations à distance d’Omarchy sur des ordinateurs protégés ou pour des installations temporaires ne contenant aucune donnée sensible, vous pourriez préférer une installation sans chiffrement. Vous pouvez appuyer sur <code>Ctrl + C</code> lors de la confirmation du formatage du disque pour passer à une installation sans chiffrement.</p>
+
+<h3 id="help-if-youre-stuck">Obtenir de l’aide en cas de problème <a class="manual__heading-link" href="#help-if-youre-stuck" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous rencontrez un problème, vous trouverez généralement quelqu’un prêt à vous aider dans le salon <em>#omarchy-help</em> du <a href="/discord/">Discord de la communauté</a>.</p>
+{% endraw %}

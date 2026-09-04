@@ -1,0 +1,67 @@
+---
+layout: manual
+title: "Écrans"
+description: "Par défaut, Omarchy part du principe que vous utilisez un écran de type Retina compatible avec un facteur 2x. C’est ce qu’il vous faut pour obtenir de belles polices de programmation bien nettes. C’est ce pour quoi..."
+permalink: /manual/monitors/
+manual_slug: monitors
+manual_order: 33
+previous_title: "Extensions du shell"
+previous_url: /manual/shell-plugins/
+next_title: "Clavier, souris, pavé tactile"
+next_url: /manual/keyboard-mouse-trackpad/
+translation_key: manual-33-monitors
+lang: fr
+
+---
+{% raw %}
+<p>Par défaut, Omarchy part du principe que vous utilisez un écran de type Retina compatible avec un facteur 2x. C’est ce qu’il vous faut pour obtenir de belles polices de programmation bien nettes. C’est ce pour quoi sont optimisés presque tous les nouveaux ordinateurs portables haut de gamme dotés d’un écran haute résolution. C’est aussi le réglage recommandé pour un écran 5K de 27” comme l’<a href="https://www.apple.com/studio-display/">Apple Studio Display</a>, le <a href="https://www.asus.com/us/displays-desktops/monitors/proart/proart-display-5k-pa27jcv/">ProArt PA27JCV</a>, le <a href="https://www.samsung.com/us/computing/monitors/5k/27-viewfinity-s9-5k-monitor-with-thunderbolt-4-matte-display-and-smart-features-ls27c900panxza/">Samsung S9</a> ou le <a href="https://kuycon.us/monitors/G27P/">Kuycon G27P</a>, ou pour un écran 6K de 32” comme l’<a href="https://www.apple.com/pro-display-xdr/">Apple XDR</a>, le <a href="https://www.asus.com/displays-desktops/monitors/proart/proart-display-6k-pa32qcv/">ProArt PA32QCV</a> ou le <a href="https://kuycon.us/monitors/G32P/">Kuycon G32P</a>.</p>
+
+<p>Mais si vous n’utilisez pas un écran avec une densité d’au moins 218 PPP, vous devrez modifier les paramètres du moniteur. Par exemple, si vous possédez un écran 4K de 27” ou 32”, vous pouvez utiliser une mise à l’échelle fractionnaire en ouvrant <code>~/.config/hypr/monitors.lua</code> (via <em>Configuration &gt; Écrans</em> dans le menu Omarchy) et en choisissant le réglage recommandé pour cette combinaison :</p>
+
+<pre><code class="language-lua">local omarchy_gdk_scale = 2
+local omarchy_monitor_scale = 1.6
+</code></pre>
+
+<p>Si vous utilisez un écran 1080p ou 1440p, il vous suffira probablement d’employer une mise à l’échelle 1x, avec les valeurs suivantes :</p>
+
+<pre><code class="language-lua">local omarchy_gdk_scale = 1
+local omarchy_monitor_scale = 1
+</code></pre>
+
+<p>Les modifications apportées à <code>GDK_SCALE</code> s’appliquent aux applications lancées après le changement (et GTK ne prend en charge que les nombres entiers ; choisissez donc l’entier le plus proche du facteur d’échelle de votre moniteur). Veillez donc à fermer les fenêtres qui restent surdimensionnées après la modification (ou fermez toutes les fenêtres avec <code>Ctrl + Alt + Del</code> !).</p>
+
+<p>Vous pouvez également parcourir rapidement les principaux facteurs de mise à l’échelle (1x, 1.25x, 1.6x, 2x, 3x, 4x) en utilisant <code>Super + /</code> pour les augmenter et <code>Super + Alt + /</code> pour les diminuer. Si vous utilisez la configuration par défaut, ces modifications seront conservées après le redémarrage.</p>
+
+<h3 id="making-text-bigger-or-smaller">Agrandir ou réduire le texte <a class="manual__heading-link" href="#making-text-bigger-or-smaller" aria-label="Lien vers cette section">#</a></h3>
+
+<p>La mise à l’échelle du moniteur modifie la taille de tous les éléments. Si vous souhaitez uniquement agrandir ou réduire le <em>texte</em>, un seul réglage suffit :</p>
+
+<pre><code>omarchy display text size 14
+</code></pre>
+
+<p>Cette commande accepte une taille en pixels comprise entre 9 et 20 et ajuste simultanément le shell Omarchy, les applications GTK et votre terminal, afin que l’ensemble du bureau conserve ses proportions. Exécutez-la sans argument pour connaître le réglage actuel, et utilisez <code>omarchy display text size reset</code> pour revenir à la valeur par défaut. Foot est la seule exception : il ne permet pas de recharger sa configuration, si bien que les terminaux déjà ouverts conservent leur ancienne taille jusqu’à ce que vous en ouvriez un nouveau.</p>
+
+<h3 id="extending-and-mirroring-laptop-displays">Étendre et dupliquer l’affichage d’un ordinateur portable <a class="manual__heading-link" href="#extending-and-mirroring-laptop-displays" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Lorsque vous connectez un écran externe à votre ordinateur portable, le bureau est automatiquement étendu. Vous pouvez toutefois choisir de dupliquer l’affichage à la place via <em>Déclencheur &gt; Matériel</em> dans le menu Omarchy ou avec <code>Super + Ctrl + Alt + Delete</code>. Cette option est particulièrement utile si l’écran externe est un projecteur et que vous souhaitez afficher quelque chose tout en travaillant.</p>
+
+<p>Lorsque le bureau est étendu, fermer le capot de l’ordinateur portable éteint automatiquement l’écran interne. L’ouvrir rallume l’écran. Vous pouvez également contrôler cela manuellement via <em>Déclencheur &gt; Matériel</em> dans le menu Omarchy ou avec <code>Super + Ctrl + Delete</code>.</p>
+
+<h3 id="arranging-multiple-screens">Organiser plusieurs écrans <a class="manual__heading-link" href="#arranging-multiple-screens" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Hyprland fonctionne très bien avec plusieurs écrans. Consultez <a href="https://wiki.hypr.land/Configuring/Basics/Monitors/">la documentation de Hyprland sur les moniteurs</a> pour en savoir plus sur leur disposition. Vous pouvez également <a href="https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/">associer des espaces de travail précis à des moniteurs précis</a>. Dans Omarchy, ces règles se placent dans <code>~/.config/hypr/monitors.lua</code> sous forme d’entrées <code>hl.monitor</code> — le fichier contient des exemples commentés permettant d’attribuer à un moniteur précis une résolution, une position et une rotation.</p>
+
+<p>Vous pouvez également consulter <a href="https://github.com/erans/hyprmon/">Hyprmon</a> si vous souhaitez utiliser une interface texte pour vous aider à positionner plusieurs écrans.</p>
+
+<h3 id="controlling-brightness">Régler la luminosité <a class="manual__heading-link" href="#controlling-brightness" aria-label="Lien vers cette section">#</a></h3>
+
+<p>La luminosité du moniteur se règle à l’aide des touches de fonction dédiées à son augmentation ou à sa diminution. Si vous maintenez la touche Maj enfoncée lorsque vous appuyez sur ces touches, vous passez directement à la luminosité maximale ou minimale. Les touches contrôlent l’écran actif ; les moniteurs externes compatibles DDC/CI se règlent donc de la même manière que l’écran de l’ordinateur portable.</p>
+
+<h3 id="apple-displays">Écrans Apple <a class="manual__heading-link" href="#apple-displays" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Si vous utilisez un écran Apple, les touches habituelles de réglage de la luminosité du clavier fonctionneront également automatiquement lorsque l’écran Apple est actif. Cela est rendu possible par la commande <code>asdcontrol</code>.</p>
+
+<p>Notez que si vous utilisez un écran Apple XDR 6K, un écran fantôme peut apparaître dans la liste renvoyée par <code>hyprctl monitors</code>. Vous pouvez le désactiver avec une instruction telle que <code>hl.monitor({ output = "DP-2", disabled = true })</code> via <em>Configuration &gt; Écrans</em>.</p>
+
+<p>Sur les machines Intel, vous devez connecter les écrans Apple à l’aide d’un câble Thunderbolt standard. Sur les autres machines dépourvues de Thunderbolt, vous devrez généralement utiliser un <a href="https://www.amazon.com/dp/B0BNX7MS6N">câble DP + USB-A -&gt; USB-C</a> pour que cela fonctionne.</p>
+{% endraw %}

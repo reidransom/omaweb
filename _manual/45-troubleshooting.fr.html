@@ -1,0 +1,63 @@
+---
+layout: manual
+title: "Dépannage"
+description: "Commencez par restaurer votre système à la version précédant votre dernière mise à jour. Si cela ne fonctionne pas, utilisez omarchy-debug pour partager votre problème sur #omarchy-help..."
+permalink: /manual/troubleshooting/
+manual_slug: troubleshooting
+manual_order: 45
+previous_title: "Prise en charge des Mac"
+previous_url: /manual/mac-support/
+next_title: "FAQ"
+next_url: /manual/faq/
+translation_key: manual-45-troubleshooting
+lang: fr
+
+---
+{% raw %}
+<h3 id="i-broke-my-system-with-an-update">Une mise à jour a cassé mon système ! <a class="manual__heading-link" href="#i-broke-my-system-with-an-update" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Commencez par <a href="../system-snapshots/">restaurer votre système</a> à la version précédant votre dernière mise à jour. Si cela ne fonctionne pas, utilisez <code>omarchy-debug</code> pour partager votre problème sur #omarchy-help dans Discord. Et si rien de tout cela ne fonctionne, vous pouvez réinstaller les configurations et les paquets par défaut à l’aide de <code>omarchy-reinstall</code>.</p>
+
+<h3 id="why-are-some-apps-so-large-on-my-display">Pourquoi certaines applications sont-elles si grandes sur mon écran ? <a class="manual__heading-link" href="#why-are-some-apps-so-large-on-my-display" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Omarchy part du principe que vous utilisez un écran haute résolution avec une mise à l’échelle 2x, ce qui nécessite de définir <code>GDK_SCALE</code> sur 2 dans <code>~/.config/hypr/monitors.lua</code>. Mais si votre écran utilise une mise à l’échelle 1x, vous pouvez remplacer <code>local omarchy_gdk_scale = 2</code> par 1 (puis redémarrer toute application dont l’interface est surdimensionnée). Consultez <a href="../monitors/">la section du manuel consacrée aux écrans</a>.</p>
+
+<p>Pour Spotify, vous pouvez utiliser <code>Ctrl + Minus</code> afin de réduire l’interface (et <code>Ctrl + Plus</code> pour l’agrandir).</p>
+
+<h3 id="why-isnt-caps-lock-working">Pourquoi la touche Verr. Maj. ne fonctionne-t-elle pas ? <a class="manual__heading-link" href="#why-isnt-caps-lock-working" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Dans Omarchy, la touche Verr. Maj. sert de touche xcompose. C’est ce qui permet d’utiliser les <a href="../hotkeys/#quick-emojis">émojis rapides</a> et les <a href="../hotkeys/#quick-completions">autres complétions automatiques</a>. Si la touche Verr. Maj. vous manque vraiment, vous pouvez réaffecter la touche xcompose à une autre touche en modifiant <code>~/.config/hypr/input.lua</code>, par exemple en choisissant la touche Alt droite :</p>
+
+<pre><code>hl.config({
+  input = {
+    kb_options = "compose:ralt",
+  },
+})
+</code></pre>
+
+<h3 id="my-wi-fi-bluetooth-audio-or-trackpad-just-stopped-working">Le Wi-Fi, le Bluetooth, l’audio ou le pavé tactile a soudainement cessé de fonctionner <a class="manual__heading-link" href="#my-wi-fi-bluetooth-audio-or-trackpad-just-stopped-working" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Avant de redémarrer, essayez de relancer uniquement le sous-système en cause. Le menu <em>Mise à jour &gt; Matériel</em> d’Omarchy contient des options pour le Wi-Fi, le Bluetooth, l’audio et le pavé tactile. Recharger l’un de ces éléments résout la plupart des situations du type « ça fonctionnait il y a cinq minutes » — un casque Bluetooth qui refuse de se reconnecter, un pavé tactile qui ne répond plus après une mise en veille ou le son qui disparaît après avoir débranché un écran.</p>
+
+<h3 id="why-are-my-external-speakers-not-playing">Pourquoi mes haut-parleurs externes n’émettent-ils aucun son ? <a class="manual__heading-link" href="#why-are-my-external-speakers-not-playing" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Probablement parce qu’ils ne sont pas définis comme sortie principale. Cliquez sur l’icône de haut-parleur à droite de la barre pour ouvrir la fenêtre contextuelle du volume, dans laquelle vous pouvez choisir le périphérique de sortie (et régler également le volume de chaque application).</p>
+
+<h3 id="my-laptop-speakers-sound-off">Le son des haut-parleurs de mon ordinateur portable semble anormal <a class="manual__heading-link" href="#my-laptop-speakers-sound-off" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Sur certains ordinateurs portables, Omarchy applique automatiquement un réglage acoustique qui corrige la réponse en fréquence des haut-parleurs intégrés. <code>omarchy audio tuning status</code> vous indique si un tel réglage est actif sur votre machine, et <code>omarchy audio tuning off</code> le désactive si vous préférez entendre le son brut des haut-parleurs.</p>
+
+<h3 id="why-cant-i-login-or-sudo-with-my-password">Pourquoi ne puis-je pas me connecter ou utiliser sudo avec mon mot de passe ? <a class="manual__heading-link" href="#why-cant-i-login-or-sudo-with-my-password" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Vous l’avez probablement saisi incorrectement trop de fois, ce qui a verrouillé votre compte. Si cela se produit sur l’écran de verrouillage, vous pouvez appuyer sur <code>CTRL + ALT + F2</code> pour ouvrir un nouveau TTY dans lequel vous connecter en tant que root, puis exécuter <code>faillock --reset --user [your-username]</code>. Cela réinitialisera le verrouillage et tout devrait de nouveau fonctionner.</p>
+
+<h3 id="why-isnt-my-1password-authorization-prompts-for-1password-ssh-agent--cli-appearing">Pourquoi les demandes d’autorisation de l’agent SSH / CLI de 1Password n’apparaissent-elles pas ? <a class="manual__heading-link" href="#why-isnt-my-1password-authorization-prompts-for-1password-ssh-agent--cli-appearing" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Cela peut se produire pour deux raisons :</p>
+
+<p>Pour que la demande d’approbation détaillée apparaisse, l’option Paramètres &gt; Avancé &gt; Utiliser l’accélération matérielle doit être activée. <em>Remarque : un redémarrage est nécessaire pour que cette modification prenne effet.</em></p>
+
+<p><img src="/manual/images/troubleshooting-1password.webp" alt="Dépannage de 1Password"  width="1182" height="1030" loading="lazy" decoding="async" /></p>
+
+<p>La demande n’apparaîtra pas non plus si vous n’avez pas lancé 1Password depuis le démarrage.</p>
+{% endraw %}

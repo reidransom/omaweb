@@ -1,0 +1,257 @@
+---
+layout: manual
+title: "La barre supérieure"
+description: "Le bandeau en haut de votre écran est la barre Omarchy. Ce n’est pas une barre d’état ajoutée par-dessus, mais une partie du shell Omarchy, l’unique processus Quickshell qui s’exécute en permanence..."
+permalink: /manual/the-top-bar/
+manual_slug: the-top-bar
+manual_order: 5
+previous_title: "Navigation"
+previous_url: /manual/navigation/
+next_title: "Thèmes"
+next_url: /manual/themes/
+translation_key: manual-05-the-top-bar
+lang: fr
+
+---
+{% raw %}
+<p>Le bandeau en haut de votre écran est la barre Omarchy. Ce n’est pas une barre d’état ajoutée par-dessus, mais une partie du shell Omarchy, l’unique processus Quickshell qui s’exécute en permanence et affiche également le menu, les notifications, les fenêtres contextuelles OSD et l’écran de verrouillage. C’est pourquoi son thème s’accorde parfaitement avec tout le reste et qu’un panneau s’ouvre instantanément au lieu de lancer une nouvelle application.</p>
+
+<p>C’est aussi le seul élément du bureau qui reste toujours à l’écran, il est donc utile de savoir à quoi servent tous ces petits symboles.</p>
+
+<h2 id="whats-on-it-by-default">Ce qu’elle contient par défaut <a class="manual__heading-link" href="#whats-on-it-by-default" aria-label="Lien vers cette section">#</a></h2>
+
+<p>La barre comporte trois sections. À gauche se trouvent le logo Omarchy (qui ouvre le menu) et les indicateurs d’espaces de travail. Au centre figurent les indicateurs d’état, l’horloge, la disposition du clavier, la météo et une pastille de mise à jour d’Omarchy. À droite : la zone de notification, les agents, le Bluetooth, le réseau, l’audio, l’affichage et l’alimentation.</p>
+
+<p>Certains de ces éléments ne s’affichent que lorsqu’ils ont quelque chose à signaler. La disposition du clavier n’apparaît que si vous en avez configuré plusieurs. La pastille de mise à jour n’apparaît que lorsqu’une mise à jour d’Omarchy est disponible. Et l’icône des agents apparaît la première fois qu’Omarchy détecte sur la machine l’utilisation d’outils d’IA pour le développement (voir <a href="../ai/">IA</a>).</p>
+
+<h2 id="clicking-around">Utiliser les différents clics <a class="manual__heading-link" href="#clicking-around" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Presque chaque composant réagit aux clics gauche, droit et du milieu, et plusieurs répondent au défilement. C’est un aspect souvent méconnu : les boutons droit et du milieu donnent accès à de nombreuses fonctions intéressantes.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Composant</th>
+      <th>Gauche</th>
+      <th>Droit</th>
+      <th>Milieu / défilement</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Menu</td>
+      <td>Menu Omarchy</td>
+      <td>Nouveau terminal</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Espaces de travail</td>
+      <td>Activer cet espace de travail</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Horloge</td>
+      <td>Fenêtre contextuelle du calendrier</td>
+      <td>Changer le format du libellé</td>
+      <td>Milieu : sélection du fuseau horaire</td>
+    </tr>
+    <tr>
+      <td>Météo</td>
+      <td>Fenêtre contextuelle des prévisions</td>
+      <td>Prévisions météo complètes dans une notification</td>
+      <td>Milieu : actualiser</td>
+    </tr>
+    <tr>
+      <td>Audio</td>
+      <td>Panneau audio</td>
+      <td>Couper le son</td>
+      <td>Milieu : panneau · défilement : volume</td>
+    </tr>
+    <tr>
+      <td>Microphone</td>
+      <td>Couper le micro</td>
+      <td>—</td>
+      <td>Milieu : panneau audio · défilement : volume d’entrée</td>
+    </tr>
+    <tr>
+      <td>Réseau</td>
+      <td>Panneau réseau</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Bluetooth</td>
+      <td>Panneau Bluetooth</td>
+      <td>Activer ou désactiver l’émetteur</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Affichage</td>
+      <td>Panneau d’affichage</td>
+      <td>—</td>
+      <td>Défilement : luminosité</td>
+    </tr>
+    <tr>
+      <td>Alimentation</td>
+      <td>Panneau d’alimentation</td>
+      <td>Afficher ou masquer le pourcentage de batterie</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Médias</td>
+      <td>Lecture/pause</td>
+      <td>Fenêtre contextuelle de la pochette</td>
+      <td>Milieu : suivant · défilement : précédent/suivant</td>
+    </tr>
+    <tr>
+      <td>Agents</td>
+      <td>Panneau des agents</td>
+      <td>Lancer votre agent</td>
+      <td>Milieu : abonnement suivant</td>
+    </tr>
+    <tr>
+      <td>Zone de notification</td>
+      <td>Survoler pour afficher le volet</td>
+      <td>Clic droit sur le chevron pour gérer</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Mise à jour d’Omarchy</td>
+      <td>Lancer la mise à jour</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Tout ce qui figure dans ce tableau n’est pas présent d’emblée dans votre barre. Le composant multimédia (lecture en cours via MPRIS, avec défilement du titre et du nom de l’artiste) et le composant du microphone sont tous deux intégrés, mais désactivés par défaut : ajoutez-les si vous le souhaitez, comme expliqué ci-dessous.</p>
+
+<h2 id="the-panels">Les panneaux <a class="manual__heading-link" href="#the-panels" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Cliquer sur une icône de la barre ouvre un véritable panneau contextuel doté de curseurs, de listes et d’une navigation au clavier, plutôt qu’une simple infobulle. Chacun dispose également d’un raccourci clavier, ce qui vous évite d’avoir à viser un symbole de 16 pixels :</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Raccourci clavier</th>
+      <th>Panneau</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Super + Ctrl + A</code></td>
+      <td>Audio</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + W</code></td>
+      <td>Réseau</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + B</code></td>
+      <td>Bluetooth</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + D</code></td>
+      <td>Affichage</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + P</code></td>
+      <td>Alimentation</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + Alt + D</code></td>
+      <td>Calendrier</td>
+    </tr>
+    <tr>
+      <td><code>Super + Ctrl + 1-9</code></td>
+      <td>Afficher ou masquer le n-ième panneau de la section de droite</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Les panneaux ne servent pas seulement à afficher des informations. C’est là que vous effectuez réellement les actions :</p>
+
+<ul>
+  <li><strong>Audio</strong> comporte un curseur de volume principal, un sélecteur de périphérique de sortie et un mélangeur par application, ce qui permet de réduire le volume d’un seul onglet du navigateur sans toucher au reste.</li>
+  <li><strong>Réseau</strong> recherche les réseaux Wi-Fi, affiche la puissance du signal, établit la connexion et permet de choisir un fournisseur DNS.</li>
+  <li><strong>Bluetooth</strong> répertorie vos appareils, avec les options de connexion et de déconnexion ainsi que leur niveau de batterie.</li>
+  <li><strong>Alimentation</strong> affiche les statistiques de la batterie, permet de changer de profil d’alimentation (un choix distinct est mémorisé pour la batterie et le secteur) et présente quelques informations sur le système.</li>
+  <li><strong>Affichage</strong> propose un curseur de luminosité, la taille du texte, des préréglages de mise à l’échelle et, lorsque vous disposez de plusieurs écrans, des commandes propres à chaque écran. Consultez la page sur les <a href="../monitors/">écrans</a> pour en savoir plus.</li>
+  <li><strong>Horloge</strong> ouvre une grille mensuelle avec les numéros de semaine ISO et permet de passer d’un mois à l’autre.</li>
+</ul>
+
+<p>Chaque panneau s’utilise aussi bien au clavier qu’à la souris : les flèches déplacent la sélection, Entrée active l’élément, Tabulation passe au panneau voisin et Échap ferme le panneau.</p>
+
+<p><code>Super + Ctrl + 1-9</code> compte les panneaux de gauche à droite dans la section de droite, en ignorant la zone de notification puisqu’elle ne possède pas de panneau. Le numéro correspond donc à l’icône que vous pointeriez.</p>
+
+<h3 id="tailscale-and-dropbox">Tailscale et Dropbox <a class="manual__heading-link" href="#tailscale-and-dropbox" aria-label="Lien vers cette section">#</a></h3>
+
+<p>Deux autres composants n’apparaissent dans la barre qu’après l’installation du service correspondant depuis <strong>Installer → Service</strong>. Il est utile de les connaître, car ils font plus qu’indiquer un état.</p>
+
+<p>Le panneau <strong>Tailscale</strong> connecte et déconnecte le tailnet, permet de passer d’un compte à l’autre et de choisir un nœud de sortie (vos propres machines et les régions Mullvad figurent toutes deux dans cette liste). Il permet également de parcourir vos machines et, lorsqu’une d’elles est sélectionnée, <code>s</code> lui envoie des fichiers via Taildrop, ce qui constitue le moyen le plus rapide de transférer un fichier vers votre téléphone ou un autre ordinateur portable. <code>c</code> copie l’adresse IP de la machine, <code>n</code> son nom et <code>d</code> son nom DNS complet. Chaque ligne de machine comporte aussi un bouton d’envoi, si vous préférez cliquer. La commande équivalente dans le terminal est <code>omarchy tailscale send &lt;machine&gt; [file...]</code>.</p>
+
+<p>Le panneau <strong>Dropbox</strong> gère la connexion, indique la quantité de stockage utilisée et répertorie les fichiers récemment synchronisés.</p>
+
+<p>La suppression de l’un ou l’autre service retire également son composant de la barre.</p>
+
+<h2 id="indicators">Indicateurs <a class="manual__heading-link" href="#indicators" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Le petit groupe situé au centre est le composant des indicateurs. Il s’agit de symboles d’état correspondant aux modes que vous avez activés : ne pas déranger, éclairage nocturne, <a href="../reminders/">rappel</a> programmé, enregistrement d’écran en cours, maintien en éveil et <a href="../text-extraction-dictation/">dictée</a>. Ils s’allument lorsque le mode est actif et restent autrement discrets : survolez le centre de la barre pour afficher les indicateurs inactifs. Cliquer sur un indicateur active ou désactive le mode correspondant.</p>
+
+<p>Si vous préférez qu’ils restent toujours visibles, définissez <code>alwaysShow</code> sur <code>true</code> dans le composant. Et si seuls certains d’entre eux vous intéressent, indiquez ceux que vous souhaitez dans <code>items</code> : <code>["Dnd", "Reminder", "NightLight"]</code>. Vous pouvez utiliser plusieurs composants d’indicateurs afin que différentes sections affichent des sous-ensembles distincts.</p>
+
+<h2 id="rearranging-the-bar">Réorganiser la barre <a class="manual__heading-link" href="#rearranging-the-bar" aria-label="Lien vers cette section">#</a></h2>
+
+<p>La barre se configure directement. Vous n’avez pas besoin d’ouvrir un fichier de configuration pour déplacer des éléments.</p>
+
+<p>Saisissez une zone vide de la barre près du centre et faites-la glisser vers un autre bord de l’écran : la barre s’y déplace. Les bords gauche, droit, supérieur et inférieur sont tous pris en charge, et chaque composant s’adapte (les barres verticales adoptent une forme compacte composée uniquement d’icônes). Un clic prolongé déclenche le même déplacement. Double-cliquez avec le bouton gauche sur ce même espace vide pour activer ou désactiver la transparence. Vous pouvez également faire glisser n’importe quel composant pour le réorganiser ou le déplacer vers une autre section.</p>
+
+<p>Si vous préférez choisir dans un menu, <strong>Style → Barre de menus</strong> propose à la fois la position et la transparence.</p>
+
+<p>Les mêmes opérations sont disponibles sous forme de commandes, ce qui est particulièrement utile pour une configuration reposant sur des <a href="../dotfiles/">dotfiles</a> :</p>
+
+<pre><code class="language-bash">omarchy bar position bottom
+omarchy bar transparent toggle
+omarchy bar move omarchy.clock --section center --index 0
+omarchy bar set omarchy.clock format "HH:mm"
+omarchy bar defaults          # back to the shipped layout
+</code></pre>
+
+<p>Pour ajouter ou supprimer entièrement un composant, utilisez les commandes des plugins. <code>omarchy plugin list</code> affiche tous les composants connus du shell avec leur identifiant, puis utilisez :</p>
+
+<pre><code class="language-bash">omarchy plugin enable omarchy.media --section center
+omarchy plugin disable omarchy.weather
+</code></pre>
+
+<h2 id="hiding-the-bar">Masquer la barre <a class="manual__heading-link" href="#hiding-the-bar" aria-label="Lien vers cette section">#</a></h2>
+
+<p><code>Super + Shift + Space</code> masque puis réaffiche la barre sans arrêter le shell : les panneaux et les raccourcis clavier continuent de fonctionner, vous récupérez simplement l’espace à l’écran. Cette option est également disponible dans le menu sous <strong>Déclencher → Basculer → Barre de menus</strong>.</p>
+
+<h2 id="the-config-file">Le fichier de configuration <a class="manual__heading-link" href="#the-config-file" aria-label="Lien vers cette section">#</a></h2>
+
+<p>L’ensemble de cette configuration est enregistré dans <code>~/.config/omarchy/shell.json</code>, sous la clé <code>bar</code>. En voici une version abrégée :</p>
+
+<pre><code class="language-json">{
+  "version": 1,
+  "bar": {
+    "position": "top",
+    "transparent": false,
+    "centerAnchor": "omarchy.clock",
+    "layout": {
+      "left": [{ "id": "omarchy.menu" }, { "id": "omarchy.workspaces" }],
+      "center": [{ "id": "omarchy.clock", "format": "HH:mm" }],
+      "right": [{ "id": "omarchy.audio" }, { "id": "omarchy.power" }]
+    }
+  }
+}
+</code></pre>
+
+<p>Chaque composant correspond à une entrée dans l’un des trois tableaux de disposition, et ses paramètres se trouvent directement dans cette entrée : il n’existe ni fichier de paramètres distinct ni sous-objet <code>config</code>. Les valeurs <code>format</code>, <code>formatAlt</code> de l’horloge (le format sélectionné avec le clic droit) et <code>verticalFormat</code> se trouvent toutes directement dans <code>{ "id": "omarchy.clock" }</code>.</p>
+
+<p><code>centerAnchor</code> désigne l’unique composant central épinglé exactement au centre de l’écran, les autres étant placés de part et d’autre. C’est ainsi que l’horloge reste parfaitement centrée, même lorsque la météo et la pastille de mise à jour apparaissent ou disparaissent. Définissez cette valeur sur une chaîne vide pour que la liste centrale soit simplement centrée en tant que groupe.</p>
+
+<p>Une règle importante à retenir : <strong>dès que vous possédez votre propre fichier <code>shell.json</code>, celui-ci fait autorité</strong>. Tant que vous n’avez rien personnalisé, le shell lit le fichier par défaut d’Omarchy. Dès que vous déplacez un composant, exécutez <code>omarchy bar</code> ou modifiez vous-même le fichier, il devient le vôtre : aucune fusion récursive n’est effectuée, si bien que les nouveaux composants ajoutés par défaut dans les futures versions d’Omarchy n’apparaîtront pas automatiquement dans votre barre. <code>omarchy bar defaults</code> rétablit la disposition fournie chaque fois que vous souhaitez repartir de zéro.</p>
+
+<p>Le même fichier contient également vos délais d’inactivité au niveau supérieur, en dehors de la clé <code>bar</code> : <code>idle.screensaver</code> et <code>idle.lock</code>, tous deux exprimés en secondes depuis le début de votre période d’inactivité. Par défaut, l’économiseur d’écran se déclenche donc après 150 secondes et le verrouillage après 300.</p>
+{% endraw %}

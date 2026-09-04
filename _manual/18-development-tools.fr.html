@@ -1,0 +1,50 @@
+---
+layout: manual
+title: "Outils de développement"
+description: "Omarchy est livré avec Neovim par défaut, mais si vous préférez quelque chose d’un peu plus grand public et familier, vous pouvez ouvrir le menu Omarchy (Super + Space) et voir..."
+permalink: /manual/development-tools/
+manual_slug: development-tools
+manual_order: 18
+previous_title: "IA"
+previous_url: /manual/ai/
+next_title: "Outils shell"
+next_url: /manual/shell-tools/
+translation_key: manual-18-development-tools
+lang: fr
+
+---
+{% raw %}
+<h2 id="alternative-editors">Éditeurs alternatifs <a class="manual__heading-link" href="#alternative-editors" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Omarchy est livré avec <a href="https://neovim.io/">Neovim</a> par défaut, mais si vous préférez quelque chose d’un peu plus grand public et familier, vous pouvez ouvrir le menu Omarchy (<code>Super + Space</code>) et consulter les options sous <em>Installer &gt; Éditeur</em>. Vous y trouverez VSCode, Cursor, Zed, Sublime Text, Helix, Vim et Emacs. Si vous ne trouvez pas ce que vous cherchez, consultez <em>Installer &gt; Paquet</em> pour voir s’il existe dans un paquet Arch (sinon, essayez <em>Installer &gt; AUR</em> pour rechercher dans l’AUR).</p>
+
+<p>L’harmonisation du thème est proposée pour <code>VSCode</code>, <code>Cursor</code>, <code>VSCodium</code> et <code>Helix</code>.</p>
+
+<p>Vous pouvez définir l’éditeur par défaut pour l’ensemble du système sous <code>Setup &gt; Defaults &gt; Editor</code>.</p>
+
+<h2 id="environment">Environnement <a class="manual__heading-link" href="#environment" aria-label="Lien vers cette section">#</a></h2>
+
+<p>Omarchy permet de configurer toute une série d’environnements de développement depuis la section <em>Installer &gt; Développement</em> du menu Omarchy (<code>Super + Space</code>). Vous y trouverez bien sûr <em>Ruby on Rails</em>, mais aussi les trois principaux environnements d’exécution JavaScript (Node.js, Bun et Deno), ainsi que des frameworks PHP populaires comme Laravel et Symfony. Il y a également Go, Rust, Python, Java, Elixir (avec Phoenix), .NET, OCaml, Zig, Clojure et Scala. Le choix est très vaste !</p>
+
+<p>La plupart de ces environnements sont gérés par <a href="https://mise.jdx.dev/">Mise</a>. Cet outil vous permet d’installer et d’exécuter plusieurs versions d’un langage de programmation sur une même machine. C’est l’équivalent de rbenv ou rvm pour Ruby, ou de virtualenv pour Python, mais il fonctionne avec de nombreux environnements différents.</p>
+
+<p>Pour installer Ruby, par exemple, exécutez <code>mise use -g ruby</code> : cette commande installera Ruby et le définira comme version globale par défaut. Si votre projet contient un fichier .ruby-version, vous pouvez simplement exécuter <code>mise i</code> à la racine de ce projet.</p>
+
+<h2 id="docker">Docker <a class="manual__heading-link" href="#docker" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://www.docker.com/">Docker</a> n’a guère besoin d’être présenté. Il vous permet d’exécuter des conteneurs isolés, et Omarchy installe tout le nécessaire pour l’utiliser dans de bonnes conditions, notamment Docker lui-même et <a href="https://docs.docker.com/compose/">Docker Compose</a>.</p>
+
+<p>Par défaut, votre utilisateur ne fait <em>pas</em> partie du groupe <code>docker</code>. Ce groupe équivaut en pratique à un accès root sans mot de passe : tout processus qui en fait partie peut exécuter <code>docker run -v /:/host</code> et prendre le contrôle de la machine. Sans cette précaution, il suffirait donc d’une seule commande à un script ou à une dépendance malveillante s’exécutant avec vos droits pour obtenir un accès root. En ligne de commande, vous devez donc exécuter Docker avec <code>sudo</code> (<code>sudo docker ps</code>, <code>sudo docker compose up</code>), tandis que les outils graphiques qui communiquent avec le démon — la TUI Docker accessible avec <code>Super + Shift + D</code> et la machine virtuelle Windows — demandent une autorisation lorsqu’ils en ont besoin. Si vous souhaitez retrouver la commodité d’une configuration sans sudo et que vous en comprenez les risques, activez-la depuis <strong>Configuration &gt; Sécurité &gt; Docker sans sudo</strong> (ou exécutez <code>omarchy-setup-security-sudoless-docker</code>). Après un avertissement, cette opération vous ajoutera au groupe <code>docker</code> ; la commande <code>docker</code> et l’alias <code>d</code> fonctionneront alors de nouveau sans <code>sudo</code>.</p>
+
+<p>N’oubliez pas d’essayer Lazydocker pour gérer vos conteneurs dans une TUI élégante avec <code>Super + Shift + D</code> ; il demande une autorisation lors de la première utilisation, sauf si vous avez activé Docker sans sudo.</p>
+
+<p>Vous pouvez configurer dans Docker les bases de données couramment utilisées pour le développement local en choisissant <em>Installer &gt; Développement &gt; Bases de données Docker</em> dans le menu Omarchy.</p>
+
+<h2 id="github-cli">CLI GitHub <a class="manual__heading-link" href="#github-cli" aria-label="Lien vers cette section">#</a></h2>
+
+<p><a href="https://cli.github.com/">La CLI GitHub</a> vous permet de vous authentifier avec votre compte GitHub et de l’utiliser pour cloner des dépôts privés. Elle est configurée comme l’une des commandes relais de Mise installées à la demande : la première fois que vous exécutez <code>gh</code>, elle s’installe automatiquement. Pour vous authentifier, exécutez <code>gh auth login</code>. Vous pourrez ensuite cloner des dépôts privés avec <code>gh repo clone org/repo</code>.</p>
+
+<p>Cette commande vous permet également d’effectuer de nombreuses autres opérations sur GitHub. Exécutez simplement <code>gh</code> pour découvrir toutes les possibilités.</p>
+
+<p>Une commande relais installée à la demande est également disponible pour <code>ghui</code>, afin de gérer vos pull requests dans une TUI. Et <a href="https://github.com/jesseduffield/lazygit">lazygit</a> est préinstallé si vous souhaitez également piloter git lui-même depuis une TUI.</p>
+{% endraw %}
