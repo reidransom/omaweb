@@ -1,5 +1,5 @@
 [tools]
-"github:reidransom/jigyll" = "1.11.0"
+"github:reidransom/jigyll" = "1.11.1"
 "github:sass/dart-sass" = "1.103.1"
 node = "22.23.2"
 
