@@ -1,6 +1,6 @@
 # omaweb
 
-Jigyll site for [Omarchy](https://omaweb.r2ware.dev/).
+Jigyll site for [Omarchy](https://omaweb.pages.dev/).
 
 ## Build and review
 
@@ -42,8 +42,8 @@ The release gate requires the configured Plugin Competition Winners feature to r
 
 Cloudflare Pages hosts two deployments from one Pages project:
 
-- `rev` publishes the review site at <https://omaweb-rev.r2ware.dev/>.
-- `main` publishes production at <https://omaweb.r2ware.dev/>.
+- `rev` publishes the review site at <https://omaweb-rev.pages.dev/>.
+- `main` publishes production at <https://omaweb.pages.dev/>.
 
 Configure those domains in Cloudflare before the first release. Export `PAGES_PROJECT_NAME`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` for Wrangler.
 

@@ -2,7 +2,7 @@ title: Omarchy
 description: >-
   Omarchy is an omakase Linux distribution based on Arch, Hyprland, and
   Quickshell, with strong defaults and the freedom to make the computer yours.
-url: "https://omaweb.r2ware.dev"
+url: "https://omaweb.pages.dev"
 baseurl: ""
 lang: en
 localization:
@@ -25,6 +25,7 @@ localization:
   required_translations: [da, fr]
 permalink: pretty
 social_image: /assets/images/opengraph.png
+allow_indexing: true
 social_image_alt: Omarchy wordmark on a dark background
 
 features:

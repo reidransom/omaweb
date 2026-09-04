@@ -12,7 +12,7 @@ Use `servd which omaweb` for its path and command, or run `mise run serve` direc
 
 ## Deployments
 
-Cloudflare Pages deployment is manual. `scripts/deploy` accepts only a clean `rev` or `main` worktree: `rev` targets <https://omaweb-rev.r2ware.dev/> and `main` targets <https://omaweb.r2ware.dev/>.
+Cloudflare Pages deployment is manual. `scripts/deploy` accepts only a clean `rev` or `main` worktree: `rev` targets <https://omaweb-rev.pages.dev/> and `main` targets <https://omaweb.pages.dev/>.
 
 Use `scripts/ship` for a release. It deploys `rev`, pauses for review, fast-forwards `main`, and deploys production. It never pushes. Run deployment, shipping, or pushes only when the user explicitly requests them.
 

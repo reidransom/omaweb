@@ -3,7 +3,7 @@
 <meta name="theme-color" content="#1A1B26">
 <meta name="color-scheme" content="dark">
 <meta http-equiv="Content-Security-Policy" content="frame-src https://luma.com">
-{% if page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
+{% if site.allow_indexing == false %}<meta name="robots" content="noindex">{% elsif page.robots %}<meta name="robots" content="{{ page.robots | escape }}">{% endif %}
 {% if page.redirect_to %}<meta http-equiv="refresh" content="{{ page.redirect_delay | default: 0 }};url={{ page.redirect_to | escape }}">{% endif %}
 <link rel="icon" href="{{ '/assets/images/favicon.png' | relative_url }}" type="image/png">
 <link rel="preload" href="{{ '/assets/fonts/jetbrains-mono-light.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>

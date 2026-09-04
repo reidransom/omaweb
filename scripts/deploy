@@ -31,10 +31,12 @@ esac
 branch=$(git branch --show-current)
 case "$branch" in
   rev)
-    deployment_url='https://omaweb-rev.r2ware.dev'
+    deployment_url='https://omaweb-rev.pages.dev'
+    allow_indexing=false
     ;;
   main)
-    deployment_url='https://omaweb.r2ware.dev'
+    deployment_url='https://omaweb.pages.dev'
+    allow_indexing=false
     ;;
   *)
     fail 'Deployments are allowed only from a clean rev or main worktree.'
@@ -55,7 +57,7 @@ command -v npx >/dev/null 2>&1 || fail 'Missing required command: npx (used to r
 build_site() {
   build_config=$(mktemp)
   trap 'rm -f "$build_config"' EXIT HUP INT TERM
-  printf 'url: "%s"\n' "$deployment_url" > "$build_config"
+  printf 'url: "%s"\nallow_indexing: %s\n' "$deployment_url" "$allow_indexing" > "$build_config"
 
   mise install
   npm ci
