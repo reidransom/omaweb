@@ -60,7 +60,7 @@ server:
     link_prefix: Commencez par
     iso_label: l’ISO
     link_join: et
-    manual_label: le manuel en anglais
+    manual_label: le manuel
     link_suffix: " pour le système actuel."
 
 mobile:
@@ -81,7 +81,7 @@ mobile:
     link_prefix: Commencez par
     iso_label: l’ISO
     link_join: et
-    manual_label: le manuel en anglais
+    manual_label: le manuel
     link_suffix: " pour le système actuel."
 
 cloud:
@@ -102,7 +102,7 @@ cloud:
     link_prefix: Commencez par
     iso_label: l’ISO
     link_join: et
-    manual_label: le manuel en anglais
+    manual_label: le manuel
     link_suffix: " pour le système local actuel."
 
 apps:
@@ -176,4 +176,4 @@ sponsorships:
   starts_prefix: Début le
   date_format: "%d/%m/%Y"
   maintained_by: Maintenu par
-  announcement_label: Lire l’annonce en anglais
+  announcement_label: Lire l’annonce

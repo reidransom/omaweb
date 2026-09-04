@@ -60,7 +60,7 @@ server:
     link_prefix: Begynd med
     iso_label: ISO
     link_join: og
-    manual_label: manualen på engelsk
+    manual_label: manualen
     link_suffix: " for det nuværende system."
 
 mobile:
@@ -81,7 +81,7 @@ mobile:
     link_prefix: Begynd med
     iso_label: ISO
     link_join: og
-    manual_label: manualen på engelsk
+    manual_label: manualen
     link_suffix: " for det nuværende system."
 
 cloud:
@@ -102,7 +102,7 @@ cloud:
     link_prefix: Begynd med
     iso_label: ISO
     link_join: og
-    manual_label: manualen på engelsk
+    manual_label: manualen
     link_suffix: " for det nuværende lokale system."
 
 apps:
@@ -176,4 +176,4 @@ sponsorships:
   starts_prefix: Starter
   date_format: "%d.%m.%Y"
   maintained_by: Vedligeholdes af
-  announcement_label: Læs meddelelsen på engelsk
+  announcement_label: Læs meddelelsen

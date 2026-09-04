@@ -6,7 +6,7 @@ hero:
     items:
     - label: Télécharger l’ISO
       destination: iso
-    - label: Lire le manuel en anglais
+    - label: Lire le manuel
       destination: manual
 desktop:
   title: Utilisez-le avant de le personnaliser.
@@ -17,14 +17,14 @@ desktop:
     items:
     - label: Télécharger l’ISO
       destination: iso
-    - label: Lire le manuel en anglais
+    - label: Lire le manuel
       destination: manual
 actions:
   title: Les éléments qui en font le vôtre.
   intro: Commencez par la source qui fait autorité. Installez depuis l’ISO, apprenez le système avec le manuel,
     étendez-le avec les Plugins de la communauté ou parcourez le code.
   items:
-  - label: Le manuel en anglais
+  - label: Le manuel
     detail: Configuration, applications et raccourcis du quotidien, réunis au même endroit.
     destination: manual
   - label: L’ISO
@@ -53,10 +53,9 @@ workflows:
 project_paths:
   title: Plus il y a de personnes, meilleur est le système.
   items:
-  - title: Actualités en anglais
+  - title: Actualités
     body: Les versions, les événements et les personnes derrière le travail.
     url: /news/
-    language: en
   - title: Communauté
     body: Trouvez les rencontres, les contributeurs, les Plugins et les lieux où les Omarchs se retrouvent.
     url: /community/
