@@ -1,10 +1,11 @@
 {% assign media = include.media %}
 {% assign media_src = media.src %}
 {% assign media_prefix = media_src | slice: 0, 8 %}
-{% assign loading = media.loading | default: 'lazy' %}
-{% assign fetchpriority = media.fetchpriority | default: 'auto' %}
-{% assign decoding = media.decoding | default: 'async' %}
-{% assign sizes = media.sizes | default: '100vw' %}
+{% assign loading = include.loading | default: media.loading | default: 'lazy' %}
+{% assign fetchpriority = include.fetchpriority | default: media.fetchpriority | default: 'auto' %}
+{% assign decoding = include.decoding | default: media.decoding | default: 'async' %}
+{% assign sizes = include.sizes | default: media.sizes | default: '100vw' %}
+{% assign alt = include.alt | default: media.alt | default: '' %}
 {% unless loading == 'eager' or loading == 'lazy' %}{% assign loading = 'lazy' %}{% endunless %}
 {% unless fetchpriority == 'high' or fetchpriority == 'low' or fetchpriority == 'auto' %}{% assign fetchpriority = 'auto' %}{% endunless %}
 {% unless decoding == 'async' or decoding == 'sync' or decoding == 'auto' %}{% assign decoding = 'async' %}{% endunless %}
@@ -21,9 +22,9 @@
         {% endif %}
       {% endif %}
     {% endfor %}
-  <img class="media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ media.alt | default: '' | escape }}">
+  <img class="media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ alt | strip | escape }}">
 </picture>
   {% else %}
-<img class="media media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ media.alt | default: '' | escape }}">
+<img class="media media__image" src="{{ media_src | relative_url }}" sizes="{{ sizes | escape }}" width="{{ media.width }}" height="{{ media.height }}" loading="{{ loading }}" fetchpriority="{{ fetchpriority }}" decoding="{{ decoding }}" alt="{{ alt | strip | escape }}">
   {% endif %}
 {% endif %}

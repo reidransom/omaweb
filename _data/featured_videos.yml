@@ -2,20 +2,90 @@ items:
   - title: Omarchy Quattro
     creator: David Heinemeier Hansson
     youtube_id: F7fe9pa8OeE
-    thumbnail: /assets/images/video/omarchy-quattro.webp
+    thumbnail:
+      src: /assets/images/video/omarchy-quattro-768w.webp
+      width: 768
+      height: 432
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/video/omarchy-quattro-480w.webp
+                  width: 480
+                - src: /assets/images/video/omarchy-quattro-768w.webp
+                  width: 768
+                - src: /assets/images/video/omarchy-quattro-1152w.webp
+                  width: 1152
   - title: You need to switch to Linux RIGHT NOW!!
     creator: NetworkChuck
     youtube_id: 9SDkU5VDQEQ
-    thumbnail: /assets/images/video/networkchuck.webp
+    thumbnail:
+      src: /assets/images/video/networkchuck-768w.webp
+      width: 768
+      height: 432
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/video/networkchuck-480w.webp
+                  width: 480
+                - src: /assets/images/video/networkchuck-768w.webp
+                  width: 768
+                - src: /assets/images/video/networkchuck-1152w.webp
+                  width: 1152
   - title: They finally fixed linux
     creator: typecraft
     youtube_id: 5JPYJfN7HY0
-    thumbnail: /assets/images/video/typecraft.webp
+    thumbnail:
+      src: /assets/images/video/typecraft-768w.webp
+      width: 768
+      height: 432
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/video/typecraft-480w.webp
+                  width: 480
+                - src: /assets/images/video/typecraft-768w.webp
+                  width: 768
+                - src: /assets/images/video/typecraft-1152w.webp
+                  width: 1152
   - title: I Didn't Expect Omarchy 4 to Be This Good
     creator: LinuxBTW
     youtube_id: qBKMe8AatY0
-    thumbnail: /assets/images/video/linuxbtw.webp
+    thumbnail:
+      src: /assets/images/video/linuxbtw-768w.webp
+      width: 768
+      height: 432
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/video/linuxbtw-480w.webp
+                  width: 480
+                - src: /assets/images/video/linuxbtw-768w.webp
+                  width: 768
+                - src: /assets/images/video/linuxbtw-1152w.webp
+                  width: 1152
   - title: If you use AI, switch to Omarchy immediately
     creator: Alex Finn
     youtube_id: KO2T0oET9go
-    thumbnail: /assets/images/video/alex-finn.webp
+    thumbnail:
+      src: /assets/images/video/alex-finn-768w.webp
+      width: 768
+      height: 432
+      sources:
+        items:
+          - type: image/webp
+            srcset:
+              items:
+                - src: /assets/images/video/alex-finn-480w.webp
+                  width: 480
+                - src: /assets/images/video/alex-finn-768w.webp
+                  width: 768
+                - src: /assets/images/video/alex-finn-1152w.webp
+                  width: 1152
