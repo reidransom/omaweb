@@ -42,8 +42,7 @@ run_build() {
   # Jigyll includes the source-root development index; replace that copy with a fresh production index.
   rm -rf _site/pagefind
   mise exec -- npx --no-install pagefind --site _site
-
-
+  mise exec -- cdnware _site >/dev/null
 }
 
 case "${1-}" in

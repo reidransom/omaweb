@@ -4,7 +4,7 @@ The source for the [Omarchy](https://omaweb.r2ware.dev/) website.
 
 ## Local development and builds
 
-Install [mise](https://mise.jdx.dev/) before bootstrapping the repository. Mise installs the exact Node, Jigyll, and Dart Sass versions locked by this repository; npm installs the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
+Install [mise](https://mise.jdx.dev/) before bootstrapping the repository. Mise installs the exact Node, Jigyll, Dart Sass, and [cdnware](https://github.com/reidransom/cdnware) versions locked by this repository; npm installs the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
 
 ```sh
 mise install
@@ -22,7 +22,7 @@ mise run build         # compile, render, and rebuild the source-root Pagefind i
 scripts/build          # build a fresh production artifact
 ```
 
-`scripts/build` builds JavaScript, renders the site and stylesheet with mise-selected Jigyll and Dart Sass, and replaces the copied development index with a fresh `_site/pagefind` production index.
+`scripts/build` builds JavaScript, renders the site and stylesheet with mise-selected Jigyll and Dart Sass, replaces the copied development index with a fresh `_site/pagefind` production index, then uses cdnware to copy every `_site/assets` file to a content-hashed path under `_site/assets-rev` and rewrite references in the deployed artifact.
 
 `mise run serve` runs Jigyll directly into the isolated `.site-dev/` directory. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
@@ -56,7 +56,7 @@ Cloudflare Pages hosts two deployments from one Pages project:
 
 Configure those domains in Cloudflare before the first release. Export `PAGES_PROJECT_NAME`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` for Wrangler.
 
-`mise run deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, builds the site with a temporary deployment URL configuration, and copies `_site` to Cloudflare with Wrangler. It does not run source, asset, rendered-site, or browser verification.
+`mise run deploy` accepts only a clean `rev` or `main` worktree. It installs the committed mise toolchain, runs `npm ci`, builds the site with a temporary deployment URL configuration, revisions deployed assets with cdnware, and copies `_site` to Cloudflare with Wrangler. It does not run source, asset, rendered-site, or browser verification.
 
 The release flow expects `main` and `rev` branches. When bootstrapping a repository that still uses `master`, rename it and create the review branch:
 

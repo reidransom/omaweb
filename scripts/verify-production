@@ -58,6 +58,7 @@ require_pinned_wte_artifact() {
 
 [ -d _site ] || fail 'Missing _site; run Jigyll before production verification.'
 [ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
+[ -d _site/assets-rev ] || fail 'Missing revisioned production assets in _site/assets-rev.'
 [ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
 [ -d _site/pagefind ] || fail 'Missing Pagefind output in _site/pagefind.'
 [ -f _site/assets/images/opengraph.png ] || fail 'Missing approved local OpenGraph artwork in _site.'
@@ -83,10 +84,10 @@ if grep -Erq 'https?://' assets/js/wte; then
   fail 'Vendored WTE runtime contains a remote runtime URL.'
 fi
 if grep -Fq 'data-wordmark-enhancement="laseretch"' _site/index.html; then
-  grep -Eq 'data-wte-canvas-url="/[^"]*assets/js/wte/wte-canvas\.js"' _site/index.html ||
-    fail 'Rendered wordmark loader URL is not a same-origin WTE path.'
-  grep -Eq 'data-wte-wasm-url="/[^"]*assets/js/wte/laseretch\.wasm"' _site/index.html ||
-    fail 'Rendered wordmark WASM URL is not a same-origin WTE path.'
+  grep -Eq 'data-wte-canvas-url="/assets-rev/js/wte/wte-canvas\.[0-9a-f]{8}\.js"' _site/index.html ||
+    fail 'Rendered wordmark loader URL is not a revisioned same-origin WTE path.'
+  grep -Eq 'data-wte-wasm-url="/assets-rev/js/wte/laseretch\.[0-9a-f]{8}\.wasm"' _site/index.html ||
+    fail 'Rendered wordmark WASM URL is not a revisioned same-origin WTE path.'
 else
   ! grep -Fq 'data-wte-' _site/index.html ||
     fail 'Laseretch-disabled output must not expose WTE runtime URLs.'
@@ -200,9 +201,11 @@ for html in $html_files; do
   sed -n 's/.*<meta name="description" content="\([^"]*\)".*/\1/p' "$html" >> "$descriptions_file"
   sed -n 's/.*<link rel="canonical" href="\([^"]*\)".*/\1/p' "$html" >> "$canonicals_file"
 
-  assets=$(grep -Eo '/assets/[^"[:space:])]+' "$html" 2>/dev/null || true)
+  ! grep -Fq '/assets/' "$html" ||
+    fail "Rendered page retains an unrevisioned asset URL: $html"
+  assets=$(grep -Eo '/assets-rev/[^"[:space:])]+' "$html" 2>/dev/null || true)
   for asset in $assets; do
-    [ -f "_site$asset" ] || fail "Rendered page references a missing local asset: $asset ($html)"
+    [ -f "_site$asset" ] || fail "Rendered page references a missing revisioned asset: $asset ($html)"
   done
 
   links=$(grep -Eo 'href="/[^"?#]*' "$html" 2>/dev/null | sed 's/^href="//' || true)
