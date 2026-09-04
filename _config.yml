@@ -27,6 +27,10 @@ permalink: pretty
 social_image: /assets/images/opengraph.png
 allow_indexing: true
 social_image_alt: Omarchy wordmark on a dark background
+umami:
+  host_url: "https://mtrx.r2ware.dev"
+  website_id: "16e0a1aa-0d68-4b96-a646-c4ef83c0c9a1"
+
 
 features:
   laseretch_wordmark: false

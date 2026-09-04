@@ -8,6 +8,9 @@
 <link rel="icon" href="{{ '/assets/images/favicon.png' | relative_url }}" type="image/png">
 <link rel="preload" href="{{ '/assets/fonts/jetbrains-mono-light.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+{% if site.umami.website_id %}
+<script defer src="{{ '/assets/js/umami.js' | relative_url }}" data-website-id="{{ site.umami.website_id | escape }}" data-host-url="{{ site.umami.host_url | escape }}" data-domains="omaweb.pages.dev" data-do-not-track="true"></script>
+{% endif %}
 <script>
   if (window.matchMedia && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const root = document.documentElement;
