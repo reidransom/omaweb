@@ -23,3 +23,12 @@ url = "https://github.com/sass/dart-sass/releases/download/1.103.1/dart-sass-1.1
 url_api = "https://api.github.com/repos/sass/dart-sass/releases/assets/522883836"
 provenance = "github-attestations"
 provenance_verified = true
+
+[[tools.node]]
+version = "22.23.2"
+backend = "core:node"
+specifiers = ["22.23.2"]
+
+[tools.node."platforms.linux-x64"]
+checksum = "sha256:b294a556e639d64338823920e5866c21c02741742d2e1529ee1a225c1ec9252a"
+url = "https://nodejs.org/dist/v22.23.2/node-v22.23.2-linux-x64.tar.gz"
