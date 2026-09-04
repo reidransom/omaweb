@@ -23,6 +23,10 @@
   border-block-end: 1px solid var(--omarchy-terminal-black);
 }
 
+.content-shell--article .page-hero {
+  border-block-end: 0;
+}
+
 .page-hero,
 .prose {
   margin-inline: auto;
