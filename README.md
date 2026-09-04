@@ -1,36 +1,45 @@
 # omaweb
 
-Jigyll site for [Omarchy](https://omaweb.r2ware.dev/).
+The source for the [Omarchy](https://omaweb.r2ware.dev/) website.
 
-## Build and review
+## Local development and builds
 
-This site is built with [`jigyll`](https://github.com/reidransom/jigyll), the Go implementation of Jekyll. Bootstrap the locked local toolchain and npm dependencies first:
+Install [mise](https://mise.jdx.dev/) before bootstrapping the repository. Mise installs the exact Node, Jigyll, and Dart Sass versions locked by this repository; npm installs the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
 
 ```sh
 mise install
 mise exec -- npm ci
 ```
 
-Mise owns the exact Node, Jigyll, and Dart Sass releases declared by this repository. npm continues to own the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
-
-Use the focused commands when iterating, and choose the smallest command that covers the work:
+Use the smallest command that covers the change:
 
 ```sh
 npm run assets         # rebuild committed generated image derivatives
 npm run assets:check   # reproduce those derivatives byte-for-byte
-scripts/build js       # compile the JavaScript bundle once
+npm run js:build       # compile the JavaScript bundle once
 mise run serve         # watch and serve Jigyll pages with the existing development Pagefind index
-mise run build         # compile, render, and manually refresh the development Pagefind index
+mise run build         # compile, render, and rebuild the source-root Pagefind index
 scripts/build          # build a fresh production artifact
 ```
 
-`scripts/build` builds JavaScript, renders the site and its compressed stylesheet with mise-selected Jigyll and Dart Sass, and replaces the copied development index with a fresh `_site/pagefind` production index.
+`scripts/build` builds JavaScript, renders the site and stylesheet with mise-selected Jigyll and Dart Sass, and replaces the copied development index with a fresh `_site/pagefind` production index.
 
 `mise run serve` runs Jigyll directly. Jigyll watches pages and the native Sass graph under `_sass/`, compiles `assets/css/site.scss`, and serves the existing source-root `pagefind/` directory at `/pagefind/`. Watch mode does not regenerate the search index. Run `mise run build` before starting or restarting the server when searchable content changes.
 
-[servd](https://github.com/reidransom/servd) runs the same mise-selected Jigyll server through `.servd.toml`.
+[servd](https://github.com/reidransom/servd) runs the same mise-selected Jigyll server through `.servd.toml`; use `servd status` to see whether it is already serving this site.
 
-To upgrade Jigyll or Sass, change its exact entry in `mise.toml`, refresh `mise.lock` with `mise lock`, run `mise install`, and exercise the production-equivalent acceptance path.
+## Local release checks
+
+Run these checks after changes that affect source content, generated assets, or rendered output. They exercise the same source, asset, rendered-site, and Chromium checks used by `mise run ship`, without uploading a deployment:
+
+```sh
+sh scripts/check-content
+npm run assets:check
+scripts/build
+sh scripts/verify-production
+```
+
+To upgrade Jigyll or Sass, change its exact entry in `mise.toml`, refresh `mise.lock` with `mise lock`, run `mise install`, then run the local release checks.
 
 Asset sources are discovered from the supported source trees and `npm run assets` generates their committed derivatives; `npm run assets:check` verifies the complete generated inventory byte-for-byte. Do not add a remote media, font, script, or frame dependency. The sole frame exception is the disclosed Luma calendar on `/meetups/`, constrained by the document CSP to `https://luma.com`.
 
