@@ -36,7 +36,7 @@ case "$branch" in
     ;;
   main)
     deployment_url='https://omaweb.pages.dev'
-    allow_indexing=false
+    allow_indexing=true
     ;;
   *)
     fail 'Deployments are allowed only from a clean rev or main worktree.'
