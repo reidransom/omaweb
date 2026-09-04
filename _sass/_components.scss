@@ -23,6 +23,10 @@
   border-block-end: 1px solid var(--omarchy-terminal-black);
 }
 
+.content-shell--article .page-hero {
+  border-block-end: 0;
+}
+
 .page-hero,
 .prose {
   margin-inline: auto;
@@ -383,6 +387,7 @@ a:hover .media__image {
 }
 
 .quake-navigation__link,
+.mobile-drawer__group li a,
 .site-footer__sitemap li a {
   color: rgb(192 202 245 / 0.6);
   font-size: var(--omarchy-font-small);

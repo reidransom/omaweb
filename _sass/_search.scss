@@ -1,3 +1,5 @@
+@use "breakpoints";
+
 @mixin styles {
 .content-shell--search {
   background: var(--omarchy-night);
@@ -310,4 +312,11 @@
 .spotlight .site-search__route-link {
   margin-block-start: var(--omarchy-space-large);
 }
+@media (max-width: breakpoints.$small - 0.001rem) {
+  .spotlight,
+  .spotlight__inner {
+    max-block-size: calc(100dvh - 2em);
+  }
+}
+
 }
