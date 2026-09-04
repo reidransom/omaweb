@@ -57,6 +57,7 @@ defaults:
 
 include:
   - .well-known
+  - _headers
 
 exclude:
   - .agents

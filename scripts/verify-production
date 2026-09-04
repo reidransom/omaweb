@@ -59,6 +59,11 @@ require_pinned_wte_artifact() {
 [ -d _site ] || fail 'Missing _site; run Jigyll before production verification.'
 [ -f _site/assets/css/site.css ] || fail 'Missing compiled CSS in _site.'
 [ -d _site/assets-rev ] || fail 'Missing revisioned production assets in _site/assets-rev.'
+[ -f _site/_headers ] || fail 'Missing Cloudflare Pages headers in _site.'
+grep -Fxq '/assets-rev/*' _site/_headers ||
+  fail 'Cloudflare cache rule does not target revisioned assets.'
+grep -Fxq '  Cache-Control: public, max-age=31556952, immutable' _site/_headers ||
+  fail 'Revisioned assets do not have immutable one-year caching.'
 [ -f _site/assets/js/site.js ] || fail 'Missing compiled JavaScript in _site.'
 [ -d _site/pagefind ] || fail 'Missing Pagefind output in _site/pagefind.'
 [ -f _site/assets/images/opengraph.png ] || fail 'Missing approved local OpenGraph artwork in _site.'
