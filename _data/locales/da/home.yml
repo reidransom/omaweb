@@ -6,7 +6,7 @@ hero:
     items:
     - label: Hent ISO'en
       destination: iso
-    - label: Læs manualen på engelsk
+    - label: Læs manualen
       destination: manual
 desktop:
   title: Brug det, før du tilpasser det.
@@ -17,14 +17,14 @@ desktop:
     items:
     - label: Hent ISO'en
       destination: iso
-    - label: Læs manualen på engelsk
+    - label: Læs manualen
       destination: manual
 actions:
   title: Delene, der gør det til dit.
   intro: Begynd ved den autoritative kilde. Installer fra ISO'en, lær systemet at kende i manualen, udvid
     det med Plugins fra fællesskabet, eller gennemgå koden.
   items:
-  - label: Manualen på engelsk
+  - label: Manualen
     detail: Konfiguration, programmer og hverdagens genveje samlet ét sted.
     destination: manual
   - label: ISO'en
@@ -53,10 +53,9 @@ workflows:
 project_paths:
   title: Flere mennesker gør systemet bedre.
   items:
-  - title: Nyheder på engelsk
+  - title: Nyheder
     body: Udgivelser, arrangementer og menneskene bag arbejdet.
     url: /news/
-    language: en
   - title: Fællesskab
     body: Find træf, bidragydere, Plugins og stederne, hvor Omarchs mødes.
     url: /community/

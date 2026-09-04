@@ -22,8 +22,8 @@ markdown: false
     <h2 id="project-paths-title">Choisissez une porte d’entrée dans le projet</h2>
     <ul class="home-card-grid" role="list">
       <li class="home-card">
-        <a class="home-card__link" href="{{ '/news/' | relative_url }}">
-          <h3>Actualités en anglais</h3>
+        <a class="home-card__link" href="{{ '/news/' | localized_url }}">
+          <h3>Actualités</h3>
           <p>Les versions, les événements et les personnes qui font le travail.</p>
           <span aria-hidden="true">Lire les actualités →</span>
         </a>
