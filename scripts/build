@@ -23,7 +23,7 @@ build_js() {
   fi
 
   mkdir -p assets/js
-  npx --no-install esbuild src/js/site.js \
+  mise exec -- npx --no-install esbuild src/js/site.js \
     --bundle \
     --minify \
     --format=esm \
@@ -41,7 +41,7 @@ run_build() {
   mise exec -- jigyll build --config "$config"
   # Jigyll includes the source-root development index; replace that copy with a fresh production index.
   rm -rf _site/pagefind
-  npx --no-install pagefind --site _site
+  mise exec -- npx --no-install pagefind --site _site
 
 
 }

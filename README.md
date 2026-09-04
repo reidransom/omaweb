@@ -8,10 +8,10 @@ This site is built with [`jigyll`](https://github.com/reidransom/jigyll), the Go
 
 ```sh
 mise install
-npm ci
+mise exec -- npm ci
 ```
 
-Mise owns the exact Jigyll and Dart Sass releases declared by this repository. npm continues to own the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
+Mise owns the exact Node, Jigyll, and Dart Sass releases declared by this repository. npm continues to own the browser and build tools, including esbuild, Pagefind, subset-font, Motion, and Wrangler.
 
 Use the focused commands when iterating, and choose the smallest command that covers the work:
 
